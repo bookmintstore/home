@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EBookArc — Spiritual Collection</title>
+  <meta name="theme-color" content="#0b0e13" />
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
+            ctaglow: '0 10px 30px -10px rgba(99,102,241,0.55), 0 0 0 1px rgba(255,255,255,0.06)'
+          },
+          keyframes: {
+            shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
+            btnshine: { '0%': { transform: 'translateX(-120%) skewX(-20deg)' }, '60%': { transform: 'translateX(180%) skewX(-20deg)' }, '100%': { transform: 'translateX(180%) skewX(-20deg)' } },
+            pulseSoft: { '0%,100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.02)' } }
+          },
+          animation: {
+            shine: 'shine 2.8s ease-in-out infinite',
+            btnshine: 'btnshine 3.8s ease-in-out infinite',
+            pulseSoft: 'pulseSoft 4.5s ease-in-out infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Icons & AOS (Animate On Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    .shine-sweep{position:absolute;inset:-2px;transform:skewX(-18deg);}/* cover shine */
+    .star-glow{filter: drop-shadow(0 0 6px rgba(245,158,11,.55));}
+    .cta-btn{position:relative;overflow:hidden}
+    .cta-btn .cta-shine{position:absolute;inset:-8px;transform:translateX(-120%) skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);}
+  </style>
+</head>
+<body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
+  <!-- ===== Glow Background ===== -->
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/15 blur-[130px]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%)]"></div>
+  </div>
+
+  <!-- ===== Nav (match homepage) ===== -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/40">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a href="./index.html" class="group flex items-center gap-3">
+        <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_35px_rgba(99,102,241,0.35)]">
+          <i data-lucide="book-open" class="h-5 w-5 text-white"></i>
+        </div>
+        <span class="text-lg font-bold tracking-wide text-zinc-100">
+          <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">EBook</span>Arc
+        </span>
+      </a>
+      <div class="hidden items-center gap-6 rounded-2xl border border-white/10 bg-white/5 px-5 py-2 backdrop-blur md:flex">
+        <a href="./categories.html" class="text-sm text-zinc-300 transition hover:text-white">Categories</a>
+        <a href="./featured.html" class="text-sm text-zinc-300 transition hover:text-white">Featured</a>
+        <a href="./about.html" class="text-sm text-zinc-300 transition hover:text-white">About</a>
+        <a href="./library.html" class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">
+          <i data-lucide="library-big" class="h-4 w-4"></i> Library
+        </a>
+      </div>
+      <a href="./index.html" class="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">
+        Home <i data-lucide="arrow-right" class="h-4 w-4"></i>
+      </a>
+    </nav>
+  </header>
+
+  <!-- ===== Page Header ===== -->
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <div class="max-w-2xl" data-aos="fade-up">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">Our Spiritual Collection</h1>
+      <p class="mt-3 text-zinc-300/90">Bhakti, Vedanta, Gita, Upanishads — sab kuch ek premium, shiny experience ke saath.</p>
+    </div>
+  </section>
+
+  <!-- ===== Grid ===== -->
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- 1 -->
+      <a href="./Bhagavad-G.html" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up">
+        <div class="relative h-56 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Bhagavad Gita Demystified" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
+          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-rose-500 to-rose-400 px-3 py-1 text-xs font-semibold">Bestseller</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-white">Bhagavad Gita Demystified</h3>
+          <p class="mt-1 text-sm text-zinc-400">A modern interpretation with practical life applications.</p>
+
+          <div class="mt-3 flex items-center gap-2">
+            <div class="flex items-center text-amber-400 star-glow">
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+            </div>
+            <span class="text-xs text-zinc-400">(1,147 reviews)</span>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>1,240+ downloads</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>15h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>1,200+ readers</span>
+          </div>
+
+          <div class="mt-4 flex items-end justify-between">
+            <div>
+              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹199 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">50% OFF</span></div>
+              <div class="-mt-1 text-xs text-zinc-400 line-through">₹399</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2 -->
+      <a href="/ebooks/vedic-meditation" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="60">
+        <div class="relative h-56 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation Techniques" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
+          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-500 px-3 py-1 text-xs font-semibold">Trending</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-white">Vedic Meditation Techniques</h3>
+          <p class="mt-1 text-sm text-zinc-400">17 ancient methods to calm your mind and awaken consciousness.</p>
+
+          <div class="mt-3 flex items-center gap-2">
+            <div class="flex items-center text-amber-400 star-glow">
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+            </div>
+            <span class="text-xs text-zinc-400">(892 reviews)</span>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>980+ downloads</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>22h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>950+ readers</span>
+          </div>
+
+          <div class="mt-4 flex items-end justify-between">
+            <div>
+              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹299 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">40% OFF</span></div>
+              <div class="-mt-1 text-xs text-zinc-400 line-through">₹499</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3 -->
+      <a href="/ebooks/ayurveda" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="120">
+        <div class="relative h-56 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=1200&q=60" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
+          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 px-3 py-1 text-xs font-semibold">Popular</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-white">Ayurveda for Beginners</h3>
+          <p class="mt-1 text-sm text-zinc-400">Discover your dosha and daily routines for better health.</p>
+
+          <div class="mt-3 flex items-center gap-2">
+            <div class="flex items-center text-amber-400 star-glow">
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+            </div>
+            <span class="text-xs text-zinc-400">(523 reviews)</span>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>750+ downloads</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>18h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>650+ readers</span>
+          </div>
+
+          <div class="mt-4 flex items-end justify-between">
+            <div>
+              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹349 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">30% OFF</span></div>
+              <div class="-mt-1 text-xs text-zinc-400 line-through">₹499</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 4 -->
+      <a href="/ebooks/mantras" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="180">
+        <div class="relative h-56 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1200&q=60" alt="Mantras for Transformation" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
+          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-rose-500 to-rose-400 px-3 py-1 text-xs font-semibold">Bestseller</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-white">Mantras for Transformation</h3>
+          <p class="mt-1 text-sm text-zinc-400">108 sacred mantras with meaning and practice tips.</p>
+
+          <div class="mt-3 flex items-center gap-2">
+            <div class="flex items-center text-amber-400 star-glow">
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+            </div>
+            <span class="text-xs text-zinc-400">(1,045 reviews)</span>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>1,050+ downloads</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>25h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>1,800+ readers</span>
+          </div>
+
+          <div class="mt-4 flex items-end justify-between">
+            <div>
+              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹399 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">20% OFF</span></div>
+              <div class="-mt-1 text-xs text-zinc-400 line-through">₹499</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 5 -->
+      <a href="/ebooks/upanishads" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="240">
+        <div class="relative h-56 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
+          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-500 px-3 py-1 text-xs font-semibold">Trending</span>
+        </div>
+        <div class="p-5">
+          <h3 class="font-semibold text-white">Upanishads Essentials</h3>
+          <p class="mt-1 text-sm text-zinc-400">Key teachings from 10 principal Upanishads.</p>
+
+          <div class="mt-3 flex items-center gap-2">
+            <div class="flex items-center text-amber-400 star-glow">
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
+              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+            </div>
+            <span class="text-xs text-zinc-400">(736 reviews)</span>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>520+ downloads</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>30h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>950+ readers</span>
+          </div>
+
+          <div class="mt-4 flex items-end justify-between">
+            <div>
+              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹499 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">17% OFF</span></div>
+              <div class="-mt-1 text-xs text-zinc-400 line-through">₹599</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="mt-8 border-t border-white/10 py-10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-sm text-zinc-400 sm:flex-row">
+      <p>© <span id="year"></span> EBookArc. All rights reserved.</p>
+      <div class="flex items-center gap-6">
+        <a href="./privacy.html" class="hover:text-zinc-200">Privacy</a>
+        <a href="./terms.html" class="hover:text-zinc-200">Terms</a>
+        <a href="./contact.html" class="hover:text-zinc-200">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    AOS.init({ duration: 650, easing: 'ease-out', once: true });
+    lucide.createIcons();
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
