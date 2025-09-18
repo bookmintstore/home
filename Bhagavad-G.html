@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EBookArc — Bhagavad Gita Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            glow: '0 10px 30px -10px rgba(99,102,241,0.55)',
+            ctaglow: '0 10px 35px -10px rgba(168,85,247,.55)'
+          },
+          keyframes: {
+            shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
+            btnshine: { '0%': { transform: 'translateX(-120%) skewX(-20deg)' }, '100%': { transform: 'translateX(180%) skewX(-20deg)' } },
+            slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
+            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .9 }, '100%': { opacity: 0, transform:'scale(1)' } }
+          },
+          animation: {
+            shine: 'shine 3s ease-in-out infinite',
+            btnshine: 'btnshine 3s ease-in-out infinite',
+            slideUp: 'slideUp .5s ease-out forwards',
+            cornerPop: 'cornerPop 1.4s ease-out 0.3s 1 forwards'
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body{font-family:'Poppins',sans-serif}
+    .cta-btn{position:relative;overflow:hidden}
+    .cta-btn .cta-shine{position:absolute;inset:-8px;transform:translateX(-120%) skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent)}
+    .cta-btn .corner-bling{pointer-events:none;position:absolute;inset:-6px;border-radius:0.75rem;background:
+      radial-gradient(140px 140px at 0 0, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(140px 140px at 100% 0, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(140px 140px at 0 100%, rgba(255,255,255,.55), transparent 60%),
+      radial-gradient(140px 140px at 100% 100%, rgba(255,255,255,.55), transparent 60%);
+      opacity:0}
+    details[open] summary svg{transform:rotate(180deg)}
+    .details-content{overflow:hidden; height:0; transition:height .32s ease}
+
+    /* ⭐ stars filled + glow */
+    .star-glow svg{filter: drop-shadow(0 0 6px rgba(245,158,11,.65))}
+    .star-glow svg path{fill: currentColor; stroke: transparent}
+    .star-glow .filled{color:#fbbf24}
+    .star-glow .half{color:#fbbf24}
+    .star-glow .empty{color:#475569;opacity:.45}
+  </style>
+</head>
+<body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
+  <!-- Background -->
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="./index.html" class="flex items-center gap-2">
+      <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow">
+        <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+      </div>
+      <span class="text-lg font-bold"><span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">EBook</span>Arc</span>
+    </a>
+    <a href="./spirituality.html" class="text-sm text-zinc-300 hover:text-white">Back to Library</a>
+  </header>
+
+  <!-- Ebook Detail -->
+  <section class="max-w-5xl mx-auto px-6 py-12 space-y-10">
+    <!-- Cover + Info -->
+    <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="relative h-56 w-40 md:h-72 md:w-52 perspective" data-aos="fade-right">
+        <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-400 to-fuchsia-400 p-1 rotate-y-6 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=60" class="h-full w-full object-cover rounded-lg shadow-xl"/>
+        </div>
+      </div>
+      <div class="flex-1 space-y-4" data-aos="fade-left">
+        <h1 class="text-3xl font-bold">Bhagavad Gita Demystified</h1>
+        <p class="text-zinc-300">A modern interpretation of the 700 verses with practical life applications.</p>
+        <div class="text-emerald-400 text-2xl font-extrabold">₹199 
+          <span class="ml-2 line-through text-sm text-zinc-400">₹399</span>
+          <span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold">50% OFF</span>
+        </div>
+        <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
+          <span>Buy Now</span>
+          <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+          <span class="cta-shine animate-btnshine"></span>
+          <!-- one-time corner glow layer -->
+          <span class="corner-bling"></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div data-aos="fade-up">
+      <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
+      <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it’s a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today’s reader.</p>
+    </div>
+
+    <!-- Q&A (smooth animation) -->
+    <div data-aos="fade-up">
+      <h2 class="text-2xl font-bold mb-4">Q&A</h2>
+      <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
+        <details class="p-4 transition-all">
+          <summary class="cursor-pointer font-semibold flex justify-between items-center">
+            Is this ebook beginner-friendly?
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="details-content"><p class="mt-2 text-sm text-zinc-300">Yes. It’s written in simple language with clear takeaways after each chapter.</p></div>
+        </details>
+        <details class="p-4 transition-all">
+          <summary class="cursor-pointer font-semibold flex justify-between items-center">
+            Can I read it offline?
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="details-content"><p class="mt-2 text-sm text-zinc-300">Yes. After purchase you can download and read anytime without internet.</p></div>
+        </details>
+        <details class="p-4 transition-all">
+          <summary class="cursor-pointer font-semibold flex justify-between items-center">
+            Does it include original verses?
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </summary>
+          <div class="details-content"><p class="mt-2 text-sm text-zinc-300">Yes. Original verses with English explanations and practical notes.</p></div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Feedbacks (10+ with Show More) -->
+    <div id="feedbacks" data-aos="fade-up">
+      <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
+      <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
+
+      <div class="grid gap-4 md:grid-cols-2" id="feedback-list">
+        <!-- Visible first 4 -->
+        <!-- 4.5/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">27 Aug 2025 • 2:14 PM</span>
+          </div>
+          <p class="text-sm">“This ebook completely changed my perspective on life!”</p>
+          <span class="text-xs text-zinc-400">— Aarav, India</span>
+        </div>
+
+        <!-- 4/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">25 Aug 2025 • 6:02 PM</span>
+          </div>
+          <p class="text-sm">“Simple yet profound. Easy to read and understand.”</p>
+          <span class="text-xs text-zinc-400">— Emma, UK</span>
+        </div>
+
+        <!-- 5/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">22 Aug 2025 • 11:35 AM</span>
+          </div>
+          <p class="text-sm">“The wisdom feels so relevant to modern challenges.”</p>
+          <span class="text-xs text-zinc-400">— Michael, USA</span>
+        </div>
+
+        <!-- 4/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">18 Aug 2025 • 9:18 PM</span>
+          </div>
+          <p class="text-sm">“Reading it gave me peace and direction.”</p>
+          <span class="text-xs text-zinc-400">— Li Wei, China</span>
+        </div>
+
+        <!-- Hidden extra 8+ reviews -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">14 Aug 2025 • 3:47 PM</span>
+          </div>
+          <p class="text-sm">“A must-have for anyone seeking clarity.”</p>
+          <span class="text-xs text-zinc-400">— Sophia, Canada</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">10 Aug 2025 • 7:02 PM</span>
+          </div>
+          <p class="text-sm">“Beautifully structured. The summaries are super helpful.”</p>
+          <span class="text-xs text-zinc-400">— Priya, India</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">06 Aug 2025 • 10:26 AM</span>
+          </div>
+          <p class="text-sm">“Great translation, very accessible for beginners.”</p>
+          <span class="text-xs text-zinc-400">— Daniel, Australia</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">04 Aug 2025 • 8:11 PM</span>
+          </div>
+          <p class="text-sm">“Loved the practical notes and exercises at the end of chapters.”</p>
+          <span class="text-xs text-zinc-400">— Neha, India</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">02 Aug 2025 • 5:30 PM</span>
+          </div>
+          <p class="text-sm">“Clear language. I finally understood the core ideas.”</p>
+          <span class="text-xs text-zinc-400">— Omar, UAE</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">31 Jul 2025 • 4:58 PM</span>
+          </div>
+          <p class="text-sm">“The commentary connects ancient wisdom to daily life perfectly.”</p>
+          <span class="text-xs text-zinc-400">— Elena, Spain</span>
+        </div>
+      </div>
+
+      <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition">Show More</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">
+    © <span id="year"></span> EBookArc. All rights reserved.
+  </footer>
+
+  <script>
+    AOS.init({ duration: 650, easing: 'ease-out', once: true });
+    lucide.createIcons();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // one-time corner glow on buy button
+    window.addEventListener('load', ()=>{
+      const bling = document.querySelector('#buyBtn .corner-bling');
+      if(bling){ bling.style.opacity = 1; bling.classList.add('animate-cornerPop'); }
+    });
+
+    // Show More feedbacks
+    const sm = document.getElementById('showMore');
+    if(sm){
+      sm.addEventListener('click', ()=>{
+        document.querySelectorAll('.extra-feedback').forEach(el=>{
+          el.classList.remove('hidden'); el.classList.add('block');
+        });
+        sm.style.display='none';
+      });
+    }
+
+    // Smooth QnA height animation
+    document.querySelectorAll('details').forEach(d=>{
+      const content = d.querySelector('.details-content');
+      if(!content) return;
+      d.addEventListener('toggle', ()=>{
+        if(d.open){
+          content.style.height = content.scrollHeight + 'px';
+          setTimeout(()=>{ content.style.height = 'auto'; }, 320);
+        } else {
+          content.style.height = content.scrollHeight + 'px';
+          requestAnimationFrame(()=>{ content.style.height = '0px'; });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
