@@ -11,19 +11,22 @@
         extend: {
           boxShadow: {
             glow: '0 10px 30px -10px rgba(99,102,241,0.55)',
-            ctaglow: '0 10px 35px -10px rgba(168,85,247,.55)'
+            ctaglow: '0 10px 35px -10px rgba(168,85,247,.55)',
+            book: '0 25px 50px -12px rgba(0, 0, 0, 0.6)'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
-            btnshine: { '0%': { transform: 'translateX(-120%) skewX(-20deg)' }, '100%': { transform: 'translateX(180%) skewX(-20deg)' } },
+            btnshine: { '0%': { transform: 'translateX(-120%) skewX(-30deg)' }, '100%': { transform: 'translateX(180%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
-            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .9 }, '100%': { opacity: 0, transform:'scale(1)' } }
+            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .9 }, '100%': { opacity: 0, transform:'scale(1)' } },
+            aura: { '0%': { boxShadow: '0 0 10px rgba(168,85,247,0.5)' }, '50%': { boxShadow: '0 0 20px rgba(168,85,247,0.8)' }, '100%': { boxShadow: '0 0 10px rgba(168,85,247,0.5)' } }
           },
           animation: {
             shine: 'shine 3s ease-in-out infinite',
             btnshine: 'btnshine 3s ease-in-out infinite',
             slideUp: 'slideUp .5s ease-out forwards',
-            cornerPop: 'cornerPop 1.4s ease-out 0.3s 1 forwards'
+            cornerPop: 'cornerPop 1.4s ease-out 0.3s 1 forwards',
+            aura: 'aura 3s ease-in-out infinite'
           }
         }
       }
@@ -34,14 +37,36 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     body{font-family:'Poppins',sans-serif}
-    .cta-btn{position:relative;overflow:hidden}
-    .cta-btn .cta-shine{position:absolute;inset:-8px;transform:translateX(-120%) skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent)}
-    .cta-btn .corner-bling{pointer-events:none;position:absolute;inset:-6px;border-radius:0.75rem;background:
-      radial-gradient(140px 140px at 0 0, rgba(255,255,255,.55), transparent 60%),
-      radial-gradient(140px 140px at 100% 0, rgba(255,255,255,.55), transparent 60%),
-      radial-gradient(140px 140px at 0 100%, rgba(255,255,255,.55), transparent 60%),
-      radial-gradient(140px 140px at 100% 100%, rgba(255,255,255,.55), transparent 60%);
-      opacity:0}
+    
+    /* Enhanced CTA button styles */
+    .cta-btn{
+      position:relative;
+      overflow:hidden;
+      animation: aura 3s ease-in-out infinite;
+    }
+    .cta-btn .cta-shine{
+      position:absolute;
+      inset:-8px;
+      transform:translateX(-120%) skewX(-30deg);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+      transition: opacity 0.3s;
+    }
+    .cta-btn:hover .cta-shine {
+      opacity: 0.9;
+    }
+    .cta-btn .corner-bling{
+      pointer-events:none;
+      position:absolute;
+      inset:-6px;
+      border-radius:0.75rem;
+      background:
+        radial-gradient(140px 140px at 0 0, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(140px 140px at 100% 0, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(140px 140px at 0 100%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(140px 140px at 100% 100%, rgba(255,255,255,.55), transparent 60%);
+      opacity:0
+    }
+    
     details[open] summary svg{transform:rotate(180deg)}
     .details-content{overflow:hidden; height:0; transition:height .32s ease}
 
@@ -51,6 +76,110 @@
     .star-glow .filled{color:#fbbf24}
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
+    
+    /* 3D Book Styles */
+    .book-container {
+      perspective: 1500px;
+    }
+    .book {
+      position: relative;
+      width: 200px;
+      height: 300px;
+      transform-style: preserve-3d;
+      transform: rotateY(-5deg) rotateX(5deg);
+      transition: transform 0.5s ease;
+    }
+    .book:hover {
+      transform: rotateY(-8deg) rotateX(8deg);
+    }
+    .book-cover {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #4f46e5, #a855f7);
+      border-radius: 5px 12px 12px 5px;
+      transform-origin: left;
+      transform: rotateY(0deg);
+      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .book-cover::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .book-spine {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 10px;
+      height: calc(100% - 10px);
+      background: linear-gradient(to right, #3730a3, #7e22ce);
+      transform: rotateY(-90deg) translateX(-10px);
+      border-radius: 2px 0 0 2px;
+    }
+    .book-pages {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 8px;
+      height: calc(100% - 10px);
+      background: #f8fafc;
+      transform: rotateY(-90deg) translateX(-8px);
+    }
+    .book-top {
+      position: absolute;
+      top: 0;
+      left: 5px;
+      width: calc(100% - 10px);
+      height: 10px;
+      background: #f8fafc;
+      transform: rotateX(90deg) translateY(-10px);
+      border-radius: 5px 5px 0 0;
+    }
+    .book-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+      width: calc(100% - 10px);
+      height: 10px;
+      background: #f8fafc;
+      transform: rotateX(-90deg) translateY(10px);
+      border-radius: 0 0 5px 5px;
+    }
+    .book-shadow {
+      position: absolute;
+      bottom: -20px;
+      left: 20px;
+      width: 70%;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      filter: blur(10px);
+      transform: rotateX(90deg);
+    }
+    .reflection {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+      transform: skewX(-10deg) translateX(30px);
+      opacity: 0.4;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -75,11 +204,21 @@
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-10">
     <!-- Cover + Info -->
     <div class="flex flex-col md:flex-row items-center gap-8">
-      <div class="relative h-56 w-40 md:h-72 md:w-52 perspective" data-aos="fade-right">
-        <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-400 to-fuchsia-400 p-1 rotate-y-6 shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=60" class="h-full w-full object-cover rounded-lg shadow-xl"/>
+      <!-- 3D Book Mockup -->
+      <div class="book-container" data-aos="fade-right">
+        <div class="book">
+          <div class="book-cover">
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=60" alt="Bhagavad Gita Demystified" />
+            <div class="reflection"></div>
+          </div>
+          <div class="book-spine"></div>
+          <div class="book-pages"></div>
+          <div class="book-top"></div>
+          <div class="book-bottom"></div>
+          <div class="book-shadow"></div>
         </div>
       </div>
+      
       <div class="flex-1 space-y-4" data-aos="fade-left">
         <h1 class="text-3xl font-bold">Bhagavad Gita Demystified</h1>
         <p class="text-zinc-300">A modern interpretation of the 700 verses with practical life applications.</p>
@@ -100,7 +239,7 @@
     <!-- About -->
     <div data-aos="fade-up">
       <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
-      <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it’s a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today’s reader.</p>
+      <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it's a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today's reader.</p>
     </div>
 
     <!-- Q&A (smooth animation) -->
@@ -112,7 +251,7 @@
             Is this ebook beginner-friendly?
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
           </summary>
-          <div class="details-content"><p class="mt-2 text-sm text-zinc-300">Yes. It’s written in simple language with clear takeaways after each chapter.</p></div>
+          <div class="details-content"><p class="mt-2 text-sm text-zinc-300">Yes. It's written in simple language with clear takeaways after each chapter.</p></div>
         </details>
         <details class="p-4 transition-all">
           <summary class="cursor-pointer font-semibold flex justify-between items-center">
@@ -150,7 +289,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">27 Aug 2025 • 2:14 PM</span>
           </div>
-          <p class="text-sm">“This ebook completely changed my perspective on life!”</p>
+          <p class="text-sm">"This ebook completely changed my perspective on life!"</p>
           <span class="text-xs text-zinc-400">— Aarav, India</span>
         </div>
 
@@ -166,7 +305,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">25 Aug 2025 • 6:02 PM</span>
           </div>
-          <p class="text-sm">“Simple yet profound. Easy to read and understand.”</p>
+          <p class="text-sm">"Simple yet profound. Easy to read and understand."</p>
           <span class="text-xs text-zinc-400">— Emma, UK</span>
         </div>
 
@@ -182,7 +321,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">22 Aug 2025 • 11:35 AM</span>
           </div>
-          <p class="text-sm">“The wisdom feels so relevant to modern challenges.”</p>
+          <p class="text-sm">"The wisdom feels so relevant to modern challenges."</p>
           <span class="text-xs text-zinc-400">— Michael, USA</span>
         </div>
 
@@ -198,7 +337,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">18 Aug 2025 • 9:18 PM</span>
           </div>
-          <p class="text-sm">“Reading it gave me peace and direction.”</p>
+          <p class="text-sm">"Reading it gave me peace and direction."</p>
           <span class="text-xs text-zinc-400">— Li Wei, China</span>
         </div>
 
@@ -214,7 +353,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">14 Aug 2025 • 3:47 PM</span>
           </div>
-          <p class="text-sm">“A must-have for anyone seeking clarity.”</p>
+          <p class="text-sm">"A must-have for anyone seeking clarity."</p>
           <span class="text-xs text-zinc-400">— Sophia, Canada</span>
         </div>
 
@@ -229,7 +368,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">10 Aug 2025 • 7:02 PM</span>
           </div>
-          <p class="text-sm">“Beautifully structured. The summaries are super helpful.”</p>
+          <p class="text-sm">"Beautifully structured. The summaries are super helpful."</p>
           <span class="text-xs text-zinc-400">— Priya, India</span>
         </div>
 
@@ -244,7 +383,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">06 Aug 2025 • 10:26 AM</span>
           </div>
-          <p class="text-sm">“Great translation, very accessible for beginners.”</p>
+          <p class="text-sm">"Great translation, very accessible for beginners."</p>
           <span class="text-xs text-zinc-400">— Daniel, Australia</span>
         </div>
 
@@ -259,7 +398,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">04 Aug 2025 • 8:11 PM</span>
           </div>
-          <p class="text-sm">“Loved the practical notes and exercises at the end of chapters.”</p>
+          <p class="text-sm">"Loved the practical notes and exercises at the end of chapters."</p>
           <span class="text-xs text-zinc-400">— Neha, India</span>
         </div>
 
@@ -274,7 +413,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">02 Aug 2025 • 5:30 PM</span>
           </div>
-          <p class="text-sm">“Clear language. I finally understood the core ideas.”</p>
+          <p class="text-sm">"Clear language. I finally understood the core ideas."</p>
           <span class="text-xs text-zinc-400">— Omar, UAE</span>
         </div>
 
@@ -289,7 +428,7 @@
             </div>
             <span class="text-[11px] text-zinc-400">31 Jul 2025 • 4:58 PM</span>
           </div>
-          <p class="text-sm">“The commentary connects ancient wisdom to daily life perfectly.”</p>
+          <p class="text-sm">"The commentary connects ancient wisdom to daily life perfectly."</p>
           <span class="text-xs text-zinc-400">— Elena, Spain</span>
         </div>
       </div>
