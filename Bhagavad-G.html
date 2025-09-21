@@ -10,23 +10,23 @@
       theme: {
         extend: {
           boxShadow: {
-            glow: '0 10px 30px -10px rgba(99,102,241,0.55)',
-            ctaglow: '0 10px 35px -10px rgba(168,85,247,.55)',
-            book: '0 25px 50px -12px rgba(0, 0, 0, 0.6)'
+            glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
+            ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
+            book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)'
           },
           keyframes: {
-            shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
-            btnshine: { '0%': { transform: 'translateX(-120%) skewX(-30deg)' }, '100%': { transform: 'translateX(180%) skewX(-30deg)' } },
+            shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
+            btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
-            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .9 }, '100%': { opacity: 0, transform:'scale(1)' } },
-            aura: { '0%': { boxShadow: '0 0 10px rgba(168,85,247,0.5)' }, '50%': { boxShadow: '0 0 20px rgba(168,85,247,0.8)' }, '100%': { boxShadow: '0 0 10px rgba(168,85,247,0.5)' } }
+            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
+            aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } }
           },
           animation: {
-            shine: 'shine 3s ease-in-out infinite',
-            btnshine: 'btnshine 3s ease-in-out infinite',
-            slideUp: 'slideUp .5s ease-out forwards',
-            cornerPop: 'cornerPop 1.4s ease-out 0.3s 1 forwards',
-            aura: 'aura 3s ease-in-out infinite'
+            shine: 'shine 1.6s ease-in-out infinite',
+            btnshine: 'btnshine 1.6s ease-in-out infinite',
+            slideUp: 'slideUp .45s ease-out forwards',
+            cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
+            aura: 'aura 2.4s ease-in-out infinite'
           }
         }
       }
@@ -42,36 +42,42 @@
     .cta-btn{
       position:relative;
       overflow:hidden;
-      animation: aura 3s ease-in-out infinite;
+      animation: aura 2.4s ease-in-out infinite;
+      box-shadow: 0 8px 30px rgba(124,58,237,0.25);
     }
     .cta-btn .cta-shine{
       position:absolute;
-      inset:-8px;
-      transform:translateX(-120%) skewX(-30deg);
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-      transition: opacity 0.3s;
+      inset:-6px;
+      transform:translateX(-140%) skewX(-30deg);
+      background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.65) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%);
+      transition: opacity 0.2s;
+      opacity: 0.95;
+      mix-blend-mode: screen;
+      pointer-events:none;
     }
     .cta-btn:hover .cta-shine {
-      opacity: 0.9;
+      opacity: 1;
     }
     .cta-btn .corner-bling{
       pointer-events:none;
       position:absolute;
       inset:-6px;
-      border-radius:0.75rem;
+      border-radius:12px;
       background:
-        radial-gradient(140px 140px at 0 0, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(140px 140px at 100% 0, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(140px 140px at 0 100%, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(140px 140px at 100% 100%, rgba(255,255,255,.55), transparent 60%);
-      opacity:0
+        radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%),
+        radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%),
+        radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%);
+      opacity:0;
+      filter: blur(6px);
     }
-    
+    .cta-btn:hover .corner-bling { opacity: .95; }
+
     details[open] summary svg{transform:rotate(180deg)}
     .details-content{overflow:hidden; height:0; transition:height .32s ease}
 
     /* ⭐ stars filled + glow */
-    .star-glow svg{filter: drop-shadow(0 0 6px rgba(245,158,11,.65))}
+    .star-glow svg{filter: drop-shadow(0 0 6px rgba(245,158,11,.75))}
     .star-glow svg path{fill: currentColor; stroke: transparent}
     .star-glow .filled{color:#fbbf24}
     .star-glow .half{color:#fbbf24}
@@ -87,26 +93,29 @@
       height: 300px;
       transform-style: preserve-3d;
       transform: rotateY(-5deg) rotateX(5deg);
-      transition: transform 0.5s ease;
+      transition: transform 0.45s ease;
+      box-shadow: var(--book-shadow, 0 16px 50px rgba(0,0,0,0.45));
     }
     .book:hover {
-      transform: rotateY(-8deg) rotateX(8deg);
+      transform: rotateY(-8deg) rotateX(8deg) translateY(-6px);
     }
     .book-cover {
       position: absolute;
       width: 100%;
       height: 100%;
       background: linear-gradient(45deg, #4f46e5, #a855f7);
-      border-radius: 5px 12px 12px 5px;
+      border-radius: 12px; /* uniform corners for symmetric look */
       transform-origin: left;
       transform: rotateY(0deg);
-      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 8px 18px 40px rgba(0, 0, 0, 0.3);
       overflow: hidden;
     }
     .book-cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display:block;
+      border-radius:12px;
     }
     .book-cover::after {
       content: '';
@@ -115,70 +124,80 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%);
-      opacity: 0.5;
+      /* stronger and faster moving shine */
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.28) 40%, rgba(255,255,255,0.08) 60%, rgba(255,255,255,0) 100%);
+      opacity: 0.8;
       pointer-events: none;
+      transform: translateX(-140%);
+      animation: shine 1.6s ease-in-out infinite;
+      mix-blend-mode: screen;
     }
     .book-spine {
       position: absolute;
       left: 0;
-      top: 5px;
-      width: 10px;
-      height: calc(100% - 10px);
+      top: 6px;
+      width: 12px;
+      height: calc(100% - 12px);
       background: linear-gradient(to right, #3730a3, #7e22ce);
-      transform: rotateY(-90deg) translateX(-10px);
-      border-radius: 2px 0 0 2px;
+      transform: rotateY(-90deg) translateX(-12px);
+      border-radius: 12px 0 0 12px;
     }
     .book-pages {
       position: absolute;
       left: 0;
-      top: 5px;
-      width: 8px;
-      height: calc(100% - 10px);
+      top: 6px;
+      width: 10px;
+      height: calc(100% - 12px);
       background: #f8fafc;
-      transform: rotateY(-90deg) translateX(-8px);
+      transform: rotateY(-90deg) translateX(-10px);
+      border-radius: 6px 0 0 6px;
     }
     .book-top {
       position: absolute;
       top: 0;
-      left: 5px;
-      width: calc(100% - 10px);
+      left: 6px;
+      width: calc(100% - 12px);
       height: 10px;
       background: #f8fafc;
       transform: rotateX(90deg) translateY(-10px);
-      border-radius: 5px 5px 0 0;
+      border-radius: 12px 12px 0 0;
     }
     .book-bottom {
       position: absolute;
       bottom: 0;
-      left: 5px;
-      width: calc(100% - 10px);
+      left: 6px;
+      width: calc(100% - 12px);
       height: 10px;
       background: #f8fafc;
       transform: rotateX(-90deg) translateY(10px);
-      border-radius: 0 0 5px 5px;
+      border-radius: 0 0 12px 12px;
     }
     .book-shadow {
       position: absolute;
-      bottom: -20px;
-      left: 20px;
+      bottom: -22px;
+      left: 18px;
       width: 70%;
-      height: 20px;
-      background: rgba(0, 0, 0, 0.4);
+      height: 28px;
+      background: rgba(0, 0, 0, 0.45);
       border-radius: 50%;
-      filter: blur(10px);
+      filter: blur(14px);
       transform: rotateX(90deg);
     }
     .reflection {
       position: absolute;
       top: 0;
       right: 0;
-      width: 40%;
+      width: 42%;
       height: 100%;
-      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
-      transform: skewX(-10deg) translateX(30px);
-      opacity: 0.4;
+      background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.32) 50%, rgba(255,255,255,0.06) 100%);
+      transform: skewX(-10deg) translateX(32px);
+      opacity: 0.5;
       pointer-events: none;
+    }
+
+    /* Small responsive tweak so book doesn't look odd on small screens */
+    @media (max-width: 640px){
+      .book{ width:170px; height:255px; }
     }
   </style>
 </head>
@@ -450,7 +469,7 @@
     // one-time corner glow on buy button
     window.addEventListener('load', ()=>{
       const bling = document.querySelector('#buyBtn .corner-bling');
-      if(bling){ bling.style.opacity = 1; bling.classList.add('animate-cornerPop'); }
+      if(bling){ bling.style.opacity = 1; bling.classList.add('animate-cornerPop'); setTimeout(()=>{ bling.style.opacity = 0.75; }, 950); }
     });
 
     // Show More feedbacks
@@ -471,13 +490,21 @@
       d.addEventListener('toggle', ()=>{
         if(d.open){
           content.style.height = content.scrollHeight + 'px';
-          setTimeout(()=>{ content.style.height = 'auto'; }, 320);
+          setTimeout(()=>{ content.style.height = 'auto'; }, 340);
         } else {
           content.style.height = content.scrollHeight + 'px';
           requestAnimationFrame(()=>{ content.style.height = '0px'; });
         }
       });
     });
+
+    // small accessibility: ensure buy button is keyboard focus-visible
+    const buy = document.getElementById('buyBtn');
+    if(buy){
+      buy.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); buy.click(); }
+      });
+    }
   </script>
 </body>
 </html>
