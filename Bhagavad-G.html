@@ -12,26 +12,21 @@
           boxShadow: {
             glow: '0 10px 30px -10px rgba(99,102,241,0.55)',
             ctaglow: '0 10px 35px -10px rgba(168,85,247,.55)',
-            bookglow: '0 25px 60px -15px rgba(0,0,0,0.7)'
+            book: '0 25px 50px -12px rgba(0, 0, 0, 0.6)'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
-            btnshine: { '0%': { transform: 'translateX(-140%) skewX(-20deg)' }, '50%': { transform: 'translateX(40%) skewX(-20deg)' }, '100%': { transform: 'translateX(240%) skewX(-20deg)' } },
-            btnpulse: { '0%': { boxShadow: '0 6px 18px rgba(99,102,241,0.18)' }, '50%': { boxShadow: '0 14px 34px rgba(168,85,247,0.16)' }, '100%': { boxShadow: '0 6px 18px rgba(99,102,241,0.18)' } },
+            btnshine: { '0%': { transform: 'translateX(-120%) skewX(-30deg)' }, '100%': { transform: 'translateX(180%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .9 }, '100%': { opacity: 0, transform:'scale(1)' } },
-            smoothShine: { 
-              '0%': { transform: 'translateX(-100%) skewX(-15deg)' }, 
-              '100%': { transform: 'translateX(200%) skewX(-15deg)' } 
-            }
+            aura: { '0%': { boxShadow: '0 0 10px rgba(168,85,247,0.5)' }, '50%': { boxShadow: '0 0 20px rgba(168,85,247,0.8)' }, '100%': { boxShadow: '0 0 10px rgba(168,85,247,0.5)' } }
           },
           animation: {
             shine: 'shine 3s ease-in-out infinite',
-            btnshine: 'btnshine 2.6s cubic-bezier(.2,.9,.2,1) infinite',
-            btnpulse: 'btnpulse 3.6s ease-in-out infinite',
+            btnshine: 'btnshine 3s ease-in-out infinite',
             slideUp: 'slideUp .5s ease-out forwards',
             cornerPop: 'cornerPop 1.4s ease-out 0.3s 1 forwards',
-            smoothShine: 'smoothShine 2.5s ease-in-out infinite'
+            aura: 'aura 3s ease-in-out infinite'
           }
         }
       }
@@ -42,24 +37,22 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     body{font-family:'Poppins',sans-serif}
-    .cta-btn{position:relative;overflow:hidden}
-    /* Enhanced Button shine: smoother animation */
+    
+    /* Enhanced CTA button styles */
+    .cta-btn{
+      position:relative;
+      overflow:hidden;
+      animation: aura 3s ease-in-out infinite;
+    }
     .cta-btn .cta-shine{
       position:absolute;
       inset:-8px;
-      transform:translateX(-140%) skewX(-20deg);
-      background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 40%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-      filter:blur(8px);
-      width: 60%;
-      height: 220%;
-      transition:opacity .3s ease;
-      animation: smoothShine 2.5s ease-in-out infinite;
+      transform:translateX(-120%) skewX(-30deg);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+      transition: opacity 0.3s;
     }
-
-    /* button glow aura (subtle and smooth) */
-    .cta-btn.glow {
-      box-shadow: 0 8px 26px rgba(99,102,241,0.12);
-      animation: btnpulse 3.6s ease-in-out infinite;
+    .cta-btn:hover .cta-shine {
+      opacity: 0.9;
     }
     .cta-btn .corner-bling{
       pointer-events:none;
@@ -67,16 +60,13 @@
       inset:-6px;
       border-radius:0.75rem;
       background:
-        radial-gradient(140px 140px at 0 0, rgba(255,255,255,.25), transparent 60%),
-        radial-gradient(140px 140px at 100% 0, rgba(255,255,255,.18), transparent 60%),
-        radial-gradient(140px 140px at 0 100%, rgba(255,255,255,.14), transparent 60%),
-        radial-gradient(140px 140px at 100% 100%, rgba(255,255,255,.12), transparent 60%);
-      opacity:0;
-      mix-blend-mode: screen;
-      transition:opacity .5s ease;
+        radial-gradient(140px 140px at 0 0, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(140px 140px at 100% 0, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(140px 140px at 0 100%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(140px 140px at 100% 100%, rgba(255,255,255,.55), transparent 60%);
+      opacity:0
     }
-    .cta-btn.glow .corner-bling{ opacity: 1; }
-
+    
     details[open] summary svg{transform:rotate(180deg)}
     .details-content{overflow:hidden; height:0; transition:height .32s ease}
 
@@ -86,149 +76,109 @@
     .star-glow .filled{color:#fbbf24}
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
-
-    /***** ENHANCED 3D BOOK MOCKUP STYLES *****/
-    .perspective { 
-      perspective: 1400px; 
-      -webkit-perspective: 1400px; 
+    
+    /* 3D Book Styles */
+    .book-container {
+      perspective: 1500px;
     }
-    .book-3d {
+    .book {
+      position: relative;
+      width: 200px;
+      height: 300px;
+      transform-style: preserve-3d;
+      transform: rotateY(-5deg) rotateX(5deg);
+      transition: transform 0.5s ease;
+    }
+    .book:hover {
+      transform: rotateY(-8deg) rotateX(8deg);
+    }
+    .book-cover {
+      position: absolute;
       width: 100%;
       height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      transform-origin: center left;
-      /* Enhanced rotation for more realistic 3D effect */
-      transform: rotateY(-22deg) rotateX(4deg) rotateZ(1deg);
-      transition: transform .45s cubic-bezier(.2,.9,.2,1);
-    }
-
-    /* outer shell (cover border + subtle bevel) */
-    .book-3d .cover-shell {
-      position:absolute;
-      inset:0;
-      border-radius: 12px;
-      padding: 6px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.04));
-      box-shadow: 0 25px 60px -15px rgba(2,6,23,0.7), 0 8px 22px rgba(16,24,40,0.3);
-      transform: translateZ(30px);
-      display:flex;
-      align-items:stretch;
-    }
-
-    /* Actual cover image */
-    .book-3d .cover {
-      flex:1;
-      border-radius: 8px;
+      background: linear-gradient(45deg, #4f46e5, #a855f7);
+      border-radius: 5px 12px 12px 5px;
+      transform-origin: left;
+      transform: rotateY(0deg);
+      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      position: relative;
-      background: #333;
-      transform: translateZ(36px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 35px rgba(10,12,20,0.5);
-      min-width: 170px;
     }
-    .book-3d .cover img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      -webkit-backface-visibility:hidden;
-      backface-visibility:hidden;
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-
-    /* Enhanced glossy overlay reflection */
-    .book-3d .cover::after {
-      content:'';
-      position:absolute;
-      left: -10%;
-      top: -20%;
-      width: 120%;
-      height: 120%;
-      background: linear-gradient(120deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.15) 12%, rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.0) 60%);
-      transform: rotate(-18deg) translateZ(40px);
-      pointer-events:none;
-      mix-blend-mode: overlay;
-      filter: blur(8px);
-    }
-
-    /* Enhanced pages stack on right edge */
-    .book-3d .pages {
-      position:absolute;
-      right:-16px;
-      top:6px;
-      height: calc(100% - 12px);
-      width: 32px;
-      border-radius: 4px;
-      background: linear-gradient(90deg, #f7f6f3 0%, #ecebe8 30%, #dcdad6 100%);
-      transform: translateZ(6px) rotateY(8deg);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 8px 28px rgba(4,6,12,0.4);
-      overflow:hidden;
-    }
-
-    /* subtle page lines for realism */
-    .book-3d .pages::before {
-      content:'';
-      position:absolute;
-      inset:6px;
-      background-image: linear-gradient(180deg, rgba(0,0,0,0.03) 1px, transparent 1px);
-      background-size: 100% 6px;
-      opacity: .6;
-      transform: translateZ(10px);
-    }
-
-    /* spine shadow to separate cover and pages */
-    .book-3d .spine-shadow {
-      position:absolute;
-      right:6px;
-      top:6px;
-      width:12px;
-      height: calc(100% - 12px);
-      background: linear-gradient(90deg, rgba(0,0,0,0.32), rgba(0,0,0,0.04));
-      transform: translateZ(12px) rotateY(6deg);
-      border-radius:2px;
-      pointer-events:none;
-    }
-
-    /* Enhanced floor shadow */
-    .book-floor {
-      position:absolute;
-      left: 18%;
-      bottom: -8%;
-      width: 240px;
-      height: 38px;
-      background: radial-gradient(closest-side, rgba(2,6,23,0.5), rgba(2,6,23,0.1));
-      filter: blur(14px);
-      transform: translateZ(-10px);
-      opacity: .85;
-      border-radius: 50%;
-    }
-
-    /* Add spine text for realism */
-    .book-3d .spine-text {
+    .book-cover::after {
+      content: '';
       position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%) translateZ(18px) rotateY(90deg);
-      width: 180px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #f8fafc;
-      font-size: 8px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 2px 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%);
+      opacity: 0.5;
+      pointer-events: none;
     }
-
-    /* responsive tweaks */
-    @media (max-width: 768px){
-      .book-3d { transform: rotateY(-15deg) rotateX(2deg) scale(.92); }
-      .book-3d .pages { right:-12px; width: 26px; }
-      .book-3d .spine-text { right: 10px; width: 150px; font-size: 7px; }
+    .book-spine {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 10px;
+      height: calc(100% - 10px);
+      background: linear-gradient(to right, #3730a3, #7e22ce);
+      transform: rotateY(-90deg) translateX(-10px);
+      border-radius: 2px 0 0 2px;
+    }
+    .book-pages {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 8px;
+      height: calc(100% - 10px);
+      background: #f8fafc;
+      transform: rotateY(-90deg) translateX(-8px);
+    }
+    .book-top {
+      position: absolute;
+      top: 0;
+      left: 5px;
+      width: calc(100% - 10px);
+      height: 10px;
+      background: #f8fafc;
+      transform: rotateX(90deg) translateY(-10px);
+      border-radius: 5px 5px 0 0;
+    }
+    .book-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+      width: calc(100% - 10px);
+      height: 10px;
+      background: #f8fafc;
+      transform: rotateX(-90deg) translateY(10px);
+      border-radius: 0 0 5px 5px;
+    }
+    .book-shadow {
+      position: absolute;
+      bottom: -20px;
+      left: 20px;
+      width: 70%;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 50%;
+      filter: blur(10px);
+      transform: rotateX(90deg);
+    }
+    .reflection {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+      transform: skewX(-10deg) translateX(30px);
+      opacity: 0.4;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -254,23 +204,21 @@
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-10">
     <!-- Cover + Info -->
     <div class="flex flex-col md:flex-row items-center gap-8">
-      <!-- ENHANCED: 3D mockup container -->
-      <div class="relative h-56 w-40 md:h-72 md:w-52 perspective" data-aos="fade-right">
-        <div class="book-3d" aria-hidden="true">
-          <div class="cover-shell" style="">
-            <div class="cover">
-              <!-- Keep same cover image URL as original -->
-              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=60" alt="ebook cover"/>
-            </div>
+      <!-- 3D Book Mockup -->
+      <div class="book-container" data-aos="fade-right">
+        <div class="book">
+          <div class="book-cover">
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=60" alt="Bhagavad Gita Demystified" />
+            <div class="reflection"></div>
           </div>
-          <div class="spine-shadow"></div>
-          <div class="pages" aria-hidden="true"></div>
-          <div class="spine-text">Bhagavad Gita Demystified</div>
+          <div class="book-spine"></div>
+          <div class="book-pages"></div>
+          <div class="book-top"></div>
+          <div class="book-bottom"></div>
+          <div class="book-shadow"></div>
         </div>
-        <!-- floor shadow to anchor the book realistically -->
-        <div class="book-floor"></div>
       </div>
-
+      
       <div class="flex-1 space-y-4" data-aos="fade-left">
         <h1 class="text-3xl font-bold">Bhagavad Gita Demystified</h1>
         <p class="text-zinc-300">A modern interpretation of the 700 verses with practical life applications.</p>
@@ -278,17 +226,12 @@
           <span class="ml-2 line-through text-sm text-zinc-400">₹399</span>
           <span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold">50% OFF</span>
         </div>
-
-        <!-- Enhanced Buy Button: smoother shine + glow -->
-        <a id="buyBtn" href="#buy" class="cta-btn glow inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
+        <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
           <span>Buy Now</span>
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
-
-          <!-- Larger smoother animated shine -->
-          <span class="cta-shine" aria-hidden="true"></span>
-
-          <!-- corner glow for a one-time subtle pop -->
-          <span class="corner-bling" aria-hidden="true"></span>
+          <span class="cta-shine animate-btnshine"></span>
+          <!-- one-time corner glow layer -->
+          <span class="corner-bling"></span>
         </a>
       </div>
     </div>
@@ -507,12 +450,7 @@
     // one-time corner glow on buy button
     window.addEventListener('load', ()=>{
       const bling = document.querySelector('#buyBtn .corner-bling');
-      if(bling){
-        bling.style.opacity = 1;
-        bling.classList.add('animate-cornerPop');
-        // keep the glow visible for a subtle time
-        setTimeout(()=>{ bling.style.opacity = 1; }, 300);
-      }
+      if(bling){ bling.style.opacity = 1; bling.classList.add('animate-cornerPop'); }
     });
 
     // Show More feedbacks
