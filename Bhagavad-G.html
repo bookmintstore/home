@@ -171,9 +171,62 @@
 
     /* small helper for error text */
     .proc-error { color:#f87171; font-weight:600; margin-top:8px; display:none; }
+    
+    /* ⭐ stars filled + glow */
+    .star-glow svg{filter: drop-shadow(0 0 6px rgba(245,158,11,.75))}
+    .star-glow svg path{fill: currentColor; stroke: transparent}
+    .star-glow .filled{color:#fbbf24}
+    .star-glow .half{color:#fbbf24}
+    .star-glow .empty{color:#475569;opacity:.45}
+
+    /* Preloader Styles */
+    #bm-preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 14, 19, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 2.5s ease-out;
+    }
+
+    #bm-preloader.fade-out {
+      opacity: 0;
+    }
+
+    #bm-preloader.hidden {
+      display: none;
+    }
+
+    .bm-loader {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(34, 197, 94, 0.3);
+      border-top: 3px solid #22c55e;
+      border-radius: 50%;
+      animation: bm-spin 1.2s linear infinite;
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+    }
+
+    @keyframes bm-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
+  <!-- Preloader Overlay -->
+  <div id="bm-preloader">
+    <div class="bm-loader"></div>
+  </div>
+
   <!-- Background blobs (unchanged) -->
   <div class="pointer-events-none fixed inset-0 -z-10">
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
@@ -264,6 +317,172 @@
       </div>
     </div>
     
+    <!-- Feedbacks (10+ with Show More) -->
+    <div id="feedbacks" data-aos="fade-up">
+      <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
+      <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
+
+      <div class="grid gap-4 md:grid-cols-2" id="feedback-list">
+        <!-- Visible first 4 -->
+        <!-- 4.5/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">27 Aug 2025 • 2:14 PM</span>
+          </div>
+          <p class="text-sm">"This ebook completely changed my perspective on life!"</p>
+          <span class="text-xs text-zinc-400">— Aarav, India</span>
+        </div>
+
+        <!-- 4/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">25 Aug 2025 • 6:02 PM</span>
+          </div>
+          <p class="text-sm">"Simple yet profound. Easy to read and understand."</p>
+          <span class="text-xs text-zinc-400">— Emma, UK</span>
+        </div>
+
+        <!-- 5/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">22 Aug 2025 • 11:35 AM</span>
+          </div>
+          <p class="text-sm">"The wisdom feels so relevant to modern challenges."</p>
+          <span class="text-xs text-zinc-400">— Michael, USA</span>
+        </div>
+
+        <!-- 4/5 -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">18 Aug 2025 • 9:18 PM</span>
+          </div>
+          <p class="text-sm">"Reading it gave me peace and direction."</p>
+          <span class="text-xs text-zinc-400">— Li Wei, China</span>
+        </div>
+
+        <!-- Hidden extra 8+ reviews -->
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">14 Aug 2025 • 3:47 PM</span>
+          </div>
+          <p class="text-sm">"A must-have for anyone seeking clarity."</p>
+          <span class="text-xs text-zinc-400">— Sophia, Canada</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">10 Aug 2025 • 7:02 PM</span>
+          </div>
+          <p class="text-sm">"Beautifully structured. The summaries are super helpful."</p>
+          <span class="text-xs text-zinc-400">— Priya, India</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">06 Aug 2025 • 10:26 AM</span>
+          </div>
+          <p class="text-sm">"Great translation, very accessible for beginners."</p>
+          <span class="text-xs text-zinc-400">— Daniel, Australia</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">04 Aug 2025 • 8:11 PM</span>
+          </div>
+          <p class="text-sm">"Loved the practical notes and exercises at the end of chapters."</p>
+          <span class="text-xs text-zinc-400">— Neha, India</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 empty"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">02 Aug 2025 • 5:30 PM</span>
+          </div>
+          <p class="text-sm">"Clear language. I finally understood the core ideas."</p>
+          <span class="text-xs text-zinc-400">— Omar, UAE</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
+          <div class="flex items-center justify-between mb-1">
+            <div class="star-glow flex items-center gap-1">
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star" class="h-4 w-4 filled"></i>
+              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+            </div>
+            <span class="text-[11px] text-zinc-400">31 Jul 2025 • 4:58 PM</span>
+          </div>
+          <p class="text-sm">"The commentary connects ancient wisdom to daily life perfectly."</p>
+          <span class="text-xs text-zinc-400">— Elena, Spain</span>
+        </div>
+      </div>
+
+      <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition">Show More</button>
+    </div>
+    
   </section>
 
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">
@@ -271,6 +490,31 @@
   </footer>
 
   <script>
+    // Preloader functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const preloader = document.getElementById('bm-preloader');
+      let minLoadTime = 600;
+      let startTime = Date.now();
+      
+      function hidePreloader() {
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, minLoadTime - elapsed);
+        
+        setTimeout(() => {
+          preloader.classList.add('fade-out');
+          setTimeout(() => {
+            preloader.classList.add('hidden');
+          }, 2500);
+        }, remaining);
+      }
+      
+      // Hide when everything is loaded
+      window.addEventListener('load', hidePreloader);
+      
+      // Fallback: if still visible after 4 seconds, force hide
+      setTimeout(hidePreloader, 4000);
+    });
+
     // --- CONFIG: change this IMAGE URL if needed ---
     // Provided image that has white background:
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
@@ -360,6 +604,17 @@
         }
       });
     });
+    
+    // Show More feedbacks
+    const sm = document.getElementById('showMore');
+    if(sm){
+      sm.addEventListener('click', ()=>{
+        document.querySelectorAll('.extra-feedback').forEach(el=>{
+          el.classList.remove('hidden'); el.classList.add('block');
+        });
+        sm.style.display='none';
+      });
+    }
   </script>
 </body>
 </html>
