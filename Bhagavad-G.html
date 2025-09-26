@@ -19,14 +19,16 @@
             btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
-            aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } }
+            aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
+            coverShine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(200%)' } }
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
             btnshine: 'btnshine 2.6s ease-in-out infinite',
             slideUp: 'slideUp .45s ease-out forwards',
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
-            aura: 'aura 2.4s ease-in-out infinite'
+            aura: 'aura 2.4s ease-in-out infinite',
+            coverShine: 'coverShine 1.2s ease-in-out infinite'
           }
         }
       }
@@ -78,7 +80,35 @@
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,0.45);
     }
-    .cover img { width:100%; height:100%; object-fit:cover; display:block; }
+    /* smooth fade-in & slight scale for nicer load */
+    .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity .45s ease, transform .45s ease; opacity:0; transform: scale(1.02); }
+
+    /* Cover shine effect - BLACK FAST SMOOTH SHINE */
+    .cover-shine {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.7) 25%,
+        rgba(0, 0, 0, 0.9) 50%,
+        rgba(0, 0, 0, 0.7) 75%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      transform: translateX(-100%);
+      z-index: 2;
+      pointer-events: none;
+      animation: coverShine 1.2s ease-in-out infinite;
+      mix-blend-mode: overlay;
+    }
+    .cover-shine.fade-out {
+      opacity: 0;
+      animation: none;
+      transition: opacity 0.3s ease;
+    }
 
     /* Back cover (for thickness) */
     .back-cover {
@@ -178,59 +208,9 @@
     .star-glow .filled{color:#fbbf24}
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
-
-    /* Preloader Styles - PERFECTLY FIXED */
-    #bm-preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(11, 14, 19, 0.6); /* Transparent blur background */
-      backdrop-filter: blur(15px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity 1.5s ease-in-out; /* Faster fade out */
-    }
-
-    #bm-preloader.fade-out {
-      opacity: 0;
-    }
-
-    #bm-preloader.hidden {
-      display: none;
-    }
-
-    .bm-loader {
-      width: 40px; /* Smaller size */
-      height: 40px;
-      border: 3px solid rgba(139, 92, 246, 0.3); /* Purple matching theme */
-      border-top: 3px solid #8b5cf6; /* Purple from buy button */
-      border-radius: 50%;
-      animation: bm-spin 0.6s linear infinite; /* Much faster rotation */
-      border-right-color: transparent;
-      border-bottom-color: transparent;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    @keyframes bm-spin {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
-  <!-- Preloader Overlay -->
-  <div id="bm-preloader">
-    <div class="bm-loader"></div>
-  </div>
-
   <!-- Background blobs (unchanged) -->
   <div class="pointer-events-none fixed inset-0 -z-10">
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
@@ -256,7 +236,8 @@
         <div class="book-3d" id="book3d">
           <!-- cover will contain processed image with transparent bg (if processing succeeds) -->
           <div class="cover" id="coverFace">
-            <img id="coverImg" alt="ebook cover (processed)" src="" />
+            <div class="cover-shine" id="coverShine"></div>
+            <img id="coverImg" alt="ebook cover (processed)" src="" loading="lazy" />
           </div>
 
           <!-- pages / spine / top-bottom edges -->
@@ -494,101 +475,38 @@
   </footer>
 
   <script>
-    // Preloader functionality - PERFECTLY FIXED
-    document.addEventListener('DOMContentLoaded', function() {
-      const preloader = document.getElementById('bm-preloader');
-      const loader = document.querySelector('.bm-loader');
-      
-      // Start with loader hidden, show after 2 seconds when cover loads
-      loader.style.opacity = '0';
-      
-      function showLoader() {
-        loader.style.transition = 'opacity 0.3s ease';
-        loader.style.opacity = '1';
-      }
-      
-      function hidePreloader() {
-        preloader.classList.add('fade-out');
-        setTimeout(() => {
-          preloader.classList.add('hidden');
-        }, 1500); // 1.5 second fade out
-      }
-      
-      // Show loader after 2 seconds (when ebook cover appears)
-      setTimeout(showLoader, 2000);
-      
-      // Hide preloader when everything is loaded + 1.5 seconds
-      window.addEventListener('load', function() {
-        setTimeout(hidePreloader, 1500);
-      });
-      
-      // Fallback: if still visible after 6 seconds, force hide
-      setTimeout(hidePreloader, 6000);
-    });
-
     // --- CONFIG: change this IMAGE URL if needed ---
-    // Provided image that has white background:
+    // Replaced background-removal processing with direct image load for instant rendering
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
-    // white removal threshold (0-255); lower = stricter (keeps more light pixels)
-    const WHITE_THRESHOLD = 245;
 
     // DOM refs
     const coverImg = document.getElementById('coverImg');
-    const err = document.createElement('div'); err.className = 'proc-error'; document.querySelector('.book-wrap').appendChild(err);
+    const coverShine = document.getElementById('coverShine');
 
-    // Load & process image to remove white-ish background via canvas (creates PNG dataURL)
-    function processImageToTransparent(url){
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.crossOrigin = 'anonymous'; // requires server to allow CORS
-        img.onload = () => {
-          try {
-            // limit dimensions for perf
-            const max = 1200;
-            let w = img.width, h = img.height;
-            if(Math.max(w,h) > max){
-              const r = max / Math.max(w,h);
-              w = Math.round(w * r); h = Math.round(h * r);
-            }
-            const canvas = document.createElement('canvas');
-            canvas.width = w; canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            const data = ctx.getImageData(0,0,w,h);
-            const d = data.data;
-
-            // iterate and make white-ish pixels transparent
-            for(let i=0;i<d.length;i+=4){
-              const r = d[i], g = d[i+1], b = d[i+2], a = d[i+3];
-              const maxc = Math.max(r,g,b), minc = Math.min(r,g,b);
-              // if pixel very light and channels almost same -> treat as white-ish
-              if(maxc >= WHITE_THRESHOLD && (maxc - minc) < 12){
-                d[i+3] = 0; // transparent
-              }
-            }
-            ctx.putImageData(data,0,0);
-            const out = canvas.toDataURL('image/png');
-            resolve(out);
-          } catch(e) { reject(e); }
-        };
-        img.onerror = () => reject(new Error('Image failed to load (CORS or bad URL).'));
-        img.src = url + (url.includes('?') ? '&' : '?') + 'cb=' + Date.now();
-      });
-    }
-
-    // try processing and fallback to raw image if failed
-    (async function(){
-      try {
-        const processed = await processImageToTransparent(SOURCE_IMAGE);
-        coverImg.src = processed;
-      } catch(e){
-        console.warn('Processing failed:', e);
-        err.style.display = 'block';
-        err.textContent = '⚠️ Could not remove white background automatically (CORS likely). Showing original cover.';
-        // fallback: show original image directly (may show white bg)
-        coverImg.src = SOURCE_IMAGE;
-      }
-    })();
+    // Simple smooth load: assign src directly and use onload to fade it in
+    coverImg.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now(); // cache-bust to ensure fresh
+    coverImg.onload = () => {
+      // fade in and slightly scale back for subtle pop
+      coverImg.style.opacity = '1';
+      coverImg.style.transform = 'scale(1)';
+      
+      // Fade out the shine effect smoothly
+      coverShine.classList.add('fade-out');
+      setTimeout(() => {
+        coverShine.style.display = 'none';
+      }, 300);
+    };
+    coverImg.onerror = () => {
+      // if load fails, show a small error text under book (keeps rest unchanged)
+      const err = document.createElement('div'); err.className = 'proc-error'; err.style.display = 'block'; err.textContent = '⚠️ Could not load cover image.'; document.querySelector('.book-wrap').appendChild(err);
+      // fallback: keep src empty or set to a local placeholder if you have one
+      
+      // Hide the shine effect on error too
+      coverShine.classList.add('fade-out');
+      setTimeout(() => {
+        coverShine.style.display = 'none';
+      }, 300);
+    };
 
     // misc UI & init (unchanged)
     AOS.init({ duration: 650, easing: 'ease-out', once: true });
