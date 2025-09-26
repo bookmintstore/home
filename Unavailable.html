@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookMintor: Category Unavailable</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================= */
+        /* 1. Global & Variable Setup */
+        /* ========================================= */
+        :root {
+            /* Variables for easy configuration */
+            --HOME-URL: '#'; /* Placeholder for the homepage URL */
+            --COUNTDOWN: 12; /* Countdown duration in seconds */
+
+            /* Color Palette */
+            --color-dark-navy: #0D1223;
+            --color-purple-primary: #8E2DE2;
+            --color-pink-secondary: #4A00E0; /* Using a darker purple for contrast/gradient start */
+            --color-frosted-bg: rgba(255, 255, 255, 0.05);
+            --color-text-white: #FFFFFF;
+            --color-text-light: #A3A7B9;
+            --color-text-accent: #E22D8E; /* Pink/Purple accent for numbers */
+            
+            /* Sizing & Effects */
+            --border-radius-card: 18px;
+            --border-radius-small: 12px;
+            --card-width-desktop: 580px;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-dark-navy);
+            color: var(--color-text-white);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Hide scrollbar on the main page */
+            font-size: 16px;
+        }
+
+        /* ========================================= */
+        /* 2. Background Glow Effects */
+        /* ========================================= */
+        .glow-blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.3;
+            animation: pulse 10s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        .glow-blob--purple {
+            background: var(--color-purple-primary);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .glow-blob--pink {
+            background: var(--color-text-accent);
+            top: -150px;
+            right: -150px;
+            animation-delay: 5s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.1); opacity: 0.4; }
+        }
+
+        /* ========================================= */
+        /* 3. Modal Structure & Frosted Glass */
+        /* ========================================= */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background-color: var(--color-frosted-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px); /* Frosted Glass Effect */
+            border-radius: var(--border-radius-card);
+            padding: 40px;
+            width: min(90%, var(--card-width-desktop));
+            max-width: var(--card-width-desktop);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Initial state for fade-in */
+            transform: translateY(20px);
+            animation: card-fade-in 0.5s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes card-fade-in {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Fade-out animation for redirect */
+        .modal-fade-out {
+            animation: modal-fade-out 0.5s forwards ease-in;
+        }
+
+        @keyframes modal-fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* ========================================= */
+        /* 4. Header & Logo Shine */
+        /* ========================================= */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-block {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-white);
+            font-weight: 700;
+            font-size: 18px;
+            padding: 6px 14px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated Shine Sweep */
+        .logo-block::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-20deg);
+            animation: shine 2s infinite 1s;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* ========================================= */
+        /* 5. Message Content & Loader */
+        /* ========================================= */
+        .modal-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--color-text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        /* Half-Arc Rotating Loader */
+        .half-arc-loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            /* 2px solid transparent, with the top half being a gradient border */
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--color-purple-primary); 
+            border-right-color: var(--color-text-accent);
+            animation: half-rotate 1s infinite linear;
+        }
+
+        @keyframes half-rotate {
+            /* Smooth rotation from 0 to 360, maintaining the semi-visible arc */
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========================================= */
+        /* 6. Typing Messages (Cross-Fade) */
+        /* ========================================= */
+        .typing-message-container {
+            height: 20px; /* Fixed height to prevent layout shift */
+            margin-top: 30px;
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--color-text-light);
+            position: relative;
+        }
+
+        .typing-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .typing-message.active {
+            opacity: 1;
+        }
+
+        /* ========================================= */
+        /* 7. Countdown & Progress Bar */
+        /* ========================================= */
+        .modal-countdown {
+            margin-top: 25px;
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        .countdown-number {
+            font-weight: 700;
+            color: var(--color-text-accent);
+        }
+
+        .progress-bar-track {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--color-pink-secondary), var(--color-purple-primary), var(--color-text-accent));
+            /* Custom easing for smooth, non-linear filling */
+            transition: width var(--COUNTDOWN)s linear;
+        }
+        
+        /* The cubic-bezier is applied via JS for the full duration after initial render */
+        .progress-bar-fill.start-fill {
+            transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
+        }
+
+        /* ========================================= */
+        /* 8. Button & Accessibility */
+        /* ========================================= */
+        .skip-button {
+            margin-top: 35px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-white);
+            border: none;
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .skip-button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .skip-button:active {
+            transform: scale(0.98);
+        }
+
+        /* ========================================= */
+        /* 9. Responsiveness (Mobile Adjustments) */
+        /* ========================================= */
+        @media (max-width: 600px) {
+            .modal-card {
+                padding: 30px 20px;
+                border-radius: 12px;
+            }
+
+            .modal-title {
+                font-size: 24px;
+            }
+
+            .modal-subtitle {
+                font-size: 14px;
+                flex-direction: row; /* Keep loader inline on mobile */
+            }
+
+            .modal-countdown {
+                font-size: 16px;
+            }
+
+            .skip-button {
+                width: 100%;
+                margin-top: 30px;
+            }
+
+            .progress-bar-track {
+                max-width: 100%; /* Full width on mobile */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="glow-blob glow-blob--purple"></div>
+    <div class="glow-blob glow-blob--pink"></div>
+
+    <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card" id="modalCard">
+            
+            <div class="modal-header">
+                <div class="logo-block">.Cr</div>
+                </div>
+
+            <h2 id="modalTitle" class="modal-title">Category temporarily unavailable</h2>
+            
+            <p class="modal-subtitle">
+                Because of some reasons this category is currently unavailable. 
+                We’re working on it, it will be back soon....
+                <span class="half-arc-loader" aria-hidden="true"></span>
+            </p>
+
+            <div class="typing-message-container" role="status" aria-live="polite">
+                <span id="typingMsg1" class="typing-message active">Checking dependencies...</span>
+                <span id="typingMsg2" class="typing-message">Recalculating routing...</span>
+                <span id="typingMsg3" class="typing-message">Finalizing fixes...</span>
+            </div>
+
+            <p class="modal-countdown">
+                You will be redirected to the homepage in <span id="countdownDisplay" class="countdown-number">12</span> seconds.
+            </p>
+
+            <div class="progress-bar-track">
+                <div id="progressBarFill" class="progress-bar-fill"></div>
+            </div>
+
+            <button id="skipButton" class="skip-button">Go to Homepage</button>
+
+        </div>
+    </div>
+
+    <script>
+        /* ========================================= */
+        /* JAVASCRIPT LOGIC */
+        /* ========================================= */
+
+        // 1. Get Variables from CSS Root
+        const HOME_URL = getComputedStyle(document.documentElement).getPropertyValue('--HOME-URL').trim();
+        const COUNTDOWN_DURATION = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--COUNTDOWN').trim());
+        
+        // 2. DOM Elements
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const modalCard = document.getElementById('modalCard');
+        const countdownDisplay = document.getElementById('countdownDisplay');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const skipButton = document.getElementById('skipButton');
+        const typingMessages = [
+            document.getElementById('typingMsg1'),
+            document.getElementById('typingMsg2'),
+            document.getElementById('typingMsg3'),
+        ];
+
+        let countdownInterval;
+        let countdownTimer = COUNTDOWN_DURATION;
+        let isRedirecting = false;
+        
+        /**
+         * Initiates the full redirect sequence.
+         * Skips the countdown, fades out the modal, and navigates.
+         */
+        function initiateRedirect() {
+            if (isRedirecting) return;
+            isRedirecting = true;
+            clearInterval(countdownInterval);
+            
+            // 1. Visually fade out the modal
+            modalCard.classList.add('modal-fade-out');
+
+            // 2. Perform the actual navigation after the fade animation
+            setTimeout(() => {
+                window.location.href = HOME_URL;
+            }, 500); // 500ms matches the CSS fade-out duration
+        }
+
+        /**
+         * Main countdown loop.
+         */
+        function startCountdown() {
+            // Start the progress bar animation immediately
+            setTimeout(() => {
+                progressBarFill.style.width = '100%';
+                progressBarFill.classList.add('start-fill');
+            }, 100);
+            
+            countdownInterval = setInterval(() => {
+                countdownTimer--;
+                countdownDisplay.textContent = countdownTimer;
+
+                if (countdownTimer <= 0) {
+                    clearInterval(countdownInterval);
+                    initiateRedirect();
+                }
+            }, 1000);
+        }
+
+        /**
+         * Handles the typing-style message cross-fade.
+         */
+        function startTypingMessages() {
+            let currentIndex = 0;
+            setInterval(() => {
+                // Deactivate current message
+                typingMessages[currentIndex].classList.remove('active');
+                
+                // Cycle to the next message
+                currentIndex = (currentIndex + 1) % typingMessages.length;
+                
+                // Activate the next message
+                typingMessages[currentIndex].classList.add('active');
+            }, 3000); // Cross-fade every 3 seconds
+        }
+
+        // =========================================
+        // 3. Event Listeners & Initialization
+        // =========================================
+
+        // A. Skip button action
+        skipButton.addEventListener('click', initiateRedirect);
+
+        // B. Escape key action
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                initiateRedirect();
+            }
+        });
+
+        // C. Start the core functions on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            startCountdown();
+            startTypingMessages();
+        });
+
+    </script>
+</body>
+</html>
