@@ -20,8 +20,21 @@
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
             aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
-            shimmerMove: { '0%': { transform: 'translateX(-30%)', opacity:1 }, '50%': { transform: 'translateX(30%)', opacity:1 }, '100%': { transform: 'translateX(130%)', opacity:1 } },
-            highlightMove: { '0%': { left: '-60%', opacity:0 }, '20%': { left: '-20%', opacity:0.9 }, '60%': { left: '60%', opacity:0.9 }, '100%': { left: '120%', opacity:0 } }
+            coverShine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(200%)' } },
+            fastShimmer: { 
+              '0%': { transform: 'translateX(-30%)', opacity: '1' },
+              '50%': { transform: 'translateX(30%)', opacity: '1' },
+              '100%': { transform: 'translateX(130%)', opacity: '1' }
+            },
+            highlightMove: {
+              '0%': { left: '-60%', opacity: '0' },
+              '20%': { left: '-20%', opacity: '0.9' },
+              '60%': { left: '60%', opacity: '0.9' },
+              '100%': { left: '120%', opacity: '0' }
+            },
+            // ADDED/MODIFIED: Fast black shine keyframes from shineeee2e
+            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } }
+            // Original coverBtnShine removed
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -29,8 +42,12 @@
             slideUp: 'slideUp .45s ease-out forwards',
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
             aura: 'aura 2.4s ease-in-out infinite',
-            shimmerMove: 'shimmerMove 0.9s linear infinite',
-            highlightMove: 'highlightMove 1s linear infinite'
+            coverShine: 'coverShine 0.6s ease-in-out infinite',
+            fastShimmer: 'fastShimmer 0.8s linear infinite',
+            highlightMove: 'highlightMove 0.9s linear infinite',
+            // ADDED/MODIFIED: Fast black shine animation
+            coverFast: 'coverFast 0.45s linear infinite'
+            // Original coverBtnShine removed
           }
         }
       }
@@ -85,67 +102,40 @@
     }
     /* smooth fade-in & slight scale for nicer load */
     .cover img { 
-      width:100%; height:100%; object-fit:cover; display:block;
-      opacity:0; transform:scale(1.02);
-      transition: opacity .45s ease, transform .45s ease;
-    }
-
-    /* SHIMMER OVERLAY (lite black fast smooth shine) */
-    .cover .cover-shine {
-      position:absolute; 
-      inset:0;
-      background: linear-gradient(90deg,
-        rgba(0,0,0,0.75) 0%,
-        rgba(0,0,0,0.65) 12%,
-        rgba(0,0,0,0.55) 25%,
-        rgba(0,0,0,0.45) 40%,
-        rgba(0,0,0,0.55) 55%,
-        rgba(0,0,0,0.65) 70%,
-        rgba(0,0,0,0.75) 100%);
-      /* subtle moving highlight across the black */
-      mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0) 55%);
-      -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0) 55%);
-      transform: translateX(-30%);
-      animation: shimmerMove 0.9s linear infinite;
-      pointer-events:none;
-      transition: opacity .4s cubic-bezier(.2,.9,.3,1);
-      z-index: 2;
-    }
-
-    /* subtle glossy highlight moving across shimmer (gives 'shine' look) */
-    .cover .cover-shine::after{
-      content:"";
-      position:absolute; left:-60%; top:0; height:100%; width:60%;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0) 100%);
-      transform: skewX(-12deg);
-      filter: blur(4px);
-      animation: highlightMove 1s linear infinite;
-      mix-blend-mode: overlay;
-    }
-
-    /* When loaded: fade out shimmer and reveal image */
-    .cover.loaded .cover-shine { 
+      width:100%; 
+      height:100%; 
+      object-fit:cover; 
+      display:block; 
+      transition: opacity 0.3s ease, transform 0.3s ease; 
       opacity:0; 
-      pointer-events:none; 
-      animation: none;
-    }
-    .cover.loaded img { 
-      opacity:1; 
-      transform:scale(1); 
+      transform: scale(1.02);
+      will-change: opacity, transform;
     }
 
-    /* quick fallback small spinner in case image fails */
-    .cover .mini-spinner{
-      position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-      width:32px; height:32px; border-radius:999px;
-      border:2px solid rgba(255,255,255,0.06); border-top-color: rgba(255,255,255,0.15);
-      animation: spin 1s linear infinite; z-index:3;
-      display:none;
+    /* MODIFIED: LITE BLACK VERY FAST SHINE (from shineeee2e) */
+    .cover-shine {
+      position:absolute; inset:0; z-index:6; pointer-events:none;
+      /* mostly black gradient with tiny lighter band so it reads as 'shine' but dark */
+      background: linear-gradient(
+        90deg,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0.7) 28%,
+        rgba(0,0,0,0.95) 50%,
+        rgba(0,0,0,0.7) 72%,
+        rgba(0,0,0,0) 100%
+      );
+      transform: translateX(-160%) skewX(-10deg);
+      mix-blend-mode: multiply; /* Changed from screen to multiply for dark shine */
+      opacity:0.95;
+      animation: coverFast 0.45s linear infinite; /* Using the new fast animation */
+      transition: none; /* Transition handled by JS/loaded class */
+      filter: blur(8px);
     }
-    .cover.loading .mini-spinner{ display:block; }
-
-    @keyframes spin{ to{ transform: translate(-50%,-50%) rotate(360deg); } }
-
+    
+    /* ADDED: After load: keep shine for 700ms then fade smoothly */
+    .cover.loaded .cover-shine {
+      /* This rule is not used, JS handles the fade-out on load for better control */
+    }
     /* Back cover (for thickness) */
     .back-cover {
       position:absolute; width:100%; height:100%;
@@ -217,20 +207,6 @@
       transform: rotateX(90deg);
     }
 
-    /* reflection/highlight */
-    .cover::after {
-      content:"";
-      position:absolute;
-      right:-8%;
-      top:0;
-      width: 44%;
-      height:100%;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 40%, rgba(255,255,255,0.06) 60%, rgba(255,255,255,0) 100%);
-      transform: skewX(-10deg) translateX(12px);
-      mix-blend-mode: screen;
-      pointer-events:none;
-    }
-
     @media (max-width:700px){
       .book-3d { width: 170px; height: 245px; }
     }
@@ -247,13 +223,11 @@
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
-  <!-- Background blobs (unchanged) -->
   <div class="pointer-events-none fixed inset-0 -z-10">
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
     <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
   </div>
 
-  <!-- Header -->
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="./index.html" class="flex items-center gap-2">
       <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow">
@@ -264,36 +238,24 @@
     <a href="./spirituality.html" class="text-sm text-zinc-300 hover:text-white">Back to Library</a>
   </header>
 
-  <!-- Main content -->
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-10">
     <div class="flex flex-col md:flex-row items-center gap-8">
-      <!-- New closed-side 3D book mockup -->
       <div class="book-wrap" data-aos="fade-right">
         <div class="book-3d" id="book3d">
-          <!-- cover will contain processed image with transparent bg (if processing succeeds) -->
-          <div class="cover loading" id="coverFace" aria-live="polite" aria-busy="true">
-            <!-- SHIMMER OVERLAY (visible immediately) -->
-            <div class="cover-shine" id="coverShine" aria-hidden="true"></div>
-
-            <!-- optional mini spinner in center -->
-            <div class="mini-spinner" id="miniSpinner" aria-hidden="true"></div>
-
-            <!-- cover image -->
-            <img id="coverImg" alt="ebook cover (processed)" src="" loading="lazy" draggable="false" />
+          <div class="cover" id="coverFace" aria-busy="true"> 
+            <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
+            <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
           </div>
 
-          <!-- pages / spine / top-bottom edges -->
           <div class="spine" aria-hidden="true"></div>
           <div class="pages" aria-hidden="true"></div>
           <div class="top-edge" aria-hidden="true"></div>
           <div class="bottom-edge" aria-hidden="true"></div>
 
-          <!-- soft shadow -->
           <div class="book-ghost" aria-hidden="true"></div>
         </div>
       </div>
 
-      <!-- Info -->
       <div class="flex-1 space-y-4" data-aos="fade-left">
         <h1 class="text-3xl font-bold">Bhagavad Gita Demystified</h1>
         <p class="text-zinc-300">A modern interpretation of the 700 verses with practical life applications.</p>
@@ -310,13 +272,11 @@
       </div>
     </div>
 
-    <!-- About -->
     <div data-aos="fade-up">
       <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
       <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it's a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today's reader.</p>
     </div>
 
-    <!-- Q&A & Reviews (unchanged from your page) -->
     <div data-aos="fade-up">
       <h2 class="text-2xl font-bold mb-4">Q&A</h2>
       <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
@@ -343,15 +303,12 @@
         </details>
       </div>
     </div>
-    
-    <!-- Feedbacks (10+ with Show More) -->
+
     <div id="feedbacks" data-aos="fade-up">
       <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
 
       <div class="grid gap-4 md:grid-cols-2" id="feedback-list">
-        <!-- Visible first 4 -->
-        <!-- 4.5/5 -->
         <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
           <div class="flex items-center justify-between mb-1">
             <div class="star-glow flex items-center gap-1">
@@ -367,7 +324,6 @@
           <span class="text-xs text-zinc-400">— Aarav, India</span>
         </div>
 
-        <!-- 4/5 -->
         <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
           <div class="flex items-center justify-between mb-1">
             <div class="star-glow flex items-center gap-1">
@@ -383,7 +339,6 @@
           <span class="text-xs text-zinc-400">— Emma, UK</span>
         </div>
 
-        <!-- 5/5 -->
         <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
           <div class="flex items-center justify-between mb-1">
             <div class="star-glow flex items-center gap-1">
@@ -399,7 +354,6 @@
           <span class="text-xs text-zinc-400">— Michael, USA</span>
         </div>
 
-        <!-- 4/5 -->
         <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
           <div class="flex items-center justify-between mb-1">
             <div class="star-glow flex items-center gap-1">
@@ -415,7 +369,6 @@
           <span class="text-xs text-zinc-400">— Li Wei, China</span>
         </div>
 
-        <!-- Hidden extra 8+ reviews -->
         <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
           <div class="flex items-center justify-between mb-1">
             <div class="star-glow flex items-center gap-1">
@@ -521,54 +474,57 @@
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
     // DOM refs
-    const cover = document.getElementById('coverFace');
+    const cover = document.getElementById('coverFace'); // Added: cover element reference
     const coverImg = document.getElementById('coverImg');
     const coverShine = document.getElementById('coverShine');
-    const spinner = document.getElementById('miniSpinner');
 
-    // Safety timeouts: if image doesn't load within X ms, reduce shimmer intensity (better UX)
-    const ERROR_TIMEOUT = 6000; // ms
-    let errorTimer = setTimeout(() => {
-      // reduce shimmer movement speed a bit and show spinner to indicate longer load
-      coverShine.style.animationDuration = '1.6s';
-      spinner.style.display = 'block';
-    }, 2500);
+    // Added: mark busy for screen readers
+    cover.setAttribute('aria-busy', 'true');
 
-    let finalFallbackTimer = setTimeout(() => {
-      // if still not loaded after ERROR_TIMEOUT, show fallback state (less intrusive)
-      coverShine.style.opacity = '0.65';
-      spinner.style.display = 'none';
-    }, ERROR_TIMEOUT);
+    // Preload image for faster loading
+    const preloadImage = new Image();
+    preloadImage.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now(); // cache-bust to ensure fresh
+    
+    // MODIFIED: Image load logic for smooth black shine effect
+    preloadImage.onload = () => {
+      // Assign the preloaded image to the actual img element
+      coverImg.src = preloadImage.src;
+      
+      // Fast fade in and scale back for subtle pop
+      coverImg.style.opacity = '1';
+      coverImg.style.transform = 'scale(1)';
+      
+      // Keep shine effect visible for 700ms, then fade out smoothly
+      setTimeout(() => {
+        // Start smooth fade (CSS transition is applied inline for control)
+        coverShine.style.transition = 'opacity 0.32s ease, transform 0.32s ease';
+        coverShine.style.opacity = '0';
+        coverShine.style.transform = 'translateY(-6px)'; // slight lift for better effect
 
-    // Image load success -> reveal
-    coverImg.onload = () => {
-      clearTimeout(errorTimer);
-      clearTimeout(finalFallbackTimer);
-      // Give tiny delay so user perceives smooth transition
-      requestAnimationFrame(()=> {
-        cover.classList.add('loaded');
-        cover.classList.remove('loading');
-        cover.setAttribute('aria-busy','false');
-        // remove spinner after transition
-        setTimeout(()=> { spinner.style.display = 'none'; }, 520);
-        // cleanup: stop shimmer animation to save perf
-        coverShine.style.animation = 'none';
-      });
+        // after fade completes, disable animation and hide element for perf
+        setTimeout(()=> {
+          coverShine.style.animation = 'none';
+          coverShine.style.display = 'none';
+          cover.classList.add('loaded');
+          cover.setAttribute('aria-busy','false'); // Mark not busy
+        }, 360); // slightly longer than transition to be safe
+
+      }, 700); // 700ms delay before starting fade out
     };
-
-    coverImg.onerror = () => {
-      clearTimeout(errorTimer);
-      clearTimeout(finalFallbackTimer);
-      // fallback: keep shimmer but show low-intensity overlay and a message via console
-      console.warn('Cover image failed to load; possible CORS or bad URL.');
-      // fade shimmer a bit and hide spinner
-      coverShine.style.opacity = '0.6';
-      spinner.style.display = 'none';
-      cover.setAttribute('aria-busy','false');
+    
+    // MODIFIED: Error handling
+    preloadImage.onerror = () => {
+      // if load fails, show a small error text under book (keeps rest unchanged)
+      const err = document.createElement('div'); err.className = 'proc-error'; err.style.display = 'block'; err.textContent = '⚠️ Could not load cover image.'; document.querySelector('.book-wrap').appendChild(err);
+      
+      // Hide the shine effect gently on error too
+      coverShine.style.transition = 'opacity 0.32s ease';
+      coverShine.style.opacity = '0';
+      setTimeout(()=> { 
+        coverShine.style.display = 'none'; 
+        cover.setAttribute('aria-busy','false'); 
+      }, 360);
     };
-
-    // Start loading
-    coverImg.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now();
 
     // misc UI & init (unchanged)
     AOS.init({ duration: 650, easing: 'ease-out', once: true });
@@ -581,7 +537,7 @@
       if(bling){ bling.style.opacity = 1; bling.classList.add('animate-cornerPop'); setTimeout(()=>{ bling.style.opacity = 0.75; }, 950); }
     });
 
-    // details animation handling
+    // details animation handling (unchanged)
     document.querySelectorAll('details').forEach(d=>{
       const content = d.querySelector('.details-content');
       if(!content) return;
@@ -596,7 +552,7 @@
       });
     });
     
-    // Show More feedbacks
+    // Show More feedbacks (unchanged)
     const sm = document.getElementById('showMore');
     if(sm){
       sm.addEventListener('click', ()=>{
