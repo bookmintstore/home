@@ -11,13 +11,14 @@
         /* ========================================= */
         :root {
             /* Variables for easy configuration */
-            --HOME-URL: '#'; /* Placeholder for the homepage URL */
+            /* *** REDIRECT CHANGE HERE: Set to index.html *** */
+            --HOME-URL: 'index.html'; 
             --COUNTDOWN: 12; /* Countdown duration in seconds */
 
             /* Color Palette */
             --color-dark-navy: #0D1223;
             --color-purple-primary: #8E2DE2;
-            --color-pink-secondary: #4A00E0; /* Using a darker purple for contrast/gradient start */
+            --color-pink-secondary: #4A00E0; /* Darker purple for gradient start */
             --color-frosted-bg: rgba(255, 255, 255, 0.05);
             --color-text-white: #FFFFFF;
             --color-text-light: #A3A7B9;
@@ -44,7 +45,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Hide scrollbar on the main page */
+            overflow: hidden; 
             font-size: 16px;
         }
 
@@ -334,13 +335,13 @@
             
             <div class="modal-header">
                 <div class="logo-block">.Cr</div>
-                </div>
+            </div>
 
             <h2 id="modalTitle" class="modal-title">Category temporarily unavailable</h2>
             
             <p class="modal-subtitle">
                 Because of some reasons this category is currently unavailable. 
-                We’re working on it, it will be back soon....
+                We’re working on it — it will be back soon.
                 <span class="half-arc-loader" aria-hidden="true"></span>
             </p>
 
@@ -368,7 +369,7 @@
         /* JAVASCRIPT LOGIC */
         /* ========================================= */
 
-        // 1. Get Variables from CSS Root
+        // 1. Get Variables from CSS Root (HOME_URL is already set to 'index.html' in CSS)
         const HOME_URL = getComputedStyle(document.documentElement).getPropertyValue('--HOME-URL').trim();
         const COUNTDOWN_DURATION = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--COUNTDOWN').trim());
         
@@ -390,7 +391,7 @@
         
         /**
          * Initiates the full redirect sequence.
-         * Skips the countdown, fades out the modal, and navigates.
+         * Skips the countdown, fades out the modal, and navigates to HOME_URL ('index.html').
          */
         function initiateRedirect() {
             if (isRedirecting) return;
@@ -402,7 +403,7 @@
 
             // 2. Perform the actual navigation after the fade animation
             setTimeout(() => {
-                window.location.href = HOME_URL;
+                window.location.href = HOME_URL; // Redirects to 'index.html'
             }, 500); // 500ms matches the CSS fade-out duration
         }
 
@@ -448,10 +449,10 @@
         // 3. Event Listeners & Initialization
         // =========================================
 
-        // A. Skip button action
+        // A. Skip button action (Redirects to 'index.html')
         skipButton.addEventListener('click', initiateRedirect);
 
-        // B. Escape key action
+        // B. Escape key action (Redirects to 'index.html')
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 initiateRedirect();
