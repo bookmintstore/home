@@ -20,7 +20,8 @@
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
             aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
-            coverShine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(200%)' } }
+            shimmerMove: { '0%': { transform: 'translateX(-30%)', opacity:1 }, '50%': { transform: 'translateX(30%)', opacity:1 }, '100%': { transform: 'translateX(130%)', opacity:1 } },
+            highlightMove: { '0%': { left: '-60%', opacity:0 }, '20%': { left: '-20%', opacity:0.9 }, '60%': { left: '60%', opacity:0.9 }, '100%': { left: '120%', opacity:0 } }
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -28,7 +29,8 @@
             slideUp: 'slideUp .45s ease-out forwards',
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
             aura: 'aura 2.4s ease-in-out infinite',
-            coverShine: 'coverShine 1.2s ease-in-out infinite'
+            shimmerMove: 'shimmerMove 0.9s linear infinite',
+            highlightMove: 'highlightMove 1s linear infinite'
           }
         }
       }
@@ -79,36 +81,70 @@
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+      background: linear-gradient(180deg,#111217,#0f1216); /* fallback bg while loading */
     }
     /* smooth fade-in & slight scale for nicer load */
-    .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity .45s ease, transform .45s ease; opacity:0; transform: scale(1.02); }
+    .cover img { 
+      width:100%; height:100%; object-fit:cover; display:block;
+      opacity:0; transform:scale(1.02);
+      transition: opacity .45s ease, transform .45s ease;
+    }
 
-    /* Cover shine effect - BLACK FAST SMOOTH SHINE */
-    .cover-shine {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.7) 25%,
-        rgba(0, 0, 0, 0.9) 50%,
-        rgba(0, 0, 0, 0.7) 75%,
-        rgba(0, 0, 0, 0) 100%
-      );
-      transform: translateX(-100%);
+    /* SHIMMER OVERLAY (lite black fast smooth shine) */
+    .cover .cover-shine {
+      position:absolute; 
+      inset:0;
+      background: linear-gradient(90deg,
+        rgba(0,0,0,0.75) 0%,
+        rgba(0,0,0,0.65) 12%,
+        rgba(0,0,0,0.55) 25%,
+        rgba(0,0,0,0.45) 40%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,0.65) 70%,
+        rgba(0,0,0,0.75) 100%);
+      /* subtle moving highlight across the black */
+      mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0) 55%);
+      -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0) 55%);
+      transform: translateX(-30%);
+      animation: shimmerMove 0.9s linear infinite;
+      pointer-events:none;
+      transition: opacity .4s cubic-bezier(.2,.9,.3,1);
       z-index: 2;
-      pointer-events: none;
-      animation: coverShine 1.2s ease-in-out infinite;
+    }
+
+    /* subtle glossy highlight moving across shimmer (gives 'shine' look) */
+    .cover .cover-shine::after{
+      content:"";
+      position:absolute; left:-60%; top:0; height:100%; width:60%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0) 100%);
+      transform: skewX(-12deg);
+      filter: blur(4px);
+      animation: highlightMove 1s linear infinite;
       mix-blend-mode: overlay;
     }
-    .cover-shine.fade-out {
-      opacity: 0;
+
+    /* When loaded: fade out shimmer and reveal image */
+    .cover.loaded .cover-shine { 
+      opacity:0; 
+      pointer-events:none; 
       animation: none;
-      transition: opacity 0.3s ease;
     }
+    .cover.loaded img { 
+      opacity:1; 
+      transform:scale(1); 
+    }
+
+    /* quick fallback small spinner in case image fails */
+    .cover .mini-spinner{
+      position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+      width:32px; height:32px; border-radius:999px;
+      border:2px solid rgba(255,255,255,0.06); border-top-color: rgba(255,255,255,0.15);
+      animation: spin 1s linear infinite; z-index:3;
+      display:none;
+    }
+    .cover.loading .mini-spinner{ display:block; }
+
+    @keyframes spin{ to{ transform: translate(-50%,-50%) rotate(360deg); } }
 
     /* Back cover (for thickness) */
     .back-cover {
@@ -235,9 +271,15 @@
       <div class="book-wrap" data-aos="fade-right">
         <div class="book-3d" id="book3d">
           <!-- cover will contain processed image with transparent bg (if processing succeeds) -->
-          <div class="cover" id="coverFace">
-            <div class="cover-shine" id="coverShine"></div>
-            <img id="coverImg" alt="ebook cover (processed)" src="" loading="lazy" />
+          <div class="cover loading" id="coverFace" aria-live="polite" aria-busy="true">
+            <!-- SHIMMER OVERLAY (visible immediately) -->
+            <div class="cover-shine" id="coverShine" aria-hidden="true"></div>
+
+            <!-- optional mini spinner in center -->
+            <div class="mini-spinner" id="miniSpinner" aria-hidden="true"></div>
+
+            <!-- cover image -->
+            <img id="coverImg" alt="ebook cover (processed)" src="" loading="lazy" draggable="false" />
           </div>
 
           <!-- pages / spine / top-bottom edges -->
@@ -476,37 +518,57 @@
 
   <script>
     // --- CONFIG: change this IMAGE URL if needed ---
-    // Replaced background-removal processing with direct image load for instant rendering
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
     // DOM refs
+    const cover = document.getElementById('coverFace');
     const coverImg = document.getElementById('coverImg');
     const coverShine = document.getElementById('coverShine');
+    const spinner = document.getElementById('miniSpinner');
 
-    // Simple smooth load: assign src directly and use onload to fade it in
-    coverImg.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now(); // cache-bust to ensure fresh
+    // Safety timeouts: if image doesn't load within X ms, reduce shimmer intensity (better UX)
+    const ERROR_TIMEOUT = 6000; // ms
+    let errorTimer = setTimeout(() => {
+      // reduce shimmer movement speed a bit and show spinner to indicate longer load
+      coverShine.style.animationDuration = '1.6s';
+      spinner.style.display = 'block';
+    }, 2500);
+
+    let finalFallbackTimer = setTimeout(() => {
+      // if still not loaded after ERROR_TIMEOUT, show fallback state (less intrusive)
+      coverShine.style.opacity = '0.65';
+      spinner.style.display = 'none';
+    }, ERROR_TIMEOUT);
+
+    // Image load success -> reveal
     coverImg.onload = () => {
-      // fade in and slightly scale back for subtle pop
-      coverImg.style.opacity = '1';
-      coverImg.style.transform = 'scale(1)';
-      
-      // Fade out the shine effect smoothly
-      coverShine.classList.add('fade-out');
-      setTimeout(() => {
-        coverShine.style.display = 'none';
-      }, 300);
+      clearTimeout(errorTimer);
+      clearTimeout(finalFallbackTimer);
+      // Give tiny delay so user perceives smooth transition
+      requestAnimationFrame(()=> {
+        cover.classList.add('loaded');
+        cover.classList.remove('loading');
+        cover.setAttribute('aria-busy','false');
+        // remove spinner after transition
+        setTimeout(()=> { spinner.style.display = 'none'; }, 520);
+        // cleanup: stop shimmer animation to save perf
+        coverShine.style.animation = 'none';
+      });
     };
+
     coverImg.onerror = () => {
-      // if load fails, show a small error text under book (keeps rest unchanged)
-      const err = document.createElement('div'); err.className = 'proc-error'; err.style.display = 'block'; err.textContent = '⚠️ Could not load cover image.'; document.querySelector('.book-wrap').appendChild(err);
-      // fallback: keep src empty or set to a local placeholder if you have one
-      
-      // Hide the shine effect on error too
-      coverShine.classList.add('fade-out');
-      setTimeout(() => {
-        coverShine.style.display = 'none';
-      }, 300);
+      clearTimeout(errorTimer);
+      clearTimeout(finalFallbackTimer);
+      // fallback: keep shimmer but show low-intensity overlay and a message via console
+      console.warn('Cover image failed to load; possible CORS or bad URL.');
+      // fade shimmer a bit and hide spinner
+      coverShine.style.opacity = '0.6';
+      spinner.style.display = 'none';
+      cover.setAttribute('aria-busy','false');
     };
+
+    // Start loading
+    coverImg.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now();
 
     // misc UI & init (unchanged)
     AOS.init({ duration: 650, easing: 'ease-out', once: true });
