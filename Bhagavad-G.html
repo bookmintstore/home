@@ -254,6 +254,7 @@
         transform: scale(0.97);
         box-shadow: 0 2px 5px rgba(16,185,129,0.3);
     }
+    
     /* Shine Effect on Button */
     .download-button .btn-shine {
         position: absolute;
@@ -262,13 +263,14 @@
         background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 45%, rgba(255,255,255,0.4) 60%, rgba(255,255,255,0) 100%); 
         mix-blend-mode: screen; 
         pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-    .download-button:hover .btn-shine {
+        /* ⭐ FIX: Opacity 1 कर दिया ताकि हमेशा दिखे */
         opacity: 1;
+        transition: opacity 0.3s;
+        /* ⭐ FIX: Animation को सीधे बटन पर लगा दिया */
         animation: btnshine 2.6s ease-in-out infinite;
     }
+    /* OLD CODE REMOVED: .download-button:hover .btn-shine { ... } */
+
     /* Loading/Processing State */
     .download-button.loading {
       opacity: 0.7;
@@ -549,7 +551,7 @@
       
       <button id="downloadButton" class="download-button" onclick="handleDownloadClick(this)">
         <i data-lucide="download" class="h-5 w-5"></i>
-        <span id="downloadBtnText">Download Your eBook PDF</span>
+        <span id="downloadBtnText">Download Your eBook</span>
         <span class="btn-shine"></span>
       </button>
 
@@ -558,7 +560,7 @@
         Please check your downloads folder.
       </div>
 
-      <p class="mt-4 text-xs text-zinc-500">(Note: This link is unique & works only once for security.)</p>
+      <p class="mt-4 text-xs text-zinc-500">Note: This link is unique & works only once for security.</p>
     </div>
   </div>
 
@@ -670,13 +672,18 @@
     function handleDownloadClick(button) {
       const downloadMessage = document.getElementById('download-message');
       const btnText = document.getElementById('downloadBtnText');
-      const downloadIcon = button.querySelector('[data-lucide="download"]');
-
+      // Find the current icon, which might be the download icon or a spinner
+      let currentIcon = button.querySelector('[data-lucide="download"], [data-lucide="loader-2"]');
+      
       // 1. Add "loading" effect and change button text
       button.classList.add('loading');
       btnText.textContent = 'Initiating Download...';
-      downloadIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; // Replace icon with spinner
-      lucide.createIcons(); // Re-render the new icon
+      
+      // Replace icon with spinner
+      if (currentIcon) {
+          currentIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; 
+          lucide.createIcons(); // Re-render the new icon
+      }
 
       // 2. Show the "Download Starting..." message
       downloadMessage.classList.add('show');
@@ -687,17 +694,32 @@
         
         // 4. Update the message permanently
         btnText.textContent = 'Downloaded!';
-        downloadMessage.innerHTML = '<i data-lucide="check-circle" class="h-4 w-4 inline text-emerald-400 mr-1"></i>Please check your downloads folder.';
+        downloadMessage.innerHTML = '<i data-lucide="check-circle" class="h-4 w-4 inline text-emerald-400 mr-1"></i> Please check your downloads folder.';
         
         // Re-render new icon in message
         lucide.createIcons(); 
       }, 500); // 0.5 seconds delay
     }
 
-    // Function to trigger actual file download
+    // ⭐ FIX: Function to trigger actual file download using a hidden iframe
     function downloadEbook() {
-      const downloadLink = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
-      window.open(downloadLink, '_blank');
+        const downloadLink = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
+
+        // Hidden iframe created to trigger the download prompt without
+        // changing the main window's URL or opening a new visible tab with the link.
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none'; // Make it invisible
+        iframe.src = downloadLink;
+
+        document.body.appendChild(iframe);
+
+        // Remove the iframe after a short delay (browser dependent, 
+        // 5 seconds is usually enough to initiate the download).
+        setTimeout(() => {
+            if (document.body.contains(iframe)) {
+                document.body.removeChild(iframe);
+            }
+        }, 5000); 
     }
 
     // Check for successful payment on page load
