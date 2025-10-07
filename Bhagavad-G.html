@@ -12,7 +12,9 @@
           boxShadow: {
             glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
             ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
-            book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)'
+            book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
+            // ⭐ NEW: Modal shadow for glowing look
+            modalGlow: '0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65)'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -32,12 +34,20 @@
               '60%': { left: '60%', opacity: '0.9' },
               '100%': { left: '120%', opacity: '0' }
             },
-            // MODIFIED: Fast black shine keyframes
             coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
-            // ⭐ NEW: Glow Spin keyframe (Rotation definition)
             glowspin: {
               '0%': { transform: 'rotate(0deg)' },
               '100%': { transform: 'rotate(360deg)' }
+            },
+            // ⭐ NEW: Modal Fade-In
+            modalFadeIn: {
+              '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
+            },
+             // ⭐ NEW: Button Click Down (Scale and shadow)
+             buttonClick: {
+              '0%': { transform: 'scale(1)', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)' },
+              '100%': { transform: 'scale(0.97)', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }
             }
           },
           animation: {
@@ -49,10 +59,10 @@
             coverShine: 'coverShine 0.6s ease-in-out infinite',
             fastShimmer: 'fastShimmer 0.8s linear infinite',
             highlightMove: 'highlightMove 0.9s linear infinite',
-            // MODIFIED: Fast black shine animation
             coverFast: 'coverFast 0.45s linear infinite',
-            // ⭐ NEW: Glow Spin animation (FAST: 0.8s)
-            glowspin: 'glowspin 0.8s linear infinite'
+            glowspin: 'glowspin 0.8s linear infinite',
+            // ⭐ NEW: Modal animation
+            modalFadeIn: 'modalFadeIn 0.35s ease-out forwards'
           }
         }
       }
@@ -111,7 +121,6 @@
       height:100%; 
       object-fit:cover; 
       display:block; 
-      /* Transition is essential for the smooth final opacity increase */
       transition: opacity 0.28s ease, transform 0.28s ease; 
       opacity:0; 
       transform: scale(1.02);
@@ -192,6 +201,95 @@
     .star-glow .filled{color:#fbbf24}
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
+
+    /* ⭐ MODIFIED: Modal (Popup) CSS for Dark/Glow theme and Animation */
+    .modal {
+        display: none; 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.85); /* Darker backdrop */
+        z-index: 1000; overflow: auto;
+        align-items: center; justify-content: center;
+        backdrop-filter: blur(4px); /* Subtle blur effect */
+    }
+    .modal-content {
+        background-color: #111827; /* Dark background */
+        color: white; 
+        padding: 30px; 
+        border-radius: 12px; 
+        width: 90%; 
+        max-width: 450px;
+        border: 1px solid rgba(99,102,241,0.2); /* Subtle border */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.5), var(--tw-shadow-modalGlow); /* Tailwind shadow */
+        opacity: 0; /* Starts hidden for animation */
+        transform: translateY(20px) scale(0.95); /* Starts slightly off */
+        /* Animation applied via JS class */
+    }
+
+    /* MODIFIED: Download Button CSS for Shine and Click effect */
+    .download-button {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px;
+        background-color: #4CAF50; /* Green (Emerald-500 equivalent) */
+        background-image: linear-gradient(135deg, #4CAF50, #10B981); /* Gradient for depth */
+        color: white; 
+        padding: 12px 25px; 
+        margin-top: 20px;
+        text-decoration: none; 
+        border-radius: 8px;
+        font-weight: bold; 
+        font-size: 1.1em;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s;
+        box-shadow: 0 4px 15px rgba(16,185,129,0.4);
+    }
+    .download-button:hover {
+        box-shadow: 0 6px 20px rgba(16,185,129,0.6);
+    }
+    /* Click Effect - Down state */
+    .download-button:active {
+        transform: scale(0.97);
+        box-shadow: 0 2px 5px rgba(16,185,129,0.3);
+    }
+    /* Shine Effect on Button */
+    .download-button .btn-shine {
+        position: absolute;
+        inset: -6px;
+        transform: translateX(-140%) skewX(-30deg);
+        background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 45%, rgba(255,255,255,0.4) 60%, rgba(255,255,255,0) 100%); 
+        mix-blend-mode: screen; 
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .download-button:hover .btn-shine {
+        opacity: 1;
+        animation: btnshine 2.6s ease-in-out infinite;
+    }
+    /* Loading/Processing State */
+    .download-button.loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* ⭐ NEW: Style for the "Download Starting..." message */
+    #download-message {
+      margin-top: 15px;
+      font-size: 1em;
+      color: #6366f1; /* Indigo-500 */
+      font-weight: 500;
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      transition: opacity 0.4s ease-out, height 0.4s ease-out;
+    }
+    #download-message.show {
+      opacity: 1;
+      height: 25px;
+    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -441,6 +539,29 @@
     
   </section>
 
+  <div id="downloadModal" class="modal">
+    <div class="modal-content" id="modalContent">
+      <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-emerald-400">
+        <i data-lucide="check-circle" class="h-6 w-6"></i>
+        <span>Payment Successful!</span>
+      </h2>
+      <p class="mb-4 text-zinc-300">Thank you for your purchase, Your reading journey begins now…</p>
+      
+      <button id="downloadButton" class="download-button" onclick="handleDownloadClick(this)">
+        <i data-lucide="download" class="h-5 w-5"></i>
+        <span id="downloadBtnText">Download Your eBook PDF</span>
+        <span class="btn-shine"></span>
+      </button>
+
+      <div id="download-message">
+        <i data-lucide="loader-2" class="h-4 w-4 inline animate-spin mr-1"></i>
+        Please check your downloads folder.
+      </div>
+
+      <p class="mt-4 text-xs text-zinc-500">(Note: This link is unique & works only once for security.)</p>
+    </div>
+  </div>
+
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">
     © <span id="year"></span> BookMintor. All rights reserved.
   </footer>
@@ -453,7 +574,7 @@
     const cover = document.getElementById('coverFace'); 
     const coverImg = document.getElementById('coverImg');
     const coverShine = document.getElementById('coverShine');
-    const loadingSpin = document.getElementById('loadingSpin'); // ⭐ NEW: Spinner element reference
+    const loadingSpin = document.getElementById('loadingSpin'); 
 
     // mark busy for screen readers
     cover.setAttribute('aria-busy', 'true');
@@ -467,7 +588,7 @@
       // Assign the preloaded image to the actual img element
       coverImg.src = preloadImage.src;
       
-      // ⭐ KEY FIX 1: reveal image to LOW opacity (0.6) so spinner is clear
+      // KEY FIX 1: reveal image to LOW opacity (0.6) so spinner is clear
       requestAnimationFrame(()=> {
         coverImg.style.opacity = '0.6'; 
         coverImg.style.transform = 'scale(1)';
@@ -475,7 +596,7 @@
       
       // Keep shine/spin effects visible for 700ms, then fade out smoothly
       setTimeout(() => {
-        // ⭐ KEY FIX 2: Smoothly transition image to full opacity (1)
+        // KEY FIX 2: Smoothly transition image to full opacity (1)
         coverImg.style.opacity = '1'; 
 
         // Start smooth fade for the black shine
@@ -483,14 +604,14 @@
         coverShine.style.opacity = '0';
         coverShine.style.transform = 'translateY(-6px)'; 
 
-        // ⭐ NEW: Start smooth fade out for the loading spin
+        // NEW: Start smooth fade out for the loading spin
         loadingSpin.style.opacity = '0';
 
         // after fade completes, disable animation and hide element for perf
         setTimeout(()=> {
           coverShine.style.animation = 'none';
           coverShine.style.display = 'none';
-          loadingSpin.style.display = 'none'; // ⭐ NEW: Hide spin element
+          loadingSpin.style.display = 'none'; 
           cover.classList.add('loaded');
           cover.setAttribute('aria-busy','false');
         }, 450); 
@@ -500,56 +621,104 @@
     
     // Error handling
     preloadImage.onerror = () => {
-      const err = document.createElement('div'); err.className = 'proc-error'; err.style.display = 'block'; err.textContent = '⚠️ Could not load cover image.'; document.querySelector('.book-wrap').appendChild(err);
-      
-      // Hide the shine and spin effect gently on error too
-      coverShine.style.transition = 'opacity 0.32s ease';
-      coverShine.style.opacity = '0';
-      loadingSpin.style.opacity = '0'; // ⭐ NEW: Hide spin element on error
-      
-      setTimeout(()=> { 
-        coverShine.style.display = 'none'; 
-        loadingSpin.style.display = 'none'; // ⭐ NEW: Hide spin element
-        cover.setAttribute('aria-busy','false'); 
-      }, 360);
+      const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false');
     };
 
-    // misc UI & init
-    AOS.init({ duration: 650, easing: 'ease-out', once: true });
-    lucide.createIcons();
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // buy btn nibble
-    window.addEventListener('load', ()=>{
-      const bling = document.querySelector('#buyBtn .corner-bling');
-      if(bling){ bling.style.opacity = 1; bling.classList.add('animate-cornerPop'); setTimeout(()=>{ bling.style.opacity = 0.75; }, 950); }
-    });
-
-    // details animation handling 
-    document.querySelectorAll('details').forEach(d=>{
-      const content = d.querySelector('.details-content');
-      if(!content) return;
-      d.addEventListener('toggle', ()=>{
-        if(d.open){
-          content.style.height = content.scrollHeight + 'px';
-          setTimeout(()=>{ content.style.height = 'auto'; }, 340);
+    // Details toggle
+    document.querySelectorAll('details').forEach(detail => {
+      detail.addEventListener('toggle', e => {
+        if (detail.open) {
+          const content = detail.querySelector('.details-content');
+          // Wait for a frame to ensure all CSS is applied before calculating scrollHeight
+          requestAnimationFrame(() => {
+             content.style.height = content.scrollHeight + 'px';
+          });
         } else {
-          content.style.height = content.scrollHeight + 'px';
-          requestAnimationFrame(()=>{ content.style.height = '0px'; });
+          const content = detail.querySelector('.details-content');
+          content.style.height = 0;
         }
       });
     });
-    
-    // Show More feedbacks
-    const sm = document.getElementById('showMore');
-    if(sm){
-      sm.addEventListener('click', ()=>{
-        document.querySelectorAll('.extra-feedback').forEach(el=>{
-          el.classList.remove('hidden'); el.classList.add('block');
-        });
-        sm.style.display='none';
-      });
+
+    // Show more feedbacks
+    document.getElementById('showMore').addEventListener('click', e => {
+      document.querySelectorAll('.extra-feedback').forEach(el => el.classList.toggle('hidden'));
+      // Update button text based on visibility of hidden elements
+      e.target.textContent = document.querySelector('.extra-feedback.hidden') ? 'Show More' : 'Show Less';
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Initialize AOS
+    AOS.init({ duration: 800, once: true, offset: 120 });
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // --- PAYMENT VERIFICATION LOGIC (MODIFIED) ---
+    const SECRET_KEY = 'MY_EBOOK_KEY_123';
+    const FILE_ID = '1s0Z4t7k0XYvow07JChpAkB9iwkI6jrRa';
+
+    // Function to get URL parameters
+    function getUrlParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
     }
+    
+    // ⭐ MODIFIED: Function to handle the download button click
+    function handleDownloadClick(button) {
+      const downloadMessage = document.getElementById('download-message');
+      const btnText = document.getElementById('downloadBtnText');
+      const downloadIcon = button.querySelector('[data-lucide="download"]');
+
+      // 1. Add "loading" effect and change button text
+      button.classList.add('loading');
+      btnText.textContent = 'Initiating Download...';
+      downloadIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; // Replace icon with spinner
+      lucide.createIcons(); // Re-render the new icon
+
+      // 2. Show the "Download Starting..." message
+      downloadMessage.classList.add('show');
+
+      // 3. Trigger the actual download after a small delay for visual feedback
+      setTimeout(() => {
+        downloadEbook();
+        
+        // 4. Update the message permanently
+        btnText.textContent = 'Downloaded!';
+        downloadMessage.innerHTML = '<i data-lucide="check-circle" class="h-4 w-4 inline text-emerald-400 mr-1"></i>Please check your downloads folder.';
+        
+        // Re-render new icon in message
+        lucide.createIcons(); 
+      }, 500); // 0.5 seconds delay
+    }
+
+    // Function to trigger actual file download
+    function downloadEbook() {
+      const downloadLink = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
+      window.open(downloadLink, '_blank');
+    }
+
+    // Check for successful payment on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const paymentStatus = getUrlParam('payment_status');
+      const secretKey = getUrlParam('secret_key');
+      const modal = document.getElementById('downloadModal');
+      const modalContent = document.getElementById('modalContent');
+      
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
+        // Hide query parameters from URL
+        history.replaceState(null, '', window.location.pathname);
+        
+        // Show the download modal and apply the animation class
+        modal.style.display = 'flex';
+        modalContent.classList.add('animate-modalFadeIn');
+        
+        // Ensure Lucide icons are created inside the modal
+        lucide.createIcons(); 
+      }
+    });
   </script>
 </body>
 </html>
