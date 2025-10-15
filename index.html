@@ -1,68 +1,356 @@
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ebook Payment</title>
-<style>
-body{font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#f4f6fb;margin:0}
-.card{background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);width:320px;text-align:center}
-input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:6px;font-size:15px}
-button{width:100%;padding:10px;margin-top:10px;border:none;border-radius:6px;background:#1f72ff;color:white;font-weight:bold;font-size:15px;cursor:pointer}
-button:hover{background:#0e5de6}
-.small{font-size:12px;color:#666;margin-top:8px}
-</style>
-</head>
-<body>
-<div class="card">
-<h3>Buy Ebook</h3>
-<form id="buyForm">
-<input id="name" name="name" placeholder="Full Name" required>
-<input id="phone" name="phone" placeholder="Phone (10 digits)" required pattern="[0-9]{10}">
-<input id="email" name="email" type="email" placeholder="Email" required>
-<input id="amount" name="amount" type="number" value="49" min="1" required>
-<button type="submit">Next — Pay</button>
-</form>
-<div class="small">Sandbox / Demo mode</div>
-</div>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BookMintor Premium eBooks.</title>
+  <meta name="description" content="Discover knowledge across every category with BookMintor." />
+  <meta name="theme-color" content="#0b0e13" />
 
-<script>
-// Worker URL — replace with your deployed Cloudflare Worker URL
-const WORKER_URL = "https://flat-butterfly-8616.rdxconfig07.workers.dev";
-
-document.getElementById('buyForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
-  const email = document.getElementById('email').value;
-  const amount = document.getElementById('amount').value;
-
-  try {
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({name, phone, email, amount})
-    });
-
-    const data = await response.json();
-    console.log('Worker response:', data);
-
-    // Check if link_url is returned
-    let link_url = data?.link_url || data?.possible || data?.raw?.link_url || data?.raw?.data?.link_url;
-
-    if(link_url){
-      window.open(link_url, '_blank'); // open Cashfree sandbox in new tab
-    } else {
-      alert('Payment link not created. Check console for details.');
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            indigoGlow: '#6366F1',
+            fuchsiaGlow: '#D946EF',
+          },
+          boxShadow: {
+            glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
+            glass: '0 10px 30px -10px rgba(0,0,0,.45)'
+          },
+          keyframes: {
+            shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
+            floaty: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-4px)' } },
+          },
+          animation: {
+            shine: 'shine 2.6s ease-in-out infinite',
+            floaty: 'floaty 6s ease-in-out infinite',
+          }
+        }
+      }
     }
+  </script>
 
-  } catch(err){
-    console.error('Error calling worker:', err);
-    alert('Network or server error. Check console.');
-  }
-});
-</script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <style>
+    html { scroll-behavior:smooth }
+    body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    /* Hide native scrollbar in horizontal rails */
+    .no-scrollbar::-webkit-scrollbar{ display:none }
+    .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
+  </style>
+</head>
+<body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
+  <!-- ===== Glow Background ===== -->
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/15 blur-[130px]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%)]"></div>
+  </div>
+
+  <!-- ===== Header / Nav ===== -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/40">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+     
+<!-- Brand -->
+<a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
+  <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_40px_rgba(99,102,241,0.35)]">
+    <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+  </div>
+  <span class="text-lg font-semibold tracking-wide text-zinc-200">
+    <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>Mintor
+  </span>
+</a>
+
+      <div class="hidden items-center gap-6 rounded-2xl border border-white/10 bg-white/5 px-5 py-2 backdrop-blur md:flex">
+        <a href="/home/Unavailable.html" class="text-sm text-zinc-300 transition hover:text-white">Categories</a>
+        <a href="/home/Unavailable.html" class="text-sm text-zinc-300 transition hover:text-white">Featured</a>
+        <a href="/home/Unavailable.html" class="text-sm text-zinc-300 transition hover:text-white">About</a>
+        <!-- Library goes to your existing file too -->
+        <a href="/home/Unavailable.html" class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">Library</a>
+      </div>
+      <a href="/home/Unavailable.html" class="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white shadow-[0_0_0_0_rgba(99,102,241,0)] transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">Open Library
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- ===== Main ===== -->
+  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Hero -->
+    <section class="grid items-center gap-10 py-10 md:grid-cols-2 md:py-16 lg:py-20">
+      <div data-aos="fade-up">
+        <h1 class="text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">Premium eBooks<br><span class="bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">for Every Reader.</span></h1>
+        <p class="mt-4 max-w-xl text-base leading-relaxed text-zinc-300/90 sm:text-lg">Hand picked titles, simple design, and a smooth reading experience. just search, choose, and start reading instantly.</p>
+
+        <!-- Search -->
+        <form class="mt-6 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 shadow-glow backdrop-blur" action="book tem.html">
+          <div class="grid h-10 w-10 place-items-center rounded-xl bg-white/5 text-zinc-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <input name="q" placeholder="Search ebooks: Gita, Startup, Python…" class="h-12 w-full flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-400" />
+          <button type="submit" class="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-glow transition active:scale-[0.98]">Find eBooks <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+        </form>
+
+        <!-- Trust badges -->
+        <div class="mt-8 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> Ad‑free UX</span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17l-5 3 1-5-4-4 5-1 3-5 3 5 5 1-4 4 1 5-5-3z"/></svg> Hand‑picked</span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a7 7 0 0 1 14 0v3H5v-3Z"/><path d="M10 18v2a2 2 0 1 0 4 0v-2"/></svg> Smooth Animations</span>
+        </div>
+      </div>
+
+      <!-- Mockup with shiny covers -->
+      <div class="relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="relative rounded-[28px] border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-xl">
+          <div class="rounded-[22px] border border-white/10 bg-gradient-to-br from-zinc-900/60 to-zinc-800/40 p-6 shadow-inner">
+            <div class="mb-4 flex items-center justify-between text-xs text-zinc-400">
+              <span class="inline-flex items-center gap-2"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Multi‑category</span>
+              <span>Top Picks</span>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+              <!-- Shiny cover cards -->
+              <a href="/home/Unavailable.html" class="group relative h-40 overflow-hidden rounded-2xl">
+                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Bhagavad Gita" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
+                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+              </a>
+              <a href="/home/Unavailable.html" class="group relative h-40 overflow-hidden rounded-2xl">
+                <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Writing & Creativity" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
+                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+              </a>
+              <a href="/home/Unavailable.html" class="group relative h-40 overflow-hidden rounded-2xl">
+                <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Mindfulness" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
+                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+              </a>
+              <a href="/home/Unavailable.html" class="group relative h-40 overflow-hidden rounded-2xl">
+                <img src="https://images.unsplash.com/photo-1473186578172-c141e6798cf4?auto=format&fit=crop&w=1200&q=60" alt="Business" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
+                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+              </a>
+              <a href="/home/Unavailable.html" class="group relative h-40 overflow-hidden rounded-2xl">
+                <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=60" alt="Programming" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
+                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+              </a>
+              <a href="/home/Unavailable.html" class="group relative h-40 overflow-hidden rounded-2xl">
+                <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Health" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
+                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="pointer-events-none absolute -inset-2 -z-10 rounded-[34px] bg-gradient-to-tr from-indigo-500/10 via-transparent to-fuchsia-500/10 blur-2xl"></div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories" class="py-6">
+      <h2 class="text-2xl font-bold sm:text-3xl">Browse by Category</h2>
+      <p class="mt-1 text-zinc-400">From Spirituality to Technology, explore every subject in one place.</p>
+      <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Each card fully clickable with / routes -->
+        <a href="/home/spirituality.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Popular</span>
+            <h3 class="mt-3 text-lg font-semibold">Spirituality</h3>
+            <p class="mt-1 text-sm text-zinc-400">Bhakti, Vedanta, Gita, Upanishads</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1400&q=60" alt="Spirituality" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-sky-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Trending</span>
+            <h3 class="mt-3 text-lg font-semibold">Self‑Help</h3>
+            <p class="mt-1 text-sm text-zinc-400">Habits, focus, growth mindset</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=60" alt="Self Help" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-purple-500/15 to-indigo-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">New</span>
+            <h3 class="mt-3 text-lg font-semibold">Technology</h3>
+            <p class="mt-1 text-sm text-zinc-400">Programming, data, AI</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=60" alt="Technology" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-amber-500/15 to-red-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Hot</span>
+            <h3 class="mt-3 text-lg font-semibold">Business</h3>
+            <p class="mt-1 text-sm text-zinc-400">Startup, finance, marketing</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60" alt="Business" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-emerald-500/15 to-teal-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Editors' pick</span>
+            <h3 class="mt-3 text-lg font-semibold">Health & Wellness</h3>
+            <p class="mt-1 text-sm text-zinc-400">Fitness, ayurveda, mental health</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=1400&q=60" alt="Health & Wellness" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="250">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-pink-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Classic</span>
+            <h3 class="mt-3 text-lg font-semibold">Fiction</h3>
+            <p class="mt-1 text-sm text-zinc-400">Stories, novels, literature</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1400&q=60" alt="Fiction" class="h-full w-full object-cover" />
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Featured Slider -->
+    <section id="featured" class="py-10">
+      <h2 class="text-2xl font-bold sm:text-3xl">Featured Selections</h2>
+      <p class="mt-1 text-zinc-400">Top rated eBooks chosen from our most popular categories.</p>
+
+      <div class="mt-5 overflow-x-auto no-scrollbar">
+        <div class="flex gap-4">
+          <!-- Card template repeated -->
+          <a href="/home/Unavailable.html" class="relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=1200&q=60" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Ayurveda for Beginners</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹349</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Health • 18h read</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="50">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Vedic Meditation</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹299</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 22h</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="100">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Gita Demystified" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Gita Demystified</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹199</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 15h</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="150">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Python: Zero → Pro" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Python: Zero → Pro</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹449</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Technology • 30h</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="200">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Upanishads Essentials</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹499</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 30h</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-6 flex gap-3">
+        <a href="/home/Unavailable.html" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="/home/Unavailable.html" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </div>
+
+      <!-- CTA -->
+      <div id="about" class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 class="text-xl font-semibold">Premium feel. Simple experience.</h3>
+            <p class="mt-1 text-sm text-zinc-400">BookMintor makes reading delightful fast.</p>
+          </div>
+          <a href="/home/Unavailable.html" class="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <!-- ===== Footer ===== -->
+  <footer class="mt-10 border-t border-white/10 py-10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-sm text-zinc-400 sm:flex-row">
+      <p>© <span id="year"></span> BookMintor. All rights reserved.</p>
+      <div class="flex items-center gap-6">
+        <a href="/home/Privacy.html" class="hover:text-zinc-200">Privacy</a>
+        <a href="/home/Terms.html" class="hover:text-zinc-200">Terms</a>
+        <a href="/home/Contact.html" class="hover:text-zinc-200">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- ✅ Lucide Icons (ADD THESE TWO LINES) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Init scripts -->
+  <script>
+    // AOS init
+    AOS.init({ duration: 650, easing: 'ease-out', once: true });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ✅ Lucide render (very important)
+    lucide.createIcons();
+  </script>
 </body>
 </html>
