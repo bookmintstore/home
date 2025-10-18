@@ -14,17 +14,22 @@
         extend: {
           boxShadow: {
             glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
-            ctaglow: '0 10px 30px -10px rgba(99,102,241,0.55), 0 0 0 1px rgba(255,255,255,0.06)'
+            ctaglow: '0 10px 30px -10px rgba(99,102,241,0.55), 0 0 0 1px rgba(255,255,255,0.06)',
+            book: '0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2)'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
             btnshine: { '0%': { transform: 'translateX(-120%) skewX(-20deg)' }, '60%': { transform: 'translateX(180%) skewX(-20deg)' }, '100%': { transform: 'translateX(180%) skewX(-20deg)' } },
-            pulseSoft: { '0%,100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.02)' } }
+            pulseSoft: { '0%,100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.02)' } },
+            bookFloat: { '0%,100%': { transform: 'translateY(0) rotateX(5deg) rotateY(5deg)' }, '50%': { transform: 'translateY(-10px) rotateX(5deg) rotateY(-5deg)' } },
+            bookOpen: { '0%': { transform: 'rotateY(0deg)' }, '100%': { transform: 'rotateY(-15deg)' } }
           },
           animation: {
             shine: 'shine 2.8s ease-in-out infinite',
             btnshine: 'btnshine 3.8s ease-in-out infinite',
-            pulseSoft: 'pulseSoft 4.5s ease-in-out infinite'
+            pulseSoft: 'pulseSoft 4.5s ease-in-out infinite',
+            bookFloat: 'bookFloat 6s ease-in-out infinite',
+            bookOpen: 'bookOpen 0.8s ease-out forwards'
           }
         }
       }
@@ -45,10 +50,126 @@
     body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     .no-scrollbar::-webkit-scrollbar{display:none}
     .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
-    .shine-sweep{position:absolute;inset:-2px;transform:skewX(-18deg);}/* cover shine */
     .star-glow{filter: drop-shadow(0 0 6px rgba(245,158,11,.55));}
     .cta-btn{position:relative;overflow:hidden}
     .cta-btn .cta-shine{position:absolute;inset:-8px;transform:translateX(-120%) skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);}
+    
+    /* 3D Book Styles */
+    .book-3d {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+    .book-cover {
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .book-spine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 15px;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+      transform: rotateY(-90deg) translateX(-15px);
+      transform-origin: left center;
+    }
+    .book-pages {
+      position: absolute;
+      left: 15px;
+      top: 5px;
+      width: calc(100% - 20px);
+      height: calc(100% - 10px);
+      background: linear-gradient(to right, #f8fafc, #e2e8f0);
+      transform: rotateY(-180deg);
+      backface-visibility: hidden;
+      border-radius: 0 8px 8px 0;
+      padding: 20px;
+      color: #1e293b;
+      font-size: 0.8rem;
+      overflow: hidden;
+    }
+    .book-pages::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 20px,
+        rgba(0,0,0,0.05) 20px,
+        rgba(0,0,0,0.05) 21px
+      );
+    }
+    .book-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Premium Enhancements */
+    .premium-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .premium-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .premium-card:hover::before {
+      opacity: 1;
+    }
+    
+    /* Book Cover with Image - FIXED SHINE EFFECT */
+    .book-cover-image {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+    .book-cover-shine {
+      position: absolute;
+      inset: -8px;
+      transform: translateX(-120%) skewX(-20deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: btnshine 3.8s ease-in-out infinite;
+      z-index: 2;
+    }
+    
+    /* Compact Layout - FIXED */
+    .compact-card {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      padding: 20px;
+      align-items: center;
+    }
+    .book-section {
+      flex-shrink: 0;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 150px;
+    }
+    .content-section {
+      flex: 1;
+      min-width: 0;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
@@ -94,192 +215,322 @@
 
   <!-- ===== Grid ===== -->
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
 
-      <!-- 1 -->
-      <a href="./Bhagavad-G.html" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up">
-        <div class="relative h-56 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Bhagavad Gita Demystified" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
-          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-rose-500 to-rose-400 px-3 py-1 text-xs font-semibold">Bestseller</span>
+      <!-- 1 - Bhagavad Gita -->
+      <div class="group premium-card rounded-2xl overflow-hidden cursor-pointer compact-card" data-aos="fade-up">
+        <div class="book-section">
+          <!-- 3D Book Container -->
+          <div class="book-3d">
+            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
+              <!-- Book Front Cover with Image Only -->
+              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80')">
+                <!-- Shine effect only on book cover - FIXED -->
+                <div class="book-cover-shine"></div>
+              </div>
+              <!-- Book Spine -->
+              <div class="book-spine rounded-l-lg"></div>
+              <!-- Book Pages (back side) -->
+              <div class="book-pages">
+                <div class="relative z-10">
+                  <h4 class="font-bold text-sm mb-2">Table of Contents</h4>
+                  <ul class="text-xs space-y-1">
+                    <li>• Introduction to Gita</li>
+                    <li>• Karma Yoga</li>
+                    <li>• Bhakti Yoga</li>
+                    <li>• Jnana Yoga</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="p-5">
-          <h3 class="font-semibold text-white">Bhagavad Gita Demystified</h3>
+        
+        <div class="content-section book-content">
+          <h3 class="font-semibold text-white text-lg">Bhagavad Gita Demystified</h3>
           <p class="mt-1 text-sm text-zinc-400">A modern interpretation with practical life applications.</p>
 
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-2 flex items-center gap-2">
             <div class="flex items-center text-amber-400 star-glow">
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 opacity-50"></i>
             </div>
             <span class="text-xs text-zinc-400">(1,147 reviews)</span>
           </div>
 
-          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>1,240+ downloads</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>15h</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>1,200+ readers</span>
+          <div class="mt-2 flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>1,240+</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>15h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>1,200+</span>
           </div>
 
-          <div class="mt-4 flex items-end justify-between">
+          <div class="mt-3 flex items-end justify-between">
             <div>
-              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹199 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">50% OFF</span></div>
+              <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹199 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">50% OFF</span></div>
               <div class="-mt-1 text-xs text-zinc-400 line-through">₹399</div>
+            </div>
+            <button class="cta-btn rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-white shadow-glow transition hover:shadow-ctaglow">
+              <span class="relative z-10">View Details</span>
+              <div class="cta-shine animate-btnshine"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 - Vedic Meditation -->
+      <div class="group premium-card rounded-2xl overflow-hidden cursor-pointer compact-card" data-aos="fade-up" data-aos-delay="60">
+        <div class="book-section">
+          <!-- 3D Book Container -->
+          <div class="book-3d">
+            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
+              <!-- Book Front Cover with Image Only -->
+              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=400&q=80')">
+                <!-- Shine effect only on book cover - FIXED -->
+                <div class="book-cover-shine"></div>
+              </div>
+              <!-- Book Spine -->
+              <div class="book-spine rounded-l-lg"></div>
+              <!-- Book Pages (back side) -->
+              <div class="book-pages">
+                <div class="relative z-10">
+                  <h4 class="font-bold text-sm mb-2">Techniques Included</h4>
+                  <ul class="text-xs space-y-1">
+                    <li>• Breath Awareness</li>
+                    <li>• Mantra Meditation</li>
+                    <li>• Chakra Focus</li>
+                    <li>• Yoga Nidra</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </a>
-
-      <!-- 2 -->
-      <a href="/ebooks/vedic-meditation" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="60">
-        <div class="relative h-56 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation Techniques" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
-          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-500 px-3 py-1 text-xs font-semibold">Trending</span>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold text-white">Vedic Meditation Techniques</h3>
+        
+        <div class="content-section book-content">
+          <h3 class="font-semibold text-white text-lg">Vedic Meditation Techniques</h3>
           <p class="mt-1 text-sm text-zinc-400">17 ancient methods to calm your mind and awaken consciousness.</p>
 
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-2 flex items-center gap-2">
             <div class="flex items-center text-amber-400 star-glow">
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 opacity-50"></i>
             </div>
             <span class="text-xs text-zinc-400">(892 reviews)</span>
           </div>
 
-          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>980+ downloads</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>22h</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>950+ readers</span>
+          <div class="mt-2 flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>980+</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>22h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>950+</span>
           </div>
 
-          <div class="mt-4 flex items-end justify-between">
+          <div class="mt-3 flex items-end justify-between">
             <div>
-              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹299 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">40% OFF</span></div>
+              <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹299 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">40% OFF</span></div>
               <div class="-mt-1 text-xs text-zinc-400 line-through">₹499</div>
+            </div>
+            <button class="cta-btn rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-white shadow-glow transition hover:shadow-ctaglow">
+              <span class="relative z-10">View Details</span>
+              <div class="cta-shine animate-btnshine"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 - Ayurveda -->
+      <div class="group premium-card rounded-2xl overflow-hidden cursor-pointer compact-card" data-aos="fade-up" data-aos-delay="120">
+        <div class="book-section">
+          <!-- 3D Book Container -->
+          <div class="book-3d">
+            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
+              <!-- Book Front Cover with Image Only -->
+              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://bookmintstore.github.io/home/images/1758646277.jpg')">
+                <!-- Shine effect only on book cover - FIXED -->
+                <div class="book-cover-shine"></div>
+              </div>
+              <!-- Book Spine -->
+              <div class="book-spine rounded-l-lg"></div>
+              <!-- Book Pages (back side) -->
+              <div class="book-pages">
+                <div class="relative z-10">
+                  <h4 class="font-bold text-sm mb-2">Topics Covered</h4>
+                  <ul class="text-xs space-y-1">
+                    <li>• Understanding Doshas</li>
+                    <li>• Daily Routines</li>
+                    <li>• Ayurvedic Diet</li>
+                    <li>• Herbal Remedies</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </a>
-
-      <!-- 3 -->
-      <a href="/ebooks/ayurveda" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="120">
-        <div class="relative h-56 overflow-hidden">
-          <img src="https://bookmintstore.github.io/home/images/1758646277.jpg" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
-          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-500 px-3 py-1 text-xs font-semibold">Popular</span>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold text-white">Ayurveda for Beginners</h3>
+        
+        <div class="content-section book-content">
+          <h3 class="font-semibold text-white text-lg">Ayurveda for Beginners</h3>
           <p class="mt-1 text-sm text-zinc-400">Discover your dosha and daily routines for better health.</p>
 
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-2 flex items-center gap-2">
             <div class="flex items-center text-amber-400 star-glow">
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 opacity-50"></i>
             </div>
             <span class="text-xs text-zinc-400">(523 reviews)</span>
           </div>
 
-          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>750+ downloads</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>18h</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>650+ readers</span>
+          <div class="mt-2 flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>750+</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>18h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>650+</span>
           </div>
 
-          <div class="mt-4 flex items-end justify-between">
+          <div class="mt-3 flex items-end justify-between">
             <div>
-              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹349 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">30% OFF</span></div>
+              <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹349 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">30% OFF</span></div>
               <div class="-mt-1 text-xs text-zinc-400 line-through">₹499</div>
+            </div>
+            <button class="cta-btn rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-white shadow-glow transition hover:shadow-ctaglow">
+              <span class="relative z-10">View Details</span>
+              <div class="cta-shine animate-btnshine"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 - Mantras -->
+      <div class="group premium-card rounded-2xl overflow-hidden cursor-pointer compact-card" data-aos="fade-up" data-aos-delay="180">
+        <div class="book-section">
+          <!-- 3D Book Container -->
+          <div class="book-3d">
+            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
+              <!-- Book Front Cover with Image Only -->
+              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80')">
+                <!-- Shine effect only on book cover - FIXED -->
+                <div class="book-cover-shine"></div>
+              </div>
+              <!-- Book Spine -->
+              <div class="book-spine rounded-l-lg"></div>
+              <!-- Book Pages (back side) -->
+              <div class="book-pages">
+                <div class="relative z-10">
+                  <h4 class="font-bold text-sm mb-2">Mantra Categories</h4>
+                  <ul class="text-xs space-y-1">
+                    <li>• Healing Mantras</li>
+                    <li>• Prosperity Mantras</li>
+                    <li>• Protection Mantras</li>
+                    <li>• Wisdom Mantras</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </a>
-
-      <!-- 4 -->
-      <a href="/ebooks/mantras" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="180">
-        <div class="relative h-56 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1200&q=60" alt="Mantras for Transformation" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
-          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-rose-500 to-rose-400 px-3 py-1 text-xs font-semibold">Bestseller</span>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold text-white">Mantras for Transformation</h3>
+        
+        <div class="content-section book-content">
+          <h3 class="font-semibold text-white text-lg">Mantras for Transformation</h3>
           <p class="mt-1 text-sm text-zinc-400">108 sacred mantras with meaning and practice tips.</p>
 
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-2 flex items-center gap-2">
             <div class="flex items-center text-amber-400 star-glow">
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 opacity-50"></i>
             </div>
             <span class="text-xs text-zinc-400">(1,045 reviews)</span>
           </div>
 
-          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>1,050+ downloads</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>25h</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>1,800+ readers</span>
+          <div class="mt-2 flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>1,050+</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>25h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>1,800+</span>
           </div>
 
-          <div class="mt-4 flex items-end justify-between">
+          <div class="mt-3 flex items-end justify-between">
             <div>
-              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹399 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">20% OFF</span></div>
+              <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹399 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">20% OFF</span></div>
               <div class="-mt-1 text-xs text-zinc-400 line-through">₹499</div>
+            </div>
+            <button class="cta-btn rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-white shadow-glow transition hover:shadow-ctaglow">
+              <span class="relative z-10">View Details</span>
+              <div class="cta-shine animate-btnshine"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 - Upanishads -->
+      <div class="group premium-card rounded-2xl overflow-hidden cursor-pointer compact-card" data-aos="fade-up" data-aos-delay="240">
+        <div class="book-section">
+          <!-- 3D Book Container -->
+          <div class="book-3d">
+            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
+              <!-- Book Front Cover with Image Only -->
+              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png')">
+                <!-- Shine effect only on book cover - FIXED -->
+                <div class="book-cover-shine"></div>
+              </div>
+              <!-- Book Spine -->
+              <div class="book-spine rounded-l-lg"></div>
+              <!-- Book Pages (back side) -->
+              <div class="book-pages">
+                <div class="relative z-10">
+                  <h4 class="font-bold text-sm mb-2">Upanishads Covered</h4>
+                  <ul class="text-xs space-y-1">
+                    <li>• Isha Upanishad</li>
+                    <li>• Kena Upanishad</li>
+                    <li>• Katha Upanishad</li>
+                    <li>• Prashna Upanishad</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </a>
-
-      <!-- 5 -->
-      <a href="/ebooks/upanishads" class="group block overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur xl shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="240">
-        <div class="relative h-56 overflow-hidden">
-          <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]" />
-          <div class="pointer-events-none absolute inset-0"><div class="shine-sweep animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-          <span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-br from-pink-500 to-fuchsia-500 px-3 py-1 text-xs font-semibold">Trending</span>
-        </div>
-        <div class="p-5">
-          <h3 class="font-semibold text-white">Upanishads Essentials</h3>
+        
+        <div class="content-section book-content">
+          <h3 class="font-semibold text-white text-lg">Upanishads Essentials</h3>
           <p class="mt-1 text-sm text-zinc-400">Key teachings from 10 principal Upanishads.</p>
 
-          <div class="mt-3 flex items-center gap-2">
+          <div class="mt-2 flex items-center gap-2">
             <div class="flex items-center text-amber-400 star-glow">
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 fill-current"></i>
-              <i data-lucide="star" class="h-4 w-4 opacity-50"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 fill-current"></i>
+              <i data-lucide="star" class="h-3 w-3 opacity-50"></i>
             </div>
             <span class="text-xs text-zinc-400">(736 reviews)</span>
           </div>
 
-          <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300/90">
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="download" class="h-3.5 w-3.5"></i>520+ downloads</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="clock" class="h-3.5 w-3.5"></i>30h</span>
-            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1"><i data-lucide="users" class="h-3.5 w-3.5"></i>950+ readers</span>
+          <div class="mt-2 flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>520+</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>30h</span>
+            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>950+</span>
           </div>
 
-          <div class="mt-4 flex items-end justify-between">
+          <div class="mt-3 flex items-end justify-between">
             <div>
-              <div class="text-3xl font-extrabold tracking-tight text-emerald-300">₹499 <span class="align-middle ml-2 rounded-full bg-emerald-600/20 px-2 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">17% OFF</span></div>
+              <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹499 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">17% OFF</span></div>
               <div class="-mt-1 text-xs text-zinc-400 line-through">₹599</div>
             </div>
+            <button class="cta-btn rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-white shadow-glow transition hover:shadow-ctaglow">
+              <span class="relative z-10">View Details</span>
+              <div class="cta-shine animate-btnshine"></div>
+            </button>
           </div>
         </div>
-      </a>
+      </div>
 
     </div>
   </main>
