@@ -486,6 +486,47 @@
     .extra-feedback {
       display: none;
     }
+
+    /* **START OF NEW CSS FOR PAYMENT MODAL** */
+    /* ⭐ NEW: Jumping Globs Loader CSS */
+    .jumping-loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        height: 40px;
+    }
+    .jumping-loader div {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #a855f7; /* Fuchsia-500 */
+        transform: translateY(0);
+        animation: jump 1.2s infinite ease-in-out;
+        box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+    }
+    .jumping-loader .glob-2 { animation-delay: -0.24s; }
+    .jumping-loader .glob-3 { animation-delay: -0.48s; }
+    .jumping-loader .glob-4 { animation-delay: -0.72s; }
+    .jumping-loader .glob-5 { animation-delay: -0.96s; }
+
+    @keyframes jump {
+        0%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-25px); }
+        70% { transform: translateY(-10px); }
+    }
+
+    /* Modal close button fix for payment modal */
+    #paymentModalCloseButton {
+        opacity: 1 !important; 
+        pointer-events: auto !important;
+        position: absolute !important;
+        top: 12px !important;
+        right: 12px !important;
+        z-index: 21; /* Above loader and iframe */
+    }
+    /* **END OF NEW CSS FOR PAYMENT MODAL** */
+
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -609,7 +650,6 @@
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
 
       <div class="space-y-4" id="feedback-list">
-        <!-- Feedback 1 -->
         <div class="feedback-item animate-slideUp">
           <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div>
           <div class="feedback-content">
@@ -635,7 +675,6 @@
           </div>
         </div>
 
-        <!-- Feedback 2 -->
         <div class="feedback-item animate-slideUp">
           <div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div>
           <div class="feedback-content">
@@ -661,7 +700,6 @@
           </div>
         </div>
 
-        <!-- Feedback 3 -->
         <div class="feedback-item animate-slideUp">
           <div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div>
           <div class="feedback-content">
@@ -687,7 +725,6 @@
           </div>
         </div>
 
-        <!-- Feedback 4 -->
         <div class="feedback-item animate-slideUp">
           <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div>
           <div class="feedback-content">
@@ -713,7 +750,6 @@
           </div>
         </div>
 
-        <!-- Feedback 5 -->
         <div class="feedback-item animate-slideUp">
           <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div>
           <div class="feedback-content">
@@ -739,8 +775,6 @@
           </div>
         </div>
 
-        <!-- Extra Feedbacks (Hidden Initially) -->
-        <!-- Feedback 6 -->
         <div class="feedback-item extra-feedback">
           <div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div>
           <div class="feedback-content">
@@ -766,7 +800,6 @@
           </div>
         </div>
 
-        <!-- Feedback 7 -->
         <div class="feedback-item extra-feedback">
           <div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">D</div>
           <div class="feedback-content">
@@ -792,7 +825,6 @@
           </div>
         </div>
 
-        <!-- Feedback 8 -->
         <div class="feedback-item extra-feedback">
           <div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div>
           <div class="feedback-content">
@@ -818,7 +850,6 @@
           </div>
         </div>
 
-        <!-- Feedback 9 -->
         <div class="feedback-item extra-feedback">
           <div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">O</div>
           <div class="feedback-content">
@@ -844,7 +875,6 @@
           </div>
         </div>
 
-        <!-- Feedback 10 -->
         <div class="feedback-item extra-feedback">
           <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">E</div>
           <div class="feedback-content">
@@ -903,6 +933,37 @@
     </div>
   </div>
 
+  <div id="paymentModal" class="modal">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0;">
+        <button id="paymentModalCloseButton" onclick="closePaymentModal()">
+            <i data-lucide="x" class="h-6 w-6"></i>
+        </button>
+        
+        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+            <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
+                <div class="jumping-loader">
+                    <div class="glob-1"></div>
+                    <div class="glob-2"></div>
+                    <div class="glob-3"></div>
+                    <div class="glob-4"></div>
+                    <div class="glob-5"></div>
+                </div>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Redirecting to Secure Payment...</p>
+            </div>
+
+            <iframe 
+                id="cashfreeIframe" 
+                src="https://payments.cashfree.com/forms/crhsd3qs" 
+                frameborder="0" 
+                width="100%" 
+                height="100%" 
+                style="border-radius: 12px; display: none;"
+            ></iframe>
+        </div>
+        
+        <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
+    </div>
+  </div>
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">
     © <span id="year"></span> BookMintor. All rights reserved.
   </footer>
@@ -920,6 +981,14 @@
     const modalContent = document.getElementById('modalContent');
     const modalCloseButton = document.getElementById('modalCloseButton');
     const downloadButton = document.getElementById('downloadButton');
+
+    // **NEW DOM refs for Payment Modal**
+    const buyBtn = document.getElementById('buyBtn');
+    const paymentModal = document.getElementById('paymentModal');
+    const paymentModalContent = document.getElementById('paymentModalContent');
+    const paymentLoader = document.getElementById('paymentLoader');
+    const cashfreeIframe = document.getElementById('cashfreeIframe');
+    const paymentModalCloseButton = document.getElementById('paymentModalCloseButton');
 
     // mark busy for screen readers
     cover.setAttribute('aria-busy', 'true');
@@ -1151,6 +1220,57 @@
         }, 5000); 
     }
 
+    // **START OF NEW JAVASCRIPT FOR PAYMENT MODAL**
+    
+    // Function to show the payment modal
+    function openPaymentModal() {
+        paymentModal.style.display = 'flex';
+        paymentModalContent.classList.add('animate-modalFadeIn');
+        
+        // 1. Show loader
+        paymentLoader.style.display = 'flex';
+        cashfreeIframe.style.display = 'none';
+
+        // 2. Hide loader and show iframe after a short delay
+        setTimeout(() => {
+            paymentLoader.style.opacity = '0';
+            
+            // Check if modal is still open before showing iframe
+            if (paymentModal.style.display === 'flex') {
+                cashfreeIframe.style.display = 'block';
+                // Note: The iframe is already loaded with the Cashfree link in HTML
+            }
+            
+            setTimeout(() => {
+                paymentLoader.style.display = 'none';
+                paymentLoader.style.opacity = '1'; // Reset opacity for next time
+            }, 400); // Wait for opacity transition
+        }, 3000); // 3 seconds loading time with jumping balls
+    }
+
+    // Function to smoothly close the payment modal
+    function closePaymentModal() {
+        paymentModalContent.classList.remove('animate-modalFadeIn');
+        paymentModalContent.classList.add('animate-modalFadeOut');
+        
+        paymentModal.classList.add('closing');
+
+        setTimeout(() => {
+            paymentModal.style.display = 'none';
+            paymentModalContent.classList.remove('animate-modalFadeOut');
+            paymentModal.classList.remove('closing');
+        }, 400); 
+    }
+
+    // Event Listener for 'Buy Now' button
+    buyBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default anchor link behavior
+        openPaymentModal();
+    });
+
+    // **END OF NEW JAVASCRIPT FOR PAYMENT MODAL**
+
+
     // Check for successful payment on page load
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
@@ -1164,6 +1284,9 @@
         
         lucide.createIcons(); 
       }
+      
+      // Ensure all Lucide icons are created on DOM load, including the new modal's X button
+      lucide.createIcons(); 
     });
   </script>
 </body>
