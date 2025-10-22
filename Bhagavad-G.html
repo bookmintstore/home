@@ -398,6 +398,94 @@
         /* ⭐ CHANGE 2: जब क्लास add हो, तभी क्लिक इवेंट को सक्रिय करें */
         pointer-events: auto; 
     }
+
+    /* NEW: User Avatar Styles */
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: white;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    
+    /* Feedback Layout Improvements */
+    .feedback-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .feedback-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+    
+    .feedback-content {
+      flex: 1;
+    }
+    
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    
+    .user-details {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+    
+    .user-location {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    
+    .feedback-date {
+      font-size: 0.75rem;
+      color: #64748b;
+      text-align: right;
+    }
+    
+    .feedback-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+    
+    .feedback-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* Hide extra feedbacks initially */
+    .extra-feedback {
+      display: none;
+    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -520,155 +608,266 @@
       <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
 
-      <div class="grid gap-4 md:grid-cols-2" id="feedback-list">
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+      <div class="space-y-4" id="feedback-list">
+        <!-- Feedback 1 -->
+        <div class="feedback-item animate-slideUp">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Aarav</div>
+                  <div class="user-location">India</div>
+                </div>
+              </div>
+              <div class="feedback-date">27 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">27 Aug 2025 • 2:14 PM</span>
+            <div class="feedback-text">This ebook completely changed my perspective on life! The practical examples helped me apply the teachings in my daily routine.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star-half" class="h-4 w-4 half"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"This ebook completely changed my perspective on life!"</p>
-          <span class="text-xs text-zinc-400">— Aarav, India</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 empty"></i>
+        <!-- Feedback 2 -->
+        <div class="feedback-item animate-slideUp">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Emma</div>
+                  <div class="user-location">UK</div>
+                </div>
+              </div>
+              <div class="feedback-date">25 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">25 Aug 2025 • 6:02 PM</span>
+            <div class="feedback-text">Simple yet profound. Easy to read and understand. As someone new to spiritual texts, this was the perfect introduction.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 empty"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"Simple yet profound. Easy to read and understand."</p>
-          <span class="text-xs text-zinc-400">— Emma, UK</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
+        <!-- Feedback 3 -->
+        <div class="feedback-item animate-slideUp">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Michael</div>
+                  <div class="user-location">USA</div>
+                </div>
+              </div>
+              <div class="feedback-date">24 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">22 Aug 2025 • 11:35 AM</span>
+            <div class="feedback-text">The wisdom feels so relevant to modern challenges. I've been applying the principles at work and noticed a significant improvement in my decision-making.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"The wisdom feels so relevant to modern challenges."</p>
-          <span class="text-xs text-zinc-400">— Michael, USA</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 empty"></i>
+        <!-- Feedback 4 -->
+        <div class="feedback-item animate-slideUp">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Sophia</div>
+                  <div class="user-location">Canada</div>
+                </div>
+              </div>
+              <div class="feedback-date">22 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">18 Aug 2025 • 9:18 PM</span>
+            <div class="feedback-text">I've read many versions, but this one is the most relatable for modern readers. The language is accessible without losing the depth of the original text.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star-half" class="h-4 w-4 half"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"Reading it gave me peace and direction."</p>
-          <span class="text-xs text-zinc-400">— Li Wei, China</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+        <!-- Feedback 5 -->
+        <div class="feedback-item animate-slideUp">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Rahul</div>
+                  <div class="user-location">India</div>
+                </div>
+              </div>
+              <div class="feedback-date">20 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">14 Aug 2025 • 3:47 PM</span>
+            <div class="feedback-text">Perfect balance of traditional wisdom and contemporary relevance. The chapter summaries helped me retain key concepts.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"A must-have for anyone seeking clarity."</p>
-          <span class="text-xs text-zinc-400">— Sophia, Canada</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+        <!-- Extra Feedbacks (Hidden Initially) -->
+        <!-- Feedback 6 -->
+        <div class="feedback-item extra-feedback">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Priya</div>
+                  <div class="user-location">India</div>
+                </div>
+              </div>
+              <div class="feedback-date">18 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">10 Aug 2025 • 7:02 PM</span>
+            <div class="feedback-text">Reading it gave me peace and direction during a difficult phase. The practical exercises at the end of each chapter are incredibly helpful.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star-half" class="h-4 w-4 half"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"Beautifully structured. The summaries are super helpful."</p>
-          <span class="text-xs text-zinc-400">— Priya, India</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 empty"></i>
+        <!-- Feedback 7 -->
+        <div class="feedback-item extra-feedback">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">D</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Daniel</div>
+                  <div class="user-location">Australia</div>
+                </div>
+              </div>
+              <div class="feedback-date">16 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">06 Aug 2025 • 10:26 AM</span>
+            <div class="feedback-text">Great translation, very accessible for beginners. I appreciated how complex concepts were broken down into understandable segments.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 empty"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"Great translation, very accessible for beginners."</p>
-          <span class="text-xs text-zinc-400">— Daniel, Australia</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+        <!-- Feedback 8 -->
+        <div class="feedback-item extra-feedback">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Neha</div>
+                  <div class="user-location">India</div>
+                </div>
+              </div>
+              <div class="feedback-date">14 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">04 Aug 2025 • 8:11 PM</span>
+            <div class="feedback-text">Loved the practical notes and exercises at the end of chapters. They helped me internalize the teachings rather than just reading them.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star-half" class="h-4 w-4 half"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"Loved the practical notes and exercises at the end of chapters."</p>
-          <span class="text-xs text-zinc-400">— Neha, India</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 empty"></i>
+        <!-- Feedback 9 -->
+        <div class="feedback-item extra-feedback">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">O</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Omar</div>
+                  <div class="user-location">UAE</div>
+                </div>
+              </div>
+              <div class="feedback-date">12 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">02 Aug 2025 • 5:30 PM</span>
+            <div class="feedback-text">Clear language. I finally understood the core ideas that were always confusing in other translations. Highly recommended for beginners.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 empty"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"Clear language. I finally understood the core ideas."</p>
-          <span class="text-xs text-zinc-400">— Omar, UAE</span>
         </div>
 
-        <div class="p-4 rounded-xl bg-white/5 shadow-glow animate-slideUp hidden extra-feedback">
-          <div class="flex items-center justify-between mb-1">
-            <div class="star-glow flex items-center gap-1">
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star" class="h-4 w-4 filled"></i>
-              <i data-lucide="star-half" class="h-4 w-4 half"></i>
+        <!-- Feedback 10 -->
+        <div class="feedback-item extra-feedback">
+          <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">E</div>
+          <div class="feedback-content">
+            <div class="feedback-header">
+              <div class="user-info">
+                <div class="user-details">
+                  <div class="user-name">Elena</div>
+                  <div class="user-location">Spain</div>
+                </div>
+              </div>
+              <div class="feedback-date">10 Aug 2025</div>
             </div>
-            <span class="text-[11px] text-zinc-400">31 Jul 2025 • 4:58 PM</span>
+            <div class="feedback-text">The commentary connects ancient wisdom to daily life perfectly. I've been sharing insights with my friends and family.</div>
+            <div class="feedback-rating">
+              <div class="star-glow flex items-center gap-1">
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star" class="h-4 w-4 filled"></i>
+                <i data-lucide="star-half" class="h-4 w-4 half"></i>
+              </div>
+            </div>
           </div>
-          <p class="text-sm">"The commentary connects ancient wisdom to daily life perfectly."</p>
-          <span class="text-xs text-zinc-400">— Elena, Spain</span>
         </div>
       </div>
 
@@ -780,16 +979,21 @@
 
     // Show more feedbacks
     document.getElementById('showMore').addEventListener('click', e => {
-      const hiddenFeedbacks = document.querySelectorAll('.extra-feedback.hidden');
-      const allExtraFeedbacks = document.querySelectorAll('.extra-feedback');
+      const hiddenFeedbacks = document.querySelectorAll('.extra-feedback');
+      const showMoreBtn = e.target;
       
-      if (hiddenFeedbacks.length > 0) {
-        allExtraFeedbacks.forEach(el => el.classList.remove('hidden'));
-        e.target.textContent = 'Show Less';
+      if (hiddenFeedbacks.length > 0 && hiddenFeedbacks[0].style.display === 'none') {
+        // Show all hidden feedbacks
+        hiddenFeedbacks.forEach(el => {
+          el.style.display = 'flex';
+        });
+        showMoreBtn.textContent = 'Show Less';
       } else {
-        // Hide all extra feedback elements after the 4th index
-        Array.from(allExtraFeedbacks).slice(4).forEach(el => el.classList.add('hidden')); 
-        e.target.textContent = 'Show More';
+        // Hide all extra feedbacks
+        hiddenFeedbacks.forEach(el => {
+          el.style.display = 'none';
+        });
+        showMoreBtn.textContent = 'Show More';
       }
     });
 
