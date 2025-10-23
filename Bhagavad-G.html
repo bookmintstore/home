@@ -17,6 +17,7 @@
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
+            // MODIFIED: btnshine duration remains 3.0s for smooth, lite effect
             btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
@@ -57,7 +58,7 @@
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
-            btnshine: 'btnshine 2.6s ease-in-out infinite',
+            btnshine: 'btnshine 3.0s ease-in-out infinite', /* Retained: Slower Shine */
             slideUp: 'slideUp .45s ease-out forwards',
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
             aura: 'aura 2.4s ease-in-out infinite',
@@ -133,7 +134,7 @@
       will-change: opacity, transform;
     }
 
-    /* ⭐ MODIFIED: Bestseller/Trending Tag - Smaller and Tight Corner Fit */
+    /* Bestseller/Trending Tag */
     .cover-tag {
       position: absolute;
       top: 0px; 
@@ -141,7 +142,7 @@
       z-index: 10;
       background: linear-gradient(135deg, #f59e0b, #f97316);
       color: white;
-      font-size: 0.6rem; /* Smaller Font Size */
+      font-size: 0.6rem; 
       font-weight: 700;
       padding: 4px 10px 4px 12px; 
       border-bottom-left-radius: 6px; 
@@ -163,7 +164,7 @@
       animation: tagShine 1.0s ease-in-out infinite; 
     }
 
-    /* MODIFIED: LITE BLACK VERY FAST SHINE - ONLY DURING LOADING */
+    /* LITE BLACK VERY FAST SHINE - ONLY DURING LOADING */
     .cover-shine {
       position:absolute; inset:0; z-index:6; pointer-events:none;
       background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%);
@@ -229,7 +230,7 @@
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
 
-    /* ⭐ MODIFIED: Stats Layout - Smaller Value, No Glow, Premium Look */
+    /* Stats Layout */
     .stats-section {
         display: flex;
         justify-content: space-around; 
@@ -245,27 +246,27 @@
         padding: 0 8px;
     }
     .stat-value {
-        font-size: 1.35rem; /* Reduced size for clean, premium look */
-        font-weight: 700; /* Slightly less bold */
+        font-size: 1.35rem; 
+        font-weight: 700; 
         line-height: 1.1;
-        color: #e0f2f1; /* Sharp, modern light color (no glow) */
+        color: #e0f2f1; 
         margin-bottom: 4px;
-        text-shadow: none; /* Glow removed as requested */
+        text-shadow: none; 
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 6px;
     }
     .stat-value svg {
-        color: #a855f7; /* Fuchsia-500 for the Icon */
-        filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); /* Icon glow retained */
+        color: #a855f7; 
+        filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); 
     }
     .stat-label {
         font-size: 0.75rem;
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        color: #94a3b8; /* Slate-400 */
+        color: #94a3b8; 
     }
     .stat-divider {
         display: none; 
@@ -286,14 +287,18 @@
     }
     .modal-content {
         position: relative; 
-        background-color: #111827; 
-        color: white; 
+        /* ⭐ MODIFIED: Changed background to White for pop-up */
+        background-color: #ffffff; 
+        /* ⭐ MODIFIED: Changed default text color for white background */
+        color: #1f2937; 
         padding: 30px; 
         border-radius: 12px; 
-        width: 90%; 
-        max-width: 450px;
-        border: 1px solid rgba(99,102,241,0.2); 
-        box-shadow: 0 5px 20px rgba(0,0,0,0.5), var(--tw-shadow-modalGlow); 
+        width: 80%; 
+        max-width: 400px;
+        /* MODIFIED: Border color adjusted for white background */
+        border: 1px solid rgba(0,0,0,0.1); 
+        /* MODIFIED: Shadow adjusted for white background */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); 
         opacity: 0; 
         transform: translateY(20px) scale(0.95); 
     }
@@ -304,12 +309,13 @@
         overflow: hidden;
         display: inline-flex; 
         align-items: center; 
+        justify-content: center;
         gap: 8px;
         background-color: #4CAF50; 
         background-image: linear-gradient(135deg, #4CAF50, #10B981); 
         color: white; 
         padding: 12px 25px; 
-        margin-top: 20px;
+        margin-top: 0px; /* Reduced margin top here, added to parent div */
         text-decoration: none; 
         border-radius: 8px;
         font-weight: bold; 
@@ -332,11 +338,12 @@
         position: absolute;
         inset: -6px;
         transform: translateX(-140%) skewX(-30deg);
-        background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 45%, rgba(255,255,255,0.4) 60%, rgba(255,255,255,0) 100%); 
+        /* MODIFIED: Reduced white shine opacity for a lighter, smoother effect */
+        background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); 
         mix-blend-mode: screen; 
         pointer-events: none;
         opacity: 1;
-        animation: btnshine 2.6s ease-in-out infinite;
+        animation: btnshine 3.0s ease-in-out infinite;
     }
     
     /* Button Disabled State (One-Time Click) */
@@ -356,22 +363,6 @@
       pointer-events: none;
     }
 
-    /* Style for the "Download Starting..." message */
-    #download-message {
-      margin-top: 15px;
-      font-size: 1em;
-      color: #6366f1; 
-      font-weight: 500;
-      opacity: 0;
-      height: 0;
-      overflow: hidden;
-      transition: opacity 0.4s ease-out, height 0.4s ease-out;
-    }
-    #download-message.show {
-      opacity: 1;
-      height: 25px;
-    }
-    
     /* Close Button Style */
     #modalCloseButton {
         position: absolute;
@@ -382,24 +373,49 @@
         cursor: pointer;
         padding: 8px;
         border-radius: 50%;
-        color: #94a3b8; 
+        /* MODIFIED: Changed color for white background */
+        color: #64748b; 
         opacity: 0; 
-        /* ⭐ CHANGE 1: जब opacity 0 हो, तो क्लिक इवेंट को निष्क्रिय करें */
         pointer-events: none; 
-        transition: opacity 0.3s ease, color 0.2s ease;
+        transition: opacity 0.3s ease, color 0.2s ease, background-color 0.2s ease;
         z-index: 1010;
     }
     #modalCloseButton:hover {
-        color: #e2e8f0; 
-        background-color: rgba(255, 255, 255, 0.05);
+        /* MODIFIED: Hover background for white modal */
+        color: #1f2937; 
+        background-color: rgba(0, 0, 0, 0.05);
     }
     #modalCloseButton.show-close {
         opacity: 1;
-        /* ⭐ CHANGE 2: जब क्लास add हो, तभी क्लिक इवेंट को सक्रिय करें */
         pointer-events: auto; 
     }
+    
+    /* ⭐ MODIFIED: Style for the cover image wrapper in the pop-up (BOX-SHADOW REMOVED) */
+    .modal-cover-wrap {
+      /* Small size for better visibility on white popup */
+      width: 96px; /* w-24 */
+      height: 128px; /* h-32 */
+      overflow: hidden;
+      border-radius: 6px;
+      /* Box-shadow removed to merge white background */
+    }
+    .modal-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* --- NEW FEEDBACK MODAL CSS --- */
+    .feedback-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+    .feedback-success-icon {
+        filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5));
+    }
 
-    /* NEW: User Avatar Styles */
+
+    /* User Avatar, Feedback, and Payment Modal styles (unchanged) */
     .user-avatar {
       width: 36px;
       height: 36px;
@@ -413,8 +429,6 @@
       margin-right: 12px;
       flex-shrink: 0;
     }
-    
-    /* Feedback Layout Improvements */
     .feedback-item {
       display: flex;
       align-items: flex-start;
@@ -424,71 +438,20 @@
       margin-bottom: 12px;
       transition: all 0.3s ease;
     }
-    
     .feedback-item:hover {
       background: rgba(255, 255, 255, 0.08);
       transform: translateY(-2px);
     }
-    
-    .feedback-content {
-      flex: 1;
-    }
-    
-    .feedback-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-    }
-    
-    .user-info {
-      display: flex;
-      align-items: center;
-    }
-    
-    .user-details {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .user-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #e2e8f0;
-    }
-    
-    .user-location {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: 2px;
-    }
-    
-    .feedback-date {
-      font-size: 0.75rem;
-      color: #64748b;
-      text-align: right;
-    }
-    
-    .feedback-text {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      color: #cbd5e1;
-      margin-bottom: 8px;
-    }
-    
-    .feedback-rating {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    
-    /* Hide extra feedbacks initially */
-    .extra-feedback {
-      display: none;
-    }
-
-    /* **START OF NEW CSS FOR PAYMENT MODAL** */
-    /* ⭐ NEW: Jumping Globs Loader CSS */
+    .feedback-content { flex: 1; }
+    .feedback-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .user-info { display: flex; align-items: center; }
+    .user-details { display: flex; flex-direction: column; }
+    .user-name { font-weight: 600; font-size: 0.9rem; color: #e2e8f0; }
+    .user-location { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+    .feedback-date { font-size: 0.75rem; color: #64748b; text-align: right; }
+    .feedback-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 8px; }
+    .feedback-rating { display: flex; align-items: center; gap: 4px; }
+    .extra-feedback { display: none; }
     .jumping-loader {
         display: flex;
         align-items: center;
@@ -500,7 +463,7 @@
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: #a855f7; /* Fuchsia-500 */
+        background-color: #a855f7; 
         transform: translateY(0);
         animation: jump 1.2s infinite ease-in-out;
         box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
@@ -509,23 +472,19 @@
     .jumping-loader .glob-3 { animation-delay: -0.48s; }
     .jumping-loader .glob-4 { animation-delay: -0.72s; }
     .jumping-loader .glob-5 { animation-delay: -0.96s; }
-
     @keyframes jump {
         0%, 100% { transform: translateY(0); }
         40% { transform: translateY(-25px); }
         70% { transform: translateY(-10px); }
     }
-
-    /* Modal close button fix for payment modal */
     #paymentModalCloseButton {
         opacity: 1 !important; 
         pointer-events: auto !important;
         position: absolute !important;
         top: 12px !important;
         right: 12px !important;
-        z-index: 21; /* Above loader and iframe */
+        z-index: 21; 
     }
-    /* **END OF NEW CSS FOR PAYMENT MODAL** */
 
   </style>
 </head>
@@ -912,31 +871,63 @@
         <i data-lucide="x" class="h-6 w-6"></i>
       </button>
 
-      <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-emerald-400">
-        <i data-lucide="check-circle" class="h-6 w-6"></i>
-        <span>Payment Successful!</span>
-      </h2>
-      <p class="mb-4 text-zinc-300">Thank you for your purchase, Your reading journey begins now…</p>
+      <div class="flex flex-col items-center justify-center mb-6">
+        <div class="modal-cover-wrap mb-4">
+           <img id="modalCoverImg" src="https://bookmintstore.github.io/home/images/1761220935.jpg" alt="Downloaded eBook Cover" />
+        </div>
+        
+        <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-indigo-700">
+          <i data-lucide="lock" class="h-5 w-5"></i>
+          <span>Your Ebook Unlocked!</span>
+        </h2>
+        <p class="text-sm text-gray-700 text-center">Thank you for your purchase. Your premium reading experience is ready.</p>
+      </div>
       
-      <button id="downloadButton" class="download-button" onclick="handleDownloadClick(this)">
-        <i data-lucide="download" class="h-5 w-5"></i>
+      <button id="downloadButton" class="download-button w-full mt-2" onclick="handleDownloadClick(this)">
+        <i data-lucide="download" class="h-5 w-5"></i> 
         <span id="downloadBtnText">Download Your eBook</span>
         <span class="btn-shine"></span>
       </button>
 
-      <div id="download-message">
-        <i data-lucide="loader-2" class="h-4 w-4 inline animate-spin mr-1"></i>
-        Please check your downloads folder.
-      </div>
-
-      <p class="mt-4 text-xs text-zinc-500">Note: This link is unique & works only once for security.</p>
+      <p class="mt-4 text-xs text-gray-500 text-center">Note: This link is unique & works only once for security.</p>
     </div>
   </div>
 
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content" id="feedbackModalContent" style="max-width: 400px; padding: 30px; background-color: #ffffff; color: #1f2937;">
+        
+        <h2 class="text-xl font-bold mb-2 text-indigo-700 text-center">Tell us what you think!</h2>
+        <p class="text-sm text-gray-600 text-center mb-6">Your honest feedback helps us improve.</p>
+
+        <div id="feedbackForm">
+            <textarea id="feedbackTextarea" rows="4" placeholder="Type your honest feedback here (Optional)..." class="feedback-textarea w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-700"></textarea>
+            
+            <div class="flex flex-col gap-3 mt-4">
+                <button id="submitFeedbackBtn" class="download-button w-full" style="background-image: linear-gradient(135deg, #6366f1, #a855f7); margin-top: 0px;" onclick="submitFeedback()">
+                    <i data-lucide="send" class="h-5 w-5"></i> 
+                    <span id="submitFeedbackText">Submit Feedback</span>
+                    <span class="btn-shine"></span>
+                </button>
+
+                <button id="noThanksBtn" class="w-full text-sm font-semibold text-gray-500 hover:text-indigo-600 transition" onclick="closeFeedbackModal(true)">
+                    No Thanks, take me back
+                </button>
+            </div>
+        </div>
+
+        <div id="feedbackSuccess" class="text-center py-8 hidden">
+            <i data-lucide="check-circle" class="h-10 w-10 text-emerald-500 mx-auto mb-4 feedback-success-icon"></i>
+            <h3 class="text-xl font-bold text-emerald-600">Thanks for your feedback!</h3>
+            <p class="text-sm text-gray-700 mt-2">Redirecting you to the library...</p>
+        </div>
+    </div>
+  </div>
+
+
   <div id="paymentModal" class="modal">
-    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0;">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
         <button id="paymentModalCloseButton" onclick="closePaymentModal()">
-            <i data-lucide="x" class="h-6 w-6"></i>
+            <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
         </button>
         
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
@@ -969,8 +960,12 @@
   </footer>
 
   <script>
-    // --- CONFIG: change this IMAGE URL if needed ---
+    // ⭐ CONFIGURATION: Yeh URL Main Page (Payment se Pehle) 3D Mockup mein show hoga
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
+
+    // DO NOT CHANGE: Google Drive File ID for download
+    const FILE_ID = '1s0Z4t7k0XYvow07JChpAkB9iwkI6jrRa'; 
+    const SECRET_KEY = 'MY_EBOOK_KEY_123'; 
 
     // DOM refs
     const cover = document.getElementById('coverFace'); 
@@ -981,6 +976,12 @@
     const modalContent = document.getElementById('modalContent');
     const modalCloseButton = document.getElementById('modalCloseButton');
     const downloadButton = document.getElementById('downloadButton');
+    
+    // **NEW DOM refs for Feedback Modal**
+    const feedbackModal = document.getElementById('feedbackModal');
+    const feedbackModalContent = document.getElementById('feedbackModalContent');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const feedbackSuccess = document.getElementById('feedbackSuccess');
 
     // **NEW DOM refs for Payment Modal**
     const buyBtn = document.getElementById('buyBtn');
@@ -992,9 +993,12 @@
 
     // mark busy for screen readers
     cover.setAttribute('aria-busy', 'true');
+    let downloadInitiated = false; 
+    const REDIRECT_URL = 'https://bookmintstore.github.io/home/spirituality.html';
 
     // Preload image
     const preloadImage = new Image();
+    // Use SOURCE_IMAGE here for the main page cover
     preloadImage.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now(); 
     
     // Image load logic for smooth black shine effect
@@ -1046,7 +1050,7 @@
       });
     });
 
-    // Show more feedbacks
+    // Show more feedbacks (Functionality remains the same)
     document.getElementById('showMore').addEventListener('click', e => {
       const hiddenFeedbacks = document.querySelectorAll('.extra-feedback');
       const showMoreBtn = e.target;
@@ -1075,7 +1079,7 @@
     // Initialize Lucide icons
     lucide.createIcons();
 
-    // --- Counting Animation Logic (for Stats) ---
+    // --- Counting Animation Logic (for Stats) --- (Unchanged)
     function animateCount(element, start, end, duration) {
         let startTime = null;
         let isFloat = end % 1 !== 0; 
@@ -1103,7 +1107,7 @@
         window.requestAnimationFrame(step);
     }
 
-    // Intersection Observer to trigger counting animation on scroll
+    // Intersection Observer to trigger counting animation on scroll (Unchanged)
     const statsSection = document.getElementById('stats-section');
     let hasAnimated = false;
 
@@ -1130,80 +1134,15 @@
 
     observer.observe(statsSection);
 
-    // --- PAYMENT VERIFICATION LOGIC ---
-    const SECRET_KEY = 'MY_EBOOK_KEY_123';
-    const FILE_ID = '1s0Z4t7k0XYvow07JChpAkB9iwkI6jrRa';
-    let downloadInitiated = false; 
-
-    // Function to get URL parameters
+    // --- DOWNLOAD AND REDIRECT LOGIC ---
+    
+    // Function to get URL parameters (Unchanged)
     function getUrlParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
     
-    // Function to handle the download button click (One-time use logic added)
-    function handleDownloadClick(button) {
-      if (downloadInitiated) return; 
-
-      const downloadMessage = document.getElementById('download-message');
-      const btnText = document.getElementById('downloadBtnText');
-      
-      downloadInitiated = true; 
-      button.disabled = true; 
-
-      // ⭐ यहाँ पर क्रॉस बटन को विजिबल और क्लिकेबल बनाया जा रहा है
-      modalCloseButton.classList.add('show-close');
-
-      let currentIcon = button.querySelector('[data-lucide="download"], [data-lucide="loader-2"]');
-      
-      // 1. Add "loading" effect and change button text
-      button.classList.add('loading');
-      btnText.textContent = 'Initiating Download...';
-      
-      if (currentIcon) {
-          currentIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; 
-          lucide.createIcons(); 
-      }
-
-      // 2. Show the "Download Starting..." message
-      downloadMessage.classList.add('show');
-
-      // 3. Trigger the actual download after a small delay for visual feedback
-      setTimeout(() => {
-        downloadEbook();
-        
-        // 4. Update the button and message permanently
-        btnText.textContent = 'Downloaded!';
-        button.classList.remove('loading');
-        
-        let spinnerIcon = button.querySelector('[data-lucide="loader-2"]');
-        if (spinnerIcon) {
-          spinnerIcon.outerHTML = '<i data-lucide="check-circle" class="h-5 w-5"></i>';
-          lucide.createIcons(); 
-        }
-
-        downloadMessage.innerHTML = '<i data-lucide="check-circle" class="h-4 w-4 inline text-emerald-400 mr-1"></i> Please check your downloads folder.';
-        lucide.createIcons();
-
-      }, 500); 
-    }
-
-    // Function to smoothly close the download modal
-    function closeDownloadModal() {
-        modalContent.classList.remove('animate-modalFadeIn');
-        modalContent.classList.add('animate-modalFadeOut');
-        
-        downloadModal.classList.add('closing');
-
-        setTimeout(() => {
-            downloadModal.style.display = 'none';
-            modalContent.classList.remove('animate-modalFadeOut');
-            downloadModal.classList.remove('closing');
-            
-        }, 400); 
-    }
-
-    // Function to trigger actual file download using a hidden iframe
+    // Function to trigger actual file download (Unchanged)
     function downloadEbook() {
         const downloadLink = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
 
@@ -1220,7 +1159,132 @@
         }, 5000); 
     }
 
-    // **START OF NEW JAVASCRIPT FOR PAYMENT MODAL**
+    // Handle download button click (Unchanged, just updates state)
+    function handleDownloadClick(button) {
+      if (downloadInitiated) return; 
+
+      const btnText = document.getElementById('downloadBtnText');
+      
+      downloadInitiated = true; 
+      button.disabled = true; 
+
+      // Cross button is made visible and clickable
+      modalCloseButton.classList.add('show-close');
+
+      let currentIcon = button.querySelector('[data-lucide="download"], [data-lucide="loader-2"]');
+      
+      // 1. Add "loading" effect and change button text
+      button.classList.add('loading');
+      btnText.textContent = 'Initiating Download...';
+      
+      if (currentIcon) {
+          currentIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; 
+          lucide.createIcons(); 
+      }
+
+      // 2. Trigger the actual download after a small delay for visual feedback
+      setTimeout(() => {
+        downloadEbook();
+        
+        // 3. Update the button permanently (Downloaded!)
+        btnText.textContent = 'Downloaded!';
+        button.classList.remove('loading');
+        
+        let spinnerIcon = button.querySelector('[data-lucide="loader-2"]');
+        if (spinnerIcon) {
+          spinnerIcon.outerHTML = '<i data-lucide="check-circle" class="h-5 w-5"></i>';
+          lucide.createIcons(); 
+        }
+
+        lucide.createIcons();
+
+      }, 500); 
+    }
+
+    // ⭐ MODIFIED: Function to handle closing the Download Modal
+    function closeDownloadModal() {
+        modalContent.classList.remove('animate-modalFadeIn');
+        modalContent.classList.add('animate-modalFadeOut');
+        downloadModal.classList.add('closing');
+
+        setTimeout(() => {
+            downloadModal.style.display = 'none';
+            modalContent.classList.remove('animate-modalFadeOut');
+            downloadModal.classList.remove('closing');
+
+            // If the download was completed and the cross button was active, open feedback modal
+            if (downloadInitiated) {
+                openFeedbackModal();
+            }
+            
+        }, 400); 
+    }
+    
+    // --- NEW FEEDBACK MODAL FUNCTIONS ---
+
+    function openFeedbackModal() {
+        feedbackModal.style.display = 'flex';
+        feedbackModalContent.classList.add('animate-modalFadeIn');
+        
+        // Reset state
+        feedbackForm.style.display = 'block';
+        feedbackSuccess.style.display = 'none';
+        document.getElementById('feedbackTextarea').value = ''; 
+
+        // Important: Ensure Lucide icons are created for the new modal content
+        lucide.createIcons();
+    }
+    
+    function closeFeedbackModal(shouldRedirect = false) {
+        feedbackModalContent.classList.remove('animate-modalFadeIn');
+        feedbackModalContent.classList.add('animate-modalFadeOut');
+        
+        feedbackModal.classList.add('closing');
+
+        setTimeout(() => {
+            feedbackModal.style.display = 'none';
+            feedbackModalContent.classList.remove('animate-modalFadeOut');
+            feedbackModal.classList.remove('closing');
+            
+            // Redirect if confirmed (either via No Thanks or after success message)
+            if (shouldRedirect) {
+                window.location.href = REDIRECT_URL;
+            }
+        }, 400); 
+    }
+
+    function submitFeedback() {
+        const feedbackText = document.getElementById('feedbackTextarea').value;
+        const submitBtn = document.getElementById('submitFeedbackBtn');
+        const submitText = document.getElementById('submitFeedbackText');
+
+        // Simple validation/handling (it's fake submission, so mainly visual feedback)
+        
+        // Disable button and show loader effect (using the green download style for visual consistency)
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        submitText.textContent = 'Sending...';
+
+        // Simulate network delay
+        setTimeout(() => {
+            // 1. Hide form and show success message
+            feedbackForm.style.display = 'none';
+            feedbackSuccess.style.display = 'block';
+            
+            // 2. Redirect after 3 seconds
+            setTimeout(() => {
+                closeFeedbackModal(true); // Close and redirect
+            }, 3000); 
+
+            // Cleanup
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            submitText.textContent = 'Submit Feedback'; // Reset for next time (if used)
+            
+        }, 1000); 
+    }
+
+    // **PAYMENT MODAL JAVASCRIPT** (Unchanged)
     
     // Function to show the payment modal
     function openPaymentModal() {
@@ -1238,7 +1302,6 @@
             // Check if modal is still open before showing iframe
             if (paymentModal.style.display === 'flex') {
                 cashfreeIframe.style.display = 'block';
-                // Note: The iframe is already loaded with the Cashfree link in HTML
             }
             
             setTimeout(() => {
@@ -1268,17 +1331,16 @@
         openPaymentModal();
     });
 
-    // **END OF NEW JAVASCRIPT FOR PAYMENT MODAL**
-
-
     // Check for successful payment on page load
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
       
       if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
+        // Clean URL after successful payment verification
         history.replaceState(null, '', window.location.pathname);
         
+        // Show the Download Pop-up
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
         
