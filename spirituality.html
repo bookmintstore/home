@@ -160,8 +160,8 @@
         inset: 0;
         transform: skewX(-20deg) translateX(-100%);
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6) 50%, transparent); 
-        /* 🔥 ENHANCEMENT: Added easing, faster duration, and delay */
-        animation: ultraSmoothShine 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.5s;
+        /* 🔥 FIX: Removed 1.5s delay to synchronize all shine animations */
+        animation: ultraSmoothShine 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
         pointer-events: none;
     }
     
