@@ -17,7 +17,6 @@
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
-            // MODIFIED: btnshine duration remains 3.0s for smooth, lite effect
             btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
@@ -35,7 +34,7 @@
               '100%': { left: '120%', opacity: '0' }
             },
             coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
-            glowspin: {
+            glowspin: { // Keeping glowspin keyframes for the main cover loading effect
               '0%': { transform: 'rotate(0deg)' },
               '100%': { transform: 'rotate(360deg)' }
             },
@@ -54,11 +53,29 @@
             tagShine: {
               '0%': { transform: 'translateX(-140%) skewX(-30deg)' },
               '100%': { transform: 'translateX(220%) skewX(-30deg)' }
-            }
+            },
+            // ⭐ FIXED: Shake Animation for smoother, more premium feel
+            shakeModal: {
+                '0%, 100%': { transform: 'translateX(0)' }, 
+                '10%': { transform: 'translateX(-4px)' },
+                '20%': { transform: 'translateX(3px)' },
+                '30%': { transform: 'translateX(-3px)' },
+                '40%': { transform: 'translateX(2px)' },
+                '50%': { transform: 'translateX(-2px)' },
+                '60%': { transform: 'translateX(1px)' },
+                '70%': { transform: 'translateX(-1px)' },
+                '80%': { transform: 'translateX(0.5px)' },
+                '90%': { transform: 'translateX(-0.5px)' }
+            },
+            redGlow: {
+                '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' },
+                '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' }
+            },
+            /* waveJump keyframes removed from here and added to raw CSS */
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
-            btnshine: 'btnshine 3.0s ease-in-out infinite', /* Retained: Slower Shine */
+            btnshine: 'btnshine 3.0s ease-in-out infinite', 
             slideUp: 'slideUp .45s ease-out forwards',
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
             aura: 'aura 2.4s ease-in-out infinite',
@@ -66,10 +83,14 @@
             fastShimmer: 'fastShimmer 0.8s linear infinite',
             highlightMove: 'highlightMove 0.9s linear infinite',
             coverFast: 'coverFast 0.45s linear infinite',
-            glowspin: 'glowspin 0.8s linear infinite',
+            glowspin: 'glowspin 1.2s linear infinite',
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
             modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
-            tagShine: 'tagShine 1.0s ease-in-out infinite'
+            tagShine: 'tagShine 1.0s ease-in-out infinite',
+            // ⭐ FIXED: Shake animation uses new duration and timing
+            shakeModal: 'shakeModal 0.8s ease-in-out 1',
+            redGlow: 'redGlow 2.5s infinite ease-in-out',
+            /* waveJump animation removed from here */
           }
         }
       }
@@ -81,6 +102,13 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
+    
+    /* ⭐ FIXED: RAW CSS KEYFRAMES for waveJump - This ensures the loader works with CDN */
+    @keyframes waveJump {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); } /* Reduced jump height as requested */
+    }
+
     /* general */
     body{font-family:'Poppins',sans-serif}
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
@@ -97,7 +125,7 @@
     details[open] summary svg{transform:rotate(180deg)}
     .details-content{overflow:hidden; height:0; transition:height .32s ease}
 
-    /* book 3D */
+    /* book 3D (unchanged) */
     .book-wrap { perspective:1600px; display:flex; align-items:center; justify-content:center; }
     .book-3d {
       width: 240px; 
@@ -110,7 +138,7 @@
     }
     .book-3d:hover { transform: rotateY(-8deg) rotateX(6deg) translateY(-8px); }
 
-    /* cover */
+    /* cover (unchanged) */
     .cover {
       position:absolute;
       width: 100%;
@@ -134,37 +162,53 @@
       will-change: opacity, transform;
     }
 
-    /* Bestseller/Trending Tag */
-    .cover-tag {
-      position: absolute;
-      top: 0px; 
-      right: 0px; 
-      z-index: 10;
-      background: linear-gradient(135deg, #f59e0b, #f97316);
-      color: white;
-      font-size: 0.6rem; 
-      font-weight: 700;
-      padding: 4px 10px 4px 12px; 
-      border-bottom-left-radius: 6px; 
-      box-shadow: 0 0 8px rgba(245,158,11,0.7); 
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      overflow: hidden;
-      transform-origin: top right;
-      transform: rotate(0deg); 
+    /* ⭐ MODIFIED: NEW Subtle Custom Tag CSS for light box and transparent text */
+    .subtle-tag {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px; /* Smaller gap */
+        
+        /* Light Box/Card style */
+        background-color: rgba(255, 255, 255, 0.08); /* Light box background */
+        backdrop-filter: blur(2px); 
+        border: 1px solid rgba(255, 255, 255, 0.15); /* Light border */
+        
+        font-size: 0.75rem; 
+        font-weight: 700;
+        padding: 4px 10px; 
+        border-radius: 6px; 
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: default;
+        margin-bottom: 8px; /* Space below the tag */
     }
-    .cover-tag-shine {
-      position: absolute;
-      inset: -6px;
-      transform: translateX(-140%) skewX(-30deg);
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 45%, rgba(255,255,255,0.6) 60%, rgba(255,255,255,0) 100%); 
-      mix-blend-mode: screen;
-      pointer-events: none;
-      opacity: 1; 
-      animation: tagShine 1.0s ease-in-out infinite; 
+    
+    .subtle-tag .tag-text {
+        /* Text Transparent Gradient */
+        background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        line-height: 1; 
     }
 
-    /* LITE BLACK VERY FAST SHINE - ONLY DURING LOADING */
+    .subtle-tag .tag-shine {
+        /* Subtler Shine */
+        position: absolute;
+        inset: -6px;
+        transform: translateX(-140%) skewX(-30deg);
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); 
+        mix-blend-mode: overlay; 
+        pointer-events: none;
+        opacity: 0.8; 
+        animation: tagShine 3.0s ease-in-out infinite; 
+    }
+
+    /* LITE BLACK VERY FAST SHINE - ONLY DURING LOADING (unchanged) */
     .cover-shine {
       position:absolute; inset:0; z-index:6; pointer-events:none;
       background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%);
@@ -176,7 +220,7 @@
       filter: blur(8px);
     }
     
-    /* Loading Glow Spin Effect (Outer Container) */
+    /* Loading Glow Spin Effect (Outer Container) (unchanged) */
     .cover-loading-spin {
       position: absolute;
       inset: 0;
@@ -201,7 +245,7 @@
       opacity: 0;
     }
 
-    /* Spine, Pages, Edges (Original structure) */
+    /* Spine, Pages, Edges (Original structure) (unchanged) */
     .spine {
       position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
     }
@@ -230,7 +274,7 @@
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
 
-    /* Stats Layout */
+    /* Stats Layout (unchanged) */
     .stats-section {
         display: flex;
         justify-content: space-around; 
@@ -272,7 +316,7 @@
         display: none; 
     }
     
-    /* Modal (Popup) CSS */
+    /* Modal (Popup) CSS (unchanged) */
     .modal {
         display: none; 
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -287,23 +331,19 @@
     }
     .modal-content {
         position: relative; 
-        /* ⭐ MODIFIED: Changed background to White for pop-up */
         background-color: #ffffff; 
-        /* ⭐ MODIFIED: Changed default text color for white background */
         color: #1f2937; 
         padding: 30px; 
         border-radius: 12px; 
         width: 80%; 
         max-width: 400px;
-        /* MODIFIED: Border color adjusted for white background */
         border: 1px solid rgba(0,0,0,0.1); 
-        /* MODIFIED: Shadow adjusted for white background */
         box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); 
         opacity: 0; 
         transform: translateY(20px) scale(0.95); 
     }
     
-    /* Download Button CSS for Shine and Click effect */
+    /* Download Button CSS for Shine and Click effect (unchanged) */
     .download-button {
         position: relative;
         overflow: hidden;
@@ -315,7 +355,7 @@
         background-image: linear-gradient(135deg, #4CAF50, #10B981); 
         color: white; 
         padding: 12px 25px; 
-        margin-top: 0px; /* Reduced margin top here, added to parent div */
+        margin-top: 0px; 
         text-decoration: none; 
         border-radius: 8px;
         font-weight: bold; 
@@ -333,12 +373,11 @@
         box-shadow: 0 2px 5px rgba(16,185,129,0.3);
     }
     
-    /* Shine Effect on Button */
+    /* Shine Effect on Button (unchanged) */
     .download-button .btn-shine {
         position: absolute;
         inset: -6px;
         transform: translateX(-140%) skewX(-30deg);
-        /* MODIFIED: Reduced white shine opacity for a lighter, smoother effect */
         background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); 
         mix-blend-mode: screen; 
         pointer-events: none;
@@ -346,7 +385,7 @@
         animation: btnshine 3.0s ease-in-out infinite;
     }
     
-    /* Button Disabled State (One-Time Click) */
+    /* Button Disabled State (One-Time Click) (unchanged) */
     .download-button:disabled {
         opacity: 0.6;
         cursor: not-allowed;
@@ -357,13 +396,13 @@
     .download-button:disabled .btn-shine {
       display: none; 
     }
-    /* Loading/Processing State */
+    /* Loading/Processing State (unchanged) */
     .download-button.loading {
       opacity: 0.7;
       pointer-events: none;
     }
 
-    /* Close Button Style */
+    /* Close Button Style (unchanged) */
     #modalCloseButton {
         position: absolute;
         top: 10px;
@@ -373,7 +412,6 @@
         cursor: pointer;
         padding: 8px;
         border-radius: 50%;
-        /* MODIFIED: Changed color for white background */
         color: #64748b; 
         opacity: 0; 
         pointer-events: none; 
@@ -381,7 +419,6 @@
         z-index: 1010;
     }
     #modalCloseButton:hover {
-        /* MODIFIED: Hover background for white modal */
         color: #1f2937; 
         background-color: rgba(0, 0, 0, 0.05);
     }
@@ -390,14 +427,12 @@
         pointer-events: auto; 
     }
     
-    /* ⭐ MODIFIED: Style for the cover image wrapper in the pop-up (BOX-SHADOW REMOVED) */
+    /* Style for the cover image wrapper in the pop-up (BOX-SHADOW REMOVED) (unchanged) */
     .modal-cover-wrap {
-      /* Small size for better visibility on white popup */
-      width: 96px; /* w-24 */
-      height: 128px; /* h-32 */
+      width: 96px; 
+      height: 128px; 
       overflow: hidden;
       border-radius: 6px;
-      /* Box-shadow removed to merge white background */
     }
     .modal-cover-wrap img {
       width: 100%;
@@ -405,7 +440,7 @@
       object-fit: cover;
     }
     
-    /* --- NEW FEEDBACK MODAL CSS --- */
+    /* NEW FEEDBACK MODAL CSS (unchanged) */
     .feedback-textarea {
         resize: vertical;
         min-height: 100px;
@@ -452,31 +487,37 @@
     .feedback-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 8px; }
     .feedback-rating { display: flex; align-items: center; gap: 4px; }
     .extra-feedback { display: none; }
+    
+    /* ⭐ FIXED: Loader CSS - Revert to Wave/Jumping Balls (Animation property is used here) */
     .jumping-loader {
-        display: flex;
-        align-items: center;
+        display: flex; 
         justify-content: center;
-        gap: 10px;
-        height: 40px;
+        align-items: center;
+        height: 60px; /* Space for jumping */
     }
-    .jumping-loader div {
-        width: 10px;
-        height: 10px;
+    .jumping-loader .ball {
+        width: 14px; 
+        height: 14px;
+        margin: 0 4px;
+        background-color: #a855f7; /* Fuchsia-500 */
         border-radius: 50%;
-        background-color: #a855f7; 
-        transform: translateY(0);
-        animation: jump 1.2s infinite ease-in-out;
-        box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+        display: inline-block;
     }
-    .jumping-loader .glob-2 { animation-delay: -0.24s; }
-    .jumping-loader .glob-3 { animation-delay: -0.48s; }
-    .jumping-loader .glob-4 { animation-delay: -0.72s; }
-    .jumping-loader .glob-5 { animation-delay: -0.96s; }
-    @keyframes jump {
-        0%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-25px); }
-        70% { transform: translateY(-10px); }
+    .jumping-loader .ball:nth-child(1) {
+        animation: waveJump 0.8s ease-in-out infinite 0s; /* Now references raw @keyframes waveJump */
     }
+    .jumping-loader .ball:nth-child(2) {
+        animation: waveJump 0.8s ease-in-out infinite 0.1s; 
+    }
+    .jumping-loader .ball:nth-child(3) {
+        animation: waveJump 0.8s ease-in-out infinite 0.2s; 
+    }
+    
+    /* Hiding the old spinner */
+    #paymentLoader .loading-half-wheel {
+        display: none !important; 
+    }
+    
     #paymentModalCloseButton {
         opacity: 1 !important; 
         pointer-events: auto !important;
@@ -485,7 +526,53 @@
         right: 12px !important;
         z-index: 21; 
     }
-
+    
+    /* --- CONFIRMATION MODAL CSS --- */
+    #confirmationModal {
+        display: none; 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 1020; 
+        align-items: center; justify-content: center;
+        opacity: 0; 
+        backdrop-filter: blur(0px); 
+        transition: opacity 0.3s ease, backdrop-filter 0.3s ease; 
+    }
+    #confirmationModal.active {
+        opacity: 1; 
+        backdrop-filter: blur(4px); 
+    }
+    
+    #confirmationContent {
+        background: #1e293b; 
+        backdrop-filter: none; 
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        width: 80%;
+        max-width: 380px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); 
+        transition: box-shadow 0.3s ease;
+    }
+    
+    /* Red Smooth Glow Text (unchanged) */
+    .conf-text-glow {
+        color: #f87171; 
+        font-weight: 700;
+        font-size: 1.25rem; 
+        text-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+        animation: redGlow 2.5s infinite ease-in-out;
+        transition: all 0.3s;
+    }
+    
+    /* Blur Payment Modal (to be applied when confirmationModal is active) (unchanged) */
+    .payment-modal-blur .modal-content#paymentModalContent {
+        filter: blur(4px) brightness(0.7);
+        pointer-events: none; 
+        transition: filter 0.3s ease, brightness 0.3s ease; 
+    }
+    
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -509,10 +596,6 @@
       <div class="book-wrap" data-aos="fade-right">
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true"> 
-            <div class="cover-tag">
-              Trending
-              <span class="cover-tag-shine"></span>
-            </div>
             
             <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true">
               <div class="loading-half-wheel animate-glowspin"></div>
@@ -532,6 +615,9 @@
       </div>
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
+        <div id="custom-tag-container">
+          </div>
+        
         <h1 class="text-3xl font-bold">Bhagavad Gita Demystified</h1>
         <p class="text-zinc-300">A modern interpretation of the 700 verses with practical life applications.</p>
         
@@ -926,19 +1012,18 @@
 
   <div id="paymentModal" class="modal">
     <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
-        <button id="paymentModalCloseButton" onclick="closePaymentModal()">
+        <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
             <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
         </button>
         
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader">
-                    <div class="glob-1"></div>
-                    <div class="glob-2"></div>
-                    <div class="glob-3"></div>
-                    <div class="glob-4"></div>
-                    <div class="glob-5"></div>
+                    <div class="ball"></div>
+                    <div class="ball"></div>
+                    <div class="ball"></div>
                 </div>
+                
                 <p class="mt-8 text-lg font-semibold text-indigo-400">Redirecting to Secure Payment...</p>
             </div>
 
@@ -955,6 +1040,27 @@
         <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
     </div>
   </div>
+
+  <div id="confirmationModal">
+    <div id="confirmationContent">
+        <div class="mb-4">
+            <i data-lucide="alert-triangle" class="h-8 w-8 text-red-400 mx-auto mb-2"></i>
+            <p class="conf-text-glow text-lg">Are you sure to exit payment?</p>
+        </div>
+        <p class="text-sm text-zinc-300 mb-6">Exiting now may cancel your transaction. Your payment information is secure.</p>
+        
+        <div class="flex flex-col gap-3">
+            <button id="cancelExitBtn" class="download-button w-full" style="background-image: linear-gradient(135deg, #ef4444, #dc2626); margin-top: 0px;" onclick="confirmExitPayment(false)">
+                <i data-lucide="check" class="h-5 w-5"></i> 
+                No, Continue Payment
+            </button>
+            
+            <button id="confirmExitBtn" class="w-full text-sm font-semibold text-zinc-400 hover:text-white transition" onclick="confirmExitPayment(true)">
+                Yes, Exit Payment
+            </button>
+        </div>
+    </div>
+  </div>
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">
     © <span id="year"></span> BookMintor. All rights reserved.
   </footer>
@@ -964,8 +1070,11 @@
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
     // DO NOT CHANGE: Google Drive File ID for download
-    const FILE_ID = '1s0Z4t7k0XYvow07JChpAkB9iwkI6jrRa'; 
+    const FILE_ID = '1s0Z4t7k0XYvow07ChpAkB9iwkI6jrRa'; 
     const SECRET_KEY = 'MY_EBOOK_KEY_123'; 
+    
+    // ⭐ CONFIGURATION: Change this text to whatever you want, or set it to an empty string ("") to hide the tag completely.
+    const CUSTOM_TAG_TEXT = 'Popular'; // Examples: 'Trending', 'New', 'Best Seller', 'Popular'
 
     // DOM refs
     const cover = document.getElementById('coverFace'); 
@@ -990,18 +1099,27 @@
     const paymentLoader = document.getElementById('paymentLoader');
     const cashfreeIframe = document.getElementById('cashfreeIframe');
     const paymentModalCloseButton = document.getElementById('paymentModalCloseButton');
+    
+    // ⭐ NEW DOM refs for Confirmation Modal
+    const confirmationModal = document.getElementById('confirmationModal');
+    const confirmationContent = document.getElementById('confirmationContent');
+    const body = document.body;
+    
+    // ⭐ NEW DOM refs for Custom Tag
+    const customTagContainer = document.getElementById('custom-tag-container');
+
 
     // mark busy for screen readers
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
     const REDIRECT_URL = 'https://bookmintstore.github.io/home/spirituality.html';
 
-    // Preload image
+    // Preload image (unchanged)
     const preloadImage = new Image();
     // Use SOURCE_IMAGE here for the main page cover
     preloadImage.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now(); 
     
-    // Image load logic for smooth black shine effect
+    // Image load logic for smooth black shine effect (unchanged)
     preloadImage.onload = () => {
       coverImg.src = preloadImage.src;
       
@@ -1030,12 +1148,12 @@
       }, 700); 
     };
     
-    // Error handling
+    // Error handling (unchanged)
     preloadImage.onerror = () => {
       const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false');
     };
 
-    // Details toggle
+    // Details toggle (unchanged)
     document.querySelectorAll('details').forEach(detail => {
       detail.addEventListener('toggle', e => {
         if (detail.open) {
@@ -1070,7 +1188,7 @@
       }
     });
 
-    // Footer year
+    // Footer year (unchanged)
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Initialize AOS
@@ -1078,6 +1196,20 @@
 
     // Initialize Lucide icons
     lucide.createIcons();
+    
+    // ⭐ MODIFIED: Custom Tag Initializer uses new classes for subtle styling
+    if (CUSTOM_TAG_TEXT && customTagContainer) {
+        customTagContainer.innerHTML = `
+            <div class="subtle-tag">
+                <i data-lucide="zap" class="h-3 w-3 text-indigo-300"></i>
+                <span class="tag-text">${CUSTOM_TAG_TEXT}</span>
+                <span class="tag-shine"></span>
+            </div>
+        `;
+        lucide.createIcons(); // Re-create icons to render the zap icon
+    }
+    // If CUSTOM_TAG_TEXT is empty, the container remains empty and nothing is displayed.
+
 
     // --- Counting Animation Logic (for Stats) --- (Unchanged)
     function animateCount(element, start, end, duration) {
@@ -1134,15 +1266,13 @@
 
     observer.observe(statsSection);
 
-    // --- DOWNLOAD AND REDIRECT LOGIC ---
+    // --- DOWNLOAD AND REDIRECT LOGIC (unchanged) ---
     
-    // Function to get URL parameters (Unchanged)
     function getUrlParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
     
-    // Function to trigger actual file download (Unchanged)
     function downloadEbook() {
         const downloadLink = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
 
@@ -1159,7 +1289,6 @@
         }, 5000); 
     }
 
-    // Handle download button click (Unchanged, just updates state)
     function handleDownloadClick(button) {
       if (downloadInitiated) return; 
 
@@ -1168,12 +1297,10 @@
       downloadInitiated = true; 
       button.disabled = true; 
 
-      // Cross button is made visible and clickable
       modalCloseButton.classList.add('show-close');
 
       let currentIcon = button.querySelector('[data-lucide="download"], [data-lucide="loader-2"]');
       
-      // 1. Add "loading" effect and change button text
       button.classList.add('loading');
       btnText.textContent = 'Initiating Download...';
       
@@ -1182,11 +1309,9 @@
           lucide.createIcons(); 
       }
 
-      // 2. Trigger the actual download after a small delay for visual feedback
       setTimeout(() => {
         downloadEbook();
         
-        // 3. Update the button permanently (Downloaded!)
         btnText.textContent = 'Downloaded!';
         button.classList.remove('loading');
         
@@ -1201,7 +1326,6 @@
       }, 500); 
     }
 
-    // ⭐ MODIFIED: Function to handle closing the Download Modal
     function closeDownloadModal() {
         modalContent.classList.remove('animate-modalFadeIn');
         modalContent.classList.add('animate-modalFadeOut');
@@ -1212,7 +1336,6 @@
             modalContent.classList.remove('animate-modalFadeOut');
             downloadModal.classList.remove('closing');
 
-            // If the download was completed and the cross button was active, open feedback modal
             if (downloadInitiated) {
                 openFeedbackModal();
             }
@@ -1220,18 +1343,16 @@
         }, 400); 
     }
     
-    // --- NEW FEEDBACK MODAL FUNCTIONS ---
+    // --- FEEDBACK MODAL FUNCTIONS (unchanged) ---
 
     function openFeedbackModal() {
         feedbackModal.style.display = 'flex';
         feedbackModalContent.classList.add('animate-modalFadeIn');
         
-        // Reset state
         feedbackForm.style.display = 'block';
         feedbackSuccess.style.display = 'none';
         document.getElementById('feedbackTextarea').value = ''; 
 
-        // Important: Ensure Lucide icons are created for the new modal content
         lucide.createIcons();
     }
     
@@ -1246,7 +1367,6 @@
             feedbackModalContent.classList.remove('animate-modalFadeOut');
             feedbackModal.classList.remove('closing');
             
-            // Redirect if confirmed (either via No Thanks or after success message)
             if (shouldRedirect) {
                 window.location.href = REDIRECT_URL;
             }
@@ -1258,96 +1378,132 @@
         const submitBtn = document.getElementById('submitFeedbackBtn');
         const submitText = document.getElementById('submitFeedbackText');
 
-        // Simple validation/handling (it's fake submission, so mainly visual feedback)
-        
-        // Disable button and show loader effect (using the green download style for visual consistency)
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
         submitText.textContent = 'Sending...';
 
-        // Simulate network delay
         setTimeout(() => {
-            // 1. Hide form and show success message
             feedbackForm.style.display = 'none';
             feedbackSuccess.style.display = 'block';
             
-            // 2. Redirect after 3 seconds
             setTimeout(() => {
-                closeFeedbackModal(true); // Close and redirect
+                closeFeedbackModal(true); 
             }, 3000); 
 
-            // Cleanup
             submitBtn.disabled = false;
             submitBtn.classList.remove('loading');
-            submitText.textContent = 'Submit Feedback'; // Reset for next time (if used)
+            submitText.textContent = 'Submit Feedback'; 
             
         }, 1000); 
     }
 
-    // **PAYMENT MODAL JAVASCRIPT** (Unchanged)
+    // **PAYMENT MODAL JAVASCRIPT**
     
-    // Function to show the payment modal
+    // Function to show the payment modal (unchanged)
     function openPaymentModal() {
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
         
-        // 1. Show loader
         paymentLoader.style.display = 'flex';
         cashfreeIframe.style.display = 'none';
+        paymentLoader.style.opacity = '1'; 
 
-        // 2. Hide loader and show iframe after a short delay
-        setTimeout(() => {
+        window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
             
-            // Check if modal is still open before showing iframe
             if (paymentModal.style.display === 'flex') {
                 cashfreeIframe.style.display = 'block';
             }
             
             setTimeout(() => {
                 paymentLoader.style.display = 'none';
-                paymentLoader.style.opacity = '1'; // Reset opacity for next time
-            }, 400); // Wait for opacity transition
-        }, 3000); // 3 seconds loading time with jumping balls
+            }, 400); 
+        }, 3000); 
+    }
+    
+    // ⭐ FIXED: Function to show the custom confirmation modal and apply blur + SHAKE
+    function openConfirmationModal() {
+        // 1. Show modal and blur background
+        confirmationModal.style.display = 'flex'; 
+        body.classList.add('payment-modal-blur');
+        lucide.createIcons(); 
+        
+        requestAnimationFrame(() => {
+            confirmationModal.classList.add('active'); // Applies opacity: 1 and blur
+            
+            // ⭐ FIXED: Apply shake animation using Tailwind utility class
+            confirmationContent.classList.add('animate-shakeModal'); 
+            
+            // ⭐ FIXED: Remove shake class after the animation duration (800ms)
+            setTimeout(() => {
+                confirmationContent.classList.remove('animate-shakeModal');
+            }, 800); 
+        });
+    }
+    
+    // ⭐ FIXED: Function to handle confirmation (Yes/No)
+    function confirmExitPayment(shouldExit) {
+        // 1. Start the fade-out transition (by removing 'active' class)
+        confirmationModal.classList.remove('active'); 
+        body.classList.remove('payment-modal-blur');
+
+        // 2. Remove display:flex after the transition finishes (400ms is enough for 300ms transition + buffer)
+        setTimeout(() => {
+            confirmationModal.style.display = 'none'; 
+
+            if (shouldExit) {
+                // User confirmed: Close the main payment modal
+                closePaymentModal(true);
+            } else {
+                // User cancelled: Do nothing, just return to the payment modal
+            }
+            
+        }, 400); 
     }
 
-    // Function to smoothly close the payment modal
-    function closePaymentModal() {
+    // ⭐ MODIFIED: Function to close the payment modal (called ONLY after confirmation)
+    function closePaymentModal(confirmed = false) {
+        if (!confirmed) return; // Only proceed if confirmed by confirmExitPayment(true)
+        
         paymentModalContent.classList.remove('animate-modalFadeIn');
         paymentModalContent.classList.add('animate-modalFadeOut');
         
         paymentModal.classList.add('closing');
 
+        clearTimeout(window.paymentTimeout); 
+        paymentLoader.style.display = 'none';
+        cashfreeIframe.style.display = 'none';
+
         setTimeout(() => {
             paymentModal.style.display = 'none';
             paymentModalContent.classList.remove('animate-modalFadeOut');
             paymentModal.classList.remove('closing');
+            
+            paymentLoader.style.opacity = '1';
+
         }, 400); 
     }
-
+    
     // Event Listener for 'Buy Now' button
     buyBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default anchor link behavior
+        e.preventDefault(); 
         openPaymentModal();
     });
 
-    // Check for successful payment on page load
+    // Check for successful payment on page load (unchanged)
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
       
       if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
-        // Clean URL after successful payment verification
         history.replaceState(null, '', window.location.pathname);
         
-        // Show the Download Pop-up
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
         
         lucide.createIcons(); 
       }
       
-      // Ensure all Lucide icons are created on DOM load, including the new modal's X button
       lucide.createIcons(); 
     });
   </script>
