@@ -19,10 +19,10 @@
           boxShadow: {
             glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
             glass: '0 10px 30px -10px rgba(0,0,0,.45)',
-            // ✅ Updated for solid black welcome screen
-            // MODIFIED: Made the blackout pure black for welcome screen visibility
-            'tour-spotlight': '0 0 0 9999px rgba(0, 0, 0, 1)', 
+            // ✅ START: Updated for new tour
+            'tour-spotlight': '0 0 0 9999px rgba(0, 0, 0, 0.9)', // Yeh spotlight banata hai
             'tour-glow': '0 0 15px 3px rgba(255,255,255,0.5)',
+            // ✅ END: Updated for new tour
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
@@ -44,7 +44,7 @@
               '0%, 100%': { boxShadow: '0 0 5px rgba(99,102,241,0.5)' },
               '50%': { boxShadow: '0 0 20px rgba(99,102,241,0.8)' }
             },
-            // ✅ Updated for new tour
+            // ✅ START: Updated for new tour
             'circle-scale': {
               '0%': { transform: 'translate(-50%, -50%) scale(1)' },
               '100%': { transform: 'translate(-50%, -50%) scale(300)' }
@@ -53,11 +53,12 @@
               '0%, 100%': { borderColor: 'rgba(255,255,255,0.3)' },
               '50%': { borderColor: 'rgba(99, 102, 241, 0.8)' }
             },
-            // 🌟 Target Glow Keyframe
+            // 🌟 NEW: Target Glow Keyframe
             'pulse-target-glow': {
                 '0%, 100%': { boxShadow: '0 0 5px 0px rgba(99, 102, 241, 0.5)', transform: 'scale(1)' },
                 '50%': { boxShadow: '0 0 20px 5px rgba(99, 102, 241, 0.8)', transform: 'scale(1.01)' }
             }
+            // ✅ END: Updated for new tour
           },
           animation: {
             shine: 'shine 2.6s ease-in-out infinite',
@@ -67,11 +68,12 @@
             'roll-up': 'word-roll 27s ease-in-out infinite',
             'count-up': 'count-up 1s ease-out forwards',
             'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-            // ✅ Updated for new tour
+            // ✅ START: Updated for new tour
             'circle-scale': 'circle-scale 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
             'pulse-border': 'pulse-border 2s ease-in-out infinite',
-            // 🌟 Target Glow Animation
+            // 🌟 NEW: Target Glow Animation
             'pulse-target-glow': 'pulse-target-glow 2.5s ease-in-out infinite'
+            // ✅ END: Updated for new tour
           },
           transitionDelay: {
             '75': '75ms',
@@ -89,7 +91,8 @@
 
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <style>
-    html { scroll-behavior:smooth }
+    /* ✅ User Request: Smooth Scroll */
+    html { scroll-behavior:smooth } 
     body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     .no-scrollbar::-webkit-scrollbar{ display:none }
     .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
@@ -146,7 +149,7 @@
         transition: all 0.5s ease-in-out;
     }
     
-    /* 🌟 NEW: Info Box Arrow/Triangle with Glow */
+    /* 🌟 MODIFIED: Info Box Arrow/Triangle with Glow - Increased Size */
     .tour-infobox-arrow {
         position: absolute;
         bottom: 100%; /* Position above the infobox */
@@ -154,9 +157,9 @@
         transform: translateX(-50%);
         width: 0;
         height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 15px solid rgba(99, 102, 241, 0.8); /* Indigo color for the arrow */
+        border-left: 20px solid transparent; /* ✅ Increased size */
+        border-right: 20px solid transparent; /* ✅ Increased size */
+        border-bottom: 30px solid rgba(99, 102, 241, 0.8); /* ✅ Increased height */
         filter: drop-shadow(0 -2px 5px rgba(99, 102, 241, 0.5)); /* Soft glow effect */
     }
 
@@ -184,11 +187,6 @@
         opacity: 1 !important;
         transform: none !important;
         transition: none !important;
-    }
-
-    /* MODIFIED: Increased vignette intensity */
-    #tour-vignette {
-        background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
     }
 
   </style>
@@ -497,6 +495,16 @@
         <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
         <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
       </div>
+
+      <div class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 class="text-xl font-semibold">Premium feel. Simple experience.</h3>
+            <p class="mt-1 text-sm text-zinc-400">BookMintor makes reading delightful fast.</p>
+          </div>
+          <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
     </section>
 
     <section id="faq-section" class="py-12 lg:py-20">
@@ -668,6 +676,24 @@
     });
 
     // ==========================================================
+    // Guide Button Hide on Scroll Logic (NEW - User Request)
+    // ==========================================================
+    let hasScrolledDown = false;
+    const guideButton = document.getElementById('guide-button');
+
+    window.addEventListener('scroll', () => {
+        // Only run if the button is visible and we haven't scrolled down yet
+        if (hasScrolledDown || !guideButton) return; 
+
+        // Check if user has scrolled down more than 50 pixels
+        if (window.scrollY > 50) {
+            // Fade out and remove pointer events
+            guideButton.classList.add('opacity-0', 'pointer-events-none');
+            hasScrolledDown = true; // ✅ PERMANENTLY HIDDEN until refresh
+        }
+    });
+
+    // ==========================================================
     // Counter Animation Logic
     // ==========================================================
     function animateCounter(element, start, end, duration) {
@@ -704,7 +730,7 @@
     <i data-lucide="eye" class="w-6 h-6"></i>
   </button>
 
-  <div id="tour-overlay" class="fixed inset-0 z-[90] opacity-0 pointer-events-none transition-opacity duration-500">
+  <div id="tour-overlay" class="fixed inset-0 z-[90] opacity-0 pointer-events-none transition-opacity duration-500" style="background-color: transparent;">
     
     <div id="tour-circle" class="absolute h-1 w-1 rounded-full bg-white" style="top: 50%; left: calc(100% - 2rem); transform: translate(-50%, -50%) scale(1); display: block;"></div>
     
@@ -714,7 +740,8 @@
     
     <div id="tour-spotlight" class="absolute inset-0 z-50 opacity-0 transition-opacity duration-500 shadow-tour-spotlight"></div>
     
-    <div id="tour-vignette" class="fixed inset-0 pointer-events-none z-[91] opacity-0 transition-opacity duration-500">
+    <div id="tour-vignette" class="fixed inset-0 pointer-events-none z-[91] opacity-0 transition-opacity duration-500" 
+         style="background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.9) 100%);"> 
     </div>
 
     <div id="tour-infobox" class="fixed bottom-10 left-1/2 -translate-x-1/2 w-96 max-w-[90vw] rounded-xl bg-zinc-900/90 p-5 text-white backdrop-blur-md border border-indigo-400/50 shadow-2xl opacity-0 transition-all duration-500 ease-in-out animate-pulse-border" style="z-index: 92;">
@@ -738,7 +765,7 @@
     
     // --- New Spotlight Elements ---
     const tourSpotlight = document.getElementById('tour-spotlight');
-    const tourVignette = document.getElementById('tour-vignette');
+    const tourVignette = document.getElementById('tour-vignette'); 
     const infoBox = document.getElementById('tour-infobox');
     const infoTitle = document.getElementById('tour-info-title');
     const infoDescription = document.getElementById('tour-info-description');
@@ -747,12 +774,12 @@
     // ✅ Flag to prevent tour from running twice
     let isTourInProgress = false;
 
-    // 🌟 Typing Effect Globals
+    // 🌟 NEW: Typing Effect Globals
     let currentTypingTimer = null;
     let currentCursorElement = null;
-    let currentTargetElement = null;
+    let currentTargetElement = null; // Store the currently highlighted element
 
-    // --- Define Tour Steps (Final Corrected List) ---
+    // --- Define Tour Steps (Removed #about step) ---
     const tourSteps = [
       { 
         id: 'hero-section', 
@@ -774,7 +801,6 @@
         title: 'Frequently Asked Questions',
         description: 'Have a question? Check here first. We have answers for common topics like payments, offline reading, and refund policies.'
       }
-      // Note: 'about' section removed as per user request
     ];
 
     // --- Helper Functions ---
@@ -787,10 +813,12 @@
         return new Promise(resolve => {
             element.textContent = ''; // Clear existing text
             
+            // 1. Create and append blinking cursor
             if (currentCursorElement) {
                 currentCursorElement.remove(); // Remove previous cursor
             }
             const cursor = document.createElement('span');
+            // Blinking cursor uses the 'blink' keyframe defined in Tailwind config
             cursor.className = 'blinking-cursor ml-1 inline-block w-2 h-4 bg-white align-text-bottom animate-blink';
             element.appendChild(cursor);
             currentCursorElement = cursor;
@@ -821,7 +849,7 @@
     }
 
     /**
-     * Corrected custom "poper" smooth scroll function with header offset logic
+     * New custom "poper" smooth scroll function (User Request: Smooth Scroll)
      */
     function customSmoothScrollTo(targetY, duration) {
       return new Promise(resolve => {
@@ -853,6 +881,7 @@
     function showSpotlight(element, step) {
       // 1. Store and Highlight the Target Element
       currentTargetElement = element;
+      // Add the glow class and set relative/z-index to bring it to the front
       element.classList.add('tour-target-glow');
       
       // 2. Activate Vignette (Cinematic Effect)
@@ -897,8 +926,9 @@
       infoArrow.classList.add('hidden');
     }
 
-    // --- Main Tour Function (FINAL FIX) ---
+    // --- Main Tour Function (REBUILT & FIXED) ---
     async function startTour() {
+      // ✅ Don't run if tour is already in progress
       if (isTourInProgress) return;
       isTourInProgress = true;
 
@@ -907,7 +937,7 @@
       // 1. Hide button, Lock scroll, Disable AOS
       guideBtn.classList.add('opacity-0', 'pointer-events-none');
       document.body.style.overflow = 'hidden';
-      document.body.classList.add('aos-disabled');
+      document.body.classList.add('aos-disabled'); // ✅ DISABLES AOS
 
       // 2. Show overlay container
       tourOverlay.classList.remove('opacity-0', 'pointer-events-none');
@@ -918,57 +948,53 @@
       tourCircle.style.left = `${btnRect.left + btnRect.width / 2}px`;
       tourCircle.classList.add('animate-circle-scale');
       
-      await wait(1400); 
+      await wait(1400); // Wait for animation to mostly fill screen
 
-      // 4. Blackout (Solid Black Welcome Screen)
-      tourSpotlight.classList.add('opacity-100'); // Activates the solid black shadow
+      // 4. Blackout (using the spotlight shadow)
+      tourSpotlight.classList.add('opacity-100');
       
-      await wait(200); 
+      await wait(200); // Let animation finish
 
       // 5. Show Welcome Text
-      tourCircle.style.display = 'none';
+      tourCircle.style.display = 'none'; // Hide the circle
       welcomeText.classList.add('opacity-100');
       
-      await wait(2000); 
+      await wait(2000); // Hold for 2s
 
       // 6. Fade out welcome
       welcomeText.classList.remove('opacity-100');
-      await wait(500); 
+      await wait(500); // Fade out
       
+      // 7. Transition to transparent overlay 
+      await wait(500); // Settle
+
       // --- B. Sequential Guided Scroll ---
-      
-      // ✅ FIX: Calculate the offset required to clear the sticky header + a small buffer
-      const headerElement = document.querySelector('header');
-      // Calculate header height or default to a safe 100px, plus 20px buffer
-      const requiredOffset = headerElement ? headerElement.offsetHeight + 20 : 100; 
-      
       for (const step of tourSteps) {
         const element = document.getElementById(step.id);
         
+        // ✅ Section skipping fix
         if (!element) {
             console.error(`Tour Error: Element with ID #${step.id} not found. Skipping.`);
-            continue; 
+            continue; // Skip this step
         }
 
-        // 1. Calculate and Scroll to section
+        // 1. Calculate and Scroll to section (target element is positioned high up, leaving space for infobox)
         const elementRect = element.getBoundingClientRect();
         
-        // Calculate the target scroll position (absolute top of element minus the required offset)
-        const targetY = elementRect.top + window.scrollY - requiredOffset; 
+        // Scroll target to be 20% down from the viewport top (adjust as needed)
+        const scrollOffset = window.innerHeight * 0.2; 
+        const targetY = elementRect.top + window.scrollY - scrollOffset; 
         
-        const finalTargetY = Math.max(0, targetY);
-        
-        // Hide the full blackout spotlight before scrolling begins
-        tourSpotlight.classList.remove('opacity-100');
+        const finalTargetY = Math.max(0, targetY); // Ensure we don't scroll past the top
         
         await customSmoothScrollTo(finalTargetY, 1000); // 1-second smooth scroll
-        await wait(200); 
+        await wait(200); // Short pause after scroll
         
         // 2. Stop & Highlight (poper spotlight)
         showSpotlight(element, step);
         
         // 3. Pause (poper timing for typing + reading)
-        await wait(6000); 
+        await wait(6000); // Increased pause to 6.0s for typing and reading
         
         // 4. Fade out
         hideSpotlight();
@@ -980,29 +1006,33 @@
       // 1. Scroll to top
       await customSmoothScrollTo(0, 1000); // 1-second smooth scroll to top
       
-      // 2. Show loader
+      // 2. Hide spotlight overlay and show loader
+      tourSpotlight.classList.remove('opacity-100');
       tourLoader.classList.add('opacity-100');
       
-      await wait(500); 
+      await wait(500); // Let fade start
 
       // 3. Final Fade
       tourLoader.classList.remove('opacity-100');
       tourOverlay.classList.add('opacity-0', 'pointer-events-none');
       
-      await wait(500); 
+      await wait(500); // Wait for fade out
 
       // --- D. Reset ---
       document.body.style.overflow = 'auto';
-      document.body.classList.remove('aos-disabled'); 
-      guideBtn.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.classList.remove('aos-disabled'); // ✅ RE-ENABLES AOS
+      
+      guideBtn.classList.add('opacity-0', 'pointer-events-none'); // ✅ Make sure it stays hidden after the tour (User Request)
+      hasScrolledDown = true; // Also set this flag to prevent it from reappearing on any subsequent scroll reset.
       
       // Reset circle state
       tourCircle.style.display = 'block';
       tourCircle.classList.remove('animate-circle-scale');
       
-      isTourInProgress = false; 
+      isTourInProgress = false; // ✅ Allow tour to run again
     }
     
+    // Need to re-run lucide.createIcons() to render the new 'eye' icon
     lucide.createIcons();
   </script>
   </body>
