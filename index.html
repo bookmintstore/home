@@ -48,7 +48,6 @@
             floaty: 'floaty 6s ease-in-out infinite',
             bounce: 'dot-bounce 0.8s infinite', 
             blink: 'blink 1s step-end infinite',
-            // 🚀 1. NEW DURATION: 27s (6 words * 4.5s cycle time) for smoother transitions
             'roll-up': 'word-roll 27s ease-in-out infinite',
             'count-up': 'count-up 1s ease-out forwards',
             'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
@@ -74,8 +73,7 @@
     .no-scrollbar::-webkit-scrollbar{ display:none }
     .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
     
-    /* 🚀 1. FIXED & SMOOTHENED: CSS Keyframes for Ultra-Smooth Vertical Roll */
-    /* Total Duration: 27s (4.0s Hold + 0.5s Transition per word) */
+    /* Dynamic Word Roll Animation */
     @keyframes word-roll {
         /* Word 1: Mind. (0s - 4.5s) */
         0%, 14.8% { transform: translateY(0em); }
@@ -103,7 +101,6 @@
         100% { transform: translateY(0em); } /* Jumps back to start for loop */
     }
     
-    /* 🚀 1. VISUAL FIX: Adding subtle mask for a smooth motion blur/attractive look */
     .motion-mask {
         mask-image: linear-gradient(to bottom, 
             transparent 0%, 
@@ -119,7 +116,7 @@
         );
     }
 
-    /* 3. NEW: CSS for smooth accordion transition */
+    /* Accordion Styles */
     .accordion-content {
         max-height: 0;
         overflow: hidden;
@@ -132,44 +129,6 @@
         transform: rotate(180deg);
     }
 
-    /* New styles for trust elements */
-    .counter-item {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    
-    .counter-animated {
-      animation: count-up 1s ease-out forwards;
-    }
-    
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      color: white;
-      font-size: 16px;
-    }
-    
-    .rating-stars {
-      display: flex;
-      gap: 2px;
-    }
-    
-    .star {
-      width: 16px;
-      height: 16px;
-      background: #4B5563;
-      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    }
-    
-    .star.filled {
-      background: #FBBF24;
-    }
-    
     .trust-badge {
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(217, 70, 239, 0.1));
       border: 1px solid rgba(99, 102, 241, 0.2);
@@ -179,11 +138,21 @@
 </head>
 <body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
   
+  <!-- Simple Loading Overlay with 3 dots -->
   <div id="loading-overlay" class="fixed inset-0 z-[999] hidden place-items-center bg-[#0b0e13]/95 opacity-0 transition-opacity duration-300">
-    <div class="flex space-x-2">
-      <div class="h-3 w-3 rounded-full bg-indigo-400 animate-bounce delay-[0ms]"></div>
-      <div class="h-3 w-3 rounded-full bg-sky-400 animate-bounce delay-[100ms]"></div>
-      <div class="h-3 w-3 rounded-full bg-fuchsia-400 animate-bounce delay-[200ms]"></div>
+    <div class="flex flex-col items-center">
+      <!-- Loading text -->
+      <div class="text-center mb-8">
+        <h3 class="text-xl font-bold text-white mb-2">Loading Your Journey</h3>
+        <p class="text-zinc-300">Preparing your reading experience</p>
+      </div>
+      
+      <!-- 3 small bouncing dots -->
+      <div class="flex space-x-2">
+        <div class="h-2 w-2 rounded-full bg-indigo-400 animate-bounce delay-[0ms]"></div>
+        <div class="h-2 w-2 rounded-full bg-sky-400 animate-bounce delay-[100ms]"></div>
+        <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-bounce delay-[200ms]"></div>
+      </div>
     </div>
   </div>
 
@@ -319,65 +288,171 @@
       </div>
     </section>
 
-    <section class="py-10">
-        <h2 class="text-2xl font-bold sm:text-3xl">Categories to Explore</h2>
-        <p class="mt-1 text-zinc-400">Dive deep into your interest with curated collections.</p>
-        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <a href="/spirituality" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
-                <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
-                <div class="relative z-10">
-                    <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Popular</span>
-                    <h3 class="mt-3 text-lg font-semibold">Spirituality</h3>
-                    <p class="mt-1 text-sm text-zinc-400">Bhakti, Vedanta, Gita, Upanishads</p>
-                </div>
-                <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-                    <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1400&q=60" alt="Spirituality" class="h-full w-full object-cover" />
-                </div>
-            </a>
-            <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
-                <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-sky-500/15 blur-2xl transition group-hover:scale-110"></div>
-                <div class="relative z-10">
-                    <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Trending</span>
-                    <h3 class="mt-3 text-lg font-semibold">Self‑Help</h3>
-                    <p class="mt-1 text-sm text-zinc-400">Habits, focus, growth mindset</p>
-                </div>
-                <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=60" alt="Self Help" class="h-full w-full object-cover" />
-                </div>
-            </a>
-            <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
-                <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-purple-500/15 to-indigo-500/15 blur-2xl transition group-hover:scale-110"></div>
-                <div class="relative z-10">
-                    <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">New</span>
-                    <h3 class="mt-3 text-lg font-semibold">Technology</h3>
-                    <p class="mt-1 text-sm text-zinc-400">Programming, data, AI</p>
-                </div>
-                <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=60" alt="Technology" class="h-full w-full object-cover" />
-                </div>
-            </a>
-            <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
-                <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-amber-500/15 to-red-500/15 blur-2xl transition group-hover:scale-110"></div>
-                <div class="relative z-10">
-                    <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Hot</span>
-                    <h3 class="mt-3 text-lg font-semibold">Business</h3>
-                    <p class="mt-1 text-sm text-zinc-400">Startup, finance, marketing</p>
-                </div>
-                <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60" alt="Business" class="h-full w-full object-cover" />
-                </div>
-            </a>
-            <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
-                <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-emerald-500/15 to-cyan-500/15 blur-2xl transition group-hover:scale-110"></div>
-                <div class="relative z-10">
-                    <h3 class="mt-3 text-lg font-semibold">Literature</h3>
-                    <p class="mt-1 text-sm text-zinc-400">Fiction, poetry, biographies</p>
-                </div>
-                <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1400&q=60" alt="Literature" class="h-full w-full object-cover" />
-                </div>
-            </a>
+    <section id="categories" class="py-10">
+      <h2 class="text-2xl font-bold sm:text-3xl">Browse by Category</h2>
+      <p class="mt-1 text-zinc-400">From Spirituality to Technology, explore every subject in one place.</p>
+      <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="/spirituality" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Popular</span>
+            <h3 class="mt-3 text-lg font-semibold">Spirituality</h3>
+            <p class="mt-1 text-sm text-zinc-400">Bhakti, Vedanta, Gita, Upanishads</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1400&q=60" alt="Spirituality" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-sky-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Trending</span>
+            <h3 class="mt-3 text-lg font-semibold">Self‑Help</h3>
+            <p class="mt-1 text-sm text-zinc-400">Habits, focus, growth mindset</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=60" alt="Self Help" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-purple-500/15 to-indigo-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">New</span>
+            <h3 class="mt-3 text-lg font-semibold">Technology</h3>
+            <p class="mt-1 text-sm text-zinc-400">Programming, data, AI</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=60" alt="Technology" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-amber-500/15 to-red-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Hot</span>
+            <h3 class="mt-3 text-lg font-semibold">Business</h3>
+            <p class="mt-1 text-sm text-zinc-400">Startup, finance, marketing</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60" alt="Business" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-emerald-500/15 to-teal-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Editors' pick</span>
+            <h3 class="mt-3 text-lg font-semibold">Health & Wellness</h3>
+            <p class="mt-1 text-sm text-zinc-400">Fitness, ayurveda, mental health</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=1400&q=60" alt="Health & Wellness" class="h-full w-full object-cover" />
+          </div>
+        </a>
+
+        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="250">
+          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-pink-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Classic</span>
+            <h3 class="mt-3 text-lg font-semibold">Fiction</h3>
+            <p class="mt-1 text-sm text-zinc-400">Stories, novels, literature</p>
+          </div>
+          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
+            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1400&q=60" alt="Fiction" class="h-full w-full object-cover" />
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section id="featured" class="py-10">
+      <h2 class="text-2xl font-bold sm:text-3xl">Featured Selections</h2>
+      <p class="mt-1 text-zinc-400">Top rated eBooks chosen from our most popular categories.</p>
+
+      <div class="mt-5 overflow-x-auto no-scrollbar">
+        <div class="flex gap-4">
+          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=1200&q=60" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Ayurveda for Beginners</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹349</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Health • 18h read</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="50">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Vedic Meditation</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹299</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 22h</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="100">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Gita Demystified" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Gita Demystified</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹199</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 15h</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="150">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Python: Zero → Pro" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Python: Zero → Pro</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹449</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Technology • 30h</p>
+            </div>
+          </a>
+
+          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="200">
+            <div class="h-44 w-full overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-2">
+                <strong class="truncate">Upanishads Essentials</strong>
+                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹499</span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 30h</p>
+            </div>
+          </a>
         </div>
+      </div>
+
+      <div class="mt-6 flex gap-3">
+        <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
+      </div>
+
+      <div id="about" class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 class="text-xl font-semibold">Premium feel. Simple experience.</h3>
+            <p class="mt-1 text-sm text-zinc-400">BookMintor makes reading delightful fast.</p>
+          </div>
+          <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
     </section>
 
     <section class="py-12 lg:py-20">
@@ -471,7 +546,7 @@
         </div>
       </div>
       <div class="mx-auto mt-10 max-w-7xl border-t border-white/5 px-4 pt-6 text-center sm:px-6 lg:px-8">
-        <p class="text-xs text-zinc-500">© 2025 BookMintor. All rights reserved.</p>
+        <p class="text-xs text-zinc-500">© <span id="year"></span> BookMintor. All rights reserved.</p>
       </div>
     </footer>
   </main>
@@ -483,11 +558,24 @@
     AOS.init({ duration: 800, once: true });
     
     // ==========================================================
-    // Loading Animation on Link Click 
+    // Loading Animation Logic (FIXED: Handles renewal on back/forward)
     // ==========================================================
+    const loadingOverlay = document.getElementById('loading-overlay');
+    
+    // Function to hide and reset the overlay state
+    function resetLoadingOverlay() {
+        loadingOverlay.classList.add('hidden', 'opacity-0');
+        loadingOverlay.classList.remove('grid');
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-        const loadingOverlay = document.getElementById('loading-overlay');
-        // Select all internal navigation links that are not inside the search form
+        // Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Fix for scroll position on page load
+        window.scrollTo(0, 0);
+        
+        // Select all internal navigation links 
         const links = document.querySelectorAll('a.nav-link, a[href^="/home/"]'); 
 
         links.forEach(link => {
@@ -500,7 +588,7 @@
                 e.preventDefault(); 
                 const targetUrl = this.href;
 
-                // Make overlay visible and trigger transition
+                // Show overlay and trigger transition
                 loadingOverlay.classList.remove('hidden');
                 setTimeout(() => {
                     loadingOverlay.classList.add('grid'); 
@@ -513,10 +601,23 @@
                 }, 800); 
             });
         });
+        
+        // Initial counter animation setup
+        setTimeout(() => {
+          animateCounter(document.getElementById('happy-readers'), 0, 25, 2000);
+          animateCounter(document.getElementById('premium-titles'), 0, 500, 2000);
+        }, 500);
     });
     
+    // ✅ FIX FOR RENEWAL: Use pageshow to ensure the overlay is hidden when navigating back (bfcache fix)
+    window.addEventListener('pageshow', (event) => {
+        resetLoadingOverlay();
+        // Ensure page starts at top when loaded
+        window.scrollTo(0, 0);
+    });
+
     // ==========================================================
-    // Counter Animation Logic (Retained from deepseek file)
+    // Counter Animation Logic
     // ==========================================================
     function animateCounter(element, start, end, duration) {
       let startTime = null;
@@ -528,7 +629,6 @@
         const progress = Math.min((timestamp - startTime) / duration, 1);
         const value = Math.floor(progress * range + start);
         
-        // Use the final end value (e.g., 25 or 500) only when progress is 1
         element.textContent = progress === 1 ? finalEnd : value;
 
         if (progress < 1) {
@@ -540,29 +640,13 @@
     }
     
     // ==========================================================
-    // Accordion Logic (Updated to use inline onclick method from updatehome2h2.html)
+    // Accordion Logic
     // ==========================================================
     function toggleAccordion(buttonElement) {
         const item = buttonElement.closest('.accordion-item');
         item.classList.toggle('accordion-open');
     }
 
-    // Initialize counters when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      // Animate the counters
-      setTimeout(() => {
-        animateCounter(document.getElementById('happy-readers'), 0, 25, 2000);
-        animateCounter(document.getElementById('premium-titles'), 0, 500, 2000);
-      }, 500);
-      
-      // Add animation classes to counter items
-      const counterItems = document.querySelectorAll('.counter-item');
-      counterItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.classList.add('counter-animated');
-        }, index * 300);
-      });
-    });
   </script>
 </body>
 </html>
