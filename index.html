@@ -90,25 +90,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-  <script>
-    // STEP 1: Apne Project ki Config Yahan Paste Karein (Firebase Console se)
-    // ZARURI: Firebase Console mein Authentication -> Sign-in Method mein Google ko enable karna hai.
-    const firebaseConfig = {
-      apiKey: "AIzaSyAu2PDF8Y2Sj2gYv8yL-KAuQOtZiu-kfBE", // ✅ Web API Key Added
-      authDomain: "store-f163c.firebaseapp.com", // ✅ Derived from Project ID
-      projectId: "store-f163c", // ✅ Project ID Added
-      storageBucket: "store-f163c.appspot.com", // ✅ Derived from Project ID
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // (Placeholder, not strictly needed for Google Auth)
-      appId: "YOUR_APP_ID" // (Placeholder, not strictly needed for Google Auth)
-    };
-
-    // Initialize Firebase (Yeh line zaruri hai)
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-  </script>
   <style>
     /* ✅ User Request: Smooth Scroll */
     html { scroll-behavior:smooth } 
@@ -250,28 +231,10 @@
         <a href="/home/Unavailable.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">About</a>
         <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">Library</a>
       </div>
-      
-      <div id="auth-ui-container" class="flex items-center gap-4">
-          <div id="user-auth-menu" class="relative hidden">
-              <div id="user-avatar-btn" class="h-10 w-10 rounded-full bg-zinc-700 ring-2 ring-indigo-500/50 cursor-pointer overflow-hidden transition hover:ring-indigo-400" aria-label="User Menu" aria-haspopup="true">
-                  </div>
-              <div id="logout-dropdown" class="absolute right-0 top-12 z-50 hidden w-48 rounded-xl border border-white/10 bg-zinc-800/90 p-2 shadow-2xl backdrop-blur-md">
-                  <p id="user-name-display" class="px-3 py-2 text-sm text-zinc-300 font-medium truncate border-b border-white/5 mb-1"></p>
-                  <a href="/home/Unavailable.html" class="nav-link w-full text-left inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white transition hover:bg-indigo-500/20">
-                      <i data-lucide="book-open" class="w-4 h-4"></i> My Library
-                  </a>
-                  <button id="logout-btn" class="w-full text-left inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-300 hover:bg-red-500/10 transition mt-1">
-                      <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
-                  </button>
-              </div>
-          </div>
-
-          <button id="google-login-btn" class="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-glow transition active:scale-[0.98]">
-              Sign in with Google
-              <i data-lucide="log-in" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>
-          </button>
-      </div>
-      </nav>
+      <a href="/home/Unavailable.html" class="nav-link group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white shadow-[0_0_0_0_rgba(99,102,241,0)] transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">Open Library
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </nav>
   </header>
 
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -761,134 +724,6 @@
         item.classList.toggle('accordion-open');
     }
 
-    // ==========================================================
-    // START: FIREBASE AUTHENTICATION LOGIC (Google Login)
-    // ==========================================================
-    
-    // Auth UI elements
-    const loginBtn = document.getElementById('google-login-btn');
-    const userAuthMenu = document.getElementById('user-auth-menu');
-    const userAvatarBtn = document.getElementById('user-avatar-btn');
-    const userNameDisplay = document.getElementById('user-name-display');
-    const logoutBtn = document.getElementById('logout-btn');
-    const logoutDropdown = document.getElementById('logout-dropdown');
-
-    // Toggle dropdown on avatar click
-    if (userAvatarBtn) {
-        userAvatarBtn.addEventListener('click', (event) => {
-            logoutDropdown.classList.toggle('hidden');
-            event.stopPropagation(); // Prevent the body listener from immediately closing it
-        });
-    }
-
-    // Close dropdown if user clicks anywhere else
-    document.body.addEventListener('click', (event) => {
-        if (logoutDropdown && !logoutDropdown.classList.contains('hidden')) {
-            // Check if the click was inside the dropdown or on the avatar button
-            if (!userAuthMenu.contains(event.target) && !userAvatarBtn.contains(event.target)) {
-                logoutDropdown.classList.add('hidden');
-            }
-        }
-    });
-
-    // 1. Login Function
-    if (loginBtn) {
-        loginBtn.addEventListener('click', async () => {
-            // Check if firebase is initialized before proceeding
-            if (!auth) {
-                alert("Error: Firebase is not configured. Please check your config keys.");
-                return;
-            }
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                // Show a brief loading state before popup opens
-                loginBtn.innerHTML = 'Loading... <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>'; 
-                loginBtn.disabled = true;
-
-                await auth.signInWithPopup(provider);
-                
-                // onAuthStateChanged will handle the UI update
-            } catch (error) {
-                console.error("Login Error:", error.message);
-                
-                // Alert only if it's not a closed popup (user cancelled)
-                if (error.code !== 'auth/popup-closed-by-user') {
-                    alert(`Login failed: ${error.message}. Please check console.`);
-                }
-                
-                // Reset button on failure
-                loginBtn.innerHTML = 'Sign in with Google <i data-lucide="log-in" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>';
-                loginBtn.disabled = false;
-                lucide.createIcons(); // Re-render icons
-            }
-        });
-    }
-
-    // 2. Logout Function
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await auth.signOut();
-                console.log("User signed out.");
-                // onAuthStateChanged will handle the UI update
-                logoutDropdown.classList.add('hidden'); // Close dropdown
-            } catch (error) {
-                console.error("Logout Error:", error.message);
-                alert("Logout failed. Please try again.");
-            }
-        });
-    }
-
-    // 3. Auth State Listener (Crucial for UI updates)
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            // User is logged in
-            if (loginBtn) loginBtn.classList.add('hidden');
-            if (userAuthMenu) {
-                userAuthMenu.classList.remove('hidden');
-                userAuthMenu.classList.add('flex');
-            }
-            
-            // Set User Name
-            if (userNameDisplay) userNameDisplay.textContent = user.displayName || 'Welcome';
-
-            // Set User Avatar
-            if (userAvatarBtn) {
-                const avatar = document.createElement('img');
-                avatar.src = user.photoURL || 'https://via.placeholder.com/150/6366F1/FFFFFF?text=U'; // Fallback image
-                avatar.alt = 'User Avatar';
-                avatar.className = 'h-full w-full object-cover';
-                userAvatarBtn.innerHTML = ''; // Clear previous content
-                userAvatarBtn.appendChild(avatar);
-            }
-
-        } else {
-            // User is logged out
-            if (loginBtn) {
-                loginBtn.classList.remove('hidden');
-                loginBtn.innerHTML = 'Sign in with Google <i data-lucide="log-in" class="w-4 h-4 transition-transform group-hover:translate-x-0.5"></i>'; 
-                loginBtn.disabled = false; // Enable button
-            }
-
-            if (userAuthMenu) {
-                userAuthMenu.classList.add('hidden');
-                userAuthMenu.classList.remove('flex');
-            }
-            
-            // Clear avatar and name
-            if (userAvatarBtn) userAvatarBtn.innerHTML = '';
-            if (userNameDisplay) userNameDisplay.textContent = '';
-            if (logoutDropdown) logoutDropdown.classList.add('hidden');
-        }
-        lucide.createIcons(); // Ensure all icons (log-in, log-out, loader-2) are rendered/re-rendered
-    });
-
-    // ==========================================================
-    // END: FIREBASE AUTHENTICATION LOGIC (Google Login)
-    // ==========================================================
-
-    // Need to re-run lucide.createIcons() to render the new 'eye' icon
-    lucide.createIcons();
   </script>
 
   <button id="guide-button" aria-label="Start Guided Tour" class="fixed top-1/2 -translate-y-1/2 right-4 z-50 grid h-12 w-12 place-items-center rounded-full bg-white text-zinc-900 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-400">
