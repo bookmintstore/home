@@ -54,18 +54,18 @@
               '0%': { transform: 'translateX(-140%) skewX(-30deg)' },
               '100%': { transform: 'translateX(220%) skewX(-30deg)' }
             },
-            // ⭐ FIXED: Shake Animation for smoother, more premium feel
+            // ⭐⭐⭐ FINAL SMOOTH SHAKE ANIMATION ⭐⭐⭐
             shakeModal: {
                 '0%, 100%': { transform: 'translateX(0)' }, 
-                '10%': { transform: 'translateX(-4px)' },
-                '20%': { transform: 'translateX(3px)' },
-                '30%': { transform: 'translateX(-3px)' },
-                '40%': { transform: 'translateX(2px)' },
-                '50%': { transform: 'translateX(-2px)' },
-                '60%': { transform: 'translateX(1px)' },
-                '70%': { transform: 'translateX(-1px)' },
-                '80%': { transform: 'translateX(0.5px)' },
-                '90%': { transform: 'translateX(-0.5px)' }
+                '10%': { transform: 'translateX(-8px)' },
+                '20%': { transform: 'translateX(6px)' },
+                '30%': { transform: 'translateX(-6px)' },
+                '40%': { transform: 'translateX(4px)' },
+                '50%': { transform: 'translateX(-4px)' },
+                '60%': { transform: 'translateX(2px)' },
+                '70%': { transform: 'translateX(-2px)' },
+                '80%': { transform: 'translateX(1px)' },
+                '90%': { transform: 'translateX(-1px)' }
             },
             redGlow: {
                 '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' },
@@ -87,7 +87,7 @@
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
             modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
             tagShine: 'tagShine 1.0s ease-in-out infinite',
-            // ⭐ FIXED: Shake animation uses new duration and timing
+            // ⭐⭐⭐ FINAL SMOOTH SHAKE DURATION ⭐⭐⭐
             shakeModal: 'shakeModal 0.8s ease-in-out 1',
             redGlow: 'redGlow 2.5s infinite ease-in-out',
             /* waveJump animation removed from here */
@@ -401,7 +401,36 @@
       opacity: 0.7;
       pointer-events: none;
     }
-
+    
+    /* Custom button styles for feedback modal to remove shine */
+    .no-shine-button {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center;
+      gap: 8px;
+      color: white; 
+      padding: 12px 25px; 
+      margin-top: 0px; 
+      text-decoration: none; 
+      border-radius: 8px;
+      font-weight: bold; 
+      font-size: 1.1em;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s;
+      background-image: linear-gradient(135deg, #6366f1, #a855f7); /* Default gradient */
+      box-shadow: 0 4px 15px rgba(168,85,247,0.4);
+    }
+    .no-shine-button:hover:not(:disabled) { 
+        box-shadow: 0 6px 20px rgba(168,85,247,0.6);
+    }
+    .no-shine-button:active:not(:disabled) { 
+        transform: scale(0.97);
+        box-shadow: 0 2px 5px rgba(168,85,247,0.3);
+    }
+    
     /* Close Button Style (unchanged) */
     #modalCloseButton {
         position: absolute;
@@ -963,8 +992,7 @@
         </div>
         
         <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-indigo-700">
-          <i data-lucide="lock" class="h-5 w-5"></i>
-          <span>Your Ebook Unlocked!</span>
+          <i data-lucide="unlock" class="h-5 w-5"></i> <span>Your Ebook Unlocked!</span>
         </h2>
         <p class="text-sm text-gray-700 text-center">Thank you for your purchase. Your premium reading experience is ready.</p>
       </div>
@@ -989,11 +1017,10 @@
             <textarea id="feedbackTextarea" rows="4" placeholder="Type your honest feedback here (Optional)..." class="feedback-textarea w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-700"></textarea>
             
             <div class="flex flex-col gap-3 mt-4">
-                <button id="submitFeedbackBtn" class="download-button w-full" style="background-image: linear-gradient(135deg, #6366f1, #a855f7); margin-top: 0px;" onclick="submitFeedback()">
+                <button id="submitFeedbackBtn" class="no-shine-button w-full" style="background-image: linear-gradient(135deg, #6366f1, #a855f7); margin-top: 0px;" onclick="submitFeedback()">
                     <i data-lucide="send" class="h-5 w-5"></i> 
                     <span id="submitFeedbackText">Submit Feedback</span>
-                    <span class="btn-shine"></span>
-                </button>
+                    </button>
 
                 <button id="noThanksBtn" class="w-full text-sm font-semibold text-gray-500 hover:text-indigo-600 transition" onclick="closeFeedbackModal(true)">
                     No Thanks, take me back
@@ -1070,7 +1097,7 @@
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
     // DO NOT CHANGE: Google Drive File ID for download
-    const FILE_ID = '1s0Z4t7k0XYvow07ChpAkB9iwkI6jrRa'; 
+    const FILE_ID = '1s0Z4t7k0XYvow07ChpAkB9iwkI6jrRa'; // <-- Yahaan check kar lein, koi '$' nahi hai
     const SECRET_KEY = 'MY_EBOOK_KEY_123'; 
     
     // ⭐ CONFIGURATION: Change this text to whatever you want, or set it to an empty string ("") to hide the tag completely.
@@ -1266,15 +1293,17 @@
 
     observer.observe(statsSection);
 
-    // --- DOWNLOAD AND REDIRECT LOGIC (unchanged) ---
+    // --- DOWNLOAD AND REDIRECT LOGIC (FIXED) ---
     
     function getUrlParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
     
+    // ⭐⭐⭐ FINAL FIX: '$' BUG REMOVED (Using '+' for safety) ⭐⭐⭐
     function downloadEbook() {
-        const downloadLink = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
+        // Simple string concatenation (+) to avoid any template literal '`' vs ''' bugs.
+        const downloadLink = 'https://drive.google.com/uc?export=download&id=' + FILE_ID;
 
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none'; 
@@ -1282,6 +1311,7 @@
 
         document.body.appendChild(iframe);
 
+        // Remove the iframe after some time to prevent resource drain
         setTimeout(() => {
             if (document.body.contains(iframe)) {
                 document.body.removeChild(iframe);
@@ -1289,6 +1319,7 @@
         }, 5000); 
     }
 
+    // This function now uses the secure iframe download and gives correct feedback
     function handleDownloadClick(button) {
       if (downloadInitiated) return; 
 
@@ -1308,13 +1339,17 @@
           currentIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; 
           lucide.createIcons(); 
       }
+      
+      // 1. Start the download process immediately (using secure iframe)
+      downloadEbook();
 
+      // 2. Set a 4-second delay before updating text to "Download Started!"
       setTimeout(() => {
-        downloadEbook();
         
-        btnText.textContent = 'Downloaded!';
+        btnText.textContent = 'Download Started!'; // Correct feedback
         button.classList.remove('loading');
         
+        // Change spinner icon to check-circle
         let spinnerIcon = button.querySelector('[data-lucide="loader-2"]');
         if (spinnerIcon) {
           spinnerIcon.outerHTML = '<i data-lucide="check-circle" class="h-5 w-5"></i>';
@@ -1323,7 +1358,7 @@
 
         lucide.createIcons();
 
-      }, 500); 
+      }, 4000); // 4 second delay
     }
 
     function closeDownloadModal() {
@@ -1379,8 +1414,12 @@
         const submitText = document.getElementById('submitFeedbackText');
 
         submitBtn.disabled = true;
-        submitBtn.classList.add('loading');
+        // submitBtn.classList.add('loading'); // no-shine-button doesn't use 'loading' class
         submitText.textContent = 'Sending...';
+        
+        // Custom loading style for no-shine-button
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.pointerEvents = 'none';
 
         setTimeout(() => {
             feedbackForm.style.display = 'none';
@@ -1391,7 +1430,9 @@
             }, 3000); 
 
             submitBtn.disabled = false;
-            submitBtn.classList.remove('loading');
+            // submitBtn.classList.remove('loading');
+            submitBtn.style.opacity = '1';
+            submitBtn.style.pointerEvents = 'auto';
             submitText.textContent = 'Submit Feedback'; 
             
         }, 1000); 
@@ -1421,7 +1462,7 @@
         }, 3000); 
     }
     
-    // ⭐ FIXED: Function to show the custom confirmation modal and apply blur + SHAKE
+    // ⭐⭐ This function now calls the final smooth shake animation
     function openConfirmationModal() {
         // 1. Show modal and blur background
         confirmationModal.style.display = 'flex'; 
@@ -1431,17 +1472,17 @@
         requestAnimationFrame(() => {
             confirmationModal.classList.add('active'); // Applies opacity: 1 and blur
             
-            // ⭐ FIXED: Apply shake animation using Tailwind utility class
+            // Apply shake animation using Tailwind utility class
             confirmationContent.classList.add('animate-shakeModal'); 
             
-            // ⭐ FIXED: Remove shake class after the animation duration (800ms)
+            // Remove shake class after the animation duration (800ms)
             setTimeout(() => {
                 confirmationContent.classList.remove('animate-shakeModal');
-            }, 800); 
+            }, 800); // Must match animation duration
         });
     }
     
-    // ⭐ FIXED: Function to handle confirmation (Yes/No)
+    // This function handles the confirmation (unchanged)
     function confirmExitPayment(shouldExit) {
         // 1. Start the fade-out transition (by removing 'active' class)
         confirmationModal.classList.remove('active'); 
@@ -1461,7 +1502,7 @@
         }, 400); 
     }
 
-    // ⭐ MODIFIED: Function to close the payment modal (called ONLY after confirmation)
+    // This function closes the payment modal (unchanged)
     function closePaymentModal(confirmed = false) {
         if (!confirmed) return; // Only proceed if confirmed by confirmExitPayment(true)
         
