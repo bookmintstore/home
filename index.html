@@ -12,8 +12,8 @@
 
   <meta name="theme-color" content="#0b0e13" />
   <link rel="manifest" href="https://bookmintor.shop/manifest.json">
-  <link rel="icon" type="image/png" href="https://bookmintor.shop/favicon.png">
-  <link rel="apple-touch-icon" href="https://bookmintor.shop/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+  <link rel="apple-touch-icon" href="https://bookmintor.shop/images/logo.png">
 
   <meta property="og:title" content="BookMintor: Premium Self Help & Spiritual eBooks" />
   <meta property="og:description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online." />
@@ -35,7 +35,7 @@
       "name": "BookMintor",
       "alternateName": "Book Mintor",
       "url": "https://bookmintor.shop/",
-      "logo": "https://bookmintor.shop/images/logo.jpeg",
+      "logo": "https://bookmintor.shop/images/logo.png",
       "sameAs": [
         "https://instagram.com/bookmintor_official",
         "https://youtube.com/@BookMintorChannel"
@@ -745,7 +745,8 @@
       const updateCounter = (timestamp) => {
         if (!startTime) startTime = timestamp;
         const progress = Math.min((timestamp - startTime) / duration, 1);
-        const value = Math.floor(progress * range + start);
+        const easedProgress = 1 - Math.pow(1 - progress, 3); // Ease Out Cubic
+        const value = Math.floor(easedProgress * range + start);
         
         element.textContent = progress === 1 ? finalEnd : value;
 
