@@ -325,6 +325,10 @@
         align-items: center; justify-content: center;
         backdrop-filter: blur(4px); 
     }
+    /* 🔥 FIX: Z-index update */
+    #feedbackModal {
+        z-index: 1010; /* Higher than download and payment modals */
+    }
     .modal.closing {
       transition: background-color 0.4s ease;
       background-color: rgba(0, 0, 0, 0); 
@@ -1008,13 +1012,13 @@
   </div>
 
   <div id="feedbackModal" class="modal">
-    <div class="modal-content" id="feedbackModalContent" style="max-width: 400px; padding: 30px; background-color: #ffffff; color: #1f2937;">
+    <div class="modal-content" id="feedbackModalContent" style="max-width: 400px; padding: 30px; background-color: #1e293b; color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1);">
         
-        <h2 class="text-xl font-bold mb-2 text-indigo-700 text-center">Tell us what you think!</h2>
-        <p class="text-sm text-gray-600 text-center mb-6">Your honest feedback helps us improve.</p>
+        <h2 class="text-xl font-bold mb-2 text-indigo-400 text-center">Tell us what you think!</h2>
+        <p class="text-sm text-zinc-400 text-center mb-6">Your honest feedback helps us improve.</p>
 
         <div id="feedbackForm">
-            <textarea id="feedbackTextarea" rows="4" placeholder="Type your honest feedback here (Optional)..." class="feedback-textarea w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-700"></textarea>
+            <textarea id="feedbackTextarea" rows="4" placeholder="Type your honest feedback here (Required)..." class="feedback-textarea w-full p-3 border border-white/20 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm text-white bg-transparent transition duration-300"></textarea>
             
             <div class="flex flex-col gap-3 mt-4">
                 <button id="submitFeedbackBtn" class="no-shine-button w-full" style="background-image: linear-gradient(135deg, #6366f1, #a855f7); margin-top: 0px;" onclick="submitFeedback()">
@@ -1022,21 +1026,19 @@
                     <span id="submitFeedbackText">Submit Feedback</span>
                     </button>
 
-                <button id="noThanksBtn" class="w-full text-sm font-semibold text-gray-500 hover:text-indigo-600 transition" onclick="closeFeedbackModal(true)">
+                <button id="noThanksBtn" class="w-full text-sm font-semibold text-zinc-400 hover:text-white transition" onclick="closeFeedbackModal(true)">
                     No Thanks, take me back
                 </button>
             </div>
         </div>
 
         <div id="feedbackSuccess" class="text-center py-8 hidden">
-            <i data-lucide="check-circle" class="h-10 w-10 text-emerald-500 mx-auto mb-4 feedback-success-icon"></i>
-            <h3 class="text-xl font-bold text-emerald-600">Thanks for your feedback!</h3>
-            <p class="text-sm text-gray-700 mt-2">Redirecting you to the library...</p>
+            <i data-lucide="check-circle" class="h-10 w-10 text-emerald-400 mx-auto mb-4 feedback-success-icon"></i>
+            <h3 class="text-xl font-bold text-emerald-400">Thanks for your feedback!</h3>
+            <p class="text-sm text-zinc-300 mt-2">Redirecting you to the library...</p>
         </div>
     </div>
   </div>
-
-
   <div id="paymentModal" class="modal">
     <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
@@ -1093,6 +1095,40 @@
   </footer>
 
   <script>
+    // --- START: SECURITY DETERRENT (Right-Click & Shortcut Disabler) ---
+    // Yah code user ko page source dekhne aur UI copy karne se rokega.
+
+    // 1. Right-Click (Context Menu) Disable karna
+    document.addEventListener('contextmenu', event => {
+        event.preventDefault(); 
+    });
+
+    // 2. Keyboard Shortcuts Disable karna
+    document.onkeydown = function(e) {
+      // F12 Key (Developer Tools)
+      if (e.keyCode == 123) {
+        return false;
+      }
+      // Ctrl+Shift+I (Inspect Element)
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+      }
+      // Ctrl+Shift+J (Console)
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+      }
+      // Ctrl+U (View Page Source)
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+      }
+      // Ctrl+Shift+C (Inspect Element)
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+        return false;
+      }
+    };
+    // --- END: SECURITY DETERRENT (Right-Click & Shortcut Disabler) ---
+
+
     // ⭐ CONFIGURATION: Yeh URL Main Page (Payment se Pehle) 3D Mockup mein show hoga
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
@@ -1139,7 +1175,8 @@
     // mark busy for screen readers
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
-    const REDIRECT_URL = 'https://bookmintstore.shop/spirituality';
+    // 🔥 FIX 3: Redirect URL updated
+    const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
 
     // Preload image (unchanged)
     const preloadImage = new Image();
@@ -1386,7 +1423,9 @@
         
         feedbackForm.style.display = 'block';
         feedbackSuccess.style.display = 'none';
-        document.getElementById('feedbackTextarea').value = ''; 
+        document.getElementById('feedbackTextarea').value = '';
+        // Reset placeholder on open
+        document.getElementById('feedbackTextarea').placeholder = 'Type your honest feedback here (Required)...'; 
 
         lucide.createIcons();
     }
@@ -1408,13 +1447,42 @@
         }, 400); 
     }
 
+    // 🔥 FIX 2: Added validation to check if the textarea is empty
     function submitFeedback() {
-        const feedbackText = document.getElementById('feedbackTextarea').value;
+        const feedbackTextarea = document.getElementById('feedbackTextarea');
+        const feedbackText = feedbackTextarea.value.trim(); // .trim() removes whitespace
         const submitBtn = document.getElementById('submitFeedbackBtn');
         const submitText = document.getElementById('submitFeedbackText');
 
+        // --- START VALIDATION ---
+        if (feedbackText.length === 0) {
+            // Validation failed: Shake the modal and highlight the textarea
+            
+            // 1. Shake Modal
+            feedbackModalContent.classList.add('animate-shakeModal');
+            
+            // 2. Red Glow/Highlight on Textarea
+            feedbackTextarea.classList.add('border-red-500'); // Add red border
+            feedbackTextarea.placeholder = '⚠️ Please write something first...'; // Give a hint
+            
+            // Remove shake class after the animation duration (800ms)
+            setTimeout(() => {
+                feedbackModalContent.classList.remove('animate-shakeModal');
+            }, 800); 
+            
+            // 3. Revert highlight after a short delay
+            setTimeout(() => {
+                feedbackTextarea.classList.remove('border-red-500');
+                feedbackTextarea.placeholder = 'Type your honest feedback here (Required)...'; // Reset placeholder
+            }, 3000);
+            
+            return; // Stop the submission
+        }
+        // --- END VALIDATION ---
+
+
+        // --- Submission Logic (only if validation passes) ---
         submitBtn.disabled = true;
-        // submitBtn.classList.add('loading'); // no-shine-button doesn't use 'loading' class
         submitText.textContent = 'Sending...';
         
         // Custom loading style for no-shine-button
@@ -1430,7 +1498,6 @@
             }, 3000); 
 
             submitBtn.disabled = false;
-            // submitBtn.classList.remove('loading');
             submitBtn.style.opacity = '1';
             submitBtn.style.pointerEvents = 'auto';
             submitText.textContent = 'Submit Feedback'; 
