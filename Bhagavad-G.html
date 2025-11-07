@@ -608,6 +608,7 @@
         transition: opacity 0.3s ease, backdrop-filter 0.3s ease; 
     }
     #confirmationModal.active {
+        display: flex; /* Active hone par show karna hai */
         opacity: 1; 
         backdrop-filter: blur(4px); 
     }
@@ -1206,10 +1207,11 @@
     // CHANGE THIS VARIABLE: 'false' for two options. 'true' for only English download.
     const SINGLE_LANGUAGE_MODE = false; 
 
-    // ⭐ CORRECTED CONFIGURATION: Download File IDs for E-book Bundle (PDF, Audio, Video, Mind Map)
-    // IMPORTANT: Replace these placeholder IDs with your actual Google Drive FILE IDs.
-    const HINDI_FILE_ID = "YOUR_HINDI_GOOGLE_DRIVE_FILE_ID";
-    const ENGLISH_FILE_ID = "17GkHaNVoyuZBf9Fd2W6uOvMxXRF3QGAp"; // Example English ID
+    // ⭐ CORRECTED CONFIGURATION (GitHub Pages Direct URLs)
+    // FIX 1: Google Drive IDs replaced with GitHub Pages Direct URLs.
+    // IMPORTANT: In URLs ko apne actual GitHub hosted files ke links se badal de.
+    const HINDI_FILE_ID = "https://bookmintstore.github.io/assets/BhagavadGita_Hindi_Bundle.zip"; // Example Hindi URL
+    const ENGLISH_FILE_ID = "https://bookmintor.shop/bundels/old%20editonm.zip"; // Example English URL
     
     const SECRET_KEY = 'MY_EBOOK_KEY_123'; 
     
@@ -1411,17 +1413,17 @@
 
     observer.observe(statsSection);
 
-    // --- DOWNLOAD AND REDIRECT LOGIC (FIXED TO USE FILE ID) ---
+    // --- DOWNLOAD AND REDIRECT LOGIC (FIXED TO USE DIRECT URL) ---
     
     function getUrlParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
     
-    // Function to handle language selection (File ID)
-    function selectLanguage(fileId, langName) {
-        // 1. Set the File ID on the main button
-        downloadButton.setAttribute('data-file-id', fileId);
+    // Function to handle language selection (File ID is now a URL)
+    function selectLanguage(fileUrl, langName) {
+        // 1. Set the File URL on the main button's data attribute
+        downloadButton.setAttribute('data-file-id', fileUrl);
         
         // 2. Enable the main download button
         downloadButton.disabled = false;
@@ -1444,28 +1446,15 @@
         }
     }
 
-    // This function now uses the secure iframe download and gives correct feedback
+    // FIX 1b: Use window.location.href for Direct Download from data-file-id
     function handleDownloadClick(button) {
       if (downloadInitiated) return; 
 
-      const fileId = button.getAttribute('data-file-id');
-      if (!fileId || button.disabled) return;
+      const downloadLink = button.getAttribute('data-file-id');
+      if (!downloadLink || button.disabled) return;
       
-      // Corrected: Uses the hidden iframe method for direct download (Google Drive File ID)
-     const downloadLink = 'https://docs.google.com/uc?export=download&id=' + fileId + '&confirm=dl';
-
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none'; 
-      iframe.src = downloadLink;
-
-      document.body.appendChild(iframe);
-      
-      // Remove the iframe after some time to prevent resource drain
-      setTimeout(() => {
-          if (document.body.contains(iframe)) {
-              document.body.removeChild(iframe);
-          }
-      }, 5000); 
+      // FIX 1b: Trigger direct download using window.location.href (Works perfectly on GitHub Pages)
+      window.location.href = downloadLink; 
 
       const btnText = document.getElementById('downloadBtnText');
       
@@ -1637,6 +1626,8 @@
     function openConfirmationModal() {
         // 1. Show modal and blur background
         confirmationModal.style.display = 'flex'; 
+        // FIX 2: Add 'active' class to properly display the confirmation modal via CSS
+        confirmationModal.classList.add('active'); 
         body.classList.add('payment-modal-blur');
         lucide.createIcons(); 
         
