@@ -1452,7 +1452,7 @@
       if (!fileId || button.disabled) return;
       
       // Corrected: Uses the hidden iframe method for direct download (Google Drive File ID)
-      const downloadLink = 'https://drive.google.com/uc?export=download&id=' + fileId;
+     const downloadLink = 'https://docs.google.com/uc?export=download&id=' + fileId + '&confirm=dl';
 
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none'; 
