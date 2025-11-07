@@ -306,7 +306,7 @@
         filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); 
     }
     .stat-label {
-        font-size: 0.75rem;
+        font-size: 0.75rem; 
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -315,6 +315,43 @@
     .stat-divider {
         display: none; 
     }
+
+    /* ⭐ NEW: Premium List Styling for Features (Simple, Ticks, Soft Glow) */
+    .premium-list-container {
+      margin-top: 20px;
+      padding: 10px;
+    }
+    .premium-list-title {
+        color: #e0f2f1; 
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.2); 
+    }
+    .premium-list-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        font-size: 1.0rem;
+        color: #cbd5e1; /* zinc-300 for soft white text */
+        line-height: 1.4;
+    }
+    .premium-list-item strong {
+        color: #e0f2f1;
+    }
+    .simple-tick {
+        color: #34d399; /* Emerald Green */
+        filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); /* Soft Green Glow */
+        font-size: 1.4rem;
+        line-height: 1;
+        margin-right: 10px;
+        min-width: 20px;
+        font-weight: 900;
+        /* Custom adjustment to make the simple tick symbol look good */
+        transform: translateY(-2px); 
+    }
+    /* End Premium List Styling */
     
     /* Modal (Popup) CSS (unchanged) */
     .modal {
@@ -696,6 +733,25 @@
       <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it's a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today's reader.</p>
     </div>
 
+    <div data-aos="fade-up" class="py-4 premium-list-container">
+        
+        <div class="premium-list-item">
+            <span class="simple-tick">✓</span>
+            <span class="feature-text"><strong>PREMIUM E-BOOK :</strong></span>
+        </div>
+        <div class="premium-list-item">
+            <span class="simple-tick">✓</span>
+            <span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO:</strong></span>
+        </div>
+        <div class="premium-list-item">
+            <span class="simple-tick">✓</span>
+            <span class="feature-text"><strong>HD EXPLAINER VIDEO:</strong></span>
+        </div>
+        <div class="premium-list-item">
+            <span class="simple-tick">✓</span>
+            <span class="feature-text"><strong>MIND MAP:</strong></span>
+        </div>
+    </div>
     <div data-aos="fade-up">
       <h2 class="text-2xl font-bold mb-4">Q&A</h2>
       <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
@@ -985,7 +1041,7 @@
   </section>
 
   <div id="downloadModal" class="modal">
-    <div class="modal-content" id="modalContent">
+    <div class="modal-content" id="modalContent" style="max-width: 450px;">
       <button id="modalCloseButton" onclick="closeDownloadModal()">
         <i data-lucide="x" class="h-6 w-6"></i>
       </button>
@@ -996,18 +1052,30 @@
         </div>
         
         <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-indigo-700">
-          <i data-lucide="unlock" class="h-5 w-5"></i> <span>Your Ebook Unlocked!</span>
+          <i data-lucide="party-popper" class="h-5 w-5 text-fuchsia-600"></i> <span class="text-gray-900">Purchase Successful!</span>
         </h2>
-        <p class="text-sm text-gray-700 text-center">Thank you for your purchase. Your premium reading experience is ready.</p>
+        <p class="text-sm text-gray-700 text-center">Thank you! Please select your preferred language for your exclusive bundle (PDF, Audio, Video & Mind Map).</p>
+      </div>
+
+      <div id="languageSelectionContainer" class="space-y-3 mb-6 transition-opacity duration-300">
+          <button id="hindiSelectBtn" onclick="selectLanguage(HINDI_FILE_ID, 'HINDI')" class="w-full no-shine-button text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 border border-gray-300 rounded-lg shadow-sm transition duration-150 ease-in-out" style="background-image: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #374151;">
+             <i data-lucide="folder-search" class="h-4 w-4 inline mr-2 text-red-500"></i> Download in HINDI
+          </button>
+          
+          <button id="englishSelectBtn" onclick="selectLanguage(ENGLISH_FILE_ID, 'ENGLISH')" class="w-full no-shine-button text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 border border-gray-300 rounded-lg shadow-sm transition duration-150 ease-in-out" style="background-image: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #374151;">
+             <i data-lucide="folder-search" class="h-4 w-4 inline mr-2 text-blue-500"></i> Download in ENGLISH
+          </button>
       </div>
       
-      <button id="downloadButton" class="download-button w-full mt-2" onclick="handleDownloadClick(this)">
+      <p id="languageSelectedMessage" class="text-sm font-semibold text-center mb-4 text-emerald-600 hidden"></p>
+      
+      <button id="downloadButton" class="download-button w-full mt-2" onclick="handleDownloadClick(this)" disabled data-file-id="">
         <i data-lucide="download" class="h-5 w-5"></i> 
-        <span id="downloadBtnText">Download Your eBook</span>
+        <span id="downloadBtnText">Select Language to Enable Download</span>
         <span class="btn-shine"></span>
       </button>
 
-      <p class="mt-4 text-xs text-gray-500 text-center">Note: This link is unique & works only once for security.</p>
+      <p class="mt-4 text-xs text-gray-500 text-center">Note: The file will automatically start downloading once you click the button.</p>
     </div>
   </div>
 
@@ -1132,8 +1200,14 @@
     // ⭐ CONFIGURATION: Yeh URL Main Page (Payment se Pehle) 3D Mockup mein show hoga
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
-    // DO NOT CHANGE: Google Drive File ID for download
-    const FILE_ID = '1LFhwT-xy4LGT-RYvryoNGwRWQyI3WMAj'; // <-- Yahaan check kar lein, koi '$' nahi hai
+    // CHANGE THIS VARIABLE: 'false' for two options. 'true' for only English download.
+    const SINGLE_LANGUAGE_MODE = false; 
+
+    // ⭐ CORRECTED CONFIGURATION: Download File IDs for E-book Bundle (PDF, Audio, Video, Mind Map)
+    // IMPORTANT: Replace these placeholder IDs with your actual Google Drive FILE IDs.
+    const HINDI_FILE_ID = "YOUR_HINDI_GOOGLE_DRIVE_FILE_ID";
+    const ENGLISH_FILE_ID = "1LFhwT-xy4LGT-RYvryoNGwRWQyI3WMAj"; // Example English ID
+    
     const SECRET_KEY = 'MY_EBOOK_KEY_123'; 
     
     // ⭐ CONFIGURATION: Change this text to whatever you want, or set it to an empty string ("") to hide the tag completely.
@@ -1149,6 +1223,10 @@
     const modalCloseButton = document.getElementById('modalCloseButton');
     const downloadButton = document.getElementById('downloadButton');
     
+    // **NEW DOM refs for Language Selection**
+    const languageSelectionContainer = document.getElementById('languageSelectionContainer');
+    const languageSelectedMessage = document.getElementById('languageSelectedMessage');
+
     // **NEW DOM refs for Feedback Modal**
     const feedbackModal = document.getElementById('feedbackModal');
     const feedbackModalContent = document.getElementById('feedbackModalContent');
@@ -1175,7 +1253,7 @@
     // mark busy for screen readers
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
-    // 🔥 FIX 3: Redirect URL updated
+    // Redirect URL
     const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
 
     // Preload image (unchanged)
@@ -1330,35 +1408,61 @@
 
     observer.observe(statsSection);
 
-    // --- DOWNLOAD AND REDIRECT LOGIC (FIXED) ---
+    // --- DOWNLOAD AND REDIRECT LOGIC (FIXED TO USE FILE ID) ---
     
     function getUrlParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
     }
     
-    // ⭐⭐⭐ FINAL FIX: '$' BUG REMOVED (Using '+' for safety) ⭐⭐⭐
-    function downloadEbook() {
-        // Simple string concatenation (+) to avoid any template literal '`' vs ''' bugs.
-        const downloadLink = 'https://drive.google.com/uc?export=download&id=' + FILE_ID;
+    // Function to handle language selection (File ID)
+    function selectLanguage(fileId, langName) {
+        // 1. Set the File ID on the main button
+        downloadButton.setAttribute('data-file-id', fileId);
+        
+        // 2. Enable the main download button
+        downloadButton.disabled = false;
+        
+        // 3. Update main button text
+        document.getElementById('downloadBtnText').textContent = `Download ${langName} Bundle`;
 
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none'; 
-        iframe.src = downloadLink;
+        // 4. Provide visual feedback (Hindi/English buttons fade out, message appears)
+        if (!SINGLE_LANGUAGE_MODE) {
+            languageSelectionContainer.style.opacity = '0';
+            languageSelectionContainer.style.pointerEvents = 'none';
 
-        document.body.appendChild(iframe);
-
-        // Remove the iframe after some time to prevent resource drain
-        setTimeout(() => {
-            if (document.body.contains(iframe)) {
-                document.body.removeChild(iframe);
-            }
-        }, 5000); 
+            languageSelectedMessage.textContent = `${langName} selected. Click the green button to start download!`;
+            languageSelectedMessage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                // Optional: Hide language selection area after selection
+                languageSelectionContainer.style.display = 'none';
+            }, 300);
+        }
     }
 
     // This function now uses the secure iframe download and gives correct feedback
     function handleDownloadClick(button) {
       if (downloadInitiated) return; 
+
+      const fileId = button.getAttribute('data-file-id');
+      if (!fileId || button.disabled) return;
+      
+      // Corrected: Uses the hidden iframe method for direct download (Google Drive File ID)
+      const downloadLink = 'https://drive.google.com/uc?export=download&id=' + fileId;
+
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none'; 
+      iframe.src = downloadLink;
+
+      document.body.appendChild(iframe);
+      
+      // Remove the iframe after some time to prevent resource drain
+      setTimeout(() => {
+          if (document.body.contains(iframe)) {
+              document.body.removeChild(iframe);
+          }
+      }, 5000); 
 
       const btnText = document.getElementById('downloadBtnText');
       
@@ -1377,10 +1481,7 @@
           lucide.createIcons(); 
       }
       
-      // 1. Start the download process immediately (using secure iframe)
-      downloadEbook();
-
-      // 2. Set a 4-second delay before updating text to "Download Started!"
+      // Set a 4-second delay before updating text to "Download Started!"
       setTimeout(() => {
         
         btnText.textContent = 'Download Started!'; // Correct feedback
@@ -1447,7 +1548,7 @@
         }, 400); 
     }
 
-    // 🔥 FIX 2: Added validation to check if the textarea is empty
+    // Added validation to check if the textarea is empty
     function submitFeedback() {
         const feedbackTextarea = document.getElementById('feedbackTextarea');
         const feedbackText = feedbackTextarea.value.trim(); // .trim() removes whitespace
@@ -1529,7 +1630,7 @@
         }, 3000); 
     }
     
-    // ⭐⭐ This function now calls the final smooth shake animation
+    // This function now calls the final smooth shake animation
     function openConfirmationModal() {
         // 1. Show modal and blur background
         confirmationModal.style.display = 'flex'; 
@@ -1537,9 +1638,6 @@
         lucide.createIcons(); 
         
         requestAnimationFrame(() => {
-            confirmationModal.classList.add('active'); // Applies opacity: 1 and blur
-            
-            // Apply shake animation using Tailwind utility class
             confirmationContent.classList.add('animate-shakeModal'); 
             
             // Remove shake class after the animation duration (800ms)
@@ -1598,7 +1696,7 @@
         openPaymentModal();
     });
 
-    // Check for successful payment on page load (unchanged)
+    // Check for successful payment on page load (MODIFIED)
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
@@ -1608,6 +1706,27 @@
         
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
+        
+        // ⭐ NEW LOGIC: Check SINGLE_LANGUAGE_MODE
+        if (SINGLE_LANGUAGE_MODE) {
+            // If true, hide language selection and immediately set to English
+            languageSelectionContainer.style.display = 'none';
+            document.getElementById('downloadBtnText').textContent = 'Download ENGLISH Bundle';
+            document.getElementById('downloadButton').setAttribute('data-file-id', ENGLISH_FILE_ID);
+            document.getElementById('downloadButton').disabled = false;
+            
+            languageSelectedMessage.classList.remove('hidden');
+            languageSelectedMessage.textContent = 'English bundle is ready for download!';
+            
+        } else {
+            // If false (default), the selection container is visible, and the button is disabled.
+            // Re-apply language selection button styles (needed because of `no-shine-button` class properties being overwritten)
+            document.querySelectorAll('#languageSelectionContainer button').forEach(btn => {
+                btn.style.backgroundImage = 'none';
+                btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+                btn.style.color = '#374151';
+            });
+        }
         
         lucide.createIcons(); 
       }
