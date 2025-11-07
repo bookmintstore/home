@@ -729,7 +729,7 @@
       </div>
     </div>
 
-    <div data-aos="fade-up">
+    <div data-aos="fade-up" class="mb-4">
       <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
       <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it's a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today's reader.</p>
     </div>
@@ -756,7 +756,9 @@
             <span class="feature-text"><strong>HINDI AND ENGLISH BOTH LANGUAGE</strong></span>
        
           </div>
-    <div data-aos="fade-up">
+    </div> 
+
+    <div data-aos="fade-up" class="py-6">
       <h2 class="text-2xl font-bold mb-4">Q&A</h2>
       <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
         <details class="p-4 transition-all">
@@ -783,7 +785,7 @@
       </div>
     </div>
 
-    <div id="feedbacks" data-aos="fade-up">
+    <div id="feedbacks" data-aos="fade-up" class="py-10">
       <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
 
@@ -1045,6 +1047,40 @@
   </section>
 
   <div id="downloadModal" class="modal">
+    <div id="zipConfirmationModal" class="modal" style="display: none; position: absolute; inset: 0; background-color: rgba(2, 6, 23, 0.9); z-index: 10; border-radius: 12px; align-items: center; justify-content: center; backdrop-filter: blur(2px);">
+        <div id="zipConfirmationContent" class="modal-content" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
+            
+            <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2">
+                <i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Conformation
+            </h3>
+            
+            <p class="text-base font-semibold text-zinc-300 text-center mb-5">
+                Can your device open <span class="text-yellow-400">.ZIP files</span>?
+            </p>
+
+            <div class="space-y-3 p-4 bg-zinc-800/50 rounded-lg mb-6 border border-zinc-700">
+                <p class="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">If No, follow these 3 steps:</p>
+                
+                <div class="flex items-start text-sm text-zinc-300 gap-2">
+                    <i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                    <span>Open your <strong class="text-white">Play Store / App Store</strong>.</span>
+                </div>
+                <div class="flex items-start text-sm text-zinc-300 gap-2">
+                    <i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                    <span>Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</span>
+                </div>
+                <div class="flex items-start text-sm text-zinc-300 gap-2">
+                    <i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i>
+                    <span>Return here and click the button below.</span>
+                </div>
+            </div>
+
+            <button id="enableDownloadBtn" onclick="enableDownloadAndCloseZipConfirm()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">
+                I understand
+            </button>
+        </div>
+    </div>
+    
     <div class="modal-content" id="modalContent" style="max-width: 450px;">
       <button id="modalCloseButton" onclick="closeDownloadModal()">
         <i data-lucide="x" class="h-6 w-6"></i>
@@ -1205,7 +1241,7 @@
     const SOURCE_IMAGE = 'https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png';
 
     // CHANGE THIS VARIABLE: 'false' for two options. 'true' for only English download.
-    const SINGLE_LANGUAGE_MODE = false; 
+    const SINGLE_LANGUAGE_MODE = true; 
 
     // ⭐ CORRECTED CONFIGURATION (GitHub Pages Direct URLs)
     // FIX 1: Google Drive IDs replaced with GitHub Pages Direct URLs.
@@ -1253,6 +1289,12 @@
     
     // ⭐ NEW DOM refs for Custom Tag
     const customTagContainer = document.getElementById('custom-tag-container');
+    
+    // ⭐ NEW DOM refs for ZIP Confirmation Modal
+    const zipConfirmationModal = document.getElementById('zipConfirmationModal');
+    const zipConfirmationContent = document.getElementById('zipConfirmationContent');
+    let selectedFileUrl = '';
+    let selectedLangName = '';
 
 
     // mark busy for screen readers
@@ -1420,33 +1462,63 @@
       return urlParams.get(param);
     }
     
-    // Function to handle language selection (File ID is now a URL)
+    // ⭐ 1.b. UPDATED: Function to handle language selection (Now opens ZIP Modal)
     function selectLanguage(fileUrl, langName) {
-        // 1. Set the File URL on the main button's data attribute
-        downloadButton.setAttribute('data-file-id', fileUrl);
+        // 1. Store the selected file URL and language name
+        selectedFileUrl = fileUrl;
+        selectedLangName = langName;
         
-        // 2. Enable the main download button
-        downloadButton.disabled = false;
+        // 2. Disable the main download button temporarily
+        downloadButton.disabled = true;
+
+        // 3. Open the ZIP Confirmation Modal
+        openZipConfirmationModal();
+    }
+    
+    // ⭐ 1.b. NEW: Function to open the ZIP Confirmation Modal
+    function openZipConfirmationModal() {
+        zipConfirmationModal.style.display = 'flex';
+        // Add fade in effect manually since modal-content is already rendered (if needed)
+        // zipConfirmationContent.classList.add('animate-modalFadeIn'); 
+        lucide.createIcons();
+    }
+    
+    // ⭐ 1.d. NEW: Function to close ZIP Confirmation and enable main download button
+    function enableDownloadAndCloseZipConfirm() {
+        // 1. Close the ZIP Confirmation Modal (use fade out effect)
+        // zipConfirmationContent.classList.remove('animate-modalFadeIn');
+        zipConfirmationContent.classList.add('animate-modalFadeOut');
         
-        // 3. Update main button text
-        document.getElementById('downloadBtnText').textContent = `Download ${langName} Bundle`;
-
-        // 4. Provide visual feedback (Hindi/English buttons fade out, message appears)
-        if (!SINGLE_LANGUAGE_MODE) {
-            languageSelectionContainer.style.opacity = '0';
-            languageSelectionContainer.style.pointerEvents = 'none';
-
-            languageSelectedMessage.textContent = `${langName} selected. Click the green button to start download!`;
-            languageSelectedMessage.classList.remove('hidden');
+        setTimeout(() => {
+            zipConfirmationModal.style.display = 'none';
+            zipConfirmationContent.classList.remove('animate-modalFadeOut');
             
-            setTimeout(() => {
-                // Optional: Hide language selection area after selection
-                languageSelectionContainer.style.display = 'none';
-            }, 300);
-        }
+            // 2. Set the File URL on the main button's data attribute
+            downloadButton.setAttribute('data-file-id', selectedFileUrl);
+        
+            // 3. Enable the main download button
+            downloadButton.disabled = false;
+        
+            // 4. Update main button text
+            document.getElementById('downloadBtnText').textContent = `Download ${selectedLangName} Bundle`;
+
+            // 5. Provide visual feedback for language selection
+            if (!SINGLE_LANGUAGE_MODE) {
+                languageSelectionContainer.style.opacity = '0';
+                languageSelectionContainer.style.pointerEvents = 'none';
+
+                languageSelectedMessage.textContent = `${selectedLangName} selected. Click the green button to start download!`;
+                languageSelectedMessage.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    languageSelectionContainer.style.display = 'none';
+                }, 300);
+            }
+            
+        }, 400); 
     }
 
-    // FIX 1b: Use window.location.href for Direct Download from data-file-id
+    // handleDownloadClick function remains the same as it now expects the button to be enabled
     function handleDownloadClick(button) {
       if (downloadInitiated) return; 
 
@@ -1705,12 +1777,19 @@
         if (SINGLE_LANGUAGE_MODE) {
             // If true, hide language selection and immediately set to English
             languageSelectionContainer.style.display = 'none';
-            document.getElementById('downloadBtnText').textContent = 'Download ENGLISH Bundle';
-            document.getElementById('downloadButton').setAttribute('data-file-id', ENGLISH_FILE_ID);
-            document.getElementById('downloadButton').disabled = false;
+            // Now, we must jump to the ZIP confirmation step after a slight delay
             
+            // We set the details needed for ZIP confirmation, but don't enable the main button yet.
+            selectedFileUrl = ENGLISH_FILE_ID;
+            selectedLangName = 'ENGLISH';
+
             languageSelectedMessage.classList.remove('hidden');
-            languageSelectedMessage.textContent = 'English bundle is ready for download!';
+            languageSelectedMessage.textContent = 'English bundle selected. Please confirm ZIP compatibility.';
+            
+            setTimeout(() => {
+                openZipConfirmationModal();
+            }, 300);
+
             
         } else {
             // If false (default), the selection container is visible, and the button is disabled.
