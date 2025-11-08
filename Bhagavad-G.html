@@ -321,14 +321,6 @@
       margin-top: 20px;
       padding: 10px;
     }
-    .premium-list-title {
-        color: #e0f2f1; 
-        font-size: 1.25rem;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 20px;
-        text-shadow: 0 0 6px rgba(255, 255, 255, 0.2); 
-    }
     .premium-list-item {
         display: flex;
         align-items: flex-start;
@@ -426,16 +418,16 @@
         animation: btnshine 3.0s ease-in-out infinite;
     }
     
-    /* Button Disabled State (One-Time Click) (unchanged) */
+    /* Button Disabled State (One-Time Click) (FIXED to prevent disabling) */
     .download-button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
+        opacity: 1; /* Keep enabled appearance */
+        cursor: pointer;
         background-image: linear-gradient(135deg, #4CAF50, #10B981); 
-        box-shadow: none;
+        box-shadow: 0 4px 15px rgba(16,185,129,0.4);
         transform: none;
     }
     .download-button:disabled .btn-shine {
-      display: none; 
+      display: block; /* Keep shine effect */
     }
     /* Loading/Processing State (unchanged) */
     .download-button.loading {
@@ -783,12 +775,12 @@
           <span class="ml-2 line-through text-sm text-zinc-400">₹399</span>
           <span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold">50% OFF</span>
         </div>
-        <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
+        <button id="buyBtn" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95" onclick="openPaymentModal()">
           <span>Buy Now</span>
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
           <span class="cta-shine animate-btnshine"></span>
           <span class="corner-bling"></span>
-        </a>
+        </button>
       </div>
     </div>
 
@@ -1172,9 +1164,9 @@
       
       <p id="languageSelectedMessage" class="text-sm font-semibold text-center mb-4 text-emerald-600 hidden"></p>
       
-      <button id="downloadButton" class="download-button w-full mt-2" onclick="handleDownloadClick(this)" disabled data-file-id="">
+      <button id="downloadButton" class="download-button w-full mt-2" onclick="handleDownloadClick(this)" data-file-id="${ENGLISH_FILE_ID}">
         <i data-lucide="download" class="h-5 w-5"></i> 
-        <span id="downloadBtnText">Select Language to Enable Download</span>
+        <span id="downloadBtnText">Download ENGLISH Bundle</span>
         <span class="btn-shine"></span>
       </button>
 
@@ -1198,9 +1190,6 @@
                 Cancel / Go Back
             </button>
             
-            <button id="confirmExitDownloadBtn" class="w-full text-sm font-semibold text-red-600 hover:text-red-800 transition" onclick="confirmDownloadExit(true)">
-                Exit Anyway
-            </button>
         </div>
     </div>
   </div>
@@ -1318,6 +1307,15 @@
       if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
         return false;
       }
+      
+      // ⭐ FIX 3: Block F5 / Ctrl+R / Command+R (Refresh Prevention)
+      if (e.keyCode == 116 || (e.ctrlKey && e.keyCode == 82) || (e.metaKey && e.keyCode == 82)) {
+          if (document.getElementById('downloadModal').style.display === 'flex') {
+              e.preventDefault();
+              openDownloadExitWarningModal(); // Show warning instead of refreshing
+              return false;
+          }
+      }
     };
     // --- END: SECURITY DETERRENT (Right-Click & Shortcut Disabler) ---
 
@@ -1391,6 +1389,8 @@
     // Flag to bypass warning when a successful action is taken (download started or forced exit confirmed)
     let downloadInitiated = false; 
     let exitConfirmed = false; 
+    // Flag to manage back button state only for the download modal
+    let isDownloadModalOpen = false; 
 
     // Redirect URL
     const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
@@ -1554,27 +1554,42 @@
       return urlParams.get(param);
     }
     
-    // 1.b. UPDATED: Function to handle language selection (Now opens ZIP Modal)
+    // ⭐ FIX 1: Language Selection (Sets file URL and enables the button immediately upon selection)
     function selectLanguage(fileUrl, langName) {
         // 1. Store the selected file URL and language name
         selectedFileUrl = fileUrl;
         selectedLangName = langName;
         
-        // 2. Disable the main download button temporarily
-        downloadButton.disabled = true;
-
-        // 3. Open the ZIP Confirmation Modal
+        // 2. Open the ZIP Confirmation Modal (Still needed for compatibility confirmation)
         openZipConfirmationModal();
+
+        // Visual feedback for language selection (immediate update)
+        document.getElementById('downloadButton').setAttribute('data-file-id', selectedFileUrl);
+        document.getElementById('downloadBtnText').textContent = `Download ${selectedLangName} Bundle`;
+
+        // Reset button visual styles
+        document.querySelectorAll('#languageSelectionContainer button').forEach(btn => {
+            btn.style.backgroundImage = 'none';
+            btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+            btn.style.color = '#374151';
+        });
+        
+        // Highlight selected button
+        const selectedBtn = document.getElementById(langName.toLowerCase() + 'SelectBtn');
+        if (selectedBtn) {
+            selectedBtn.style.backgroundImage = 'linear-gradient(135deg, #f0f4f8, #e2e8f0)';
+            selectedBtn.style.boxShadow = '0 6px 15px rgba(99,102,241,0.2)';
+            selectedBtn.style.color = '#1f2937';
+        }
     }
     
     // 1.b. NEW: Function to open the ZIP Confirmation Modal
     function openZipConfirmationModal() {
         zipConfirmationModal.style.display = 'flex';
-        // zipConfirmationContent.classList.add('animate-modalFadeIn'); 
         lucide.createIcons();
     }
     
-    // 1.d. NEW: Function to close ZIP Confirmation and enable main download button
+    // 1.d. NEW: Function to close ZIP Confirmation
     function enableDownloadAndCloseZipConfirm() {
         // 1. Close the ZIP Confirmation Modal
         zipConfirmationContent.classList.add('animate-modalFadeOut');
@@ -1583,22 +1598,13 @@
             zipConfirmationModal.style.display = 'none';
             zipConfirmationContent.classList.remove('animate-modalFadeOut');
             
-            // 2. Set the File URL on the main button's data attribute
-            downloadButton.setAttribute('data-file-id', selectedFileUrl);
-        
-            // 3. Enable the main download button
-            downloadButton.disabled = false;
-        
-            // 4. Update main button text
-            document.getElementById('downloadBtnText').textContent = `Download ${selectedLangName} Bundle`;
+            // This is the point where the user can now proceed to download.
+            languageSelectedMessage.textContent = `${selectedLangName} bundle selected. Click the green button to start download!`;
+            languageSelectedMessage.classList.remove('hidden');
 
-            // 5. Provide visual feedback for language selection
             if (!SINGLE_LANGUAGE_MODE) {
                 languageSelectionContainer.style.opacity = '0';
                 languageSelectionContainer.style.pointerEvents = 'none';
-
-                languageSelectedMessage.textContent = `${selectedLangName} selected. Click the green button to start download!`;
-                languageSelectedMessage.classList.remove('hidden');
                 
                 setTimeout(() => {
                     languageSelectionContainer.style.display = 'none';
@@ -1613,11 +1619,15 @@
       if (downloadInitiated) return; 
 
       const downloadLink = button.getAttribute('data-file-id');
-      if (!downloadLink || button.disabled) return;
+      // If the user hasn't completed the ZIP confirmation yet, ask them to select/confirm.
+      if (!downloadLink || zipConfirmationModal.style.display === 'flex' || languageSelectionContainer.style.display !== 'none') {
+        openZipConfirmationModal();
+        return;
+      }
       
       // Set flag to bypass the warning modal on close
       downloadInitiated = true; 
-      exitConfirmed = true; // This will bypass the warning in closeDownloadModal()
+      exitConfirmed = true; 
 
       // FIX 1b: Trigger direct download using window.location.href (Works perfectly on GitHub Pages)
       window.location.href = downloadLink; 
@@ -1656,9 +1666,42 @@
       }, 4000); // 4 second delay
     }
 
+    // --- ⭐ NEW: Helper function to close download modal and open feedback modal ---
+    function openFeedbackModalAndCloseDownload() {
+         // 1. Forcefully close the download modal
+        downloadModalContent.classList.remove('animate-modalFadeIn');
+        downloadModalContent.classList.add('animate-modalFadeOut');
+        downloadModal.classList.add('closing');
+
+        // Also hide the warning modal if it's open (it shouldn't be, but safe guard)
+        downloadExitWarningModal.style.display = 'none';
+        downloadExitWarningContent.classList.remove('animate-modalFadeIn');
+
+        setTimeout(() => {
+            downloadModal.style.display = 'none';
+            downloadModalContent.classList.remove('animate-modalFadeOut');
+            downloadModal.classList.remove('closing');
+            
+            // IMPORTANT: Disable back button security when modal closes
+            if (isDownloadModalOpen) {
+                isDownloadModalOpen = false;
+                history.go(-1); // Go back to the real previous state
+            }
+
+            // Reset flags
+            exitConfirmed = false; 
+            downloadInitiated = false; // Reset for security (It's set to true temporarily in handleDownloadClick)
+            
+            // 2. Open Feedback Modal
+            openFeedbackModal();
+            
+        }, 400); 
+    }
+
+
     // ⭐ 2. KEY LOGIC: closeDownloadModal() function update
     // This function now opens the Warning Modal by default, 
-    // unless exit is explicitly confirmed (download started or 'Exit Anyway' pressed).
+    // unless download is already initiated (which includes the cross button press after download).
     function closeDownloadModal(forceExit = false) {
         // Prevent closing if the inner ZIP Confirmation Modal is visible
         if (zipConfirmationModal.style.display === 'flex') {
@@ -1670,39 +1713,25 @@
             return;
         }
 
-        if (forceExit || exitConfirmed) {
-            // Forcefully close the modal (used by Exit Anyway button or after download starts)
-            downloadModalContent.classList.remove('animate-modalFadeIn');
-            downloadModalContent.classList.add('animate-modalFadeOut');
-            downloadModal.classList.add('closing');
-
-            // Also hide the warning modal if it's open
-            downloadExitWarningModal.style.display = 'none';
-            downloadExitWarningContent.classList.remove('animate-modalFadeIn');
-
-
-            setTimeout(() => {
-                downloadModal.style.display = 'none';
-                downloadModalContent.classList.remove('animate-modalFadeOut');
-                downloadModal.classList.remove('closing');
-                // Reset flag for future uses
-                exitConfirmed = false; 
-                downloadInitiated = false;
-
-                if (downloadInitiated) {
-                    openFeedbackModal();
-                }
-                
-            }, 400); 
+        // ⭐ NEW FEATURE LOGIC ADDED HERE:
+        if (downloadInitiated) {
+            // If download started, the next step is Feedback, not Warning.
+            // This is the core logic from Bhagavad-G (17) that was missing.
+            openFeedbackModalAndCloseDownload();
             
         } else {
-            // Default action: show the warning modal
+            // Default action: show the warning modal (Blocking Exit)
             openDownloadExitWarningModal();
         }
     }
     
     // ⭐ 1.b. NEW: Function to open the Download Exit Warning Modal
     function openDownloadExitWarningModal() {
+        // Check if the warning is already active or if a sub-modal is active
+        if (downloadExitWarningModal.style.display === 'flex' || zipConfirmationModal.style.display === 'flex') {
+            return;
+        }
+
         // Show the warning modal and overlay the download modal
         downloadExitWarningModal.style.display = 'flex';
         downloadExitWarningContent.classList.add('animate-modalFadeIn');
@@ -1711,36 +1740,31 @@
     
     // ⭐ 1.d. NEW: Function to handle the warning modal button clicks
     function confirmDownloadExit(shouldExit) {
-        if (shouldExit) {
-            // User chose 'Exit Anyway' -> Force the closure of the main download modal
-            exitConfirmed = true; 
-            closeDownloadModal(true);
-        } else {
-            // User chose 'Cancel/Go Back' -> Close the warning modal and return to the main download modal
-            downloadExitWarningContent.classList.remove('animate-modalFadeIn');
-            downloadExitWarningContent.classList.add('animate-modalFadeOut');
+        // FIX 2: Since 'Exit Anyway' is removed, shouldExit is always false here.
+        // The user only has one choice: Cancel/Go Back
+        
+        // Close the warning modal and return to the main download modal
+        downloadExitWarningContent.classList.remove('animate-modalFadeIn');
+        downloadExitWarningContent.classList.add('animate-modalFadeOut');
+        
+        setTimeout(() => {
+            downloadExitWarningModal.style.display = 'none';
+            downloadExitWarningContent.classList.remove('animate-modalFadeOut');
             
+            // Optional: Shake the main modal to re-focus the user's attention
+            downloadModalContent.classList.add('animate-shakeModal');
             setTimeout(() => {
-                downloadExitWarningModal.style.display = 'none';
-                downloadExitWarningContent.classList.remove('animate-modalFadeOut');
-                
-                // Optional: Shake the main modal to re-focus the user's attention
-                downloadModalContent.classList.add('animate-shakeModal');
-                setTimeout(() => {
-                    downloadModalContent.classList.remove('animate-shakeModal');
-                }, 800); 
-                
-            }, 400);
-        }
+                downloadModalContent.classList.remove('animate-shakeModal');
+            }, 800); 
+            
+        }, 400);
     }
     
-    // ⭐ 1.a. & 1.b. FIX: BLOCKING ESCAPE/CLOSE BUTTON/BACKDROP
+    // --- GENERAL MODAL LOGIC (HARDENED SECURITY) ---
     
     // 1. Backdrop click on Download Modal
     downloadModal.addEventListener('click', (e) => {
-        // Check if the click occurred directly on the backdrop (the modal container itself)
         if (e.target === downloadModal && downloadModal.style.display === 'flex') {
-            // Only trigger security exit logic if we are not currently showing an inner modal
             if (zipConfirmationModal.style.display !== 'flex' && downloadExitWarningModal.style.display !== 'flex') {
                 closeDownloadModal();
             }
@@ -1751,14 +1775,19 @@
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             // If Download Modal is open, prioritize its security logic
-            if (downloadModal.style.display === 'flex') {
-                e.preventDefault(); // Stop default escape behavior (which is usually closing the modal)
+            if (downloadModal.style.display === 'flex' && downloadExitWarningModal.style.display !== 'flex' && zipConfirmationModal.style.display !== 'flex') {
+                e.preventDefault(); 
                 closeDownloadModal();
             }
-            // If Payment Confirmation is open, treat escape as "Exit Anyway"
+            // If Payment Confirmation is open
             else if (confirmationModal.classList.contains('active')) {
                 e.preventDefault();
                 confirmExitPayment(true);
+            }
+            // If Download Exit Warning Modal is open, let the user cancel (go back)
+            else if (downloadExitWarningModal.style.display === 'flex') {
+                e.preventDefault();
+                confirmDownloadExit(false); // Pressing Escape acts as "Cancel/Go Back"
             }
             // For other modals (like feedback), close normally
             else if (feedbackModal.style.display === 'flex') {
@@ -1767,8 +1796,32 @@
             
         }
     });
-    
-    // --- FEEDBACK MODAL FUNCTIONS (unchanged) ---
+
+    // 3. Browser Back/Forward Button Security (THE KEY FIX for Refresh/Back)
+    window.addEventListener('popstate', (e) => {
+        // Only run this logic if the download modal is flagged as open
+        if (isDownloadModalOpen && downloadModal.style.display === 'flex' && downloadExitWarningModal.style.display !== 'flex' && zipConfirmationModal.style.display !== 'flex') {
+            // Re-inject the history state to prevent navigating back further
+            history.pushState(null, null, window.location.href); 
+            // Show the warning modal instead of exiting
+            openDownloadExitWarningModal();
+        }
+    });
+
+    // 4. Beforeunload handler (To catch Refresh/Closing the tab)
+    window.addEventListener('beforeunload', function (e) {
+        if (isDownloadModalOpen) {
+            // Show default browser warning only if download hasn't started
+            if (!downloadInitiated) {
+                e.preventDefault(); 
+                e.returnValue = 'Warning: Leaving this page will cause you to lose access to your one-time download link!';
+                return e.returnValue;
+            }
+        }
+    });
+
+
+    // --- FEEDBACK MODAL FUNCTIONS (Restored) ---
 
     function openFeedbackModal() {
         feedbackModal.style.display = 'flex';
@@ -1858,9 +1911,9 @@
         }, 1000); 
     }
 
-    // **PAYMENT MODAL JAVASCRIPT**
-    
-    // Function to show the payment modal (unchanged)
+    // --- PAYMENT MODAL FUNCTIONS (Restored) ---
+
+    // Function to show the payment modal 
     function openPaymentModal() {
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
@@ -1944,13 +1997,7 @@
         }, 400); 
     }
     
-    // Event Listener for 'Buy Now' button
-    buyBtn.addEventListener('click', (e) => {
-        e.preventDefault(); 
-        openPaymentModal();
-    });
-
-    // Check for successful payment on page load (MODIFIED)
+    // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
@@ -1961,32 +2008,38 @@
         downloadModal.style.display = 'flex';
         downloadModalContent.classList.add('animate-modalFadeIn');
         
-        // ⭐ NEW LOGIC: Check SINGLE_LANGUAGE_MODE
+        // ⭐ THE KEY FIX: Push a new state when the Download Modal opens
+        history.pushState(null, null, window.location.href);
+        isDownloadModalOpen = true; 
+
+        // ⭐ FIX 1: Set English as default selection
+        selectedFileUrl = ENGLISH_FILE_ID;
+        selectedLangName = 'ENGLISH';
+
+        // Update button text with default selection
+        document.getElementById('downloadButton').setAttribute('data-file-id', ENGLISH_FILE_ID);
+        document.getElementById('downloadBtnText').textContent = `Download ENGLISH Bundle`;
+        
+        // If single language mode is TRUE, jump straight to ZIP confirm
         if (SINGLE_LANGUAGE_MODE) {
-            // If true, hide language selection and immediately set to English
-            languageSelectionContainer.style.display = 'none';
-            // Now, we must jump to the ZIP confirmation step after a slight delay
-            
-            // We set the details needed for ZIP confirmation, but don't enable the main button yet.
-            selectedFileUrl = ENGLISH_FILE_ID;
-            selectedLangName = 'ENGLISH';
+             languageSelectionContainer.style.display = 'none';
+             languageSelectedMessage.classList.remove('hidden');
+             languageSelectedMessage.textContent = 'English bundle selected. Please confirm ZIP compatibility.';
+             
+             setTimeout(() => {
+                 openZipConfirmationModal();
+             }, 300);
 
-            languageSelectedMessage.classList.remove('hidden');
-            languageSelectedMessage.textContent = 'English bundle selected. Please confirm ZIP compatibility.';
-            
-            setTimeout(() => {
-                openZipConfirmationModal();
-            }, 300);
-
-            
         } else {
-            // If false (default), the selection container is visible, and the button is disabled.
-            // Re-apply language selection button styles (needed because of `no-shine-button` class properties being overwritten)
-            document.querySelectorAll('#languageSelectionContainer button').forEach(btn => {
+            // If dual language mode, highlight default English button visually
+             document.querySelectorAll('#languageSelectionContainer button').forEach(btn => {
                 btn.style.backgroundImage = 'none';
                 btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
                 btn.style.color = '#374151';
             });
+             document.getElementById('englishSelectBtn').style.backgroundImage = 'linear-gradient(135deg, #f0f4f8, #e2e8f0)';
+             document.getElementById('englishSelectBtn').style.boxShadow = '0 6px 15px rgba(99,102,241,0.2)';
+             document.getElementById('englishSelectBtn').style.color = '#1f2937';
         }
         
         lucide.createIcons(); 
