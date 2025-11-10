@@ -72,6 +72,32 @@
                 '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' }
             },
             /* waveJump keyframes removed from here and added to raw CSS */
+            // ⭐ NEW: Animation for smooth screenshot fade transition
+            fadeImageIn: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 }
+            },
+            fadeImageOut: {
+                '0%': { opacity: 1 },
+                '100%': { opacity: 0 }
+            },
+             // ⭐ NEW: Indicator Animation (Pop + slight vertical float)
+            popFloat: {
+                '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 },
+                '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 }
+            },
+            // ⭐ NEW: Arrow Pulse Animation
+            pulseArrow: {
+                '0%': { transform: 'translateX(0px)', opacity: 0.5 },
+                '50%': { transform: 'translateX(6px)', opacity: 1 },
+                '100%': { transform: 'translateX(0px)', opacity: 0.5 }
+            },
+            // ⭐ NEW: Gradient shift for tag text animation
+            'gradient-shift': {
+                '0%': { 'background-position': '0% 50%' },
+                '50%': { 'background-position': '100% 50%' },
+                '100%': { 'background-position': '0% 50%' }
+            }
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -90,6 +116,14 @@
             // ⭐⭐⭐ FINAL SMOOTH SHAKE DURATION ⭐⭐⭐
             shakeModal: 'shakeModal 0.8s ease-in-out 1',
             redGlow: 'redGlow 2.5s infinite ease-in-out',
+            // ⭐ NEW: Image Fade Transition
+            fadeImageIn: 'fadeImageIn 0.4s ease-out forwards',
+            fadeImageOut: 'fadeImageOut 0.3s ease-in forwards',
+            // ⭐ NEW: Indicator Animation
+            popFloat: 'popFloat 3s ease-in-out infinite',
+            pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
+            // ⭐ NEW: Gradient Shift Animation
+            'gradient-shift': 'gradient-shift 8s ease infinite'
             /* waveJump animation removed from here */
           }
         }
@@ -107,6 +141,13 @@
     @keyframes waveJump {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); } /* Reduced jump height as requested */
+    }
+
+    /* ⭐ NEW: Gradient shift keyframes for tag text animation */
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     /* general */
@@ -161,6 +202,10 @@
       transform: scale(1.02);
       will-change: opacity, transform;
     }
+    /* ⭐ MODIFIED: Cursor pointer for cover to indicate clickability */
+    #coverFace {
+        cursor: pointer;
+    }
 
     /* ⭐ MODIFIED: NEW Subtle Custom Tag CSS for light box and transparent text */
     .subtle-tag {
@@ -194,6 +239,9 @@
         background-clip: text;
         text-fill-color: transparent;
         line-height: 1; 
+        /* ⭐ FIX: Enabling Gradient Animation */
+        background-size: 200% auto; 
+        animation: gradient-shift 8s ease infinite; /* 8 seconds for a slow, smooth loop */
     }
 
     .subtle-tag .tag-shine {
@@ -318,8 +366,9 @@
 
     /* ⭐ NEW: Premium List Styling for Features (Simple, Ticks, Soft Glow) */
     .premium-list-container {
-      margin-top: 20px;
+      margin-top: 10px; /* FIXED: Reduced top spacing */
       padding: 10px;
+      padding-bottom: 0; /* FIXED: Reduced bottom padding */
     }
     .premium-list-title {
         color: #e0f2f1; 
@@ -332,7 +381,7 @@
     .premium-list-item {
         display: flex;
         align-items: flex-start;
-        margin-bottom: 15px;
+        margin-bottom: 10px; /* FIXED: Reduced space between list items */
         font-size: 1.0rem;
         color: #cbd5e1; /* zinc-300 for soft white text */
         line-height: 1.4;
@@ -366,6 +415,11 @@
     #feedbackModal {
         z-index: 1010; /* Higher than download and payment modals */
     }
+    /* ⭐ MODIFIED: Z-index for the new Preview Modal */
+    #previewModal {
+        z-index: 1005; 
+    }
+
     .modal.closing {
       transition: background-color 0.4s ease;
       background-color: rgba(0, 0, 0, 0); 
@@ -382,6 +436,39 @@
         box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); 
         opacity: 0; 
         transform: translateY(20px) scale(0.95); 
+    }
+
+    /* ⭐ NEW: Custom Max-Width for Preview Modal */
+    @media (min-width: 640px) {
+        #previewModalContent {
+            max-width: 420px; 
+        }
+    }
+    @media (max-width: 639px) {
+        #previewModalContent {
+            max-width: 360px; 
+        }
+    }
+
+    /* ⭐ NEW: Styles for the Preview overlay and image container */
+    #previewOverlay {
+        position: absolute;
+        inset: 0;
+        z-index: 8; /* Above original image (6) but below spin (7) if loading */
+        background: #111;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none; /* Initially disabled pointer events */
+    }
+
+    #previewScreenshot {
+        width: 95%;
+        height: 95%;
+        object-fit: cover;
+        opacity: 0;
     }
     
     /* Download Button CSS for Shine and Click effect (unchanged) */
@@ -496,7 +583,28 @@
         opacity: 1;
         pointer-events: auto; 
     }
-    
+    /* ⭐ MODIFIED: Close Button for Preview Modal (Not used now, but kept in case needed later) */
+    #previewModalCloseButton {
+        position: absolute;
+        top: 12px; 
+        right: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        color: #94a3b8; /* zinc-400 for dark background */
+        opacity: 1; 
+        pointer-events: auto; 
+        transition: color 0.2s ease, background-color 0.2s ease;
+        z-index: 1020;
+        display: none; /* Hide since we moved content outside modal */
+    }
+    #previewModalCloseButton:hover {
+        color: #e2e8f0; /* slate-200 */
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
     /* Style for the cover image wrapper in the pop-up (BOX-SHADOW REMOVED) (unchanged) */
     .modal-cover-wrap {
       width: 96px; 
@@ -662,9 +770,15 @@
     <a href="./spirituality.html" class="text-sm text-zinc-300 hover:text-white">Back to Library</a>
   </header>
 
-  <section class="max-w-5xl mx-auto px-6 py-12 space-y-10">
-    <div class="flex flex-col md:flex-row items-center gap-8">
-      <div class="book-wrap" data-aos="fade-right">
+  <section class="max-w-5xl mx-auto px-6 py-12 space-y-8"> <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="book-wrap relative" data-aos="fade-right">
+        <div id="previewIndicator" class="absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 z-10 sm:block md:translate-x-0 md:-left-4 md:top-20 md:translate-y-0" style="width: 150px; display: none;">
+            <div class="flex items-center gap-1 text-xs font-semibold text-white/90 bg-fuchsia-600/60 backdrop-blur-sm px-2 py-1 rounded-lg border border-fuchsia-400/50 shadow-lg animate-popFloat">
+                <i data-lucide="info" class="h-4 w-4 text-fuchsia-200"></i>
+                <span>Tap here to see preview</span>
+                <i data-lucide="arrow-right" class="h-4 w-4 text-fuchsia-200 animate-pulseArrow"></i>
+            </div>
+        </div>
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true"> 
             
@@ -674,7 +788,23 @@
             
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
-          </div>
+
+            <div id="previewOverlay" aria-hidden="true">
+                <img id="previewScreenshot" src="" alt="Ebook Screenshot Preview" class="absolute inset-0 w-full h-full object-contain" />
+                
+                <button onclick="prevImage(event)" id="prevImageBtn" class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-black/30 text-white rounded-full hover:bg-black/50 transition disabled:opacity-30 disabled:pointer-events-none z-10">
+                    <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                </button>
+                <button onclick="nextImage(event)" id="nextImageBtn" class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-black/30 text-white rounded-full hover:bg-black/50 transition disabled:opacity-30 disabled:pointer-events-none z-10">
+                    <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                </button>
+                <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10">
+                    <i data-lucide="x" class="h-4 w-4"></i>
+                </button>
+
+                <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
+            </div>
+            </div>
 
           <div class="spine" aria-hidden="true"></div>
           <div class="pages" aria-hidden="true"></div>
@@ -729,13 +859,11 @@
       </div>
     </div>
 
-    <div data-aos="fade-up" class="mb-4">
-      <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
+    <div data-aos="fade-up" class="mb-2"> <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
       <p class="text-zinc-300 leading-relaxed">The Bhagavad Gita is more than scripture, it's a guide to life. This edition brings out simplified explanations, practical examples, and modern reflections for today's reader.</p>
     </div>
 
-    <div data-aos="fade-up" class="py-4 premium-list-container">
-          <div class="premium-list-item">
+    <div data-aos="fade-up" class="py-2 premium-list-container"> <div class="premium-list-item">
             <span class="simple-tick">✓</span>
             <span class="feature-text"><strong>PREMIUM E-BOOK</strong></span>
         </div>
@@ -758,8 +886,7 @@
           </div>
     </div> 
 
-    <div data-aos="fade-up" class="py-6">
-      <h2 class="text-2xl font-bold mb-4">Q&A</h2>
+    <div data-aos="fade-up" class="py-4"> <h2 class="text-2xl font-bold mb-4">Q&A</h2>
       <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
         <details class="p-4 transition-all">
           <summary class="cursor-pointer font-semibold flex justify-between items-center">
@@ -785,12 +912,10 @@
       </div>
     </div>
 
-    <div id="feedbacks" data-aos="fade-up" class="py-10">
-      <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
+    <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
 
-      <div class="space-y-4" id="feedback-list">
-        <div class="feedback-item animate-slideUp">
+      <div class="space-y-3" id="feedback-list"> <div class="feedback-item animate-slideUp">
           <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div>
           <div class="feedback-content">
             <div class="feedback-header">
@@ -1046,7 +1171,7 @@
     
   </section>
 
-  <div id="downloadModal" class="modal">
+<div id="downloadModal" class="modal">
     <div id="zipConfirmationModal" class="modal" style="display: none; position: absolute; inset: 0; background-color: rgba(2, 6, 23, 0.9); z-index: 10; border-radius: 12px; align-items: center; justify-content: center; backdrop-filter: blur(2px);">
         <div id="zipConfirmationContent" class="modal-content" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
             
@@ -1254,6 +1379,15 @@
     // ⭐ CONFIGURATION: Change this text to whatever you want, or set it to an empty string ("") to hide the tag completely.
     const CUSTOM_TAG_TEXT = 'Trending'; // Examples: 'Trending', 'New', 'Best Seller', 'Popular'
 
+    // ⭐ NEW: Screenshot Placeholders
+    const SCREENSHOT_URLS = [
+        'https://via.placeholder.com/400x600/1e293b/a855f7?text=Screenshot+1+Beginner+Guide', // Placeholder 1
+        'https://via.placeholder.com/400x600/1e293b/a855f7?text=Screenshot+2+Practical+Notes', // Placeholder 2
+        'https://via.placeholder.com/400x600/1e293b/a855f7?text=Screenshot+3+Chapter+Summary', // Placeholder 3
+        'https://via.placeholder.com/400x600/1e293b/a855f7?text=Screenshot+4+Quote+Highlight', // Placeholder 4
+        'https://via.placeholder.com/400x600/1e293b/a855f7?text=Screenshot+5+Modern+Reflections', // Placeholder 5
+    ];
+
     // DOM refs
     const cover = document.getElementById('coverFace'); 
     const coverImg = document.getElementById('coverImg');
@@ -1295,6 +1429,16 @@
     const zipConfirmationContent = document.getElementById('zipConfirmationContent');
     let selectedFileUrl = '';
     let selectedLangName = '';
+    
+    // ⭐ NEW DOM refs for Preview Overlay (Inside the cover)
+    const previewOverlay = document.getElementById('previewOverlay');
+    const previewScreenshot = document.getElementById('previewScreenshot');
+    const prevImageBtn = document.getElementById('prevImageBtn');
+    const nextImageBtn = document.getElementById('nextImageBtn');
+    const imageCounter = document.getElementById('imageCounter');
+    const previewIndicator = document.getElementById('previewIndicator');
+    const exitPreviewBtn = document.getElementById('exitPreviewBtn');
+    let currentImageIndex = 0;
 
 
     // mark busy for screen readers
@@ -1332,6 +1476,17 @@
           loadingSpin.style.display = 'none'; 
           cover.classList.add('loaded');
           cover.setAttribute('aria-busy','false');
+
+          // ⭐ NEW: Show preview indicator for 4 seconds
+          previewIndicator.style.display = 'block';
+          setTimeout(() => {
+              previewIndicator.style.transition = 'opacity 0.5s ease-out';
+              previewIndicator.style.opacity = '0';
+              setTimeout(() => {
+                  previewIndicator.style.display = 'none';
+              }, 500);
+          }, 4000); // Display for 4 seconds
+
         }, 450); 
 
       }, 700); 
@@ -1341,6 +1496,97 @@
     preloadImage.onerror = () => {
       const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false');
     };
+    
+    // --- PREVIEW OVERLAY LOGIC ---
+    
+    // Function to handle image change with fade
+    function showPreviewImage(index) {
+        // Fade out the current image (if visible)
+        if (previewScreenshot.style.opacity === '1') {
+            previewScreenshot.classList.remove('animate-fadeImageIn');
+            previewScreenshot.classList.add('animate-fadeImageOut');
+        } else {
+             previewScreenshot.classList.remove('animate-fadeImageOut'); // Ensure fade-out class isn't present initially
+        }
+
+        currentImageIndex = index;
+
+        // Update image source and fade in after a brief delay (matching fade-out duration)
+        setTimeout(() => {
+            previewScreenshot.src = SCREENSHOT_URLS[currentImageIndex];
+            imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
+            
+            // Fade in the new image
+            previewScreenshot.classList.remove('animate-fadeImageOut');
+            previewScreenshot.classList.add('animate-fadeImageIn');
+            previewScreenshot.style.opacity = '1';
+
+            // Update button states
+            prevImageBtn.disabled = currentImageIndex === 0;
+            nextImageBtn.disabled = currentImageIndex === SCREENSHOT_URLS.length - 1;
+        }, 300); // Wait for fade-out/transition
+    }
+
+    function nextImage(event) {
+        event.stopPropagation(); // Prevent cover click handler from firing
+        if (currentImageIndex < SCREENSHOT_URLS.length - 1) {
+            showPreviewImage(currentImageIndex + 1);
+        }
+    }
+
+    function prevImage(event) {
+        event.stopPropagation(); // Prevent cover click handler from firing
+        if (currentImageIndex > 0) {
+            showPreviewImage(currentImageIndex - 1);
+        }
+    }
+
+    function openPreviewOverlay() {
+        // 1. Hide cover image
+        coverImg.style.opacity = '0';
+        
+        // 2. Show overlay
+        previewOverlay.style.opacity = '1';
+        previewOverlay.style.pointerEvents = 'auto'; // Enable buttons
+        
+        // 3. Reset and show first image
+        currentImageIndex = -1; 
+        showPreviewImage(0); 
+        lucide.createIcons(); // Ensure arrows and X are rendered
+
+        // 4. Hide indicator permanently if it's still visible
+        previewIndicator.style.transition = 'none';
+        previewIndicator.style.display = 'none';
+    }
+    
+    function exitPreview(event) {
+        if (event) event.stopPropagation();
+        
+        // 1. Fade out screenshot
+        previewScreenshot.classList.remove('animate-fadeImageIn');
+        previewScreenshot.classList.add('animate-fadeImageOut');
+        
+        setTimeout(() => {
+            // 2. Hide overlay
+            previewOverlay.style.opacity = '0';
+            previewOverlay.style.pointerEvents = 'none';
+            previewScreenshot.style.opacity = '0';
+            
+            // 3. Show book cover again
+            coverImg.style.opacity = '1';
+        }, 300); // Match fade-out time
+    }
+    
+    // ⭐ NEW: Event Listener to open the Preview Overlay on cover click
+    cover.addEventListener('click', (event) => {
+        // If the overlay is hidden, open it. If it's visible, do nothing (to allow touch navigation).
+        if (previewOverlay.style.opacity === '0' || previewOverlay.style.opacity === '') {
+            event.preventDefault(); // Stop default behavior if needed
+            openPreviewOverlay();
+        }
+    });
+
+    // --- END PREVIEW OVERLAY LOGIC ---
 
     // Details toggle (unchanged)
     document.querySelectorAll('details').forEach(detail => {
@@ -1804,7 +2050,8 @@
         lucide.createIcons(); 
       }
       
-      lucide.createIcons(); 
+      // Initial call to render icons (including indicator)
+      lucide.createIcons();
     });
   </script>
 </body>
