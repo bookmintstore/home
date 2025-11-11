@@ -293,12 +293,14 @@
       opacity: 0;
     }
 
-    /* Spine, Pages, Edges (Original structure) (unchanged) */
+    /* Spine, Pages, Edges (Original structure) */
+    /* ⭐ FIX 1: Removed bottom-edge shadow that might cause white line glitch */
     .spine {
       position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
     }
     .pages {
-      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 12px rgba(0,0,0,0.06); overflow:hidden;
+      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); /* Adjusted inner shadow for smoother look */
+      overflow:hidden;
     }
     .top-edge {
       position:absolute; top: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(90deg) translateY(-10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 8px 8px 0 0;
@@ -465,10 +467,11 @@
     }
 
     #previewScreenshot {
-        width: 95%;
-        height: 95%;
+        width: 100%; /* Changed from 95% to 100% for full edge-to-edge fit */
+        height: 100%;
         object-fit: cover;
         opacity: 0;
+        border-radius: 8px; /* Match cover border radius */
     }
     
     /* Download Button CSS for Shine and Click effect (unchanged) */
@@ -752,6 +755,16 @@
         transition: filter 0.3s ease, brightness 0.3s ease; 
     }
     
+    /* ⭐ Indicator Position Fix for Mobile: Moved indicator to the right side of the cover on mobile */
+    @media (max-width: 767px) {
+        #previewIndicator {
+            top: 50%;
+            left: calc(100% + 4px); /* Adjusted to be just outside the cover on the right */
+            transform: translateY(-50%);
+            width: 150px;
+        }
+    }
+    
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -772,13 +785,16 @@
 
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-8"> <div class="flex flex-col md:flex-row items-center gap-8">
       <div class="book-wrap relative" data-aos="fade-right">
-        <div id="previewIndicator" class="absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 z-10 sm:block md:translate-x-0 md:-left-4 md:top-20 md:translate-y-0" style="width: 150px; display: none;">
+        <!-- ⭐ MODIFIED: Preview Indicator -->
+        <div id="previewIndicator" class="absolute z-10 sm:block md:translate-x-0 md:-left-4 md:top-20 md:translate-y-0" style="width: 150px; display: none;">
             <div class="flex items-center gap-1 text-xs font-semibold text-white/90 bg-fuchsia-600/60 backdrop-blur-sm px-2 py-1 rounded-lg border border-fuchsia-400/50 shadow-lg animate-popFloat">
                 <i data-lucide="info" class="h-4 w-4 text-fuchsia-200"></i>
                 <span>Tap here to see preview</span>
                 <i data-lucide="arrow-right" class="h-4 w-4 text-fuchsia-200 animate-pulseArrow"></i>
             </div>
         </div>
+        <!-- End Preview Indicator -->
+
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true"> 
             
@@ -789,22 +805,24 @@
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
 
+            <!-- ⭐ MODIFIED: Preview Overlay Container -->
             <div id="previewOverlay" aria-hidden="true">
+                <!-- Screenshot Image -->
                 <img id="previewScreenshot" src="" alt="Ebook Screenshot Preview" class="absolute inset-0 w-full h-full object-contain" />
                 
-                <button onclick="prevImage(event)" id="prevImageBtn" class="absolute top-1/2 left-2 -translate-y-1/2 p-2 bg-black/30 text-white rounded-full hover:bg-black/50 transition disabled:opacity-30 disabled:pointer-events-none z-10">
-                    <i data-lucide="chevron-left" class="h-5 w-5"></i>
-                </button>
-                <button onclick="nextImage(event)" id="nextImageBtn" class="absolute top-1/2 right-2 -translate-y-1/2 p-2 bg-black/30 text-white rounded-full hover:bg-black/50 transition disabled:opacity-30 disabled:pointer-events-none z-10">
-                    <i data-lucide="chevron-right" class="h-5 w-5"></i>
-                </button>
+                <!-- Exit Button -->
                 <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10">
                     <i data-lucide="x" class="h-4 w-4"></i>
                 </button>
-
+                
+                <!-- Page Counter -->
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
+                
+                <!-- Tappable Area to Cycle Images (Full Overlay is tappable) -->
             </div>
-            </div>
+            <!-- END Preview Overlay Container -->
+
+          </div>
 
           <div class="spine" aria-hidden="true"></div>
           <div class="pages" aria-hidden="true"></div>
@@ -1351,7 +1369,7 @@
         return false;
       }
       // Ctrl+U (View Page Source)
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'U'.charCodeAt(0)) {
         return false;
       }
       // Ctrl+Shift+C (Inspect Element)
@@ -1379,13 +1397,12 @@
     // ⭐ CONFIGURATION: Change this text to whatever you want, or set it to an empty string ("") to hide the tag completely.
     const CUSTOM_TAG_TEXT = 'Trending'; // Examples: 'Trending', 'New', 'Best Seller', 'Popular'
 
-    // ⭐ NEW: Screenshot Placeholders
+    // ⭐ MODIFIED: Screenshot Placeholders (Reduced to 4)
     const SCREENSHOT_URLS = [
-        'https://bookmintor.shop/bundels/screnshorts/Untitled%20design%20(1).png', // Placeholder 1
-        'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_01%20AM.png', // Placeholder 2
-        'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_35%20AM.png', // Placeholder 3
-        'https://bookmintor.shop/bundels/screnshorts/Untitled%20design.png', // Placeholder 4
-        'https://via.placeholder.com/400x600/1e293b/a855f7?text=Screenshot+5+Modern+Reflections', // Placeholder 5
+        'https://bookmintor.shop/bundels/screnshorts/Untitled%20design%20(1).png', // Placeholder 1 (Chapter Page/Visual Content)
+        'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_01%20AM.png', // Placeholder 2 (Video Content Screenshot)
+        'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_35%20AM.png', // Placeholder 3 (Download Folder Structure)
+        'https://bookmintor.shop/bundels/screnshorts/Untitled%20design.png', // Placeholder 4 (Payment Success Popup)
     ];
 
     // DOM refs
@@ -1433,8 +1450,7 @@
     // ⭐ NEW DOM refs for Preview Overlay (Inside the cover)
     const previewOverlay = document.getElementById('previewOverlay');
     const previewScreenshot = document.getElementById('previewScreenshot');
-    const prevImageBtn = document.getElementById('prevImageBtn');
-    const nextImageBtn = document.getElementById('nextImageBtn');
+    // Removed prevImageBtn, nextImageBtn DOM refs as they are removed from HTML
     const imageCounter = document.getElementById('imageCounter');
     const previewIndicator = document.getElementById('previewIndicator');
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
@@ -1501,6 +1517,13 @@
     
     // Function to handle image change with fade
     function showPreviewImage(index) {
+        // Handle cycling (4 to 0)
+        if (index >= SCREENSHOT_URLS.length) {
+            index = 0;
+        } else if (index < 0) {
+            index = SCREENSHOT_URLS.length - 1;
+        }
+        
         // Fade out the current image (if visible)
         if (previewScreenshot.style.opacity === '1') {
             previewScreenshot.classList.remove('animate-fadeImageIn');
@@ -1520,25 +1543,13 @@
             previewScreenshot.classList.remove('animate-fadeImageOut');
             previewScreenshot.classList.add('animate-fadeImageIn');
             previewScreenshot.style.opacity = '1';
-
-            // Update button states
-            prevImageBtn.disabled = currentImageIndex === 0;
-            nextImageBtn.disabled = currentImageIndex === SCREENSHOT_URLS.length - 1;
         }, 300); // Wait for fade-out/transition
     }
 
-    function nextImage(event) {
-        event.stopPropagation(); // Prevent cover click handler from firing
-        if (currentImageIndex < SCREENSHOT_URLS.length - 1) {
-            showPreviewImage(currentImageIndex + 1);
-        }
-    }
-
-    function prevImage(event) {
-        event.stopPropagation(); // Prevent cover click handler from firing
-        if (currentImageIndex > 0) {
-            showPreviewImage(currentImageIndex - 1);
-        }
+    // ⭐ MODIFIED: Cycle to the next image on tap
+    function cycleImage(event) {
+        if (event) event.stopPropagation(); // Stop cover click handler from firing
+        showPreviewImage(currentImageIndex + 1);
     }
 
     function openPreviewOverlay() {
@@ -1547,12 +1558,12 @@
         
         // 2. Show overlay
         previewOverlay.style.opacity = '1';
-        previewOverlay.style.pointerEvents = 'auto'; // Enable buttons
+        previewOverlay.style.pointerEvents = 'auto'; // Enable tap event
         
         // 3. Reset and show first image
         currentImageIndex = -1; 
         showPreviewImage(0); 
-        lucide.createIcons(); // Ensure arrows and X are rendered
+        lucide.createIcons(); 
 
         // 4. Hide indicator permanently if it's still visible
         previewIndicator.style.transition = 'none';
@@ -1577,10 +1588,14 @@
         }, 300); // Match fade-out time
     }
     
-    // ⭐ NEW: Event Listener to open the Preview Overlay on cover click
+    // ⭐ MODIFIED: Event Listener to open OR cycle the Preview Overlay on cover tap
     cover.addEventListener('click', (event) => {
-        // If the overlay is hidden, open it. If it's visible, do nothing (to allow touch navigation).
-        if (previewOverlay.style.opacity === '0' || previewOverlay.style.opacity === '') {
+        // Check if the overlay is already visible
+        if (previewOverlay.style.opacity === '1') {
+            // If visible, cycle to the next image
+            cycleImage(event);
+        } else {
+            // If hidden, open it
             event.preventDefault(); // Stop default behavior if needed
             openPreviewOverlay();
         }
@@ -1603,7 +1618,7 @@
       });
     });
 
-    // Show more feedbacks (Functionality remains the same)
+    // Show more feedbacks (unchanged)
     document.getElementById('showMore').addEventListener('click', e => {
       const hiddenFeedbacks = document.querySelectorAll('.extra-feedback');
       const showMoreBtn = e.target;
@@ -1632,7 +1647,7 @@
     // Initialize Lucide icons
     lucide.createIcons();
     
-    // ⭐ MODIFIED: Custom Tag Initializer uses new classes for subtle styling
+    // ⭐ MODIFIED: Custom Tag Initializer
     if (CUSTOM_TAG_TEXT && customTagContainer) {
         customTagContainer.innerHTML = `
             <div class="subtle-tag">
@@ -1641,7 +1656,7 @@
                 <span class="tag-shine"></span>
             </div>
         `;
-        lucide.createIcons(); // Re-create icons to render the zap icon
+        lucide.createIcons(); 
     }
     // If CUSTOM_TAG_TEXT is empty, the container remains empty and nothing is displayed.
 
