@@ -755,14 +755,22 @@
         transition: filter 0.3s ease, brightness 0.3s ease; 
     }
     
-    /* ⭐ Indicator Position Fix for Mobile: Moved indicator to the right side of the cover on mobile */
+    /* ⭐ Indicator Position FIX for Mobile: Show indicator on top-left area on small screens */
     @media (max-width: 767px) {
         #previewIndicator {
-            top: 50%;
-            left: calc(100% + 4px); /* Adjusted to be just outside the cover on the right */
-            transform: translateY(-50%);
-            width: 150px;
+            /* Positioned relative to the book-wrap, which is centered */
+            top: 20px; /* Near the top of the book */
+            left: 0; 
+            transform: translateX(0); /* Remove complex transform */
+            width: 100%; /* Take full width of the book-wrap for visibility */
+            display: flex;
+            justify-content: center;
         }
+        #previewIndicator > div {
+             /* Center the text bubble */
+            transform: scale(0.9); 
+        }
+        
     }
     
   </style>
@@ -785,7 +793,6 @@
 
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-8"> <div class="flex flex-col md:flex-row items-center gap-8">
       <div class="book-wrap relative" data-aos="fade-right">
-        <!-- ⭐ MODIFIED: Preview Indicator -->
         <div id="previewIndicator" class="absolute z-10 sm:block md:translate-x-0 md:-left-4 md:top-20 md:translate-y-0" style="width: 150px; display: none;">
             <div class="flex items-center gap-1 text-xs font-semibold text-white/90 bg-fuchsia-600/60 backdrop-blur-sm px-2 py-1 rounded-lg border border-fuchsia-400/50 shadow-lg animate-popFloat">
                 <i data-lucide="info" class="h-4 w-4 text-fuchsia-200"></i>
@@ -793,8 +800,6 @@
                 <i data-lucide="arrow-right" class="h-4 w-4 text-fuchsia-200 animate-pulseArrow"></i>
             </div>
         </div>
-        <!-- End Preview Indicator -->
-
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true"> 
             
@@ -805,24 +810,17 @@
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
 
-            <!-- ⭐ MODIFIED: Preview Overlay Container -->
             <div id="previewOverlay" aria-hidden="true">
-                <!-- Screenshot Image -->
                 <img id="previewScreenshot" src="" alt="Ebook Screenshot Preview" class="absolute inset-0 w-full h-full object-contain" />
                 
-                <!-- Exit Button -->
                 <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10">
                     <i data-lucide="x" class="h-4 w-4"></i>
                 </button>
                 
-                <!-- Page Counter -->
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
                 
-                <!-- Tappable Area to Cycle Images (Full Overlay is tappable) -->
             </div>
-            <!-- END Preview Overlay Container -->
-
-          </div>
+            </div>
 
           <div class="spine" aria-hidden="true"></div>
           <div class="pages" aria-hidden="true"></div>
@@ -1369,7 +1367,7 @@
         return false;
       }
       // Ctrl+U (View Page Source)
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'U'.charCodeAt(0)) {
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
         return false;
       }
       // Ctrl+Shift+C (Inspect Element)
@@ -1543,6 +1541,7 @@
             previewScreenshot.classList.remove('animate-fadeImageOut');
             previewScreenshot.classList.add('animate-fadeImageIn');
             previewScreenshot.style.opacity = '1';
+
         }, 300); // Wait for fade-out/transition
     }
 
@@ -1563,7 +1562,7 @@
         // 3. Reset and show first image
         currentImageIndex = -1; 
         showPreviewImage(0); 
-        lucide.createIcons(); 
+        lucide.createIcons(); // Ensure arrows and X are rendered
 
         // 4. Hide indicator permanently if it's still visible
         previewIndicator.style.transition = 'none';
