@@ -385,13 +385,10 @@
     /* Modal (Popup) CSS */
     .modal {
         display: none; 
-        position: fixed; 
-        top: 0; 
-        left: 0; 
-        width: 100vw; 
-        height: 100vh; 
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
         background-color: rgba(0, 0, 0, 0.85); 
         z-index: 1000; 
+        /* ⭐ CRITICAL FIX 1: Centering Modals */
         align-items: center; 
         justify-content: center;
         backdrop-filter: blur(4px); 
@@ -405,7 +402,7 @@
         z-index: 1005; 
     }
     
-    /* 🔥 FIXED: Payment Modal Z-Index Logic */
+    /* 🔥 FIXED: Payment Modal Z-Index */
     #paymentModal {
         z-index: 9990; 
     }
@@ -429,12 +426,12 @@
         transform: translateY(20px) scale(0.95); 
     }
     
-    /* 🔥🔥 FIXED: UPDATED Payment Modal CSS for Full Screen & Scroll */
+    /* 🔥🔥 FIXED: Payment Modal Content CSS for Structuring */
     #paymentModalContent {
         /* Layout & Sizing */
         width: 95%; 
         max-width: 500px;
-        height: 85vh; /* ⭐ IMPORTANT: Fix height to 85% of screen height */
+        height: 85vh; 
         max-height: 800px;
         
         /* Flexbox Layout to stack header, iframe, and footer */
@@ -458,11 +455,11 @@
 
     /* Container for Iframe - Grow to fill space */
     #paymentContainer {
-        flex-grow: 1; /* ⭐ IMPORTANT: Fills all available empty space */
+        flex-grow: 1; 
         width: 100%;
         position: relative;
-        background-color: #111827; /* Match modal background */
-        overflow: hidden; /* Ensures iframe doesn't spill out */
+        background-color: #111827; 
+        overflow: hidden; 
     }
 
     #cashfreeIframe {
@@ -721,7 +718,7 @@
     /* --- 🔥 FIXED: CONFIRMATION MODAL Z-INDEX FIX --- */
     #confirmationModal {
         display: none; 
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
         /* CRITICAL FIX: Z-Index must be higher than paymentModal (9990) */
         z-index: 10001 !important; 
         align-items: center; justify-content: center;
@@ -1838,8 +1835,10 @@
         cashfreeIframe.style.display = 'none';
         paymentLoader.style.opacity = '1'; 
         
-        // Note: No longer using listener for close button here as it's hardcoded in HTML
-        // But we keep the timeout logic
+        // ⭐ CRITICAL FIX: Add listener for the payment modal close button (opens confirmation pop-up)
+        paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
+
+
         window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
             
@@ -1877,7 +1876,10 @@
 
             if (shouldExit) {
                 closePaymentModal(true);
-            } 
+            } else {
+                // 🔥 FIX: Re-attach listener if the user chooses to continue payment
+                paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
+            }
             
         }, 400); 
     }
@@ -1915,8 +1917,10 @@
       const paymentStatus = getUrlParam('payment_status');
       const txStatus = getUrlParam('txStatus'); 
       const orderStatus = getUrlParam('order_status');
+      // ⭐ CRITICAL FIX: Check Cashfree's specific status parameter
+      const cfStatus = getUrlParam('cf_status'); 
       
-      const rawStatus = paymentStatus || txStatus || orderStatus || '';
+      const rawStatus = paymentStatus || txStatus || orderStatus || cfStatus || '';
       const normalizedStatus = rawStatus.toLowerCase();
       
       const isSuccess = normalizedStatus === 'success';
