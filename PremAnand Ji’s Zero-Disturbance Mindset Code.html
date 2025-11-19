@@ -1537,6 +1537,7 @@
         setTimeout(()=> {
           coverShine.style.animation = 'none';
           coverShine.style.display = 'none';
+          loadingSpin.style.display = 'none'; 
           cover.classList.add('loaded');
           cover.setAttribute('aria-busy','false');
 
@@ -2090,18 +2091,25 @@
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
+      // Added new parameter checks for robustness against different payment gateways/configurations
+      const txStatus = getUrlParam('txStatus'); // Common Cashfree parameter
       
-      // ⭐ NEW DEBUGGING CONSOLE LOGS
+      // Normalize statuses to lowercase for universal check
+      const normalizedStatus = (paymentStatus || txStatus || '').toLowerCase();
+      const isSuccess = normalizedStatus === 'success';
+
+      // ⭐ NEW DEBUGGING CONSOLE LOGS (use F12 to check this)
       console.log('*** Payment Debug Info ***');
-      console.log(`URL Status: ${paymentStatus}`);
+      console.log(`P_Status: ${paymentStatus}, Tx_Status: ${txStatus}`);
+      console.log(`Normalized Status: ${normalizedStatus}`);
       console.log(`URL Secret: ${secretKey}`);
       console.log(`Expected Secret: ${SECRET_KEY}`);
-      console.log(`Status Matches 'success': ${paymentStatus === 'success'}`);
+      console.log(`Is Success: ${isSuccess}`);
       console.log(`Key Matches Expected: ${secretKey === SECRET_KEY}`);
       console.log('**************************');
 
-      // --- CRITICAL FIX: CHECK FOR STRICT 'SUCCESS' STATUS ---
-      if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
+      // --- CRITICAL FIX: CHECK FOR STRICT 'SUCCESS' STATUS AND KEY ---
+      if (isSuccess && secretKey === SECRET_KEY) {
         
         // --- 1. SUCCESS LOGIC: Open Download Modal ---
         history.replaceState(null, '', window.location.pathname);
@@ -2137,16 +2145,11 @@
         }
       
       // --- 2. FAILURE/CANCEL/ANYTHING ELSE LOGIC: CLEAN URL ---
-      } else if (paymentStatus || secretKey) {
+      // This runs if parameters exist, but the combination is not strict success.
+      } else if (paymentStatus || txStatus || secretKey) {
           
           // CRITICAL FIX: Agar status fail/cancel hai, ya key galat hai, toh parameters hata kar URL clean karo.
           history.replaceState(null, '', window.location.pathname); 
-          
-          // Optional: User ko feedback (only if status was actually passed, but not success)
-          if (paymentStatus && paymentStatus !== 'success') {
-               // You can uncomment this alert for testing, but keep it commented out for production.
-               // alert(`Payment Status was '${paymentStatus}'. Download is only enabled for 'success'. URL has been cleaned.`);
-          }
 
       }
       
