@@ -388,7 +388,6 @@
         position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
         background-color: rgba(0, 0, 0, 0.85); 
         z-index: 1000; 
-        /* ⭐ CRITICAL FIX 1: Centering Modals */
         align-items: center; 
         justify-content: center;
         backdrop-filter: blur(4px); 
@@ -402,7 +401,7 @@
         z-index: 1005; 
     }
     
-    /* 🔥 FIXED: Payment Modal Z-Index */
+    /* 🔥 Payment Modal Z-Index */
     #paymentModal {
         z-index: 9990; 
     }
@@ -426,29 +425,24 @@
         transform: translateY(20px) scale(0.95); 
     }
     
-    /* 🔥🔥 FIXED: Payment Modal Content CSS for Structuring */
+    /* 🔥🔥 Payment Modal Content CSS for Structuring */
     #paymentModalContent {
-        /* Layout & Sizing */
         width: 95%; 
         max-width: 500px;
         height: 85vh; 
         max-height: 800px;
         
-        /* Flexbox Layout to stack header, iframe, and footer */
         display: flex; 
         flex-direction: column;
         
-        /* Styling */
         background-color: #111827;
         padding: 0; 
         border-radius: 12px;
         box-shadow: 0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65);
         
-        /* Centering */
         margin: auto; 
         overflow: hidden; 
         
-        /* Animation Defaults */
         opacity: 0; 
         transform: translateY(20px) scale(0.95); 
     }
@@ -476,7 +470,7 @@
         }
     }
     
-    /* 🔥 FIXED: Mobile Responsiveness for Payment Modal */
+    /* 🔥 Mobile Responsiveness for Payment Modal */
     @media (max-width: 640px) {
         #previewModalContent {
             max-width: 360px; 
@@ -1925,6 +1919,9 @@
       
       const isSuccess = normalizedStatus === 'success';
 
+      // ⭐ CRITICAL FIX: Check for redirection time or any status parameter
+      const isAnyParamPresent = rawStatus || getUrlParam('redirection_time') || getUrlParam('cf_referenceId');
+
       if (isSuccess) {
         
         history.replaceState(null, '', window.location.pathname);
@@ -1954,7 +1951,7 @@
             });
         }
       
-      } else if (rawStatus || getUrlParam('redirection_time')) {
+      } else if (isAnyParamPresent) {
           
           history.replaceState(null, '', window.location.pathname); 
 
