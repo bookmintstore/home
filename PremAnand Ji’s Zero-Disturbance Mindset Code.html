@@ -1905,33 +1905,26 @@
         openPaymentModal();
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // Status parameters Cashfree/General PGs commonly send
-      const cfStatus = getUrlParam('cf_status'); /* CRITICAL FIX */
-      const paymentStatus = getUrlParam('payment_status');
-      const txStatus = getUrlParam('txStatus'); 
-      const redirectionTime = getUrlParam('redirection_time');
-      
-      // Get all relevant status parameters (We check all possibilities)
-      const rawStatus = cfStatus || paymentStatus || txStatus || '';
-      const normalizedStatus = rawStatus.toLowerCase();
-      
-      // We define success as any of the known success status variants (success, success/SUCCESS, or PAID)
-      const isSuccess = (normalizedStatus === 'success' || normalizedStatus === 'paid');
+    // 🔥 SECURE PAYMENT LOGIC 🔥
+    document.addEventListener("DOMContentLoaded", function () {
 
-      // Check if ANY known status parameter or the redirection time parameter is present
-      const hasAnyPGParam = rawStatus || redirectionTime;
+      const cf = getUrlParam("cf_status");
+      const ps = getUrlParam("payment_status");
+      const ts = getUrlParam("txStatus");
+      const rt = getUrlParam("redirection_time");
 
-      // ⭐ FINAL LOGIC: Check for Success OR trigger cleanup if any parameter shows up
+      const status = (cf || ps || ts || "").toLowerCase();
+
+      const isSuccess =
+          status === "success" ||
+          status === "paid";
+
       if (isSuccess) {
+        history.replaceState(null, "", window.location.pathname);
         
-        // --- 1. SUCCESS LOGIC: Open Download Modal ---
-        // CRITICAL: Clean the URL FIRST.
-        history.replaceState(null, '', window.location.pathname);
-        
+        // OPEN DOWNLOAD MODAL
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
-        
         document.body.style.overflow = 'hidden'; 
         
         if (SINGLE_LANGUAGE_MODE) {
@@ -1953,17 +1946,18 @@
                 btn.style.color = '#374151';
             });
         }
-      
-      // --- 2. FAILURE/CANCEL LOGIC: CLEAN URL ---
-      // If payment was attempted (indicated by rawStatus or redirectionTime), but it was NOT success.
-      } else if (hasAnyPGParam) {
-          
-          // CRITICAL FIX: If status is anything but success, clean the URL.
-          // This prevents re-opening the modal on refresh and ensures a clean page load.
-          history.replaceState(null, '', window.location.pathname); 
-
+        
+        lucide.createIcons();
+        return;
       }
-      
+
+      // FAIL / CANCEL / ABANDON LOGIC
+      if (cf || ps || ts || rt) {
+          history.replaceState(null, "", window.location.pathname);
+          lucide.createIcons(); 
+          return; 
+      }
+
       lucide.createIcons();
     });
   </script>
