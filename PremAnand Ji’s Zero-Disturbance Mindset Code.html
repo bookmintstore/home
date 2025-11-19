@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -1278,6 +1281,54 @@
         openPaymentModal();
     });
 
+    // --- NEW CELEBRATION LOGIC START ---
+    function triggerCelebration() {
+        // Colors matching your site theme (Indigo, Fuchsia, Emerald) + Gold
+        const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700']; 
+        const end = Date.now() + (3 * 1000); // Run for 3 seconds
+
+        // Frame loop for smooth "raining" feel
+        (function frame() {
+            confetti({
+                particleCount: 4,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 }, // Left side cannon
+                colors: colors,
+                zIndex: 2000, // Must be higher than Modal (1000)
+                shapes: ['circle', 'square'], // varied shapes
+                scalar: 1.2, // slightly larger particles
+                drift: 0,
+            });
+            
+            confetti({
+                particleCount: 4,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 }, // Right side cannon
+                colors: colors,
+                zIndex: 2000, 
+                shapes: ['circle', 'square'],
+                scalar: 1.2,
+                drift: 0,
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+        
+        // Add a central "pop" at the very start for immediate feedback
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: colors,
+            zIndex: 2000
+        });
+    }
+    // --- NEW CELEBRATION LOGIC END ---
+
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
@@ -1287,6 +1338,9 @@
         
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
+
+        // TRIGGER THE CELEBRATION EFFECT HERE
+        triggerCelebration();
         
         if (SINGLE_LANGUAGE_MODE) {
             languageSelectionContainer.style.display = 'none';
