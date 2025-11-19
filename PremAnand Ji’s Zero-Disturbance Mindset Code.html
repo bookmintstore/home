@@ -125,12 +125,10 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    
     @keyframes waveJump {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); } 
     }
-
     @keyframes gradient-shift {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
@@ -189,12 +187,9 @@
       transform: scale(1.02);
       will-change: opacity, transform;
     }
-    
-    #coverFace {
-        cursor: pointer;
-    }
+    #coverFace { cursor: pointer; }
 
-    /* Custom Tag CSS */
+    /* Custom Tag */
     .subtle-tag {
         position: relative;
         overflow: hidden;
@@ -214,7 +209,6 @@
         cursor: default;
         margin-bottom: 8px; 
     }
-    
     .subtle-tag .tag-text {
         background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1);
         -webkit-background-clip: text;
@@ -225,7 +219,6 @@
         background-size: 200% auto; 
         animation: gradient-shift 8s ease infinite; 
     }
-
     .subtle-tag .tag-shine {
         position: absolute;
         inset: -6px;
@@ -270,31 +263,16 @@
       border-left-color: #a855f7;  
       box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5);
     }
-    .cover.loaded .cover-loading-spin {
-      opacity: 0;
-    }
+    .cover.loaded .cover-loading-spin { opacity: 0; }
 
     /* Spine, Pages, Edges */
-    .spine {
-      position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
-    }
-    .pages {
-      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); 
-      overflow:hidden;
-    }
-    .top-edge {
-      position:absolute; top: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(90deg) translateY(-10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 8px 8px 0 0;
-    }
-    .bottom-edge {
-      position:absolute; bottom: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(-90deg) translateY(10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 0 0 8px 8px;
-    }
-    .book-ghost {
-      position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg);
-    }
+    .spine { position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); }
+    .pages { position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); overflow:hidden; }
+    .top-edge { position:absolute; top: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(90deg) translateY(-10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 8px 8px 0 0; }
+    .bottom-edge { position:absolute; bottom: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(-90deg) translateY(10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 0 0 8px 8px; }
+    .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
 
-    @media (max-width:700px){
-      .book-3d { width: 170px; height: 245px; }
-    }
+    @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
 
     .proc-error { color:#f87171; font-weight:600; margin-top:8px; display:none; }
     
@@ -305,367 +283,59 @@
     .star-glow .empty{color:#475569;opacity:.45}
 
     /* Stats Layout */
-    .stats-section {
-        display: flex;
-        justify-content: space-around; 
-        align-items: center;
-        padding: 0; 
-        border-top: none; 
-        border-bottom: none; 
-        margin-top: 16px;
-    }
-    .stat-item {
-        text-align: center;
-        flex-grow: 1;
-        padding: 0 8px;
-    }
-    .stat-value {
-        font-size: 1.35rem; 
-        font-weight: 700; 
-        line-height: 1.1;
-        color: #e0f2f1; 
-        margin-bottom: 4px;
-        text-shadow: none; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-    }
-    .stat-value svg {
-        color: #a855f7; 
-        filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); 
-    }
-    .stat-label {
-        font-size: 0.75rem; 
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #94a3b8; 
-    }
-    .stat-divider {
-        display: none; 
-    }
+    .stats-section { display: flex; justify-content: space-around; align-items: center; padding: 0; border-top: none; border-bottom: none; margin-top: 16px; }
+    .stat-item { text-align: center; flex-grow: 1; padding: 0 8px; }
+    .stat-value { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #e0f2f1; margin-bottom: 4px; text-shadow: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .stat-value svg { color: #a855f7; filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); }
+    .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
 
-    /* Premium List Styling */
-    .premium-list-container {
-      margin-top: 10px; 
-      padding: 10px;
-      padding-bottom: 0; 
-    }
-    .premium-list-title {
-        color: #e0f2f1; 
-        font-size: 1.25rem;
-        font-weight: 700;
-        text-align: center;
-        margin-bottom: 20px;
-        text-shadow: 0 0 6px rgba(255, 255, 255, 0.2); 
-    }
-    .premium-list-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 10px; 
-        font-size: 1.0rem;
-        color: #cbd5e1; 
-        line-height: 1.4;
-    }
-    .premium-list-item strong {
-        color: #e0f2f1;
-    }
-    .simple-tick {
-        color: #34d399; 
-        filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); 
-        font-size: 1.4rem;
-        line-height: 1;
-        margin-right: 10px;
-        min-width: 20px;
-        font-weight: 900;
-        transform: translateY(-2px); 
-    }
+    /* Premium List */
+    .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
+    .premium-list-title { color: #e0f2f1; font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 20px; text-shadow: 0 0 6px rgba(255, 255, 255, 0.2); }
+    .premium-list-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1.0rem; color: #cbd5e1; line-height: 1.4; }
+    .premium-list-item strong { color: #e0f2f1; }
+    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
     
-    /* Modal (Popup) CSS */
-    .modal {
-        display: none; 
-        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-        background-color: rgba(0, 0, 0, 0.85); 
-        z-index: 1000; 
-        align-items: center; 
-        justify-content: center;
-        backdrop-filter: blur(4px); 
-        overflow: hidden; 
-    }
-    
-    #feedbackModal {
-        z-index: 1010; 
-    }
-    #previewModal {
-        z-index: 1005; 
-    }
-    
-    /* 🔥 Payment Modal Z-Index */
-    #paymentModal {
-        z-index: 9990; 
-    }
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    #feedbackModal { z-index: 1010; }
+    #previewModal { z-index: 1005; }
+    .modal.closing { transition: background-color 0.4s ease; background-color: rgba(0, 0, 0, 0); }
+    .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 80%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
 
-    .modal.closing {
-      transition: background-color 0.4s ease;
-      background-color: rgba(0, 0, 0, 0); 
-    }
+    @media (min-width: 640px) { #previewModalContent { max-width: 420px; } }
+    @media (max-width: 639px) { #previewModalContent { max-width: 360px; } }
 
-    .modal-content {
-        position: relative; 
-        background-color: #ffffff; 
-        color: #1f2937; 
-        padding: 30px; 
-        border-radius: 12px; 
-        width: 80%; 
-        max-width: 400px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); 
-        opacity: 0; 
-        transform: translateY(20px) scale(0.95); 
-    }
+    /* Preview Overlay */
+    #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
     
-    /* 🔥🔥 Payment Modal Content CSS for Structuring */
-    #paymentModalContent {
-        width: 95%; 
-        max-width: 500px;
-        height: 85vh; 
-        max-height: 800px;
-        
-        display: flex; 
-        flex-direction: column;
-        
-        background-color: #111827;
-        padding: 0; 
-        border-radius: 12px;
-        box-shadow: 0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65);
-        
-        margin: auto; 
-        overflow: hidden; 
-        
-        opacity: 0; 
-        transform: translateY(20px) scale(0.95); 
-    }
+    /* Buttons */
+    .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+    .download-button:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(16,185,129,0.6); }
+    .download-button:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 2px 5px rgba(16,185,129,0.3); }
+    .download-button .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: screen; pointer-events: none; opacity: 1; animation: btnshine 3.0s ease-in-out infinite; }
+    .download-button:disabled { opacity: 0.6; cursor: not-allowed; background-image: linear-gradient(135deg, #4CAF50, #10B981); box-shadow: none; transform: none; }
+    .download-button:disabled .btn-shine { display: none; }
+    .download-button.loading { opacity: 0.7; pointer-events: none; }
+    
+    .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
+    .no-shine-button:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(168,85,247,0.6); }
+    .no-shine-button:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 2px 5px rgba(168,85,247,0.3); }
+    
+    #modalCloseButton { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #64748b; opacity: 0; pointer-events: none; transition: opacity 0.3s ease, color 0.2s ease, background-color 0.2s ease; z-index: 1010; }
+    #modalCloseButton:hover { color: #1f2937; background-color: rgba(0, 0, 0, 0.05); }
+    #modalCloseButton.show-close { opacity: 1; pointer-events: auto; }
 
-    /* Container for Iframe - Grow to fill space */
-    #paymentContainer {
-        flex-grow: 1; 
-        width: 100%;
-        position: relative;
-        background-color: #111827; 
-        overflow: hidden; 
-    }
+    .modal-cover-wrap { width: 96px; height: 128px; overflow: hidden; border-radius: 6px; }
+    .modal-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .feedback-textarea { resize: vertical; min-height: 100px; }
+    .feedback-success-icon { filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5)); }
 
-    #cashfreeIframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        display: block;
-    }
-
-    /* Custom Max-Width for Preview Modal */
-    @media (min-width: 640px) {
-        #previewModalContent {
-            max-width: 420px; 
-        }
-    }
-    
-    /* 🔥 Mobile Responsiveness for Payment Modal */
-    @media (max-width: 640px) {
-        #previewModalContent {
-            max-width: 360px; 
-        }
-        #paymentModalContent {
-            width: 95%; 
-            height: 85vh; 
-            max-height: 90vh;
-            margin: auto; 
-            border-radius: 12px; 
-        }
-    }
-
-    /* Styles for the Preview overlay */
-    #previewOverlay {
-        position: absolute;
-        inset: 0;
-        z-index: 8; 
-        background: #111;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        pointer-events: none; 
-    }
-
-    #previewScreenshot {
-        width: 100%; 
-        height: 100%;
-        object-fit: cover;
-        opacity: 0;
-        border-radius: 8px; 
-    }
-    
-    /* Download Button CSS */
-    .download-button {
-        position: relative;
-        overflow: hidden;
-        display: inline-flex; 
-        align-items: center; 
-        justify-content: center;
-        gap: 8px;
-        background-color: #4CAF50; 
-        background-image: linear-gradient(135deg, #4CAF50, #10B981); 
-        color: white; 
-        padding: 12px 25px; 
-        margin-top: 0px; 
-        border-radius: 8px;
-        font-weight: bold; 
-        font-size: 1.1em;
-        cursor: pointer;
-        border: none;
-        transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s;
-        box-shadow: 0 4px 15px rgba(16,185,129,0.4);
-    }
-    .download-button:hover:not(:disabled) { 
-        box-shadow: 0 6px 20px rgba(16,185,129,0.6);
-    }
-    .download-button:active:not(:disabled) { 
-        transform: scale(0.97);
-        box-shadow: 0 2px 5px rgba(16,185,129,0.3);
-    }
-    
-    /* Shine Effect on Button */
-    .download-button .btn-shine {
-        position: absolute;
-        inset: -6px;
-        transform: translateX(-140%) skewX(-30deg);
-        background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); 
-        mix-blend-mode: screen; 
-        pointer-events: none;
-        opacity: 1;
-        animation: btnshine 3.0s ease-in-out infinite;
-    }
-    
-    /* Button Disabled State */
-    .download-button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        background-image: linear-gradient(135deg, #4CAF50, #10B981); 
-        box-shadow: none;
-        transform: none;
-    }
-    .download-button:disabled .btn-shine {
-      display: none; 
-    }
-    /* Loading/Processing State */
-    .download-button.loading {
-      opacity: 0.7;
-      pointer-events: none;
-    }
-    
-    /* Custom button styles */
-    .no-shine-button {
-      position: relative;
-      overflow: hidden;
-      display: inline-flex; 
-      align-items: center; 
-      justify-content: center;
-      gap: 8px;
-      color: white; 
-      padding: 12px 25px; 
-      margin-top: 0px; 
-      border-radius: 8px;
-      font-weight: bold; 
-      font-size: 1.1em;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s;
-      background-image: linear-gradient(135deg, #6366f1, #a855f7); 
-      box-shadow: 0 4px 15px rgba(168,85,247,0.4);
-    }
-    .no-shine-button:hover:not(:disabled) { 
-        box-shadow: 0 6px 20px rgba(168,85,247,0.6);
-    }
-    .no-shine-button:active:not(:disabled) { 
-        transform: scale(0.97);
-        box-shadow: 0 2px 5px rgba(168,85,247,0.3);
-    }
-    
-    /* Close Button Style */
-    #modalCloseButton {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 8px;
-        border-radius: 50%;
-        color: #64748b; 
-        opacity: 0; 
-        pointer-events: none; 
-        transition: opacity 0.3s ease, color 0.2s ease, background-color 0.2s ease;
-        z-index: 1010;
-    }
-    #modalCloseButton:hover {
-        color: #1f2937; 
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-    #modalCloseButton.show-close {
-        opacity: 1;
-        pointer-events: auto; 
-    }
-    
-    /* Style for the cover image wrapper */
-    .modal-cover-wrap {
-      width: 96px; 
-      height: 128px; 
-      overflow: hidden;
-      border-radius: 6px;
-    }
-    .modal-cover-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    /* Feedback Modal */
-    .feedback-textarea {
-        resize: vertical;
-        min-height: 100px;
-    }
-    .feedback-success-icon {
-        filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.5));
-    }
-
-
-    /* User Avatar, Feedback, and Payment Modal styles */
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: white;
-      margin-right: 12px;
-      flex-shrink: 0;
-    }
-    .feedback-item {
-      display: flex;
-      align-items: flex-start;
-      padding: 16px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
-    }
-    .feedback-item:hover {
-      background: rgba(255, 255, 255, 0.08);
-      transform: translateY(-2px);
-    }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; color: white; margin-right: 12px; flex-shrink: 0; }
+    .feedback-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); margin-bottom: 12px; transition: all 0.3s ease; }
+    .feedback-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
     .feedback-content { flex: 1; }
     .feedback-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
     .user-info { display: flex; align-items: center; }
@@ -678,95 +348,26 @@
     .extra-feedback { display: none; }
     
     /* Loader CSS */
-    .jumping-loader {
-        display: flex; 
-        justify-content: center;
-        align-items: center;
-        height: 60px; 
-    }
-    .jumping-loader .ball {
-        width: 14px; 
-        height: 14px;
-        margin: 0 4px;
-        background-color: #a855f7; 
-        border-radius: 50%;
-        display: inline-block;
-    }
-    .jumping-loader .ball:nth-child(1) {
-        animation: waveJump 0.8s ease-in-out infinite 0s; 
-    }
-    .jumping-loader .ball:nth-child(2) {
-        animation: waveJump 0.8s ease-in-out infinite 0.1s; 
-    }
-    .jumping-loader .ball:nth-child(3) {
-        animation: waveJump 0.8s ease-in-out infinite 0.2s; 
-    }
+    .jumping-loader { display: flex; justify-content: center; align-items: center; height: 60px; }
+    .jumping-loader .ball { width: 14px; height: 14px; margin: 0 4px; background-color: #a855f7; border-radius: 50%; display: inline-block; }
+    .jumping-loader .ball:nth-child(1) { animation: waveJump 0.8s ease-in-out infinite 0s; }
+    .jumping-loader .ball:nth-child(2) { animation: waveJump 0.8s ease-in-out infinite 0.1s; }
+    .jumping-loader .ball:nth-child(3) { animation: waveJump 0.8s ease-in-out infinite 0.2s; }
+    #paymentLoader .loading-half-wheel { display: none !important; }
     
-    #paymentLoader .loading-half-wheel {
-        display: none !important; 
-    }
+    #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 21; }
     
-    /* --- 🔥 FIXED: CONFIRMATION MODAL Z-INDEX FIX --- */
-    #confirmationModal {
-        display: none; 
-        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-        /* CRITICAL FIX: Z-Index must be higher than paymentModal (9990) */
-        z-index: 10001 !important; 
-        align-items: center; justify-content: center;
-        opacity: 0; 
-        backdrop-filter: blur(0px); 
-        transition: opacity 0.3s ease, backdrop-filter 0.3s ease; 
-    }
-    #confirmationModal.active {
-        display: flex; 
-        opacity: 1; 
-        backdrop-filter: blur(4px); 
-    }
-    
-    #confirmationContent {
-        background: #1e293b; 
-        backdrop-filter: none; 
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 24px;
-        width: 80%;
-        max-width: 380px;
-        text-align: center;
-        color: white;
-        box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); 
-        transition: box-shadow 0.3s ease;
-    }
-    
-    /* Red Smooth Glow Text */
-    .conf-text-glow {
-        color: #f87171; 
-        font-weight: 700;
-        font-size: 1.25rem; 
-        text-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
-        animation: redGlow 2.5s infinite ease-in-out;
-        transition: all 0.3s;
-    }
-    
-    .payment-modal-blur .modal-content#paymentModalContent {
-        filter: blur(4px) brightness(0.7);
-        pointer-events: none; 
-        transition: filter 0.3s ease, brightness 0.3s ease; 
-    }
+    /* Confirmation Modal */
+    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1020; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
+    #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
+    #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
+    .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; transition: all 0.3s; }
+    .payment-modal-blur .modal-content#paymentModalContent { filter: blur(4px) brightness(0.7); pointer-events: none; transition: filter 0.3s ease, brightness 0.3s ease; }
     
     @media (max-width: 767px) {
-        #previewIndicator {
-            top: 20px; 
-            left: 0; 
-            transform: translateX(0); 
-            width: 100%; 
-            display: flex;
-            justify-content: center;
-        }
-        #previewIndicator > div {
-            transform: scale(0.9); 
-        }
+        #previewIndicator { top: 20px; left: 0; transform: translateX(0); width: 100%; display: flex; justify-content: center; }
+        #previewIndicator > div { transform: scale(0.9); }
     }
-    
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -796,42 +397,31 @@
         </div>
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true"> 
-            
             <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true">
               <div class="loading-half-wheel animate-glowspin"></div>
             </div>
-            
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
-
             <div id="previewOverlay" aria-hidden="true">
                 <img id="previewScreenshot" src="" alt="Ebook Screenshot Preview" class="absolute inset-0 w-full h-full object-contain" />
-                
                 <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10">
                     <i data-lucide="x" class="h-4 w-4"></i>
                 </button>
-                
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
-                
             </div>
             </div>
-
           <div class="spine" aria-hidden="true"></div>
           <div class="pages" aria-hidden="true"></div>
           <div class="top-edge" aria-hidden="true"></div>
           <div class="bottom-edge" aria-hidden="true"></div>
-
           <div class="book-ghost" aria-hidden="true"></div>
         </div>
       </div>
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
-        <div id="custom-tag-container">
-          </div>
-        
+        <div id="custom-tag-container"></div>
         <h1 class="text-3xl font-bold">PremAnand Ji’s Zero-Disturbance Mindset code</h1>
         <p class="text-zinc-300">A powerful guide inspired by PremAnand Ji to help you master calmness and inner stability.</p>
-        
         <div class="stats-section" id="stats-section">
           <div class="stat-item">
             <div class="stat-value">
@@ -855,7 +445,6 @@
             <div class="stat-label">Success Graduates</div>
           </div>
         </div>
-        
         <div class="text-emerald-400 text-2xl font-extrabold">₹209 
           <span class="ml-2 line-through text-sm text-zinc-400">₹1699</span>
           <span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold">88% OFF</span>
@@ -892,7 +481,6 @@
             <div class="premium-list-item">
             <span class="simple-tick">✓</span>
             <span class="feature-text"><strong>HINDI AND ENGLISH BOTH LANGUAGE</strong></span>
-       
           </div>
     </div> 
 
@@ -925,255 +513,18 @@
     <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
 
-      <div class="space-y-3" id="feedback-list"> <div class="feedback-item animate-slideUp">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Rishabh Mehta</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Aug 2025</div>
-            </div>
-            <div class="feedback-text">This book made the ideas surprisingly easy to apply the calmness shows in daily life now</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star-half" class="h-4 w-4 half"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="space-y-3" id="feedback-list"> 
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rishabh Mehta</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book made the ideas surprisingly easy to apply the calmness shows in daily life now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Tanvi Sharma</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Rao Verma</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">The way expectations are explained here changed how I respond to people. Feels refreshing</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Naina Arora</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
-        <div class="feedback-item animate-slideUp">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Tanvi Sharma</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Sep 2025</div>
-            </div>
-            <div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 empty"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item animate-slideUp">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Aditya Rao Verma</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Aug 2025</div>
-            </div>
-            <div class="feedback-text">The way expectations are explained here changed how I respond to people. Feels refreshing</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item animate-slideUp">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Jatin Kumar Singh</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Oct 2025</div>
-            </div>
-            <div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star-half" class="h-4 w-4 half"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item animate-slideUp">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Naina Arora</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Oct 2025</div>
-            </div>
-            <div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item extra-feedback">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Saurabh Tanwar</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Sep 2025</div>
-            </div>
-            <div class="feedback-text">Maun Protocol try kiya aur mind ka noise half ho gaya Didn’t expect it to work this well</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star-half" class="h-4 w-4 half"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item extra-feedback">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">D</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Payal jha</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Jun 2025</div>
-            </div>
-            <div class="feedback-text">The structure is clean and modern. Great blend of psychology, reflection, and simple actions...</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 empty"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item extra-feedback">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Aanya sexsena</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Nov 2025</div>
-            </div>
-            <div class="feedback-text">Forgiveness ritual improved my sleep. Emotional burden feels much lighter now</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star-half" class="h-4 w-4 half"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item extra-feedback">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">O</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">Danish yadav</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Sep 2025</div>
-            </div>
-            <div class="feedback-text">Short chapters, strong impact. This feels like a guide I’ll come back to again and again</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 empty"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feedback-item extra-feedback">
-          <div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">E</div>
-          <div class="feedback-content">
-            <div class="feedback-header">
-              <div class="user-info">
-                <div class="user-details">
-                  <div class="user-name">omkar pandey</div>
-                  <div class="user-location">India</div>
-                </div>
-              </div>
-              <div class="feedback-date">Oct 2025</div>
-            </div>
-            <div class="feedback-text">Yeh price me itna premium content mil raha hai honestly shock ho gaya Worth every rupee❤️😍.</div>
-            <div class="feedback-rating">
-              <div class="star-glow flex items-center gap-1">
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star" class="h-4 w-4 filled"></i>
-                <i data-lucide="star-half" class="h-4 w-4 half"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tanwar</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Maun Protocol try kiya aur mind ka noise half ho gaya Didn’t expect it to work this well</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">D</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Payal jha</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">The structure is clean and modern. Great blend of psychology, reflection, and simple actions...</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aanya sexsena</div><div class="user-location">India</div></div></div><div class="feedback-date">Nov 2025</div></div><div class="feedback-text">Forgiveness ritual improved my sleep. Emotional burden feels much lighter now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">O</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Danish yadav</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Short chapters, strong impact. This feels like a guide I’ll come back to again and again</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">E</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">omkar pandey</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Yeh price me itna premium content mil raha hai honestly shock ho gaya Worth every rupee❤️😍.</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
       </div>
 
       <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition">Show More</button>
@@ -1284,13 +635,25 @@
   </div>
 
   <div id="paymentModal" class="modal">
-    <div class="modal-content" id="paymentModalContent">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
         
-        <button id="paymentModalCloseButton" onclick="openConfirmationModal()" style="position: absolute; top: 12px; right: 12px; z-index: 50; background: rgba(0,0,0,0.5); border-radius: 50%; padding: 4px; cursor: pointer;"> 
-            <i data-lucide="x" class="h-5 w-5 text-white"></i>
+        <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
+            <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
         </button>
         
-        <div id="paymentContainer">
+        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+            
+            <div id="headerBlocker" style="
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 70px; 
+                background: transparent; 
+                z-index: 15; 
+                display: none;
+            "></div>
+
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader">
                     <div class="ball"></div>
@@ -1304,13 +667,14 @@
                 id="cashfreeIframe" 
                 src="https://payments.cashfree.com/forms/ebk247pymt" 
                 frameborder="0" 
-                allow="payment"
+                width="100%" 
+                height="100%" 
+                style="border-radius: 12px; display: none;"
+                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"
             ></iframe>
         </div>
         
-        <div style="background-color: #111827; padding: 8px 0; text-align: center; flex-shrink: 0; border-top: 1px solid rgba(255,255,255,0.1);">
-            <p class="text-xs text-zinc-500">Powered by Cashfree Payments & Secured by BookMintor</p>
-        </div>
+        <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
     </div>
   </div>
 
@@ -1358,6 +722,7 @@
     const HINDI_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip"; 
     const ENGLISH_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(ENGLISH%20EDITION).zip"; 
     
+    const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0'; 
     const CUSTOM_TAG_TEXT = 'Trending'; 
 
     const SCREENSHOT_URLS = [
@@ -1375,40 +740,35 @@
     const modalContent = document.getElementById('modalContent');
     const modalCloseButton = document.getElementById('modalCloseButton');
     const downloadButton = document.getElementById('downloadButton');
-    
     const languageSelectionContainer = document.getElementById('languageSelectionContainer');
     const languageSelectedMessage = document.getElementById('languageSelectedMessage');
-
     const feedbackModal = document.getElementById('feedbackModal');
     const feedbackModalContent = document.getElementById('feedbackModalContent');
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackSuccess = document.getElementById('feedbackSuccess');
-
     const buyBtn = document.getElementById('buyBtn');
     const paymentModal = document.getElementById('paymentModal');
     const paymentModalContent = document.getElementById('paymentModalContent');
     const paymentLoader = document.getElementById('paymentLoader');
     const cashfreeIframe = document.getElementById('cashfreeIframe');
     const paymentModalCloseButton = document.getElementById('paymentModalCloseButton');
-    
     const confirmationModal = document.getElementById('confirmationModal');
     const confirmationContent = document.getElementById('confirmationContent');
     const body = document.body;
-    
     const customTagContainer = document.getElementById('custom-tag-container');
-    
     const zipConfirmationModal = document.getElementById('zipConfirmationModal');
     const zipConfirmationContent = document.getElementById('zipConfirmationContent');
     let selectedFileUrl = '';
     let selectedLangName = '';
-    
     const previewOverlay = document.getElementById('previewOverlay');
     const previewScreenshot = document.getElementById('previewScreenshot');
     const imageCounter = document.getElementById('imageCounter');
     const previewIndicator = document.getElementById('previewIndicator');
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
     let currentImageIndex = 0;
-
+    
+    // Variable to store the auto-close timer
+    let autoCloseTimer;
 
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
@@ -1528,7 +888,6 @@
             openPreviewOverlay();
         }
     });
-
 
     document.querySelectorAll('details').forEach(detail => {
       detail.addEventListener('toggle', e => {
@@ -1818,10 +1177,8 @@
         }, 1000); 
     }
 
-    
+    // Function to show the payment modal with SHIELD logic
     function openPaymentModal() {
-        document.body.style.overflow = 'hidden'; 
-        
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
         
@@ -1829,8 +1186,17 @@
         cashfreeIframe.style.display = 'none';
         paymentLoader.style.opacity = '1'; 
         
-        paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
+        // 🔥 ACTIVATE SHIELD (Blocks clicks on header)
+        const blocker = document.getElementById('headerBlocker');
+        if(blocker) {
+            blocker.style.display = 'block'; 
+        }
 
+        // ⏳ 2 MINUTE AUTO CLOSE TIMER (120,000 ms)
+        autoCloseTimer = setTimeout(() => {
+            closePaymentModal(false);
+            console.log("Auto-closed due to inactivity.");
+        }, 120000); // 2 Minutes
 
         window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
@@ -1870,14 +1236,15 @@
             if (shouldExit) {
                 closePaymentModal(true);
             } else {
-                paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
+                // If cancelled, allow them to try again, re-enable confirmation listener if needed
+                // paymentModalCloseButton logic is handled inline, no re-attach needed
             }
             
         }, 400); 
     }
 
     function closePaymentModal(confirmed = false) {
-        if (!confirmed) return; 
+        // Logic simplified: Just close it.
         
         paymentModalContent.classList.remove('animate-modalFadeIn');
         paymentModalContent.classList.add('animate-modalFadeOut');
@@ -1885,6 +1252,8 @@
         paymentModal.classList.add('closing');
 
         clearTimeout(window.paymentTimeout); 
+        clearTimeout(autoCloseTimer); // Clear the auto-close timer
+
         paymentLoader.style.display = 'none';
         cashfreeIframe.style.display = 'none';
 
@@ -1896,6 +1265,10 @@
             paymentLoader.style.opacity = '1';
             
             document.body.style.overflow = ''; 
+            
+            // Hide shield
+             const blocker = document.getElementById('headerBlocker');
+             if(blocker) blocker.style.display = 'none'; 
 
         }, 400); 
     }
@@ -1905,27 +1278,15 @@
         openPaymentModal();
     });
 
-    // 🔥 SECURE PAYMENT LOGIC 🔥
-    document.addEventListener("DOMContentLoaded", function () {
-
-      const cf = getUrlParam("cf_status");
-      const ps = getUrlParam("payment_status");
-      const ts = getUrlParam("txStatus");
-      const rt = getUrlParam("redirection_time");
-
-      const status = (cf || ps || ts || "").toLowerCase();
-
-      const isSuccess =
-          status === "success" ||
-          status === "paid";
-
-      if (isSuccess) {
-        history.replaceState(null, "", window.location.pathname);
+    document.addEventListener('DOMContentLoaded', function() {
+      const paymentStatus = getUrlParam('payment_status');
+      const secretKey = getUrlParam('secret_key');
+      
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
+        history.replaceState(null, '', window.location.pathname);
         
-        // OPEN DOWNLOAD MODAL
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
-        document.body.style.overflow = 'hidden'; 
         
         if (SINGLE_LANGUAGE_MODE) {
             languageSelectionContainer.style.display = 'none';
@@ -1947,17 +1308,9 @@
             });
         }
         
-        lucide.createIcons();
-        return;
+        lucide.createIcons(); 
       }
-
-      // FAIL / CANCEL / ABANDON LOGIC
-      if (cf || ps || ts || rt) {
-          history.replaceState(null, "", window.location.pathname);
-          lucide.createIcons(); 
-          return; 
-      }
-
+      
       lucide.createIcons();
     });
   </script>
