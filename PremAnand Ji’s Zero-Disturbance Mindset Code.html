@@ -299,7 +299,7 @@
       position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
     }
     .pages {
-      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); /* Adjusted inner shadow for smoother look */
+      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbfb,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); /* Adjusted inner shadow for smoother look */
       overflow:hidden;
     }
     .top-edge {
@@ -404,15 +404,19 @@
     }
     /* End Premium List Styling */
     
-    /* Modal (Popup) CSS (unchanged) */
+    /* Modal (Popup) CSS (MODIFIED) */
     .modal {
         display: none; 
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        position: fixed; top: 0; left: 0; 
+        width: 100vw; /* REQUIRED FIX: Ensure full width of viewport */
+        height: 100vh; /* REQUIRED FIX: Ensure full height of viewport */
         background-color: rgba(0, 0, 0, 0.85); 
-        z-index: 1000; overflow: auto;
+        z-index: 1000; 
         align-items: center; justify-content: center;
         backdrop-filter: blur(4px); 
+        overflow: hidden; /* REQUIRED FIX: Prevent modal container from scrolling */
     }
+    
     /* 🔥 FIX: Z-index update */
     #feedbackModal {
         z-index: 1010; /* Higher than download and payment modals */
@@ -421,6 +425,13 @@
     #previewModal {
         z-index: 1005; 
     }
+    
+    /* 🔥 REQUIRED FIX: Apply highest Z-index and ensure flex display is ready */
+    #paymentModal {
+        z-index: 9999; /* CRITICAL FIX: Ensure it's on top of everything */
+        /* display: flex is set dynamically in JS, but having it here ensures CSS knows how to center */
+    }
+
 
     .modal.closing {
       transition: background-color 0.4s ease;
@@ -439,16 +450,55 @@
         opacity: 0; 
         transform: translateY(20px) scale(0.95); 
     }
+    
+    /* 🔥 REQUIRED FIX: Styles for Payment Modal Content Container */
+    #paymentModalContent {
+        max-width: 500px; /* Desktop max-width */
+        max-height: 90vh; /* CRITICAL FIX: Limit height to 90% of viewport */
+        width: 95%; /* Responsive width for all devices */
+        padding: 0; 
+        background-color: #111827;
+        overflow: hidden; /* CRITICAL FIX: Manage iframe scrolling within this box */
+        border-radius: 12px;
+        box-shadow: 0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65);
+        opacity: 0; /* Handled by modalFadeIn animation */
+        transform: translateY(20px) scale(0.95); /* Handled by modalFadeIn animation */
+    }
+    
+    /* 🔥 REQUIRED FIX: Styles for the Cashfree Iframe */
+    #cashfreeIframe {
+        width: 100%; /* CRITICAL FIX: Fill parent width */
+        height: 100%; /* CRITICAL FIX: Fill parent height */
+        border: none; /* CRITICAL FIX: Remove border */
+        /* The iframe content itself will be scrollable if the payment gateway requires it */
+    }
 
     /* ⭐ NEW: Custom Max-Width for Preview Modal */
     @media (min-width: 640px) {
         #previewModalContent {
             max-width: 420px; 
         }
+        #paymentModalContent {
+            width: 500px; /* Fixed width for desktop/larger screens */
+        }
     }
-    @media (max-width: 639px) {
+    
+    /* 🔥 REQUIRED FIX: Media Query for Mobile Responsiveness */
+    @media (max-width: 640px) {
         #previewModalContent {
             max-width: 360px; 
+        }
+        #paymentModalContent {
+            width: 100%; /* CRITICAL FIX: Full width on mobile */
+            max-width: 100%;
+            height: 100%; /* CRITICAL FIX: Full height on mobile */
+            max-height: 100vh;
+            margin: 0;
+            padding: 0;
+            border-radius: 0; /* Full screen experience */
+        }
+        #paymentContainer {
+            height: 100%; /* Ensure the inner container also takes full height on mobile */
         }
     }
 
@@ -1487,7 +1537,6 @@
         setTimeout(()=> {
           coverShine.style.animation = 'none';
           coverShine.style.display = 'none';
-          loadingSpin.style.display = 'none'; 
           cover.classList.add('loaded');
           cover.setAttribute('aria-busy','false');
 
@@ -1832,6 +1881,9 @@
             downloadModal.style.display = 'none';
             modalContent.classList.remove('animate-modalFadeOut');
             downloadModal.classList.remove('closing');
+            
+            // CRITICAL FIX: Scroll Unlock the main page content after closing download modal
+            document.body.style.overflow = ''; 
 
             if (downloadInitiated) {
                 openFeedbackModal();
@@ -1932,14 +1984,21 @@
 
     // **PAYMENT MODAL JAVASCRIPT**
     
-    // Function to show the payment modal (unchanged)
+    // Function to open the payment modal (UPDATED: Scroll Lock)
     function openPaymentModal() {
+        // CRITICAL FIX: Scroll Lock the main page content
+        document.body.style.overflow = 'hidden'; 
+        
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
         
         paymentLoader.style.display = 'flex';
         cashfreeIframe.style.display = 'none';
         paymentLoader.style.opacity = '1'; 
+        
+        // ⭐ CRITICAL FIX: Add listener for the payment modal close button
+        paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
+
 
         window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
@@ -1988,12 +2047,14 @@
                 closePaymentModal(true);
             } else {
                 // User cancelled: Do nothing, just return to the payment modal
+                // Re-attach listener if they cancel the exit
+                paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
             }
             
         }, 400); 
     }
 
-    // This function closes the payment modal (unchanged)
+    // Function to close the payment modal (UPDATED: Scroll Unlock)
     function closePaymentModal(confirmed = false) {
         if (!confirmed) return; // Only proceed if confirmed by confirmExitPayment(true)
         
@@ -2012,6 +2073,9 @@
             paymentModal.classList.remove('closing');
             
             paymentLoader.style.opacity = '1';
+            
+            // CRITICAL FIX: Scroll Unlock the main page content
+            document.body.style.overflow = ''; 
 
         }, 400); 
     }
@@ -2022,24 +2086,36 @@
         openPaymentModal();
     });
 
-    // Check for successful payment on page load (MODIFIED)
+    // Check for successful payment on page load (MODIFIED FOR CRITICAL FIX AND DEBUGGING)
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
       
+      // ⭐ NEW DEBUGGING CONSOLE LOGS
+      console.log('*** Payment Debug Info ***');
+      console.log(`URL Status: ${paymentStatus}`);
+      console.log(`URL Secret: ${secretKey}`);
+      console.log(`Expected Secret: ${SECRET_KEY}`);
+      console.log(`Status Matches 'success': ${paymentStatus === 'success'}`);
+      console.log(`Key Matches Expected: ${secretKey === SECRET_KEY}`);
+      console.log('**************************');
+
+      // --- CRITICAL FIX: CHECK FOR STRICT 'SUCCESS' STATUS ---
       if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
+        
+        // --- 1. SUCCESS LOGIC: Open Download Modal ---
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
         
+        // CRITICAL FIX: Scroll Lock the main page content on success
+        document.body.style.overflow = 'hidden'; 
+        
         // ⭐ NEW LOGIC: Check SINGLE_LANGUAGE_MODE
         if (SINGLE_LANGUAGE_MODE) {
-            // If true, hide language selection and immediately set to English
+            // If true, hide language selection and jump to ZIP confirmation
             languageSelectionContainer.style.display = 'none';
-            // Now, we must jump to the ZIP confirmation step after a slight delay
-            
-            // We set the details needed for ZIP confirmation, but don't enable the main button yet.
             selectedFileUrl = ENGLISH_FILE_ID;
             selectedLangName = 'ENGLISH';
 
@@ -2050,18 +2126,28 @@
                 openZipConfirmationModal();
             }, 300);
 
-            
         } else {
             // If false (default), the selection container is visible, and the button is disabled.
-            // Re-apply language selection button styles (needed because of `no-shine-button` class properties being overwritten)
+            // Re-apply language selection button styles 
             document.querySelectorAll('#languageSelectionContainer button').forEach(btn => {
                 btn.style.backgroundImage = 'none';
                 btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
                 btn.style.color = '#374151';
             });
         }
-        
-        lucide.createIcons(); 
+      
+      // --- 2. FAILURE/CANCEL/ANYTHING ELSE LOGIC: CLEAN URL ---
+      } else if (paymentStatus || secretKey) {
+          
+          // CRITICAL FIX: Agar status fail/cancel hai, ya key galat hai, toh parameters hata kar URL clean karo.
+          history.replaceState(null, '', window.location.pathname); 
+          
+          // Optional: User ko feedback (only if status was actually passed, but not success)
+          if (paymentStatus && paymentStatus !== 'success') {
+               // You can uncomment this alert for testing, but keep it commented out for production.
+               // alert(`Payment Status was '${paymentStatus}'. Download is only enabled for 'success'. URL has been cleaned.`);
+          }
+
       }
       
       // Initial call to render icons (including indicator)
