@@ -404,22 +404,22 @@
     }
     /* End Premium List Styling */
     
-    /* Modal (Popup) CSS (MODIFIED FOR FIXES) */
+    /* Modal (Popup) CSS - CRITICAL FIXES APPLIED HERE */
     .modal {
         display: none; 
         position: fixed; 
         top: 0; 
         left: 0; 
-        width: 100vw; /* REQUIRED FIX: Ensure full width of viewport */
-        height: 100vh; /* REQUIRED FIX: Ensure full height of viewport */
+        width: 100vw; 
+        height: 100vh; 
         background-color: rgba(0, 0, 0, 0.85); 
         z-index: 1000; 
+        /* ⭐ CRITICAL FIX: Ensure display is flex for modals and overflow is hidden */
         align-items: center; 
         justify-content: center;
         backdrop-filter: blur(4px); 
-        overflow: hidden; /* REQUIRED FIX: Prevent modal container from scrolling */
+        overflow: hidden; 
     }
-    
     /* 🔥 FIX: Z-index update */
     #feedbackModal {
         z-index: 1010; 
@@ -1441,7 +1441,8 @@
     const HINDI_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip"; // Example Hindi URL
     const ENGLISH_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(ENGLISH%20EDITION).zip"; // Example English URL
     
-    const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0'; 
+    // ⭐ SECRET KEY: NOT USED IN MAIN LOGIC (Simplified as per user's request)
+    // const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0'; 
     
     // ⭐ CONFIGURATION: Change this text to whatever you want, or set it to an empty string ("") to hide the tag completely.
     const CUSTOM_TAG_TEXT = 'Trending'; // Examples: 'Trending', 'New', 'Best Seller', 'Popular'
@@ -1950,12 +1951,6 @@
                 feedbackModalContent.classList.remove('animate-shakeModal');
             }, 800); 
             
-            // 3. Revert highlight after a short delay
-            setTimeout(() => {
-                feedbackTextarea.classList.remove('border-red-500');
-                feedbackTextarea.placeholder = 'Type your honest feedback here (Required)...'; // Reset placeholder
-            }, 3000);
-            
             return; // Stop the submission
         }
         // --- END VALIDATION ---
@@ -1999,8 +1994,7 @@
         cashfreeIframe.style.display = 'none';
         paymentLoader.style.opacity = '1'; 
         
-        // ⭐ CRITICAL FIX: Add listener for the payment modal close button
-        // Attach listener for the payment modal close button (opens confirmation pop-up)
+        // ⭐ CRITICAL FIX: Add listener for the payment modal close button (opens confirmation pop-up)
         paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
 
 
@@ -2090,33 +2084,32 @@
         openPaymentModal();
     });
 
-    // Check for successful payment on page load (MODIFIED FOR CRITICAL FIX AND DEBUGGING)
+    // Check for successful payment on page load (MODIFIED FOR FINAL SIMPLIFIED LOGIC)
     document.addEventListener('DOMContentLoaded', function() {
+      // Statuses Cashfree commonly sends
       const paymentStatus = getUrlParam('payment_status');
-      const secretKey = getUrlParam('secret_key');
-      // Added new parameter checks for robustness against different payment gateways/configurations
-      const txStatus = getUrlParam('txStatus'); // Common Cashfree parameter
+      const txStatus = getUrlParam('txStatus'); 
+      const orderStatus = getUrlParam('order_status');
       
-      // Normalize statuses to lowercase for universal check
-      const normalizedStatus = (paymentStatus || txStatus || '').toLowerCase();
-      // Check if status is strictly 'success'
+      // Get any potential status parameter and convert to lowercase for comparison
+      const rawStatus = paymentStatus || txStatus || orderStatus || '';
+      const normalizedStatus = rawStatus.toLowerCase();
+      
+      // We check for success, handling common case variations (e.g., 'Success', 'SUCCESS', 'success')
       const isSuccess = normalizedStatus === 'success';
 
       // ⭐ NEW DEBUGGING CONSOLE LOGS (use F12 to check this)
-      console.log('*** Payment Debug Info ***');
-      console.log(`P_Status: ${paymentStatus}, Tx_Status: ${txStatus}`);
+      console.log('*** Payment Status Check (Simplified) ***');
+      console.log(`Raw Statuses: P_Status=${paymentStatus}, Tx_Status=${txStatus}, Order_Status=${orderStatus}`);
       console.log(`Normalized Status: ${normalizedStatus}`);
-      console.log(`URL Secret: ${secretKey}`);
-      console.log(`Expected Secret: ${SECRET_KEY}`);
       console.log(`Is Success: ${isSuccess}`);
-      console.log(`Key Matches Expected: ${secretKey === SECRET_KEY}`);
-      console.log('**************************');
+      console.log('***************************************');
 
-      // --- CRITICAL FIX: CHECK FOR STRICT 'SUCCESS' STATUS AND KEY ---
-      if (isSuccess && secretKey === SECRET_KEY) {
+      // --- CRITICAL FIX: CHECK ONLY FOR SUCCESS STATUS ---
+      if (isSuccess) {
         
         // --- 1. SUCCESS LOGIC: Open Download Modal ---
-        // First, clean the URL
+        // First, clean the URL (This is crucial, even on success)
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
@@ -2149,11 +2142,12 @@
             });
         }
       
-      // --- 2. FAILURE/CANCEL/ANYTHING ELSE LOGIC: CLEAN URL ---
-      // This runs if parameters exist, but the combination is not strict success.
-      } else if (paymentStatus || txStatus || secretKey) {
+      // --- 2. FAILURE/CANCEL LOGIC: CLEAN URL ---
+      // This runs if a status parameter was present, but it was NOT 'success'.
+      } else if (rawStatus) {
           
-          // CRITICAL FIX: Agar status fail/cancel hai, ya key galat hai, toh parameters hata kar URL clean karo.
+          // CRITICAL FIX: If status is anything but success (e.g., failed, cancelled, pending), clean the URL.
+          // This prevents re-opening the modal on refresh and ensures a clean page load.
           history.replaceState(null, '', window.location.pathname); 
 
       }
