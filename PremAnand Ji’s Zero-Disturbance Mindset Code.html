@@ -419,7 +419,6 @@
         border-radius: 12px; 
         width: 80%; 
         max-width: 400px;
-        border: 1px solid rgba(0,0,0,0.1); 
         box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); 
         opacity: 0; 
         transform: translateY(20px) scale(0.95); 
@@ -519,7 +518,6 @@
         color: white; 
         padding: 12px 25px; 
         margin-top: 0px; 
-        text-decoration: none; 
         border-radius: 8px;
         font-weight: bold; 
         font-size: 1.1em;
@@ -576,7 +574,6 @@
       color: white; 
       padding: 12px 25px; 
       margin-top: 0px; 
-      text-decoration: none; 
       border-radius: 8px;
       font-weight: bold; 
       font-size: 1.1em;
@@ -1671,7 +1668,7 @@
                 languageSelectionContainer.style.opacity = '0';
                 languageSelectionContainer.style.pointerEvents = 'none';
 
-                languageSelectedMessage.textContent = `${selectedLangName} selected. Click the green button to start download!`;
+                languageSelectedMessage.textContent = `${selectedLangName} selected. Please confirm ZIP compatibility.`;
                 languageSelectedMessage.classList.remove('hidden');
                 
                 setTimeout(() => {
@@ -1731,7 +1728,7 @@
         setTimeout(() => {
             downloadModal.style.display = 'none';
             modalContent.classList.remove('animate-modalFadeOut');
-            modalContent.classList.remove('closing'); /* Corrected missing class removal */
+            modalContent.classList.remove('closing'); 
             
             document.body.style.overflow = ''; 
 
@@ -1743,7 +1740,7 @@
     }
     
     function openFeedbackModal() {
-        document.body.style.overflow = 'hidden'; /* Added scroll lock for feedback modal */
+        document.body.style.overflow = 'hidden'; 
         feedbackModal.style.display = 'flex';
         feedbackModalContent.classList.add('animate-modalFadeIn');
         
@@ -1766,7 +1763,7 @@
             feedbackModalContent.classList.remove('animate-modalFadeOut');
             feedbackModal.classList.remove('closing');
             
-            document.body.style.overflow = ''; /* Added scroll unlock for feedback modal */
+            document.body.style.overflow = ''; 
 
             if (shouldRedirect) {
                 window.location.href = REDIRECT_URL;
@@ -1909,26 +1906,27 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Statuses Cashfree commonly sends
+      // Status parameters Cashfree/General PGs commonly send
+      const cfStatus = getUrlParam('cf_status'); /* CRITICAL FIX */
       const paymentStatus = getUrlParam('payment_status');
       const txStatus = getUrlParam('txStatus'); 
-      const orderStatus = getUrlParam('order_status');
-      const cfStatus = getUrlParam('cf_status'); /* CRITICAL FIX */
+      const redirectionTime = getUrlParam('redirection_time');
       
-      // Get all relevant status parameters
-      const rawStatus = paymentStatus || txStatus || orderStatus || cfStatus || '';
+      // Get all relevant status parameters (We check all possibilities)
+      const rawStatus = cfStatus || paymentStatus || txStatus || '';
       const normalizedStatus = rawStatus.toLowerCase();
       
       // We define success as any of the known success status variants (success, success/SUCCESS, or PAID)
       const isSuccess = (normalizedStatus === 'success' || normalizedStatus === 'paid');
 
-      // 🔥 CRITICAL FIX: Check for the presence of the redirection timer, which only comes after a transaction attempt.
-      const hasTransactionAttempted = getUrlParam('redirection_time');
-      
-      // ⭐ FINAL DECISION POINT: If success status is found OR if the redirection timer is the only evidence of completion.
-      if (isSuccess || (hasTransactionAttempted && !rawStatus)) {
+      // Check if ANY known status parameter or the redirection time parameter is present
+      const hasAnyPGParam = rawStatus || redirectionTime;
+
+      // ⭐ FINAL LOGIC: Check for Success OR trigger cleanup if any parameter shows up
+      if (isSuccess) {
         
         // --- 1. SUCCESS LOGIC: Open Download Modal ---
+        // CRITICAL: Clean the URL FIRST.
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
@@ -1957,10 +1955,11 @@
         }
       
       // --- 2. FAILURE/CANCEL LOGIC: CLEAN URL ---
-      // This runs if a status parameter was present (but not success) OR if redirection_time was present without explicit success status.
-      } else if (rawStatus || hasTransactionAttempted) {
+      // If payment was attempted (indicated by rawStatus or redirectionTime), but it was NOT success.
+      } else if (hasAnyPGParam) {
           
-          // Cleanup URL to prevent accidental download on refresh
+          // CRITICAL FIX: If status is anything but success, clean the URL.
+          // This prevents re-opening the modal on refresh and ensures a clean page load.
           history.replaceState(null, '', window.location.pathname); 
 
       }
