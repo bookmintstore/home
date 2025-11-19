@@ -1731,7 +1731,7 @@
         setTimeout(() => {
             downloadModal.style.display = 'none';
             modalContent.classList.remove('animate-modalFadeOut');
-            downloadModal.classList.remove('closing');
+            modalContent.classList.remove('closing'); /* Corrected missing class removal */
             
             document.body.style.overflow = ''; 
 
@@ -1743,6 +1743,7 @@
     }
     
     function openFeedbackModal() {
+        document.body.style.overflow = 'hidden'; /* Added scroll lock for feedback modal */
         feedbackModal.style.display = 'flex';
         feedbackModalContent.classList.add('animate-modalFadeIn');
         
@@ -1765,6 +1766,8 @@
             feedbackModalContent.classList.remove('animate-modalFadeOut');
             feedbackModal.classList.remove('closing');
             
+            document.body.style.overflow = ''; /* Added scroll unlock for feedback modal */
+
             if (shouldRedirect) {
                 window.location.href = REDIRECT_URL;
             }
@@ -1829,7 +1832,6 @@
         cashfreeIframe.style.display = 'none';
         paymentLoader.style.opacity = '1'; 
         
-        // ⭐ CRITICAL FIX: Add listener for the payment modal close button (opens confirmation pop-up)
         paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
 
 
@@ -1871,7 +1873,6 @@
             if (shouldExit) {
                 closePaymentModal(true);
             } else {
-                // 🔥 FIX: Re-attach listener if the user chooses to continue payment
                 paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
             }
             
@@ -1908,22 +1909,26 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+      // Statuses Cashfree commonly sends
       const paymentStatus = getUrlParam('payment_status');
       const txStatus = getUrlParam('txStatus'); 
       const orderStatus = getUrlParam('order_status');
-      // ⭐ CRITICAL FIX: Check Cashfree's specific status parameter
-      const cfStatus = getUrlParam('cf_status'); 
+      const cfStatus = getUrlParam('cf_status'); /* CRITICAL FIX */
       
+      // Get all relevant status parameters
       const rawStatus = paymentStatus || txStatus || orderStatus || cfStatus || '';
       const normalizedStatus = rawStatus.toLowerCase();
       
-      const isSuccess = normalizedStatus === 'success';
+      // We define success as any of the known success status variants (success, success/SUCCESS, or PAID)
+      const isSuccess = (normalizedStatus === 'success' || normalizedStatus === 'paid');
 
-      // ⭐ CRITICAL FIX: Check for redirection time or any status parameter
-      const isAnyParamPresent = rawStatus || getUrlParam('redirection_time') || getUrlParam('cf_referenceId');
-
-      if (isSuccess) {
+      // 🔥 CRITICAL FIX: Check for the presence of the redirection timer, which only comes after a transaction attempt.
+      const hasTransactionAttempted = getUrlParam('redirection_time');
+      
+      // ⭐ FINAL DECISION POINT: If success status is found OR if the redirection timer is the only evidence of completion.
+      if (isSuccess || (hasTransactionAttempted && !rawStatus)) {
         
+        // --- 1. SUCCESS LOGIC: Open Download Modal ---
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
@@ -1951,8 +1956,11 @@
             });
         }
       
-      } else if (isAnyParamPresent) {
+      // --- 2. FAILURE/CANCEL LOGIC: CLEAN URL ---
+      // This runs if a status parameter was present (but not success) OR if redirection_time was present without explicit success status.
+      } else if (rawStatus || hasTransactionAttempted) {
           
+          // Cleanup URL to prevent accidental download on refresh
           history.replaceState(null, '', window.location.pathname); 
 
       }
