@@ -299,7 +299,7 @@
       position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
     }
     .pages {
-      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbfb,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); /* Adjusted inner shadow for smoother look */
+      position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); /* Adjusted inner shadow for smoother look */
       overflow:hidden;
     }
     .top-edge {
@@ -404,22 +404,25 @@
     }
     /* End Premium List Styling */
     
-    /* Modal (Popup) CSS (MODIFIED) */
+    /* Modal (Popup) CSS (MODIFIED FOR FIXES) */
     .modal {
         display: none; 
-        position: fixed; top: 0; left: 0; 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
         width: 100vw; /* REQUIRED FIX: Ensure full width of viewport */
         height: 100vh; /* REQUIRED FIX: Ensure full height of viewport */
         background-color: rgba(0, 0, 0, 0.85); 
         z-index: 1000; 
-        align-items: center; justify-content: center;
+        align-items: center; 
+        justify-content: center;
         backdrop-filter: blur(4px); 
         overflow: hidden; /* REQUIRED FIX: Prevent modal container from scrolling */
     }
     
     /* 🔥 FIX: Z-index update */
     #feedbackModal {
-        z-index: 1010; /* Higher than download and payment modals */
+        z-index: 1010; 
     }
     /* ⭐ MODIFIED: Z-index for the new Preview Modal */
     #previewModal {
@@ -429,7 +432,6 @@
     /* 🔥 REQUIRED FIX: Apply highest Z-index and ensure flex display is ready */
     #paymentModal {
         z-index: 9999; /* CRITICAL FIX: Ensure it's on top of everything */
-        /* display: flex is set dynamically in JS, but having it here ensures CSS knows how to center */
     }
 
 
@@ -453,16 +455,16 @@
     
     /* 🔥 REQUIRED FIX: Styles for Payment Modal Content Container */
     #paymentModalContent {
-        max-width: 500px; /* Desktop max-width */
+        max-width: 500px; 
         max-height: 90vh; /* CRITICAL FIX: Limit height to 90% of viewport */
-        width: 95%; /* Responsive width for all devices */
+        width: 95%; 
         padding: 0; 
         background-color: #111827;
         overflow: hidden; /* CRITICAL FIX: Manage iframe scrolling within this box */
         border-radius: 12px;
         box-shadow: 0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65);
-        opacity: 0; /* Handled by modalFadeIn animation */
-        transform: translateY(20px) scale(0.95); /* Handled by modalFadeIn animation */
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95); 
     }
     
     /* 🔥 REQUIRED FIX: Styles for the Cashfree Iframe */
@@ -470,7 +472,6 @@
         width: 100%; /* CRITICAL FIX: Fill parent width */
         height: 100%; /* CRITICAL FIX: Fill parent height */
         border: none; /* CRITICAL FIX: Remove border */
-        /* The iframe content itself will be scrollable if the payment gateway requires it */
     }
 
     /* ⭐ NEW: Custom Max-Width for Preview Modal */
@@ -506,22 +507,22 @@
     #previewOverlay {
         position: absolute;
         inset: 0;
-        z-index: 8; /* Above original image (6) but below spin (7) if loading */
+        z-index: 8; 
         background: #111;
         opacity: 0;
         transition: opacity 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        pointer-events: none; /* Initially disabled pointer events */
+        pointer-events: none; 
     }
 
     #previewScreenshot {
-        width: 100%; /* Changed from 95% to 100% for full edge-to-edge fit */
+        width: 100%; 
         height: 100%;
         object-fit: cover;
         opacity: 0;
-        border-radius: 8px; /* Match cover border radius */
+        border-radius: 8px; 
     }
     
     /* Download Button CSS for Shine and Click effect (unchanged) */
@@ -1873,6 +1874,7 @@
       }, 4000); // 4 second delay
     }
 
+    // Function to close the download modal (UPDATED: Scroll Unlock)
     function closeDownloadModal() {
         modalContent.classList.remove('animate-modalFadeIn');
         modalContent.classList.add('animate-modalFadeOut');
@@ -1883,7 +1885,7 @@
             modalContent.classList.remove('animate-modalFadeOut');
             downloadModal.classList.remove('closing');
             
-            // CRITICAL FIX: Scroll Unlock the main page content after closing download modal
+            // CRITICAL FIX: Scroll Unlock the main page content
             document.body.style.overflow = ''; 
 
             if (downloadInitiated) {
@@ -1998,6 +2000,7 @@
         paymentLoader.style.opacity = '1'; 
         
         // ⭐ CRITICAL FIX: Add listener for the payment modal close button
+        // Attach listener for the payment modal close button (opens confirmation pop-up)
         paymentModalCloseButton.addEventListener('click', openConfirmationModal, { once: true });
 
 
@@ -2096,6 +2099,7 @@
       
       // Normalize statuses to lowercase for universal check
       const normalizedStatus = (paymentStatus || txStatus || '').toLowerCase();
+      // Check if status is strictly 'success'
       const isSuccess = normalizedStatus === 'success';
 
       // ⭐ NEW DEBUGGING CONSOLE LOGS (use F12 to check this)
@@ -2112,6 +2116,7 @@
       if (isSuccess && secretKey === SECRET_KEY) {
         
         // --- 1. SUCCESS LOGIC: Open Download Modal ---
+        // First, clean the URL
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
