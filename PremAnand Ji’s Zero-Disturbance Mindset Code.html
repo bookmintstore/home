@@ -139,7 +139,7 @@
     }
 
     /* general */
-    body{font-family:'Poppins',sans-serif}
+    body{font-family:'Poppins',sans-serif; user-select: none; -webkit-user-select: none;} /* Disable text selection */
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
@@ -373,7 +373,7 @@
     }
   </style>
 </head>
-<body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
+<body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30" oncontextmenu="return false;">
   <div class="pointer-events-none fixed inset-0 -z-10">
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
     <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
@@ -638,11 +638,15 @@
   </div>
 
   <div id="paymentModal" class="modal">
-    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827; position: relative;" oncontextmenu="return false;">
         
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
             <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
         </button>
+
+        <div id="paymentTimer" class="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded z-20 hidden">
+            Closing in: <span id="timerCount">02:00</span>
+        </div>
         
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             
@@ -655,7 +659,18 @@
                 background: transparent; 
                 z-index: 15; 
                 display: none;
-            "></div>
+            " oncontextmenu="return false;"></div>
+
+            <div id="bottomBlocker" style="
+                position: absolute; 
+                bottom: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 70px; 
+                background: transparent; 
+                z-index: 15; 
+                display: none;
+            " oncontextmenu="return false;"></div>
 
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader">
@@ -707,16 +722,19 @@
 
   <script>
     
+    // 🔥 AGGRESSIVE RIGHT CLICK BLOCKER
     document.addEventListener('contextmenu', event => {
         event.preventDefault(); 
+        return false;
     });
 
+    // 🔥 AGGRESSIVE KEYBOARD SHORTCUT BLOCKER (F12, Ctrl+U, Ctrl+Shift+I)
     document.onkeydown = function(e) {
-      if (e.keyCode == 123) { return false; }
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+      if (e.keyCode == 123) { return false; } // F12
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
     };
 
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover%20(5).png';
@@ -772,6 +790,7 @@
     
     // Variable to store the auto-close timer
     let autoCloseTimer;
+    let countdownInterval; // For the visual countdown
 
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
@@ -1180,6 +1199,30 @@
         }, 1000); 
     }
 
+    // --- REVERSE TIMER LOGIC ---
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        // Clear any existing interval to prevent multiple timers running
+        if(countdownInterval) clearInterval(countdownInterval);
+        
+        countdownInterval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(countdownInterval);
+                closePaymentModal(false); // Auto close when time is up
+            }
+        }, 1000);
+    }
+    // --- END TIMER LOGIC ---
+
+
     // Function to show the payment modal with SHIELD logic
     function openPaymentModal() {
         paymentModal.style.display = 'flex';
@@ -1189,17 +1232,19 @@
         cashfreeIframe.style.display = 'none';
         paymentLoader.style.opacity = '1'; 
         
-        // 🔥 ACTIVATE SHIELD (Blocks clicks on header)
-        const blocker = document.getElementById('headerBlocker');
-        if(blocker) {
-            blocker.style.display = 'block'; 
-        }
+        // 🔥 ACTIVATE TOP SHIELD
+        const topBlocker = document.getElementById('headerBlocker');
+        if(topBlocker) topBlocker.style.display = 'block'; 
 
-        // ⏳ 2 MINUTE AUTO CLOSE TIMER (120,000 ms)
-        autoCloseTimer = setTimeout(() => {
-            closePaymentModal(false);
-            console.log("Auto-closed due to inactivity.");
-        }, 120000); // 2 Minutes
+        // 🔥 ACTIVATE BOTTOM SHIELD
+        const bottomBlocker = document.getElementById('bottomBlocker');
+        if(bottomBlocker) bottomBlocker.style.display = 'block';
+
+        // ⏳ START VISIBLE TIMER (2 Minutes = 120 seconds)
+        const timerDisplay = document.querySelector('#timerCount');
+        const timerContainer = document.getElementById('paymentTimer');
+        if(timerContainer) timerContainer.classList.remove('hidden');
+        startTimer(120, timerDisplay);
 
         window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
@@ -1239,8 +1284,7 @@
             if (shouldExit) {
                 closePaymentModal(true);
             } else {
-                // If cancelled, allow them to try again, re-enable confirmation listener if needed
-                // paymentModalCloseButton logic is handled inline, no re-attach needed
+                // If cancelled, allow them to try again
             }
             
         }, 400); 
@@ -1255,10 +1299,14 @@
         paymentModal.classList.add('closing');
 
         clearTimeout(window.paymentTimeout); 
-        clearTimeout(autoCloseTimer); // Clear the auto-close timer
+        clearInterval(countdownInterval); // Stop timer
 
         paymentLoader.style.display = 'none';
         cashfreeIframe.style.display = 'none';
+        
+        // Hide visible timer
+        const timerContainer = document.getElementById('paymentTimer');
+        if(timerContainer) timerContainer.classList.add('hidden');
 
         setTimeout(() => {
             paymentModal.style.display = 'none';
@@ -1269,9 +1317,11 @@
             
             document.body.style.overflow = ''; 
             
-            // Hide shield
-             const blocker = document.getElementById('headerBlocker');
-             if(blocker) blocker.style.display = 'none'; 
+            // Hide shields
+             const topBlocker = document.getElementById('headerBlocker');
+             if(topBlocker) topBlocker.style.display = 'none'; 
+             const bottomBlocker = document.getElementById('bottomBlocker');
+             if(bottomBlocker) bottomBlocker.style.display = 'none';
 
         }, 400); 
     }
