@@ -30,12 +30,6 @@
               '50%': { transform: 'translateX(30%)', opacity: '1' },
               '100%': { transform: 'translateX(130%)', opacity: '1' }
             },
-            highlightMove: {
-              '0%': { left: '-60%', opacity: '0' },
-              '20%': { left: '-20%', opacity: '0.9' },
-              '60%': { left: '60%', opacity: '0.9' },
-              '100%': { left: '120%', opacity: '0' }
-            },
             coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
             glowspin: { 
               '0%': { transform: 'rotate(0deg)' },
@@ -48,10 +42,6 @@
             modalFadeOut: {
               '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
               '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' }
-            },
-            buttonClick: {
-              '0%': { transform: 'scale(1)', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)' },
-              '100%': { transform: 'scale(0.97)', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }
             },
             tagShine: {
               '0%': { transform: 'translateX(-140%) skewX(-30deg)' },
@@ -104,7 +94,6 @@
             aura: 'aura 2.4s ease-in-out infinite',
             coverShine: 'coverShine 0.6s ease-in-out infinite',
             fastShimmer: 'fastShimmer 0.8s linear infinite',
-            highlightMove: 'highlightMove 0.9s linear infinite',
             coverFast: 'coverFast 0.45s linear infinite',
             glowspin: 'glowspin 1.2s linear infinite',
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
@@ -139,7 +128,9 @@
     }
 
     /* general */
-    body{font-family:'Poppins',sans-serif; user-select: none; -webkit-user-select: none;} /* Disable text selection */
+    /* 🔥 DISABLE USER SELECTION GLOBALLY */
+    body{font-family:'Poppins',sans-serif; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;} 
+    
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
@@ -373,6 +364,7 @@
     }
   </style>
 </head>
+
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30" oncontextmenu="return false;">
   <div class="pointer-events-none fixed inset-0 -z-10">
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
@@ -648,7 +640,7 @@
             Closing in: <span id="timerCount">02:00</span>
         </div>
         
-        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;" oncontextmenu="return false;">
             
             <div id="headerBlocker" style="
                 position: absolute; 
@@ -688,7 +680,8 @@
                 width="100%" 
                 height="100%" 
                 style="border-radius: 12px; display: none;"
-                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"
+                sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation"
+                oncontextmenu="return false;"
             ></iframe>
         </div>
         
@@ -728,7 +721,7 @@
         return false;
     });
 
-    // 🔥 AGGRESSIVE KEYBOARD SHORTCUT BLOCKER (F12, Ctrl+U, Ctrl+Shift+I)
+    // 🔥 AGGRESSIVE KEYBOARD SHORTCUT BLOCKER
     document.onkeydown = function(e) {
       if (e.keyCode == 123) { return false; } // F12
       if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
@@ -1202,7 +1195,6 @@
     // --- REVERSE TIMER LOGIC ---
     function startTimer(duration, display) {
         let timer = duration, minutes, seconds;
-        // Clear any existing interval to prevent multiple timers running
         if(countdownInterval) clearInterval(countdownInterval);
         
         countdownInterval = setInterval(function () {
@@ -1216,15 +1208,16 @@
 
             if (--timer < 0) {
                 clearInterval(countdownInterval);
-                closePaymentModal(false); // Auto close when time is up
+                closePaymentModal(false); 
             }
         }, 1000);
     }
-    // --- END TIMER LOGIC ---
-
 
     // Function to show the payment modal with SHIELD logic
     function openPaymentModal() {
+        // 🔥 SET SESSION STORAGE FLAG to prevent random access
+        sessionStorage.setItem('payment_initiated', 'true');
+
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
         
@@ -1284,15 +1277,13 @@
             if (shouldExit) {
                 closePaymentModal(true);
             } else {
-                // If cancelled, allow them to try again
+                // Cancel
             }
             
         }, 400); 
     }
 
     function closePaymentModal(confirmed = false) {
-        // Logic simplified: Just close it.
-        
         paymentModalContent.classList.remove('animate-modalFadeIn');
         paymentModalContent.classList.add('animate-modalFadeOut');
         
@@ -1331,37 +1322,40 @@
         openPaymentModal();
     });
 
-    // --- NEW CELEBRATION LOGIC (Updated: Center Pop Only) ---
     function triggerCelebration() {
-        // Colors: Indigo, Purple, Emerald, Gold
         const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700'];
 
-        // Single central explosion (Center Pop)
         confetti({
-            particleCount: 180,    // Good amount for a single burst
-            spread: 100,           // Wider spread
-            origin: { y: 0.6 },    // Slightly lower than center
+            particleCount: 180,    
+            spread: 100,           
+            origin: { y: 0.6 },    
             colors: colors,
-            zIndex: 2000,          // Above modal
+            zIndex: 2000,          
             gravity: 1.2,
             scalar: 1.2,
             shapes: ['circle', 'square'],
             disableForReducedMotion: true
         });
     }
-    // --- END CELEBRATION LOGIC ---
 
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
       
-      if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
+      // 🔥 CHECK SESSION STORAGE: Did user click 'Buy Now' in this session?
+      const paymentInitiated = sessionStorage.getItem('payment_initiated');
+
+      // Only allow download if status is success AND user initiated payment flow
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY && paymentInitiated === 'true') {
+        
+        // Clear session flag so reload doesn't re-trigger
+        sessionStorage.removeItem('payment_initiated');
+        
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
 
-        // TRIGGER THE CELEBRATION EFFECT HERE
         triggerCelebration();
         
         if (SINGLE_LANGUAGE_MODE) {
