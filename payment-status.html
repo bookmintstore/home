@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment Status</title>
+<style>
+body { 
+    font-family: Arial;
+    background: #fefefe; 
+    padding: 40px;
+    text-align: center;
+}
+#downloadModal {
+    display: none;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<h2>Checking your payment...</h2>
+
+<div id="downloadModal">
+    <h2>Payment Successful!</h2>
+    <p>Your file is ready to download:</p>
+
+    <!-- Replace with your real download link -->
+    <a href="YOUR-EBOOK-DOWNLOAD-LINK" 
+       download 
+       style="font-size:20px;background:#4caf50;color:white;padding:12px 20px;border-radius:10px;">
+       Download Now
+    </a>
+</div>
+
+<script>
+// Read URL params
+const url = new URL(window.location.href);
+const status = url.searchParams.get("txStatus");
+
+// SUCCESS CASE
+if (status === "SUCCESS") {
+    document.querySelector("h2").innerText = "Payment Successful!";
+    document.getElementById("downloadModal").style.display = "block";
+}
+
+// FAIL CASE
+else {
+    document.body.innerHTML = `
+        <h2 style="color:red;">Payment Not Completed</h2>
+        <p>Please try again.</p>
+    `;
+}
+</script>
+
+</body>
+</html>
