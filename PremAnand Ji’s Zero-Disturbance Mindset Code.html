@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
   
-  <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   
   <script>
@@ -128,8 +128,25 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    /* CSS STYLES */
-    body{font-family:'Poppins',sans-serif}
+    @keyframes waveJump {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); } 
+    }
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* general - HARDCORE SECURITY */
+    body {
+        font-family:'Poppins',sans-serif;
+        -webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+        user-select: none; /* Standard */
+    }
+    
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
@@ -223,6 +240,7 @@
         animation: tagShine 3.0s ease-in-out infinite; 
     }
 
+    /* Cover Shine */
     .cover-shine {
       position:absolute; inset:0; z-index:6; pointer-events:none;
       background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%);
@@ -234,6 +252,7 @@
       filter: blur(8px);
     }
     
+    /* Loading Spin */
     .cover-loading-spin {
       position: absolute;
       inset: 0;
@@ -256,11 +275,14 @@
     }
     .cover.loaded .cover-loading-spin { opacity: 0; }
 
+    /* Spine, Pages, Edges */
     .spine { position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); }
     .pages { position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); overflow:hidden; }
     .top-edge { position:absolute; top: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(90deg) translateY(-10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 8px 8px 0 0; }
     .bottom-edge { position:absolute; bottom: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(-90deg) translateY(10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 0 0 8px 8px; }
     .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
+
+    @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
 
     .proc-error { color:#f87171; font-weight:600; margin-top:8px; display:none; }
     
@@ -270,18 +292,21 @@
     .star-glow .half{color:#fbbf24}
     .star-glow .empty{color:#475569;opacity:.45}
 
+    /* Stats Layout */
     .stats-section { display: flex; justify-content: space-around; align-items: center; padding: 0; border-top: none; border-bottom: none; margin-top: 16px; }
     .stat-item { text-align: center; flex-grow: 1; padding: 0 8px; }
     .stat-value { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #e0f2f1; margin-bottom: 4px; text-shadow: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .stat-value svg { color: #a855f7; filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); }
     .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
 
+    /* Premium List */
     .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
     .premium-list-title { color: #e0f2f1; font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 20px; text-shadow: 0 0 6px rgba(255, 255, 255, 0.2); }
     .premium-list-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1.0rem; color: #cbd5e1; line-height: 1.4; }
     .premium-list-item strong { color: #e0f2f1; }
     .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
     
+    /* Modal */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     #feedbackModal { z-index: 1010; }
     #previewModal { z-index: 1005; }
@@ -291,9 +316,11 @@
     @media (min-width: 640px) { #previewModalContent { max-width: 420px; } }
     @media (max-width: 639px) { #previewModalContent { max-width: 360px; } }
 
+    /* Preview Overlay */
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
     
+    /* Buttons */
     .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
     .download-button:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(16,185,129,0.6); }
     .download-button:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 2px 5px rgba(16,185,129,0.3); }
@@ -330,10 +357,51 @@
     .feedback-rating { display: flex; align-items: center; gap: 4px; }
     .extra-feedback { display: none; }
     
-    /* Spinner CSS */
-    .spinner { border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 2px solid white; width: 16px; height: 16px; animation: spin 1s linear infinite; display: inline-block; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    /* Loader CSS */
+    .jumping-loader { display: flex; justify-content: center; align-items: center; height: 60px; }
+    .jumping-loader .ball { width: 14px; height: 14px; margin: 0 4px; background-color: #a855f7; border-radius: 50%; display: inline-block; }
+    .jumping-loader .ball:nth-child(1) { animation: waveJump 0.8s ease-in-out infinite 0s; }
+    .jumping-loader .ball:nth-child(2) { animation: waveJump 0.8s ease-in-out infinite 0.1s; }
+    .jumping-loader .ball:nth-child(3) { animation: waveJump 0.8s ease-in-out infinite 0.2s; }
+    #paymentLoader .loading-half-wheel { display: none !important; }
+    
+    /* FIXED Z-INDEX: 30 (Above Shield) */
+    #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 30; }
+    
+    /* Confirmation Modal */
+    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1020; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
+    #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
+    #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
+    .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; transition: all 0.3s; }
+    .payment-modal-blur .modal-content#paymentModalContent { filter: blur(4px) brightness(0.7); pointer-events: none; transition: filter 0.3s ease, brightness 0.3s ease; }
 
+    /* New Timer and Shield Styles */
+    #paymentTimer {
+        display: none; 
+        position: fixed; 
+        top: 20px; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        background: #ef4444; 
+        color: white; 
+        padding: 8px 16px; 
+        border-radius: 20px; 
+        font-weight: bold; 
+        z-index: 2000; 
+        box-shadow: 0 0 15px rgba(239,68,68,0.5);
+        font-family: monospace;
+        font-size: 1.1rem;
+    }
+
+    .invisible-shield {
+        position: absolute; 
+        left: 0; 
+        width: 100%; 
+        height: 70px; 
+        background: transparent; 
+        z-index: 25; 
+    }
+    
     @media (max-width: 767px) {
         #previewIndicator { top: 20px; left: 0; transform: translateX(0); width: 100%; display: flex; justify-content: center; }
         #previewIndicator > div { transform: scale(0.9); }
@@ -345,6 +413,8 @@
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
     <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
   </div>
+
+  <div id="paymentTimer">Time Left: <span id="timerCount">02:00</span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="./index.html" class="flex items-center gap-2">
@@ -419,15 +489,12 @@
           <span class="ml-2 line-through text-sm text-zinc-400">₹1699</span>
           <span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold">88% OFF</span>
         </div>
-        
-        <button id="buyBtn" onclick="startPayment()" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
-          <span id="btnText">Buy Now</span>
+        <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
+          <span>Buy Now</span>
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
           <span class="cta-shine animate-btnshine"></span>
           <span class="corner-bling"></span>
-        </button>
-        <p id="errorMsg" class="text-red-400 text-xs hidden mt-2"></p>
-
+        </a>
       </div>
     </div>
 
@@ -490,7 +557,7 @@
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rishabh Mehta</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book made the ideas surprisingly easy to apply the calmness shows in daily life now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Tanvi Sharma</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Rao Verma</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">The way expectations are explained here changed how I respond to people. Feels refreshing</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Naina Arora</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tanwar</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Maun Protocol try kiya aur mind ka noise half ho gaya Didn’t expect it to work this well</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
@@ -607,21 +674,79 @@
     </div>
   </div>
 
+  <div id="paymentModal" class="modal">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
+        
+        <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
+            <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
+        </button>
+        
+        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+            
+            <div id="topShield" class="invisible-shield" style="top: 0;"></div>
+            <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
+
+            <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
+                <div class="jumping-loader">
+                    <div class="ball"></div>
+                    <div class="ball"></div>
+                    <div class="ball"></div>
+                </div>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Redirecting to Secure Payment...</p>
+            </div>
+            
+            <iframe 
+                id="cashfreeIframe" 
+                src="https://payments.cashfree.com/forms/ebk247pymt" 
+                frameborder="0" 
+                width="100%" 
+                height="100%" 
+                style="border-radius: 12px; display: none;"
+                sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation"
+            ></iframe>
+        </div>
+        
+        <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
+    </div>
+  </div>
+
+  <div id="confirmationModal">
+    <div id="confirmationContent">
+        <div class="mb-4">
+            <i data-lucide="alert-triangle" class="h-8 w-8 text-red-400 mx-auto mb-2"></i>
+            <p class="conf-text-glow text-lg">Are you sure to exit payment?</p>
+        </div>
+        <p class="text-sm text-zinc-300 mb-6">Exiting now may cancel your transaction. Your payment information is secure.</p>
+        
+        <div class="flex flex-col gap-3">
+            <button id="cancelExitBtn" class="download-button w-full" style="background-image: linear-gradient(135deg, #ef4444, #dc2626); margin-top: 0px;" onclick="confirmExitPayment(false)">
+                <i data-lucide="check" class="h-5 w-5"></i> 
+                No, Continue Payment
+            </button>
+            
+            <button id="confirmExitBtn" class="w-full text-sm font-semibold text-zinc-400 hover:text-white transition" onclick="confirmExitPayment(true)">
+                Yes, Exit Payment
+            </button>
+        </div>
+    </div>
+  </div>
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">
     © <span id="year"></span> BookMintor. All rights reserved.
   </footer>
 
   <script>
+    
+    // HARDCORE SECURITY: Disable context menu, key shortcuts
     document.addEventListener('contextmenu', event => {
         event.preventDefault(); 
     });
 
     document.onkeydown = function(e) {
-      if (e.keyCode == 123) { return false; }
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+      if (e.keyCode == 123) { return false; } // F12
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
     };
 
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover%20(5).png';
@@ -630,6 +755,7 @@
     const HINDI_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip"; 
     const ENGLISH_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(ENGLISH%20EDITION).zip"; 
     
+    const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0'; 
     const CUSTOM_TAG_TEXT = 'Trending'; 
 
     const SCREENSHOT_URLS = [
@@ -654,9 +780,13 @@
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackSuccess = document.getElementById('feedbackSuccess');
     const buyBtn = document.getElementById('buyBtn');
-    
-    // REMOVED OLD IFRAME ELEMENTS AS THEY ARE NOT NEEDED WITH SDK REDIRECT
-    
+    const paymentModal = document.getElementById('paymentModal');
+    const paymentModalContent = document.getElementById('paymentModalContent');
+    const paymentLoader = document.getElementById('paymentLoader');
+    const cashfreeIframe = document.getElementById('cashfreeIframe');
+    const paymentModalCloseButton = document.getElementById('paymentModalCloseButton');
+    const confirmationModal = document.getElementById('confirmationModal');
+    const confirmationContent = document.getElementById('confirmationContent');
     const body = document.body;
     const customTagContainer = document.getElementById('custom-tag-container');
     const zipConfirmationModal = document.getElementById('zipConfirmationModal');
@@ -670,6 +800,11 @@
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
     let currentImageIndex = 0;
     
+    // Timer Variables
+    let countdownInterval;
+    const paymentTimer = document.getElementById('paymentTimer');
+    const timerCount = document.getElementById('timerCount');
+
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
     const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
@@ -679,69 +814,161 @@
     
     preloadImage.onload = () => {
       coverImg.src = preloadImage.src;
-      requestAnimationFrame(()=> { coverImg.style.opacity = '0.6'; coverImg.style.transform = 'scale(1)'; });
+      
+      requestAnimationFrame(()=> {
+        coverImg.style.opacity = '0.6'; 
+        coverImg.style.transform = 'scale(1)';
+      });
+      
       setTimeout(() => {
         coverImg.style.opacity = '1'; 
+
         coverShine.style.transition = 'opacity 0.32s ease, transform 0.32s ease';
         coverShine.style.opacity = '0';
         coverShine.style.transform = 'translateY(-6px)'; 
+
         loadingSpin.style.opacity = '0';
+
         setTimeout(()=> {
-          coverShine.style.animation = 'none'; coverShine.style.display = 'none'; loadingSpin.style.display = 'none'; 
-          cover.classList.add('loaded'); cover.setAttribute('aria-busy','false');
+          coverShine.style.animation = 'none';
+          coverShine.style.display = 'none';
+          loadingSpin.style.display = 'none'; 
+          cover.classList.add('loaded');
+          cover.setAttribute('aria-busy','false');
+
           previewIndicator.style.display = 'block';
           setTimeout(() => {
-              previewIndicator.style.transition = 'opacity 0.5s ease-out'; previewIndicator.style.opacity = '0';
-              setTimeout(() => { previewIndicator.style.display = 'none'; }, 500);
+              previewIndicator.style.transition = 'opacity 0.5s ease-out';
+              previewIndicator.style.opacity = '0';
+              setTimeout(() => {
+                  previewIndicator.style.display = 'none';
+              }, 500);
           }, 4000); 
+
         }, 450); 
+
       }, 700); 
     };
-    preloadImage.onerror = () => { const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false'); };
+    
+    preloadImage.onerror = () => {
+      const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false');
+    };
     
     function showPreviewImage(index) {
-        if (index >= SCREENSHOT_URLS.length) index = 0;
-        else if (index < 0) index = SCREENSHOT_URLS.length - 1;
-        if (previewScreenshot.style.opacity === '1') { previewScreenshot.classList.remove('animate-fadeImageIn'); previewScreenshot.classList.add('animate-fadeImageOut'); } 
-        else { previewScreenshot.classList.remove('animate-fadeImageOut'); }
+        if (index >= SCREENSHOT_URLS.length) {
+            index = 0;
+        } else if (index < 0) {
+            index = SCREENSHOT_URLS.length - 1;
+        }
+        
+        if (previewScreenshot.style.opacity === '1') {
+            previewScreenshot.classList.remove('animate-fadeImageIn');
+            previewScreenshot.classList.add('animate-fadeImageOut');
+        } else {
+             previewScreenshot.classList.remove('animate-fadeImageOut'); 
+        }
+
         currentImageIndex = index;
+
         setTimeout(() => {
             previewScreenshot.src = SCREENSHOT_URLS[currentImageIndex];
             imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
+            
             previewScreenshot.classList.remove('animate-fadeImageOut');
             previewScreenshot.classList.add('animate-fadeImageIn');
             previewScreenshot.style.opacity = '1';
+
         }, 300); 
     }
-    function cycleImage(event) { if (event) event.stopPropagation(); showPreviewImage(currentImageIndex + 1); }
-    function openPreviewOverlay() { coverImg.style.opacity = '0'; previewOverlay.style.opacity = '1'; previewOverlay.style.pointerEvents = 'auto'; currentImageIndex = -1; showPreviewImage(0); lucide.createIcons(); previewIndicator.style.transition = 'none'; previewIndicator.style.display = 'none'; }
-    function exitPreview(event) { if (event) event.stopPropagation(); previewScreenshot.classList.remove('animate-fadeImageIn'); previewScreenshot.classList.add('animate-fadeImageOut'); setTimeout(() => { previewOverlay.style.opacity = '0'; previewOverlay.style.pointerEvents = 'none'; previewScreenshot.style.opacity = '0'; coverImg.style.opacity = '1'; }, 300); }
+
+    function cycleImage(event) {
+        if (event) event.stopPropagation(); 
+        showPreviewImage(currentImageIndex + 1);
+    }
+
+    function openPreviewOverlay() {
+        coverImg.style.opacity = '0';
+        
+        previewOverlay.style.opacity = '1';
+        previewOverlay.style.pointerEvents = 'auto'; 
+        
+        currentImageIndex = -1; 
+        showPreviewImage(0); 
+        lucide.createIcons(); 
+
+        previewIndicator.style.transition = 'none';
+        previewIndicator.style.display = 'none';
+    }
     
-    cover.addEventListener('click', (event) => { if (previewOverlay.style.opacity === '1') { cycleImage(event); } else { event.preventDefault(); openPreviewOverlay(); } });
+    function exitPreview(event) {
+        if (event) event.stopPropagation();
+        
+        previewScreenshot.classList.remove('animate-fadeImageIn');
+        previewScreenshot.classList.add('animate-fadeImageOut');
+        
+        setTimeout(() => {
+            previewOverlay.style.opacity = '0';
+            previewOverlay.style.pointerEvents = 'none';
+            previewScreenshot.style.opacity = '0';
+            
+            coverImg.style.opacity = '1';
+        }, 300); 
+    }
+    
+    cover.addEventListener('click', (event) => {
+        if (previewOverlay.style.opacity === '1') {
+            cycleImage(event);
+        } else {
+            event.preventDefault(); 
+            openPreviewOverlay();
+        }
+    });
 
     document.querySelectorAll('details').forEach(detail => {
       detail.addEventListener('toggle', e => {
-        if (detail.open) { const content = detail.querySelector('.details-content'); requestAnimationFrame(() => { content.style.height = content.scrollHeight + 'px'; }); } 
-        else { const content = detail.querySelector('.details-content'); content.style.height = 0; }
+        if (detail.open) {
+          const content = detail.querySelector('.details-content');
+          requestAnimationFrame(() => {
+             content.style.height = content.scrollHeight + 'px';
+          });
+        } else {
+          const content = detail.querySelector('.details-content');
+          content.style.height = 0;
+        }
       });
     });
 
     document.getElementById('showMore').addEventListener('click', e => {
       const hiddenFeedbacks = document.querySelectorAll('.extra-feedback');
       const showMoreBtn = e.target;
+      
       if (hiddenFeedbacks.length > 0 && hiddenFeedbacks[0].style.display === 'none') {
-        hiddenFeedbacks.forEach(el => { el.style.display = 'flex'; }); showMoreBtn.textContent = 'Show Less';
+        hiddenFeedbacks.forEach(el => {
+          el.style.display = 'flex';
+        });
+        showMoreBtn.textContent = 'Show Less';
       } else {
-        hiddenFeedbacks.forEach(el => { el.style.display = 'none'; }); showMoreBtn.textContent = 'Show More';
+        hiddenFeedbacks.forEach(el => {
+          el.style.display = 'none';
+        });
+        showMoreBtn.textContent = 'Show More';
       }
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
+
     AOS.init({ duration: 800, once: true, offset: 120 });
+
     lucide.createIcons();
     
     if (CUSTOM_TAG_TEXT && customTagContainer) {
-        customTagContainer.innerHTML = `<div class="subtle-tag"><i data-lucide="zap" class="h-3 w-3 text-indigo-300"></i><span class="tag-text">${CUSTOM_TAG_TEXT}</span><span class="tag-shine"></span></div>`;
+        customTagContainer.innerHTML = `
+            <div class="subtle-tag">
+                <i data-lucide="zap" class="h-3 w-3 text-indigo-300"></i>
+                <span class="tag-text">${CUSTOM_TAG_TEXT}</span>
+                <span class="tag-shine"></span>
+            </div>
+        `;
         lucide.createIcons(); 
     }
 
@@ -749,95 +976,192 @@
         let startTime = null;
         let isFloat = end % 1 !== 0; 
         let precision = isFloat ? 1 : 0; 
+
         function step(timestamp) {
             if (!startTime) startTime = timestamp;
             const progress = timestamp - startTime;
             const percentage = Math.min(progress / duration, 1);
+            
             let currentValue = start + (end - start) * percentage;
-            if (isFloat) element.textContent = currentValue.toFixed(precision);
-            else element.textContent = Math.floor(currentValue).toLocaleString('en-IN');
-            if (percentage < 1) window.requestAnimationFrame(step);
-            else element.textContent = isFloat ? end.toFixed(precision) : end.toLocaleString('en-IN');
+
+            if (isFloat) {
+                element.textContent = currentValue.toFixed(precision);
+            } else {
+                element.textContent = Math.floor(currentValue).toLocaleString('en-IN');
+            }
+
+            if (percentage < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                element.textContent = isFloat ? end.toFixed(precision) : end.toLocaleString('en-IN');
+            }
         }
         window.requestAnimationFrame(step);
     }
 
     const statsSection = document.getElementById('stats-section');
     let hasAnimated = false;
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !hasAnimated) {
                 hasAnimated = true; 
+                
                 const statElements = document.querySelectorAll('.stat-value span[data-target]');
+                
                 statElements.forEach(span => {
                     const target = parseFloat(span.getAttribute('data-target'));
                     const isFloat = target % 1 !== 0;
+                    
                     const startValue = isFloat ? 0.0 : 0;
+                    
                     animateCount(span, startValue, target, 1800); 
                 });
+
                 observer.unobserve(statsSection); 
             }
         });
     }, { threshold: 0.5 }); 
+
     observer.observe(statsSection);
+
     
-    function selectLanguage(fileUrl, langName) { selectedFileUrl = fileUrl; selectedLangName = langName; downloadButton.disabled = true; openZipConfirmationModal(); }
-    function openZipConfirmationModal() { zipConfirmationModal.style.display = 'flex'; lucide.createIcons(); }
+    function getUrlParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    
+    function selectLanguage(fileUrl, langName) {
+        selectedFileUrl = fileUrl;
+        selectedLangName = langName;
+        
+        downloadButton.disabled = true;
+
+        openZipConfirmationModal();
+    }
+    
+    function openZipConfirmationModal() {
+        zipConfirmationModal.style.display = 'flex';
+        lucide.createIcons();
+    }
+    
     function enableDownloadAndCloseZipConfirm() {
         zipConfirmationContent.classList.add('animate-modalFadeOut');
+        
         setTimeout(() => {
             zipConfirmationModal.style.display = 'none';
             zipConfirmationContent.classList.remove('animate-modalFadeOut');
+            
             downloadButton.setAttribute('data-file-id', selectedFileUrl);
+        
             downloadButton.disabled = false;
+        
             document.getElementById('downloadBtnText').textContent = `Download ${selectedLangName} Bundle`;
+
             if (!SINGLE_LANGUAGE_MODE) {
-                languageSelectionContainer.style.opacity = '0'; languageSelectionContainer.style.pointerEvents = 'none';
+                languageSelectionContainer.style.opacity = '0';
+                languageSelectionContainer.style.pointerEvents = 'none';
+
                 languageSelectedMessage.textContent = `${selectedLangName} selected. Please confirm ZIP compatibility.`;
                 languageSelectedMessage.classList.remove('hidden');
-                setTimeout(() => { languageSelectionContainer.style.display = 'none'; }, 300);
+                
+                setTimeout(() => {
+                    languageSelectionContainer.style.display = 'none';
+                }, 300);
             }
+            
         }, 400); 
     }
 
     function handleDownloadClick(button) {
       if (downloadInitiated) return; 
+
       const downloadLink = button.getAttribute('data-file-id');
       if (!downloadLink || button.disabled) return;
+      
       window.location.href = downloadLink; 
+
       const btnText = document.getElementById('downloadBtnText');
-      downloadInitiated = true; button.disabled = true; modalCloseButton.classList.add('show-close');
+      
+      downloadInitiated = true; 
+      button.disabled = true; 
+
+      modalCloseButton.classList.add('show-close');
+
       let currentIcon = button.querySelector('[data-lucide="download"], [data-lucide="loader-2"]');
-      button.classList.add('loading'); btnText.textContent = 'Initiating Download...';
-      if (currentIcon) { currentIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; lucide.createIcons(); }
+      
+      button.classList.add('loading');
+      btnText.textContent = 'Initiating Download...';
+      
+      if (currentIcon) {
+          currentIcon.outerHTML = '<i data-lucide="loader-2" class="h-5 w-5 animate-spin"></i>'; 
+          lucide.createIcons(); 
+      }
+      
       setTimeout(() => {
-        btnText.textContent = 'Download Started!'; button.classList.remove('loading');
+        
+        btnText.textContent = 'Download Started!'; 
+        button.classList.remove('loading');
+        
         let spinnerIcon = button.querySelector('[data-lucide="loader-2"]');
-        if (spinnerIcon) { spinnerIcon.outerHTML = '<i data-lucide="check-circle" class="h-5 w-5"></i>'; lucide.createIcons(); }
+        if (spinnerIcon) {
+          spinnerIcon.outerHTML = '<i data-lucide="check-circle" class="h-5 w-5"></i>';
+          lucide.createIcons(); 
+        }
+
         lucide.createIcons();
+
       }, 4000); 
     }
 
     function closeDownloadModal() {
-        modalContent.classList.remove('animate-modalFadeIn'); modalContent.classList.add('animate-modalFadeOut'); downloadModal.classList.add('closing');
+        modalContent.classList.remove('animate-modalFadeIn');
+        modalContent.classList.add('animate-modalFadeOut');
+        downloadModal.classList.add('closing');
+
         setTimeout(() => {
-            downloadModal.style.display = 'none'; modalContent.classList.remove('animate-modalFadeOut'); modalContent.classList.remove('closing'); document.body.style.overflow = ''; 
-            if (downloadInitiated) { openFeedbackModal(); }
+            downloadModal.style.display = 'none';
+            modalContent.classList.remove('animate-modalFadeOut');
+            modalContent.classList.remove('closing'); 
+            
+            document.body.style.overflow = ''; 
+
+            if (downloadInitiated) {
+                openFeedbackModal();
+            }
+            
         }, 400); 
     }
     
     function openFeedbackModal() {
-        document.body.style.overflow = 'hidden'; feedbackModal.style.display = 'flex'; feedbackModalContent.classList.add('animate-modalFadeIn');
-        feedbackForm.style.display = 'block'; feedbackSuccess.style.display = 'none';
-        document.getElementById('feedbackTextarea').value = ''; document.getElementById('feedbackTextarea').placeholder = 'Type your honest feedback here (Required)...'; 
+        document.body.style.overflow = 'hidden'; 
+        feedbackModal.style.display = 'flex';
+        feedbackModalContent.classList.add('animate-modalFadeIn');
+        
+        feedbackForm.style.display = 'block';
+        feedbackSuccess.style.display = 'none';
+        document.getElementById('feedbackTextarea').value = '';
+        document.getElementById('feedbackTextarea').placeholder = 'Type your honest feedback here (Required)...'; 
+
         lucide.createIcons();
     }
     
     function closeFeedbackModal(shouldRedirect = false) {
-        feedbackModalContent.classList.remove('animate-modalFadeIn'); feedbackModalContent.classList.add('animate-modalFadeOut'); feedbackModal.classList.add('closing');
+        feedbackModalContent.classList.remove('animate-modalFadeIn');
+        feedbackModalContent.classList.add('animate-modalFadeOut');
+        
+        feedbackModal.classList.add('closing');
+
         setTimeout(() => {
-            feedbackModal.style.display = 'none'; feedbackModalContent.classList.remove('animate-modalFadeOut'); feedbackModal.classList.remove('closing'); document.body.style.overflow = ''; 
-            if (shouldRedirect) { window.location.href = REDIRECT_URL; }
+            feedbackModal.style.display = 'none';
+            feedbackModalContent.classList.remove('animate-modalFadeOut');
+            feedbackModal.classList.remove('closing');
+            
+            document.body.style.overflow = ''; 
+
+            if (shouldRedirect) {
+                window.location.href = REDIRECT_URL;
+            }
         }, 400); 
     }
 
@@ -846,58 +1170,223 @@
         const feedbackText = feedbackTextarea.value.trim(); 
         const submitBtn = document.getElementById('submitFeedbackBtn');
         const submitText = document.getElementById('submitFeedbackText');
+
         if (feedbackText.length === 0) {
-            feedbackModalContent.classList.add('animate-shakeModal'); feedbackTextarea.classList.add('border-red-500'); feedbackTextarea.placeholder = '⚠️ Please write something first...'; 
-            setTimeout(() => { feedbackModalContent.classList.remove('animate-shakeModal'); }, 800); 
-            setTimeout(() => { feedbackTextarea.classList.remove('border-red-500'); feedbackTextarea.placeholder = 'Type your honest feedback here (Required)...'; }, 3000);
+            
+            feedbackModalContent.classList.add('animate-shakeModal');
+            
+            feedbackTextarea.classList.add('border-red-500'); 
+            feedbackTextarea.placeholder = '⚠️ Please write something first...'; 
+            
+            setTimeout(() => {
+                feedbackModalContent.classList.remove('animate-shakeModal');
+            }, 800); 
+            
+            setTimeout(() => {
+                feedbackTextarea.classList.remove('border-red-500');
+                feedbackTextarea.placeholder = 'Type your honest feedback here (Required)...'; 
+            }, 3000);
+            
             return; 
         }
-        submitBtn.disabled = true; submitText.textContent = 'Sending...'; submitBtn.style.opacity = '0.7'; submitBtn.style.pointerEvents = 'none';
+
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending...';
+        
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.pointerEvents = 'none';
+
         setTimeout(() => {
-            feedbackForm.style.display = 'none'; feedbackSuccess.style.display = 'block';
-            setTimeout(() => { closeFeedbackModal(true); }, 3000); 
-            submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.style.pointerEvents = 'auto'; submitText.textContent = 'Submit Feedback'; 
+            feedbackForm.style.display = 'none';
+            feedbackSuccess.style.display = 'block';
+            
+            setTimeout(() => {
+                closeFeedbackModal(true); 
+            }, 3000); 
+
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.pointerEvents = 'auto';
+            submitText.textContent = 'Submit Feedback'; 
+            
         }, 1000); 
     }
 
-    // [cite: 47-62] New Start Payment Function
-    async function startPayment() {
-      const btn = document.getElementById('buyBtn');
-      const btnText = document.getElementById('btnText');
-      const errorMsg = document.getElementById('errorMsg');
-      
-      btn.disabled = true;
-      btnText.innerHTML = '<div class="spinner"></div> Processing...';
-      errorMsg.classList.add('hidden');
+    // --- NEW TIMER LOGIC ---
+    function startTimer() {
+        let timeLeft = 120; // 2 minutes
+        paymentTimer.style.display = 'block';
+        
+        // Clear any existing interval just in case
+        if(countdownInterval) clearInterval(countdownInterval);
+        
+        countdownInterval = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerCount.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timeLeft--;
 
-      try {
-          // Call Vercel Backend to get session
-          const res = await fetch("/api/create-order", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" }
-          });
-          
-          const data = await res.json();
-
-          if (!data.payment_session_id) {
-              throw new Error("Payment not initialized");
-          }
-
-          // Cashfree Checkout
-          const cashfree = Cashfree({ mode: "production" });
-          cashfree.checkout({
-              paymentSessionId: data.payment_session_id,
-              redirectTarget: "_self"
-          });
-
-      } catch (err) {
-          console.error(err);
-          btn.disabled = false;
-          btnText.innerText = "Buy Now";
-          errorMsg.innerText = "Could not start payment. Please try again.";
-          errorMsg.classList.remove('hidden');
-      }
+            if (timeLeft < 0) {
+                closePaymentModal(false);
+                console.log("Auto-closed due to inactivity.");
+            }
+        }, 1000);
     }
+
+    // Function to show the payment modal with SHIELD logic
+    function openPaymentModal() {
+        paymentModal.style.display = 'flex';
+        paymentModalContent.classList.add('animate-modalFadeIn');
+        
+        paymentLoader.style.display = 'flex';
+        cashfreeIframe.style.display = 'none';
+        paymentLoader.style.opacity = '1'; 
+        
+        // Start the external timer
+        startTimer();
+
+        window.paymentTimeout = setTimeout(() => {
+            paymentLoader.style.opacity = '0';
+            
+            if (paymentModal.style.display === 'flex') {
+                cashfreeIframe.style.display = 'block';
+            }
+            
+            setTimeout(() => {
+                paymentLoader.style.display = 'none';
+            }, 400); 
+        }, 3000); 
+    }
+    
+    function openConfirmationModal() {
+        confirmationModal.style.display = 'flex'; 
+        confirmationModal.classList.add('active'); 
+        body.classList.add('payment-modal-blur');
+        lucide.createIcons(); 
+        
+        requestAnimationFrame(() => {
+            confirmationContent.classList.add('animate-shakeModal'); 
+            
+            setTimeout(() => {
+                confirmationContent.classList.remove('animate-shakeModal');
+            }, 800); 
+        });
+    }
+    
+    function confirmExitPayment(shouldExit) {
+        confirmationModal.classList.remove('active'); 
+        body.classList.remove('payment-modal-blur');
+
+        setTimeout(() => {
+            confirmationModal.style.display = 'none'; 
+
+            if (shouldExit) {
+                closePaymentModal(true);
+            } else {
+                // If cancelled, allow them to try again
+            }
+            
+        }, 400); 
+    }
+
+    function closePaymentModal(confirmed = false) {
+        paymentModalContent.classList.remove('animate-modalFadeIn');
+        paymentModalContent.classList.add('animate-modalFadeOut');
+        
+        paymentModal.classList.add('closing');
+
+        // Clear Timer
+        if(countdownInterval) clearInterval(countdownInterval);
+        paymentTimer.style.display = 'none';
+        
+        clearTimeout(window.paymentTimeout); 
+
+        paymentLoader.style.display = 'none';
+        cashfreeIframe.style.display = 'none';
+
+        setTimeout(() => {
+            paymentModal.style.display = 'none';
+            paymentModalContent.classList.remove('animate-modalFadeOut');
+            paymentModal.classList.remove('closing');
+            
+            paymentLoader.style.opacity = '1';
+            
+            document.body.style.overflow = ''; 
+
+        }, 400); 
+    }
+    
+    buyBtn.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        // SET SESSION FLAG ON CLICK
+        sessionStorage.setItem('payment_initiated', 'true');
+        openPaymentModal();
+    });
+
+    function triggerCelebration() {
+        // Colors: Indigo, Purple, Emerald, Gold
+        const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700'];
+
+        confetti({
+            particleCount: 180,    
+            spread: 100,           
+            origin: { y: 0.6 },    
+            colors: colors,
+            zIndex: 2000,          
+            gravity: 1.2,
+            scalar: 1.2,
+            shapes: ['circle', 'square'],
+            disableForReducedMotion: true
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const paymentStatus = getUrlParam('payment_status');
+      const secretKey = getUrlParam('secret_key');
+      const isPaymentInitiated = sessionStorage.getItem('payment_initiated');
+      
+      // CRITICAL FIX: Check for Session Flag AND URL Params
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY && isPaymentInitiated === 'true') {
+        
+        // Consume the flag so refresh doesn't work again
+        sessionStorage.removeItem('payment_initiated');
+
+        history.replaceState(null, '', window.location.pathname);
+        
+        downloadModal.style.display = 'flex';
+        modalContent.classList.add('animate-modalFadeIn');
+
+        triggerCelebration();
+        
+        if (SINGLE_LANGUAGE_MODE) {
+            languageSelectionContainer.style.display = 'none';
+            selectedFileUrl = ENGLISH_FILE_ID;
+            selectedLangName = 'ENGLISH';
+
+            languageSelectedMessage.classList.remove('hidden');
+            // FIX: Removed the incorrect backtick below
+            languageSelectedMessage.textContent = 'English bundle selected. Please confirm ZIP compatibility.';
+            
+            setTimeout(() => {
+                openZipConfirmationModal();
+            }, 300);
+
+        } else {
+            document.querySelectorAll('#languageSelectionContainer button').forEach(btn => {
+                btn.style.backgroundImage = 'none';
+                btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+                btn.style.color = '#374151';
+            });
+        }
+        
+        lucide.createIcons(); 
+      } else if (paymentStatus) {
+          // If payment params exist but NO session flag, clean URL silently
+          history.replaceState(null, '', window.location.pathname);
+      }
+      
+      lucide.createIcons();
+    });
   </script>
 </body>
 </html>
