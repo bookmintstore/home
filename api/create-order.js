@@ -1,5 +1,5 @@
 
-// Vercel serverless function to create a Cashfree order
+// Vercel serverless function to create a Cashfree order.
 // Reads credentials from environment variables for safety:
 //   CASHFREE_APP_ID
 //   CASHFREE_SECRET_KEY
