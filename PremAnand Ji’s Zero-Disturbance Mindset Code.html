@@ -366,10 +366,10 @@
     #paymentLoader .loading-half-wheel { display: none !important; }
     
     /* FIXED Z-INDEX: 30 (Above Shield) */
-    #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 30; }
+    #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 2020; }
     
     /* Confirmation Modal */
-    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1020; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
+    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
     #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
     #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; transition: all 0.3s; }
@@ -379,18 +379,18 @@
     #paymentTimer {
         display: none; 
         position: fixed; 
-        top: 20px; 
+        top: 10px; 
         left: 50%; 
         transform: translateX(-50%); 
         background: #ef4444; 
         color: white; 
-        padding: 8px 16px; 
+        padding: 6px 16px; 
         border-radius: 20px; 
         font-weight: bold; 
-        z-index: 2000; 
+        z-index: 2010; 
         box-shadow: 0 0 15px rgba(239,68,68,0.5);
         font-family: monospace;
-        font-size: 1.1rem;
+        font-size: 1.0rem;
     }
 
     .invisible-shield {
@@ -414,7 +414,7 @@
     <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
   </div>
 
-  <div id="paymentTimer">Time Left: <span id="timerCount">02:00</span></div>
+  <div id="paymentTimer">Time Left: <span id="timerCount">04:00</span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="./index.html" class="flex items-center gap-2">
@@ -675,13 +675,13 @@
   </div>
 
   <div id="paymentModal" class="modal">
-    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; padding-top: 50px; background-color: #111827;">
         
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
             <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
         </button>
         
-        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+        <div id="paymentContainer" style="width: 100%; height: 500px; position: relative;">
             
             <div id="topShield" class="invisible-shield" style="top: 0;"></div>
             <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
@@ -701,8 +701,8 @@
                 frameborder="0" 
                 width="100%" 
                 height="100%" 
-                style="border-radius: 12px; display: none;"
-                sandbox="allow-forms allow-scripts allow-same-origin allow-top-navigation-by-user-activation"
+                style="border-radius: 0 0 12px 12px; display: none;"
+                sandbox="allow-forms allow-scripts allow-modals allow-popups allow-same-origin allow-top-navigation"
             ></iframe>
         </div>
         
@@ -1214,7 +1214,7 @@
 
     // --- NEW TIMER LOGIC ---
     function startTimer() {
-        let timeLeft = 120; // 2 minutes
+        let timeLeft = 240; // CHANGED TO 4 MINUTES
         paymentTimer.style.display = 'block';
         
         // Clear any existing interval just in case
