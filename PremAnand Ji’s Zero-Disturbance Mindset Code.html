@@ -25,38 +25,11 @@
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
             aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
             coverShine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(200%)' } },
-            fastShimmer: { 
-              '0%': { transform: 'translateX(-30%)', opacity: '1' },
-              '50%': { transform: 'translateX(30%)', opacity: '1' },
-              '100%': { transform: 'translateX(130%)', opacity: '1' }
-            },
-            highlightMove: {
-              '0%': { left: '-60%', opacity: '0' },
-              '20%': { left: '-20%', opacity: '0.9' },
-              '60%': { left: '60%', opacity: '0.9' },
-              '100%': { left: '120%', opacity: '0' }
-            },
             coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
-            glowspin: { 
-              '0%': { transform: 'rotate(0deg)' },
-              '100%': { transform: 'rotate(360deg)' }
-            },
-            modalFadeIn: {
-              '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' },
-              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
-            },
-            modalFadeOut: {
-              '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
-              '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' }
-            },
-            buttonClick: {
-              '0%': { transform: 'scale(1)', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)' },
-              '100%': { transform: 'scale(0.97)', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }
-            },
-            tagShine: {
-              '0%': { transform: 'translateX(-140%) skewX(-30deg)' },
-              '100%': { transform: 'translateX(220%) skewX(-30deg)' }
-            },
+            glowspin: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
+            modalFadeIn: { '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
+            modalFadeOut: { '0%': { opacity: 1, transform: 'translateY(0) scale(1)' }, '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' } },
+            tagShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             shakeModal: {
                 '0%, 100%': { transform: 'translateX(0)' }, 
                 '10%': { transform: 'translateX(-8px)' },
@@ -69,32 +42,17 @@
                 '80%': { transform: 'translateX(1px)' },
                 '90%': { transform: 'translateX(-1px)' }
             },
-            redGlow: {
-                '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' },
-                '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' }
+            redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
+            
+            // NEW SMOOTH PREVIEW ANIMATIONS
+            subtleZoomIn: {
+                '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' },
+                '100%': { opacity: 1, transform: 'scale(1) translateY(0)' }
             },
-            fadeImageIn: {
-                '0%': { opacity: 0 },
-                '100%': { opacity: 1 }
-            },
-            fadeImageOut: {
-                '0%': { opacity: 1 },
-                '100%': { opacity: 0 }
-            },
-            popFloat: {
-                '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 },
-                '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 }
-            },
-            pulseArrow: {
-                '0%': { transform: 'translateX(0px)', opacity: 0.5 },
-                '50%': { transform: 'translateX(6px)', opacity: 1 },
-                '100%': { transform: 'translateX(0px)', opacity: 0.5 }
-            },
-            'gradient-shift': {
-                '0%': { 'background-position': '0% 50%' },
-                '50%': { 'background-position': '100% 50%' },
-                '100%': { 'background-position': '0% 50%' }
-            }
+            
+            popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
+            pulseArrow: { '0%': { transform: 'translateX(0px)', opacity: 0.5 }, '50%': { transform: 'translateX(6px)', opacity: 1 }, '100%': { transform: 'translateX(0px)', opacity: 0.5 } },
+            'gradient-shift': { '0%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' }, '100%': { 'background-position': '0% 50%' } }
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -103,8 +61,6 @@
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
             aura: 'aura 2.4s ease-in-out infinite',
             coverShine: 'coverShine 0.6s ease-in-out infinite',
-            fastShimmer: 'fastShimmer 0.8s linear infinite',
-            highlightMove: 'highlightMove 0.9s linear infinite',
             coverFast: 'coverFast 0.45s linear infinite',
             glowspin: 'glowspin 1.2s linear infinite',
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
@@ -112,8 +68,7 @@
             tagShine: 'tagShine 1.0s ease-in-out infinite',
             shakeModal: 'shakeModal 0.8s ease-in-out 1',
             redGlow: 'redGlow 2.5s infinite ease-in-out',
-            fadeImageIn: 'fadeImageIn 0.4s ease-out forwards',
-            fadeImageOut: 'fadeImageOut 0.3s ease-in forwards',
+            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards', // New smooth animation
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite'
@@ -240,9 +195,9 @@
         animation: tagShine 3.0s ease-in-out infinite; 
     }
 
-    /* Cover Shine */
+    /* Cover Shine - USED FOR LOADING EFFECT */
     .cover-shine {
-      position:absolute; inset:0; z-index:6; pointer-events:none;
+      position:absolute; inset:0; z-index:20; pointer-events:none;
       background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%);
       transform: translateX(-160%) skewX(-10deg);
       mix-blend-mode: multiply; 
@@ -443,6 +398,8 @@
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
             <div id="previewOverlay" aria-hidden="true">
+                <div class="cover-shine" id="previewShine" style="display: none; z-index: 20; opacity: 1;"></div>
+                
                 <img id="previewScreenshot" src="" alt="Ebook Screenshot Preview" class="absolute inset-0 w-full h-full object-contain" />
                 <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10">
                     <i data-lucide="x" class="h-4 w-4"></i>
@@ -675,13 +632,13 @@
   </div>
 
   <div id="paymentModal" class="modal">
-    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; padding-top: 50px; background-color: #111827;">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
         
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()"> 
             <i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i>
         </button>
         
-        <div id="paymentContainer" style="width: 100%; height: 500px; position: relative;">
+        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             
             <div id="topShield" class="invisible-shield" style="top: 0;"></div>
             <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
@@ -701,7 +658,7 @@
                 frameborder="0" 
                 width="100%" 
                 height="100%" 
-                style="border-radius: 0 0 12px 12px; display: none;"
+                style="border-radius: 12px; display: none;"
                 sandbox="allow-forms allow-scripts allow-modals allow-popups allow-same-origin allow-top-navigation"
             ></iframe>
         </div>
@@ -798,6 +755,7 @@
     const imageCounter = document.getElementById('imageCounter');
     const previewIndicator = document.getElementById('previewIndicator');
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
+    const previewShine = document.getElementById('previewShine'); // NEW: Reference to shine
     let currentImageIndex = 0;
     
     // Timer Variables
@@ -854,6 +812,7 @@
       const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false');
     };
     
+    // --- IMPROVED PREVIEW LOGIC WITH SHINE & SMOOTH ANIMATION ---
     function showPreviewImage(index) {
         if (index >= SCREENSHOT_URLS.length) {
             index = 0;
@@ -861,24 +820,30 @@
             index = SCREENSHOT_URLS.length - 1;
         }
         
-        if (previewScreenshot.style.opacity === '1') {
-            previewScreenshot.classList.remove('animate-fadeImageIn');
-            previewScreenshot.classList.add('animate-fadeImageOut');
-        } else {
-             previewScreenshot.classList.remove('animate-fadeImageOut'); 
-        }
-
         currentImageIndex = index;
-
-        setTimeout(() => {
-            previewScreenshot.src = SCREENSHOT_URLS[currentImageIndex];
+        
+        // 1. Show Loading Shine
+        previewShine.style.display = 'block';
+        previewScreenshot.style.opacity = '0.5'; // Dim slightly while loading
+        
+        // 2. Preload Next Image
+        const tempImg = new Image();
+        tempImg.src = SCREENSHOT_URLS[currentImageIndex];
+        
+        tempImg.onload = () => {
+            // 3. Hide Shine & Update Source
+            previewShine.style.display = 'none';
+            previewScreenshot.src = tempImg.src;
             imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
             
-            previewScreenshot.classList.remove('animate-fadeImageOut');
-            previewScreenshot.classList.add('animate-fadeImageIn');
+            // 4. Trigger Smooth Zoom-Fade Animation
             previewScreenshot.style.opacity = '1';
-
-        }, 300); 
+            
+            // Remove animation class if exists to re-trigger
+            previewScreenshot.classList.remove('animate-subtleZoomIn');
+            void previewScreenshot.offsetWidth; // Trigger reflow
+            previewScreenshot.classList.add('animate-subtleZoomIn');
+        };
     }
 
     function cycleImage(event) {
@@ -903,8 +868,7 @@
     function exitPreview(event) {
         if (event) event.stopPropagation();
         
-        previewScreenshot.classList.remove('animate-fadeImageIn');
-        previewScreenshot.classList.add('animate-fadeImageOut');
+        previewScreenshot.classList.remove('animate-subtleZoomIn');
         
         setTimeout(() => {
             previewOverlay.style.opacity = '0';
@@ -1214,7 +1178,7 @@
 
     // --- NEW TIMER LOGIC ---
     function startTimer() {
-        let timeLeft = 240; // CHANGED TO 4 MINUTES
+        let timeLeft = 240; // 4 MINUTES
         paymentTimer.style.display = 'block';
         
         // Clear any existing interval just in case
