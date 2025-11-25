@@ -43,13 +43,10 @@
                 '90%': { transform: 'translateX(-1px)' }
             },
             redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
-            
-            // NEW SMOOTH PREVIEW ANIMATIONS
             subtleZoomIn: {
                 '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' },
                 '100%': { opacity: 1, transform: 'scale(1) translateY(0)' }
             },
-            
             popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
             pulseArrow: { '0%': { transform: 'translateX(0px)', opacity: 0.5 }, '50%': { transform: 'translateX(6px)', opacity: 1 }, '100%': { transform: 'translateX(0px)', opacity: 0.5 } },
             'gradient-shift': { '0%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' }, '100%': { 'background-position': '0% 50%' } }
@@ -68,7 +65,7 @@
             tagShine: 'tagShine 1.0s ease-in-out infinite',
             shakeModal: 'shakeModal 0.8s ease-in-out 1',
             redGlow: 'redGlow 2.5s infinite ease-in-out',
-            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards', // New smooth animation
+            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite'
@@ -195,7 +192,7 @@
         animation: tagShine 3.0s ease-in-out infinite; 
     }
 
-    /* Cover Shine - USED FOR LOADING EFFECT */
+    /* Cover Shine */
     .cover-shine {
       position:absolute; inset:0; z-index:20; pointer-events:none;
       background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%);
@@ -320,7 +317,7 @@
     .jumping-loader .ball:nth-child(3) { animation: waveJump 0.8s ease-in-out infinite 0.2s; }
     #paymentLoader .loading-half-wheel { display: none !important; }
     
-    /* FIXED Z-INDEX: 30 (Above Shield) */
+    /* FIXED Z-INDEX: 30 */
     #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 2020; }
     
     /* Confirmation Modal */
@@ -330,31 +327,40 @@
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; transition: all 0.3s; }
     .payment-modal-blur .modal-content#paymentModalContent { filter: blur(4px) brightness(0.7); pointer-events: none; transition: filter 0.3s ease, brightness 0.3s ease; }
 
-    /* New Timer and Shield Styles */
-    #paymentTimer {
-        display: none; 
-        position: fixed; 
-        top: 10px; 
-        left: 50%; 
-        transform: translateX(-50%); 
-        background: #ef4444; 
-        color: white; 
-        padding: 6px 16px; 
-        border-radius: 20px; 
-        font-weight: bold; 
-        z-index: 2010; 
-        box-shadow: 0 0 15px rgba(239,68,68,0.5);
-        font-family: monospace;
-        font-size: 1.0rem;
+    /* New Payment Selection Styles */
+    .payment-lang-btn {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 16px;
+        margin-bottom: 12px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
-
-    .invisible-shield {
-        position: absolute; 
-        left: 0; 
-        width: 100%; 
-        height: 70px; 
-        background: transparent; 
-        z-index: 25; 
+    .payment-lang-btn:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(168, 85, 247, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4);
+    }
+    .payment-lang-btn .btn-shine {
+        position: absolute;
+        inset: -6px;
+        transform: translateX(-140%) skewX(-30deg);
+        background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%);
+        mix-blend-mode: overlay;
+        pointer-events: none;
+        animation: btnshine 3.0s ease-in-out infinite;
     }
     
     @media (max-width: 767px) {
@@ -368,8 +374,6 @@
     <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
     <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
   </div>
-
-  <div id="paymentTimer">Time Left: <span id="timerCount">04:00</span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="./index.html" class="flex items-center gap-2">
@@ -640,21 +644,37 @@
         
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             
-            <div id="topShield" class="invisible-shield" style="top: 0;"></div>
-            <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
-
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader">
                     <div class="ball"></div>
                     <div class="ball"></div>
                     <div class="ball"></div>
                 </div>
-                <p class="mt-8 text-lg font-semibold text-indigo-400">Redirecting to Secure Payment...</p>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Loading Secure Payment...</p>
+            </div>
+
+            <!-- NEW: Language Selection Container -->
+            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111827; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
+                <h3 class="text-xl font-bold text-white mb-6 text-center">Choose Your Edition</h3>
+                
+                <button onclick="loadPaymentIframe('HINDI')" class="payment-lang-btn">
+                    <span class="btn-shine"></span>
+                    <i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>
+                    Hindi Edition
+                    <i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i>
+                </button>
+
+                <button onclick="loadPaymentIframe('ENGLISH')" class="payment-lang-btn">
+                    <span class="btn-shine"></span>
+                    <i data-lucide="globe" class="h-5 w-5 text-indigo-400"></i>
+                    English Edition
+                    <i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i>
+                </button>
             </div>
             
             <iframe 
-                id="cashfreeIframe" 
-                src="https://payments.cashfree.com/forms/ebk247pymt" 
+                id="paymentIframe" 
+                src="" 
                 frameborder="0" 
                 width="100%" 
                 height="100%" 
@@ -663,7 +683,7 @@
             ></iframe>
         </div>
         
-        <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
+        <p class="text-xs text-zinc-500 text-center py-2">Powered by SuperProfile</p>
     </div>
   </div>
 
@@ -693,6 +713,10 @@
 
   <script>
     
+    // Placeholder Payment Links - Replace these!
+    const HINDI_PAYMENT_URL = "YOUR_HINDI_LINK_HERE";
+    const ENGLISH_PAYMENT_URL = "https://superprofile.bio/vp/IGAhYy4D";
+
     // HARDCORE SECURITY: Disable context menu, key shortcuts
     document.addEventListener('contextmenu', event => {
         event.preventDefault(); 
@@ -740,7 +764,8 @@
     const paymentModal = document.getElementById('paymentModal');
     const paymentModalContent = document.getElementById('paymentModalContent');
     const paymentLoader = document.getElementById('paymentLoader');
-    const cashfreeIframe = document.getElementById('cashfreeIframe');
+    const paymentLangSelection = document.getElementById('paymentLangSelection');
+    const paymentIframe = document.getElementById('paymentIframe');
     const paymentModalCloseButton = document.getElementById('paymentModalCloseButton');
     const confirmationModal = document.getElementById('confirmationModal');
     const confirmationContent = document.getElementById('confirmationContent');
@@ -755,13 +780,8 @@
     const imageCounter = document.getElementById('imageCounter');
     const previewIndicator = document.getElementById('previewIndicator');
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
-    const previewShine = document.getElementById('previewShine'); // NEW: Reference to shine
+    const previewShine = document.getElementById('previewShine'); 
     let currentImageIndex = 0;
-    
-    // Timer Variables
-    let countdownInterval;
-    const paymentTimer = document.getElementById('paymentTimer');
-    const timerCount = document.getElementById('timerCount');
 
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
@@ -1176,50 +1196,45 @@
         }, 1000); 
     }
 
-    // --- NEW TIMER LOGIC ---
-    function startTimer() {
-        let timeLeft = 240; // 4 MINUTES
-        paymentTimer.style.display = 'block';
-        
-        // Clear any existing interval just in case
-        if(countdownInterval) clearInterval(countdownInterval);
-        
-        countdownInterval = setInterval(() => {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerCount.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            timeLeft--;
+    // --- NEW PAYMENT FLOW LOGIC ---
 
-            if (timeLeft < 0) {
-                closePaymentModal(false);
-                console.log("Auto-closed due to inactivity.");
-            }
-        }, 1000);
-    }
-
-    // Function to show the payment modal with SHIELD logic
     function openPaymentModal() {
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
-        
-        paymentLoader.style.display = 'flex';
-        cashfreeIframe.style.display = 'none';
-        paymentLoader.style.opacity = '1'; 
-        
-        // Start the external timer
-        startTimer();
+        lucide.createIcons();
 
+        // 1. Reset: Show Loader, Hide Selection, Hide Iframe
+        paymentLoader.style.display = 'flex';
+        paymentLoader.style.opacity = '1';
+        paymentLangSelection.style.display = 'none';
+        paymentIframe.style.display = 'none';
+        paymentIframe.src = ''; // Clear source to prevent loading
+        
+        // 2. Wait 3 seconds then show Language Buttons
         window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
             
-            if (paymentModal.style.display === 'flex') {
-                cashfreeIframe.style.display = 'block';
-            }
-            
             setTimeout(() => {
                 paymentLoader.style.display = 'none';
-            }, 400); 
-        }, 3000); 
+                paymentLangSelection.style.display = 'flex'; // Show buttons
+            }, 400); // Wait for fade out
+        }, 3000);
+    }
+    
+    function loadPaymentIframe(lang) {
+        // 1. Hide buttons
+        paymentLangSelection.style.display = 'none';
+        
+        // 2. Set URL based on selection
+        let urlToLoad = '';
+        if (lang === 'HINDI') {
+            urlToLoad = HINDI_PAYMENT_URL;
+        } else {
+            urlToLoad = ENGLISH_PAYMENT_URL;
+        }
+        
+        paymentIframe.src = urlToLoad;
+        paymentIframe.style.display = 'block';
     }
     
     function openConfirmationModal() {
@@ -1247,7 +1262,7 @@
             if (shouldExit) {
                 closePaymentModal(true);
             } else {
-                // If cancelled, allow them to try again
+                // If cancelled, just stay on the modal in current state
             }
             
         }, 400); 
@@ -1259,21 +1274,18 @@
         
         paymentModal.classList.add('closing');
 
-        // Clear Timer
-        if(countdownInterval) clearInterval(countdownInterval);
-        paymentTimer.style.display = 'none';
-        
         clearTimeout(window.paymentTimeout); 
 
+        // Clear everything immediately
+        paymentIframe.src = '';
         paymentLoader.style.display = 'none';
-        cashfreeIframe.style.display = 'none';
+        paymentLangSelection.style.display = 'none';
+        paymentIframe.style.display = 'none';
 
         setTimeout(() => {
             paymentModal.style.display = 'none';
             paymentModalContent.classList.remove('animate-modalFadeOut');
             paymentModal.classList.remove('closing');
-            
-            paymentLoader.style.opacity = '1';
             
             document.body.style.overflow = ''; 
 
@@ -1282,13 +1294,11 @@
     
     buyBtn.addEventListener('click', (e) => {
         e.preventDefault(); 
-        // SET SESSION FLAG ON CLICK
         sessionStorage.setItem('payment_initiated', 'true');
         openPaymentModal();
     });
 
     function triggerCelebration() {
-        // Colors: Indigo, Purple, Emerald, Gold
         const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700'];
 
         confetti({
@@ -1309,10 +1319,8 @@
       const secretKey = getUrlParam('secret_key');
       const isPaymentInitiated = sessionStorage.getItem('payment_initiated');
       
-      // CRITICAL FIX: Check for Session Flag AND URL Params
       if (paymentStatus === 'success' && secretKey === SECRET_KEY && isPaymentInitiated === 'true') {
         
-        // Consume the flag so refresh doesn't work again
         sessionStorage.removeItem('payment_initiated');
 
         history.replaceState(null, '', window.location.pathname);
@@ -1328,7 +1336,6 @@
             selectedLangName = 'ENGLISH';
 
             languageSelectedMessage.classList.remove('hidden');
-            // FIX: Removed the incorrect backtick below
             languageSelectedMessage.textContent = 'English bundle selected. Please confirm ZIP compatibility.';
             
             setTimeout(() => {
@@ -1345,7 +1352,6 @@
         
         lucide.createIcons(); 
       } else if (paymentStatus) {
-          // If payment params exist but NO session flag, clean URL silently
           history.replaceState(null, '', window.location.pathname);
       }
       
