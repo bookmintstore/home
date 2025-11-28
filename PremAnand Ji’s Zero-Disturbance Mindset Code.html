@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
   
-  <!-- WEB ICON (Favicon) - Browser Tab me Logo dikhane ke liye -->
-  <link rel="icon" type="image/png" href="./image_25b4c1.png">
+  <!-- 2. WEB ICON (Favicon) - Ye code browser tab me logo dikhayega -->
+  <link rel="icon" type="image/png" href=".https://bookmintor.shop/images/logo.png">
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -379,12 +379,13 @@
   </div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="./index.html" class="flex items-center gap-2">
-      <!-- HEADER LOGO UPDATE WITH IMAGE & SHINE -->
+    <a href="https://bookmintor.shop/images/loffgo.png" class="flex items-center gap-2">
+      <!-- 1. HEADER LOGO WITH LOADING SHINE LOGIC -->
       <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow flex items-center justify-center">
-        <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="object-cover w-full h-full" style="padding: 2px; border-radius: 12px;">
-        <!-- Shine Animation on Logo -->
-        <div class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine pointer-events-none"></div>
+        <!-- Shine Element (Only visible while loading) -->
+        <div id="logoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
+        <!-- Image (Hidden initially) -->
+        <img id="logoImg" src="./image_25b4c1.png" alt="Logo" class="object-cover w-full h-full opacity-0 transition-opacity duration-500" style="padding: 2px; border-radius: 12px;">
       </div>
       <span class="text-lg font-bold"><span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor</span>
     </a>
@@ -588,7 +589,7 @@
                 <p class="mt-8 text-lg font-semibold text-indigo-400">Loading Secure Payment...</p>
             </div>
 
-            <!-- Language Selection Container - Now the FIRST thing to show -->
+            <!-- Language Selection Container -->
             <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111827; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
                 <h3 class="text-xl font-bold text-white mb-6 text-center">Choose Your Edition</h3>
                 
@@ -701,10 +702,25 @@
     const imageCounter = document.getElementById('imageCounter');
     const previewIndicator = document.getElementById('previewIndicator');
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
-    const previewShine = document.getElementById('previewShine'); 
+    const previewShine = document.getElementById('previewShine');
+    
+    // NEW: Logo elements
+    const logoImg = document.getElementById('logoImg');
+    const logoShine = document.getElementById('logoShine');
+    
     let currentImageIndex = 0;
 
     cover.setAttribute('aria-busy', 'true');
+    
+    // Logic for LOGO LOADING (Shine until loaded)
+    logoImg.onload = () => {
+        logoShine.style.display = 'none'; // Hide shine
+        logoImg.classList.remove('opacity-0'); // Fade in image
+    };
+    // Force trigger if cached
+    if (logoImg.complete) {
+        logoImg.onload();
+    }
     
     const preloadImage = new Image();
     preloadImage.src = SOURCE_IMAGE + (SOURCE_IMAGE.includes('?') ? '&' : '?') + 'cb=' + Date.now(); 
