@@ -6,6 +6,9 @@
   <title>BookMintor Spiritual Collection</title>
   <meta name="theme-color" content="#0b0e13" />
 
+  <!-- 1. WEB ICON (Favicon) -->
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -17,20 +20,27 @@
             book: '0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2)'
           },
           keyframes: {
+            shine: { '0%': { transform: 'translateX(-100%) skewX(-20deg)' }, '100%': { transform: 'translateX(200%) skewX(-20deg)' } },
+            /* RESTORED SHINE ANIMATION */
+            ultraSmoothShine: {
+                '0%': { transform: 'translateX(-100%) skewX(-20deg)', opacity: '0' },
+                '15%': { opacity: '0.8' },
+                '50%': { opacity: '1' },
+                '85%': { opacity: '0.8' },
+                '100%': { transform: 'translateX(200%) skewX(-20deg)', opacity: '0' }
+            },
             btnshine: { '0%': { transform: 'translateX(-120%) skewX(-20deg)' }, '60%': { transform: 'translateX(180%) skewX(-20deg)' }, '100%': { transform: 'translateX(180%) skewX(-20deg)' } },
-            
             pulseSoft: { '0%,100%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.02)' } },
-            bookFloat: { '0%,100%': { transform: 'translateY(0) rotateX(5deg) rotateY(5deg)' }, '50%': { transform: 'translateY(-10px) rotateX(5deg) rotateY(-5deg)' } },
             bookOpen: { '0%': { transform: 'rotateY(0deg)' }, '100%': { transform: 'rotateY(-15deg)' } },
-            
             dotFlash: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-4px)' } } 
           },
           animation: {
+            shine: 'shine 1.5s linear infinite',
+            /* APPLIED SHINE ANIMATION */
+            ultraSmoothShine: 'ultraSmoothShine 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite',
             btnshine: 'btnshine 3.8s ease-in-out infinite',
             pulseSoft: 'pulseSoft 4.5s ease-in-out infinite',
-            bookFloat: 'bookFloat 6s ease-in-out infinite',
             bookOpen: 'bookOpen 0.8s ease-out forwards',
-
             dotFlash1: 'dotFlash 0.6s ease-in-out infinite',
             dotFlash2: 'dotFlash 0.6s ease-in-out infinite 0.1s',
             dotFlash3: 'dotFlash 0.6s ease-in-out infinite 0.2s',
@@ -49,175 +59,92 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* 🔥 ENHANCED SMOOTH SHINE: Added easing and speed variation */
-    @keyframes ultraSmoothShine {
-        0% { 
-            transform: translateX(-100%) skewX(-20deg); 
-            opacity: 0;
-        }
-        15% {
-            opacity: 0.8;
-        }
-        50% {
-            opacity: 1;
-        }
-        85% {
-            opacity: 0.8;
-        }
-        100% { 
-            transform: translateX(200%) skewX(-20deg); 
-            opacity: 0;
-        }
-    }
-
-    body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    body{font-family:'Poppins',sans-serif}
     .no-scrollbar::-webkit-scrollbar{display:none}
     .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
     .star-glow{filter: drop-shadow(0 0 6px rgba(245,158,11,.55));}
     
-    /* 3D Book Styles (Unmodified) */
-    .book-3d {
-      perspective: 1200px;
-      transform-style: preserve-3d;
-    }
-    .book-cover {
-      transform-style: preserve-3d;
-      transition: transform 0.6s ease;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    .book-spine {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 15px;
-      height: 100%;
-      background: linear-gradient(to right, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
-      transform: rotateY(-90deg) translateX(-15px);
-      transform-origin: left center;
-    }
-    .book-pages {
-      position: absolute;
-      left: 15px;
-      top: 5px;
-      width: calc(100% - 20px);
-      height: calc(100% - 10px);
-      background: linear-gradient(to right, #f8fafc, #e2e8f0);
-      transform: rotateY(-180deg);
-      backface-visibility: hidden;
-      border-radius: 0 8px 8px 0;
-      padding: 20px;
-      color: #1e293b;
-      font-size: 0.8rem;
-      overflow: hidden;
-    }
-    .book-pages::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent 20px,
-        rgba(0,0,0,0.05) 20px,
-        rgba(0,0,0,0.05) 21px
-      );
-    }
-    .book-content {
-      position: relative;
-      z-index: 2;
-    }
-    
-    /* Premium Card Enhancements (VIBE) */
+    /* Premium Card Base */
     .premium-card {
-      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.08);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .premium-card:hover {
-        transform: translateY(-5px); 
-        box-shadow: 0 15px 40px rgba(99,102,241,0.3);
-        border-color: rgba(99,102,241,0.4); 
-    }
-    
-    /* Book Cover Shine - ENHANCED: Now with smooth easing and speed variation */
-    .book-cover-image {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-      overflow: hidden; 
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(168, 85, 247, 0.3);
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
     }
 
+    /* RESPONSIVE LAYOUT */
+    .card-layout {
+        display: grid;
+        grid-template-columns: 1fr; 
+    }
+    @media (min-width: 640px) {
+        .card-layout {
+            grid-template-columns: 140px 1fr;
+            align-items: start;
+        }
+    }
+
+    /* Image Container */
+    .book-img-container {
+        position: relative;
+        width: 100%;
+        height: 220px; 
+        overflow: hidden;
+        border-radius: 12px;
+    }
+    @media (min-width: 640px) {
+        .book-img-container {
+            height: 200px;
+            width: 100%;
+        }
+    }
+    
+    /* SHINE EFFECT CLASS */
     .book-cover-shine {
         content: '';
         position: absolute;
         inset: 0;
         transform: skewX(-20deg) translateX(-100%);
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6) 50%, transparent); 
-        /* 🔥 FIX: Removed 1.5s delay to synchronize all shine animations */
-        animation: ultraSmoothShine 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4) 50%, transparent); 
+        animation: ultraSmoothShine 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; 
         pointer-events: none;
+        z-index: 30; /* Ensure it's above the image */
     }
     
-    /* Compact Layout (Unmodified) */
-    .compact-card {
-      display: flex;
-      flex-direction: row;
-      gap: 16px;
-      padding: 20px;
-      align-items: flex-start;
+    .book-img-actual {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+        transition: transform 0.5s ease;
     }
-    .book-section {
-      flex-shrink: 0;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100px;
-      height: 150px;
+    .premium-card:hover .book-img-actual {
+        transform: scale(1.05);
     }
-    .content-section {
-      flex: 1;
-      min-width: 0;
-    }
-    
-    /* Enhanced Loading Overlay Styles */
+
+    /* Loading Overlay */
     .loading-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(11, 14, 19, 0.85); 
-        backdrop-filter: blur(5px);
+        background: rgba(11, 14, 19, 0.9);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s;
-        z-index: 20; 
-        border-radius: 0.75rem; 
-        pointer-events: none; 
+        transition: opacity 0.3s ease;
+        z-index: 50;
+        border-radius: 1rem;
     }
-
     .premium-card.is-loading .loading-overlay {
         opacity: 1;
         visibility: visible;
-        pointer-events: all; 
-    }
-    
-    /* Price Alignment Correction - Minor CSS cleanup */
-    .price-block {
-        display: flex;
-        align-items: flex-end; /* right align content */
-        justify-content: flex-end; 
-        flex-direction: column; /* stack items vertically */
-        text-align: right;
     }
   </style>
 </head>
@@ -231,8 +158,10 @@
   <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/40">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
       <a href="./index.html" class="group flex items-center gap-3">
-        <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_35px_rgba(99,102,241,0.35)]">
-          <i data-lucide="book-open" class="h-5 w-5 text-white"></i>
+        <!-- HEADER LOGO -->
+        <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow flex items-center justify-center p-0.5">
+            <div id="navLogoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
+            <img id="navLogoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="w-full h-full object-cover rounded-lg opacity-0 transition-opacity duration-500">
         </div>
         <span class="text-lg font-bold tracking-wide text-zinc-100">
           <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor
@@ -260,11 +189,12 @@
   </section>
 
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
-    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+    <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
 
-      <div class="group premium-card rounded-2xl overflow-hidden compact-card relative cursor-pointer" 
+      <!-- CARD 1: Updated Link Format -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up"
-           data-link="/PremAnand%20Ji’s%20Zero-Disturbance%20Mindset%20Code"> 
+           data-link="./PremAnand Ji’s Zero-Disturbance Mindset Code.html"> 
         
         <div class="loading-overlay">
             <div class="flex space-x-1">
@@ -272,63 +202,52 @@
                 <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
                 <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
             </div>
-            <span class="mt-3 text-sm font-medium text-zinc-300">Preparing Content...</span>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
         </div>
         
-        <div class="book-section">
-          <div class="book-3d">
-            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
-              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover.png')">
+        <div class="card-layout gap-5">
+            <div class="book-img-container shadow-book">
+                <!-- SHINE ADDED HERE -->
                 <div class="book-cover-shine"></div>
-              </div>
-              <div class="book-spine rounded-l-lg"></div>
-              <div class="book-pages">
-                <div class="relative z-10">
-                  <h4 class="font-bold text-sm mb-2">Table of Contents</h4>
-                  <ul class="text-xs space-y-1">
-                    <li>• Introduction to Gita</li>
-                    <li>• Karma Yoga</li>
-                    <li>• Bhakti Yoga</li>
-                    <li>• Jnana Yoga</li>
-                  </ul>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                <img src="https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover.png" alt="Cover" class="book-img-actual">
+                <div class="absolute bottom-2 left-2 z-20">
+                    <span class="px-2 py-1 bg-black/60 backdrop-blur-sm rounded text-[10px] text-white font-bold tracking-wide uppercase border border-white/10">Best Seller</span>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="content-section book-content flex flex-col justify-between h-full">
-          <div>
-            <h3 class="font-semibold text-white text-lg">PremAnand Ji’s Zero-Disturbance Mindset Code.</h3>
-            <p class="mt-1 text-sm text-zinc-400">A powerful guide inspired by PremAnand Ji to help you master calmness and inner stability.</p>
-          </div>
-          
-          <div class="mt-3 flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <div class="flex items-center text-amber-400 star-glow">
-                <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
-              </div>
-              <span class="text-xs text-zinc-400">(1,147 Success Graduates)</span>
-            </div>
-            <div class="flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>12,500+</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>2/3h</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>1,200+</span>
-            </div>
-          </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">PremAnand Ji’s Zero-Disturbance Mindset Code</h3>
+                    <p class="mt-2 text-sm text-zinc-400 line-clamp-2">A powerful guide inspired by PremAnand Ji to master calmness & inner stability.</p>
+                </div>
+                
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i>
+                        </div>
+                        <span>(1.2k+ Reviews)</span>
+                    </div>
 
-          <div class="mt-3 flex items-end justify-end"> 
-            <div class="price-block">
-              <div class="flex items-center justify-end gap-2">
-                <div class="text-sm text-zinc-400 line-through">₹1699</div> <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹209</div> </div>
-              <span class="mt-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">88% OFF</span> </div>
+                    <div class="flex items-center justify-between border-t border-white/10 pt-3">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-zinc-500 line-through">₹1699</span>
+                            <span class="text-lg font-bold text-emerald-400">₹209</span>
+                        </div>
+                        <button class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors border border-white/10 flex items-center gap-1">
+                            Get Now <i data-lucide="arrow-right" class="h-3 w-3"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
       </div>
 
-      <div class="group premium-card rounded-2xl overflow-hidden compact-card relative cursor-pointer" 
+      <!-- CARD 2: Updated Link Format -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="60"
-           data-link="vedic-meditation.html"> 
+           data-link="./vedic-meditation.html"> 
         
         <div class="loading-overlay">
             <div class="flex space-x-1">
@@ -336,64 +255,49 @@
                 <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
                 <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
             </div>
-            <span class="mt-3 text-sm font-medium text-zinc-300">Preparing Content...</span>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
         </div>
 
-        <div class="book-section">
-          <div class="book-3d">
-            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
-              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=400&q=80')">
+        <div class="card-layout gap-5">
+            <div class="book-img-container shadow-book">
+                <!-- SHINE ADDED HERE -->
                 <div class="book-cover-shine"></div>
-                 </div>
-              <div class="book-spine rounded-l-lg"></div>
-              <div class="book-pages">
-                <div class="relative z-10">
-                  <h4 class="font-bold text-sm mb-2">Techniques Included</h4>
-                  <ul class="text-xs space-y-1">
-                    <li>• Breath Awareness</li>
-                    <li>• Mantra Meditation</li>
-                    <li>• Chakra Focus</li>
-                    <li>• Yoga Nidra</li>
-                  </ul>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=400&q=80" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Vedic Meditation Techniques</h3>
+                    <p class="mt-2 text-sm text-zinc-400 line-clamp-2">17 ancient methods to calm your mind and awaken consciousness.</p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="content-section book-content flex flex-col justify-between h-full">
-          <div>
-            <h3 class="font-semibold text-white text-lg">Vedic Meditation Techniques</h3>
-            <p class="mt-1 text-sm text-zinc-400">17 ancient methods to calm your mind and awaken consciousness.</p>
-          </div>
+                
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star-half" class="h-3 w-3 fill-current"></i>
+                        </div>
+                        <span>(892 Reviews)</span>
+                    </div>
 
-          <div class="mt-3 flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <div class="flex items-center text-amber-400 star-glow">
-                <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
-              </div>
-              <span class="text-xs text-zinc-400">(892 reviews)</span>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>980+</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>22h</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>950+</span>
-            </div>
-          </div>
-          
-          <div class="mt-3 flex items-end justify-end">
-            <div class="price-block">
-              <div class="flex items-center justify-end gap-2">
-                <div class="text-sm text-zinc-400 line-through">₹499</div> <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹299</div> </div>
-              <span class="mt-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">40% OFF</span> </div>
+                    <div class="flex items-center justify-between border-t border-white/10 pt-3">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-zinc-500 line-through">₹499</span>
+                            <span class="text-lg font-bold text-emerald-400">₹299</span>
+                        </div>
+                        <button class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors border border-white/10 flex items-center gap-1">
+                            Get Now <i data-lucide="arrow-right" class="h-3 w-3"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
       </div>
 
-      <div class="group premium-card rounded-2xl overflow-hidden compact-card relative cursor-pointer" 
+      <!-- CARD 3: Updated Link Format -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="120"
-           data-link="ayurveda.html"> 
+           data-link="./ayurveda.html"> 
         
         <div class="loading-overlay">
             <div class="flex space-x-1">
@@ -401,64 +305,49 @@
                 <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
                 <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
             </div>
-            <span class="mt-3 text-sm font-medium text-zinc-300">Preparing Content...</span>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
         </div>
 
-        <div class="book-section">
-          <div class="book-3d">
-            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
-              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://bookmintstore.github.io/home/images/1758646277.jpg')">
+        <div class="card-layout gap-5">
+            <div class="book-img-container shadow-book">
+                <!-- SHINE ADDED HERE -->
                 <div class="book-cover-shine"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                <img src="https://bookmintstore.github.io/home/images/1758646277.jpg" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Ayurveda for Beginners</h3>
+                    <p class="mt-2 text-sm text-zinc-400 line-clamp-2">Discover your dosha and daily routines for better health.</p>
                 </div>
-              <div class="book-spine rounded-l-lg"></div>
-              <div class="book-pages">
-                <div class="relative z-10">
-                  <h4 class="font-bold text-sm mb-2">Topics Covered</h4>
-                  <ul class="text-xs space-y-1">
-                    <li>• Understanding Doshas</li>
-                    <li>• Daily Routines</li>
-                    <li>• Ayurvedic Diet</li>
-                    <li>• Herbal Remedies</li>
-                  </ul>
+                
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 text-zinc-600"></i>
+                        </div>
+                        <span>(523 Reviews)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-white/10 pt-3">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-zinc-500 line-through">₹499</span>
+                            <span class="text-lg font-bold text-emerald-400">₹349</span>
+                        </div>
+                        <button class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors border border-white/10 flex items-center gap-1">
+                            Get Now <i data-lucide="arrow-right" class="h-3 w-3"></i>
+                        </button>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="content-section book-content flex flex-col justify-between h-full">
-          <div>
-            <h3 class="font-semibold text-white text-lg">Ayurveda for Beginners</h3>
-            <p class="mt-1 text-sm text-zinc-400">Discover your dosha and daily routines for better health.</p>
-          </div>
-
-          <div class="mt-3 flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <div class="flex items-center text-amber-400 star-glow">
-                <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
-              </div>
-              <span class="text-xs text-zinc-400">(523 reviews)</span>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>750+</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>18h</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>650+</span>
-            </div>
-          </div>
-
-          <div class="mt-3 flex items-end justify-end">
-            <div class="price-block">
-              <div class="flex items-center justify-end gap-2">
-                <div class="text-sm text-zinc-400 line-through">₹499</div> <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹349</div> </div>
-              <span class="mt-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">30% OFF</span> </div>
             </div>
         </div>
       </div>
 
-      <div class="group premium-card rounded-2xl overflow-hidden compact-card relative cursor-pointer" 
+      <!-- CARD 4: Updated Link Format -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="180"
-           data-link="mantras.html"> 
+           data-link="./mantras.html"> 
         
         <div class="loading-overlay">
             <div class="flex space-x-1">
@@ -466,64 +355,49 @@
                 <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
                 <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
             </div>
-            <span class="mt-3 text-sm font-medium text-zinc-300">Preparing Content...</span>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
         </div>
 
-        <div class="book-section">
-          <div class="book-3d">
-            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
-              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80')">
+        <div class="card-layout gap-5">
+            <div class="book-img-container shadow-book">
+                <!-- SHINE ADDED HERE -->
                 <div class="book-cover-shine"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400&q=80" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Mantras for Transformation</h3>
+                    <p class="mt-2 text-sm text-zinc-400 line-clamp-2">108 sacred mantras with meaning and practice tips.</p>
                 </div>
-              <div class="book-spine rounded-l-lg"></div>
-              <div class="book-pages">
-                <div class="relative z-10">
-                  <h4 class="font-bold text-sm mb-2">Mantra Categories</h4>
-                  <ul class="text-xs space-y-1">
-                    <li>• Healing Mantras</li>
-                    <li>• Prosperity Mantras</li>
-                    <li>• Protection Mantras</li>
-                    <li>• Wisdom Mantras</li>
-                  </ul>
+                
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i>
+                        </div>
+                        <span>(1k+ Reviews)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-white/10 pt-3">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-zinc-500 line-through">₹499</span>
+                            <span class="text-lg font-bold text-emerald-400">₹399</span>
+                        </div>
+                        <button class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors border border-white/10 flex items-center gap-1">
+                            Get Now <i data-lucide="arrow-right" class="h-3 w-3"></i>
+                        </button>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="content-section book-content flex flex-col justify-between h-full">
-          <div>
-            <h3 class="font-semibold text-white text-lg">Mantras for Transformation</h3>
-            <p class="mt-1 text-sm text-zinc-400">108 sacred mantras with meaning and practice tips.</p>
-          </div>
-
-          <div class="mt-3 flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <div class="flex items-center text-amber-400 star-glow">
-                <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
-              </div>
-              <span class="text-xs text-zinc-400">(1,045 reviews)</span>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>1,050+</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>25h</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>1,800+</span>
-            </div>
-          </div>
-
-          <div class="mt-3 flex items-end justify-end">
-            <div class="price-block">
-              <div class="flex items-center justify-end gap-2">
-                <div class="text-sm text-zinc-400 line-through">₹499</div> <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹399</div> </div>
-              <span class="mt-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">20% OFF</span> </div>
             </div>
         </div>
       </div>
 
-      <div class="group premium-card rounded-2xl overflow-hidden compact-card relative cursor-pointer" 
+      <!-- CARD 5: Updated Link Format -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="240"
-           data-link="upanishads.html"> 
+           data-link="./upanishads.html"> 
         
         <div class="loading-overlay">
             <div class="flex space-x-1">
@@ -531,57 +405,41 @@
                 <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
                 <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
             </div>
-            <span class="mt-3 text-sm font-medium text-zinc-300">Preparing Content...</span>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
         </div>
 
-        <div class="book-section">
-          <div class="book-3d">
-            <div class="book-cover h-36 w-24 rounded-lg relative group-hover:animate-bookOpen">
-              <div class="book-cover-image h-full w-full rounded-lg" style="background-image: url('https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png')">
+        <div class="card-layout gap-5">
+            <div class="book-img-container shadow-book">
+                <!-- SHINE ADDED HERE -->
                 <div class="book-cover-shine"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Upanishads Essentials</h3>
+                    <p class="mt-2 text-sm text-zinc-400 line-clamp-2">Key teachings from 10 principal Upanishads.</p>
                 </div>
-              <div class="book-spine rounded-l-lg"></div>
-              <div class="book-pages">
-                <div class="relative z-10">
-                  <h4 class="font-bold text-sm mb-2">Upanishads Covered</h4>
-                  <ul class="text-xs space-y-1">
-                    <li>• Isha Upanishad</li>
-                    <li>• Kena Upanishad</li>
-                    <li>• Katha Upanishad</li>
-                    <li>• Prashna Upanishad</li>
-                  </ul>
+                
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
+                        </div>
+                        <span>(736 Reviews)</span>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-white/10 pt-3">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-zinc-500 line-through">₹599</span>
+                            <span class="text-lg font-bold text-emerald-400">₹499</span>
+                        </div>
+                        <button class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors border border-white/10 flex items-center gap-1">
+                            Get Now <i data-lucide="arrow-right" class="h-3 w-3"></i>
+                        </button>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="content-section book-content flex flex-col justify-between h-full">
-          <div>
-            <h3 class="font-semibold text-white text-lg">Upanishads Essentials</h3>
-            <p class="mt-1 text-sm text-zinc-400">Key teachings from 10 principal Upanishads.</p>
-          </div>
-
-          <div class="mt-3 flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-              <div class="flex items-center text-amber-400 star-glow">
-                <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
-              </div>
-              <span class="text-xs text-zinc-400">(736 reviews)</span>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-1 text-xs text-zinc-300/90">
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>520+</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>30h</span>
-              <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>950+</span>
-            </div>
-          </div>
-
-          <div class="mt-3 flex items-end justify-end">
-            <div class="price-block">
-              <div class="flex items-center justify-end gap-2">
-                <div class="text-sm text-zinc-400 line-through">₹599</div> <div class="text-xl font-extrabold tracking-tight text-emerald-300">₹499</div> </div>
-              <span class="mt-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/30">17% OFF</span> </div>
             </div>
         </div>
       </div>
@@ -605,7 +463,20 @@
     lucide.createIcons();
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // JavaScript to handle the ENTIRE CARD click for navigation and loading
+    const navLogoImg = document.getElementById('navLogoImg');
+    const navLogoShine = document.getElementById('navLogoShine');
+
+    if(navLogoImg) {
+        navLogoImg.onload = () => {
+            navLogoShine.style.display = 'none'; 
+            navLogoImg.classList.remove('opacity-0'); 
+        };
+        if (navLogoImg.complete) {
+            navLogoImg.onload();
+        }
+    }
+
+    // UPDATED NAVIGATION LOGIC WITH ERROR HANDLING
     document.querySelectorAll('.premium-card').forEach(card => {
         const targetLink = card.getAttribute('data-link'); 
 
@@ -621,13 +492,18 @@
                 sessionStorage.setItem('loading-card-id', targetLink);
 
                 setTimeout(() => {
-                    window.location.href = targetLink;
+                    try {
+                        window.location.href = targetLink;
+                    } catch (err) {
+                        console.error("Navigation Error (likely in preview mode):", err);
+                        // Optional: remove loading if failed
+                        card.classList.remove('is-loading');
+                    }
                 }, 400); 
             });
         }
     });
 
-    // FIX: Loading state stuck after browser back/forward
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
             const lastLoadingLink = sessionStorage.getItem('loading-card-id');
