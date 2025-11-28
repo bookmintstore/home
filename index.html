@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>BookMintor: Premium Self Help & Spiritual eBooks | Read Book Mintor Online</title>
@@ -48,6 +48,21 @@
     }
   </script>
 
+  <!-- SECURITY SCRIPT: Disables Right Click, F12, Ctrl+U -->
+  <script>
+    // Disable Right Click
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { return false; } // F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+    }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -80,6 +95,11 @@
             'pulse-glow': {
               '0%, 100%': { boxShadow: '0 0 5px rgba(99,102,241,0.5)' },
               '50%': { boxShadow: '0 0 20px rgba(99,102,241,0.8)' }
+            },
+            // Logo Shine Animation
+            logoShine: {
+                '0%': { transform: 'translateX(-100%)' },
+                '100%': { transform: 'translateX(100%)' }
             }
           },
           animation: {
@@ -89,7 +109,8 @@
             blink: 'blink 1s step-end infinite',
             'roll-up': 'word-roll 20s ease-in-out infinite', /* FASTER ROLL */
             'count-up': 'count-up 0.8s ease-out forwards',
-            'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+            'logo-shine': 'logoShine 3s infinite' /* Logo Shine */
           }
         }
       }
@@ -104,7 +125,14 @@
   <style>
     /* Smooth Scroll */
     html { scroll-behavior:smooth } 
-    body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    /* Disable Text Selection for Security */
+    body { 
+        font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+        -webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+        user-select: none; /* Standard */
+    }
     .no-scrollbar::-webkit-scrollbar{ display:none }
     .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
     
@@ -169,6 +197,15 @@
       border: 1px solid rgba(99, 102, 241, 0.2);
       backdrop-filter: blur(10px);
     }
+
+    /* Logo Loading Shine */
+    .logo-shine-effect {
+        position: absolute;
+        inset: 0;
+        background: rgba(255,255,255,0.4);
+        transform: skewX(-20deg);
+        /* Animation is applied via Tailwind utility class */
+    }
   </style>
 </head>
 <body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
@@ -198,11 +235,11 @@
       <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
         <!-- UPDATED HEADER LOGO WITH SHINE -->
         <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_40px_rgba(99,102,241,0.35)] flex items-center justify-center p-0.5">
-            <div id="navLogoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
+            <div id="navLogoShine" class="logo-shine-effect z-10 pointer-events-none animate-logo-shine"></div>
             <img id="navLogoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="w-full h-full object-cover rounded-lg opacity-0 transition-opacity duration-500">
         </div>
         <span class="text-lg font-semibold tracking-wide text-zinc-200">
-          <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>mintor
+          <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>Mintor
         </span>
       </a>
 
