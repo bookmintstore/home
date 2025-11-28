@@ -9,6 +9,18 @@
   <!-- 1. WEB ICON (Favicon) -->
   <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
+  <!-- SECURITY SCRIPT: Disables Right Click, F12, Ctrl+U -->
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { return false; } // F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+    }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -46,18 +58,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
-    body{font-family:'Poppins',sans-serif}
+    body{font-family:'Poppins',sans-serif; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;} /* Disable Text Selection */
     .no-scrollbar::-webkit-scrollbar{display:none}
     .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
     .star-glow{filter: drop-shadow(0 0 6px rgba(245,158,11,.55));}
     
-    /* Keyframes for Shine Effect (Slower & Smoother) */
+    /* Keyframes for Shine Effect (MODIFIED: Fast Entry -> Slow Exit) */
     @keyframes smoothShine {
         0% { transform: translateX(-150%) skewX(-25deg); opacity: 0; }
-        30% { opacity: 0.4; } 
-        50% { opacity: 0.7; }
-        70% { opacity: 0.4; }
-        100% { transform: translateX(150%) skewX(-25deg); opacity: 0; }
+        20% { opacity: 0.6; } /* Fades in fast */
+        100% { transform: translateX(200%) skewX(-25deg); opacity: 0; } /* Long travel to slow down */
     }
 
     @keyframes logoShine {
@@ -109,26 +119,27 @@
         }
     }
     
-    /* SHINE EFFECT OVERLAY - SLOWED DOWN TO 3.5s */
+    /* SHINE EFFECT OVERLAY - UPDATED SPEED CURVE */
     .book-cover-shine {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        /* Adjusted gradient for softer edge */
         background: linear-gradient(
             to right, 
             transparent 0%, 
-            rgba(255, 255, 255, 0.05) 30%, 
-            rgba(255, 255, 255, 0.3) 50%, 
-            rgba(255, 255, 255, 0.05) 70%, 
+            rgba(255, 255, 255, 0.1) 20%, 
+            rgba(255, 255, 255, 0.4) 50%, 
+            rgba(255, 255, 255, 0.1) 80%, 
             transparent 100%
         );
         transform: skewX(-25deg);
         pointer-events: none;
         z-index: 30; 
-        /* The animation property - SLOWER SPEED */
-        animation: smoothShine 3.5s infinite linear;
+        /* cubic-bezier(0.2, 0.8, 0.2, 1) = Starts fast, ends very slow */
+        animation: smoothShine 4s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     
     .book-img-actual {
@@ -141,7 +152,7 @@
         transform: scale(1.05);
     }
 
-    /* Logo Loading Shine - SLOWED DOWN TO 3s */
+    /* Logo Loading Shine - Slightly slower */
     .logo-shine-effect {
         position: absolute;
         inset: 0;
