@@ -60,10 +60,6 @@
           boxShadow: {
             glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
             glass: '0 10px 30px -10px rgba(0,0,0,.45)',
-            // ✅ START: Updated for new tour
-            'tour-spotlight': '0 0 0 9999px rgba(0, 0, 0, 0.9)', // Yeh spotlight banata hai
-            'tour-glow': '0 0 15px 3px rgba(255,255,255,0.5)',
-            // ✅ END: Updated for new tour
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
@@ -84,42 +80,16 @@
             'pulse-glow': {
               '0%, 100%': { boxShadow: '0 0 5px rgba(99,102,241,0.5)' },
               '50%': { boxShadow: '0 0 20px rgba(99,102,241,0.8)' }
-            },
-            // ✅ START: Updated for new tour
-            'circle-scale': {
-              '0%': { transform: 'translate(-50%, -50%) scale(1)' },
-              '100%': { transform: 'translate(-50%, -50%) scale(300)' }
-            },
-            'pulse-border': { // Info box ke liye
-              '0%, 100%': { borderColor: 'rgba(255,255,255,0.3)' },
-              '50%': { borderColor: 'rgba(99, 102, 241, 0.8)' }
-            },
-            // 🌟 NEW: Target Glow Keyframe
-            'pulse-target-glow': {
-                '0%, 100%': { boxShadow: '0 0 5px 0px rgba(99, 102, 241, 0.5)', transform: 'scale(1)' },
-                '50%': { boxShadow: '0 0 20px 5px rgba(99, 102, 241, 0.8)', transform: 'scale(1.01)' }
             }
-            // ✅ END: Updated for new tour
           },
           animation: {
-            shine: 'shine 2.6s ease-in-out infinite',
+            shine: 'shine 1.5s ease-in-out infinite', /* FASTER SHINE */
             floaty: 'floaty 6s ease-in-out infinite',
             bounce: 'dot-bounce 0.8s infinite', 
             blink: 'blink 1s step-end infinite',
-            'roll-up': 'word-roll 27s ease-in-out infinite',
-            'count-up': 'count-up 1s ease-out forwards',
-            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-            // ✅ START: Updated for new tour
-            'circle-scale': 'circle-scale 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
-            'pulse-border': 'pulse-border 2s ease-in-out infinite',
-            // 🌟 NEW: Target Glow Animation
-            'pulse-target-glow': 'pulse-target-glow 2.5s ease-in-out infinite'
-            // ✅ END: Updated for new tour
-          },
-          transitionDelay: {
-            '75': '75ms',
-            '150': '150ms',
-            '225': '225ms',
+            'roll-up': 'word-roll 20s ease-in-out infinite', /* FASTER ROLL */
+            'count-up': 'count-up 0.8s ease-out forwards',
+            'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
           }
         }
       }
@@ -132,7 +102,7 @@
 
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <style>
-    /* ✅ User Request: Smooth Scroll */
+    /* Smooth Scroll */
     html { scroll-behavior:smooth } 
     body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     .no-scrollbar::-webkit-scrollbar{ display:none }
@@ -140,30 +110,30 @@
     
     /* Dynamic Word Roll Animation */
     @keyframes word-roll {
-        /* Word 1: Mind. (0s - 4.5s) */
+        /* Word 1: Mind. */
         0%, 14.8% { transform: translateY(0em); }
-        16.6% { transform: translateY(-1.2em); } /* Smooth scroll up (0.5s duration) */
+        16.6% { transform: translateY(-1.2em); }
 
-        /* Word 2: Growth. (4.5s - 9.0s) */
+        /* Word 2: Growth. */
         18.4%, 31.4% { transform: translateY(-1.2em); }
-        33.3% { transform: translateY(-2.4em); } /* Smooth scroll up */
+        33.3% { transform: translateY(-2.4em); }
 
-        /* Word 3: Career. (9.0s - 13.5s) */
+        /* Word 3: Career. */
         35.1%, 48.1% { transform: translateY(-2.4em); }
-        50.0% { transform: translateY(-3.6em); } /* Smooth scroll up */
+        50.0% { transform: translateY(-3.6em); }
 
-        /* Word 4: Future. (13.5s - 18.0s) */
+        /* Word 4: Future. */
         51.8%, 64.8% { transform: translateY(-3.6em); }
-        66.6% { transform: translateY(-4.8em); } /* Smooth scroll up */
+        66.6% { transform: translateY(-4.8em); }
 
-        /* Word 5: Success. (18.0s - 22.5s) */
+        /* Word 5: Success. */
         68.4%, 81.4% { transform: translateY(-4.8em); }
-        83.3% { transform: translateY(-6.0em); } /* Smooth scroll up */
+        83.3% { transform: translateY(-6.0em); }
 
-        /* Word 6: Skill. (22.5s - 27.0s) */
+        /* Word 6: Skill. */
         85.1%, 98.1% { transform: translateY(-6.0em); }
         
-        100% { transform: translateY(0em); } /* Jumps back to start for loop */
+        100% { transform: translateY(0em); }
     }
     
     .motion-mask {
@@ -180,35 +150,12 @@
             transparent 100%
         );
     }
-    
-    /* 🌟 NEW: Class to make the target section glow and pop up */
-    .tour-target-glow {
-        position: relative !important;
-        z-index: 50 !important; /* Bring it above the shadow overlay */
-        box-shadow: none !important; /* Override any existing shadow */
-        animation: pulse-target-glow 2.5s ease-in-out infinite;
-        transition: all 0.5s ease-in-out;
-    }
-    
-    /* 🌟 MODIFIED: Info Box Arrow/Triangle with Glow - Increased Size */
-    .tour-infobox-arrow {
-        position: absolute;
-        bottom: 100%; /* Position above the infobox */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 20px solid transparent; /* ✅ Increased size */
-        border-right: 20px solid transparent; /* ✅ Increased size */
-        border-bottom: 30px solid rgba(99, 102, 241, 0.8); /* ✅ Increased height */
-        filter: drop-shadow(0 -2px 5px rgba(99, 102, 241, 0.5)); /* Soft glow effect */
-    }
 
     /* Accordion Styles */
     .accordion-content {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+        transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
     }
     .accordion-open .accordion-content {
         max-height: 500px; 
@@ -222,14 +169,6 @@
       border: 1px solid rgba(99, 102, 241, 0.2);
       backdrop-filter: blur(10px);
     }
-
-    /* ✅ Body class to disable AOS during tour */
-    body.aos-disabled [data-aos] {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
-
   </style>
 </head>
 <body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
@@ -237,8 +176,7 @@
   <div id="loading-overlay" class="fixed inset-0 z-[999] hidden place-items-center bg-[#0b0e13]/95 opacity-0 transition-opacity duration-300">
     <div class="flex flex-col items-center">
       <div class="text-center mb-8">
-        <h3 class="text-xl font-bold text-white mb-2">Loading Your Journey</h3>
-        <p class="text-zinc-300">Preparing your reading experience</p>
+        <h3 class="text-xl font-bold text-white mb-2">Loading...</h3>
       </div>
       
       <div class="flex space-x-2">
@@ -258,8 +196,10 @@
   <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/40">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
       <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
-        <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_40px_rgba(99,102,241,0.35)]">
-          <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+        <!-- UPDATED HEADER LOGO WITH SHINE -->
+        <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_40px_rgba(99,102,241,0.35)] flex items-center justify-center p-0.5">
+            <div id="navLogoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
+            <img id="navLogoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="w-full h-full object-cover rounded-lg opacity-0 transition-opacity duration-500">
         </div>
         <span class="text-lg font-semibold tracking-wide text-zinc-200">
           <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>Mintor
@@ -267,12 +207,12 @@
       </a>
 
       <div class="hidden items-center gap-6 rounded-2xl border border-white/10 bg-white/5 px-5 py-2 backdrop-blur md:flex">
-        <a href="/home/Unavailable.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">Categories</a>
-        <a href="/home/Unavailable.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">Featured</a>
-        <a href="/home/Unavailable.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">About</a>
-        <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">Library</a>
+        <a href="./categories.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">Categories</a>
+        <a href="./featured.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">Featured</a>
+        <a href="./about.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">About</a>
+        <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">Library</a>
       </div>
-      <a href="/home/Unavailable.html" class="nav-link group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white shadow-[0_0_0_0_rgba(99,102,241,0)] transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">Open Library
+      <a href="./library.html" class="nav-link group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white shadow-[0_0_0_0_rgba(99,102,241,0)] transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">Open Library
         <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </nav>
@@ -327,7 +267,7 @@
           </div>
         </div>
 
-        <form class="mt-6 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 shadow-glow backdrop-blur" action="book tem.html">
+        <form class="mt-6 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 shadow-glow backdrop-blur" action="search.html">
           <div id="search-icon" class="grid h-10 w-10 place-items-center rounded-xl bg-white/5 text-zinc-300">
             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
           </div>
@@ -350,27 +290,27 @@
               <span>Top Picks</span>
             </div>
             <div class="grid grid-cols-3 gap-3">
-              <a href="/home/Unavailable.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
+              <a href="/spirituality.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
                 <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Bhagavad Gita" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
                 <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
               </a>
-              <a href="/home/Unavailable.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
+              <a href="./featured.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
                 <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Writing & Creativity" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
                 <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
               </a>
-              <a href="/home/Unavailable.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
+              <a href="./selfhelp.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
                 <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Mindfulness" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
                 <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
               </a>
-              <a href="/home/Unavailable.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
+              <a href="./business.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
                 <img src="https://images.unsplash.com/photo-1473186578172-c141e6798cf4?auto=format&fit=crop&w=1200&q=60" alt="Business" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
                 <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
               </a>
-              <a href="/home/Unavailable.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
+              <a href="./technology.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
                 <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=60" alt="Programming" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
                 <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
               </a>
-              <a href="/home/Unavailable.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
+              <a href="./health.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
                 <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Health" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
                 <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
               </a>
@@ -385,7 +325,7 @@
       <h2 class="text-2xl font-bold sm:text-3xl">Browse by Category</h2>
       <p class="mt-1 text-zinc-400">From Spirituality to Technology, explore every subject in one place.</p>
       <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <a href="/spirituality" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
+        <a href="./spirituality.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
           <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
           <div class="relative z-10">
             <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Popular</span>
@@ -397,7 +337,7 @@
           </div>
         </a>
 
-        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
+        <a href="./selfhelp.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
           <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-sky-500/15 blur-2xl transition group-hover:scale-110"></div>
           <div class="relative z-10">
             <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Trending</span>
@@ -409,7 +349,7 @@
           </div>
         </a>
 
-        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
+        <a href="./technology.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
           <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-purple-500/15 to-indigo-500/15 blur-2xl transition group-hover:scale-110"></div>
           <div class="relative z-10">
             <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">New</span>
@@ -421,7 +361,7 @@
           </div>
         </a>
 
-        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
+        <a href="./business.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
           <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-amber-500/15 to-red-500/15 blur-2xl transition group-hover:scale-110"></div>
           <div class="relative z-10">
             <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Hot</span>
@@ -433,7 +373,7 @@
           </div>
         </a>
 
-        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
+        <a href="./health.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
           <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-emerald-500/15 to-teal-500/15 blur-2xl transition group-hover:scale-110"></div>
           <div class="relative z-10">
             <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Editors' pick</span>
@@ -445,7 +385,7 @@
           </div>
         </a>
 
-        <a href="/home/Unavailable.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="250">
+        <a href="./fiction.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="250">
           <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-pink-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
           <div class="relative z-10">
             <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Classic</span>
@@ -465,7 +405,7 @@
 
       <div class="mt-5 overflow-x-auto no-scrollbar">
         <div class="flex gap-4">
-          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up">
+          <a href="./ayurveda.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up">
             <div class="h-44 w-full overflow-hidden">
               <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=1200&q=60" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
             </div>
@@ -478,7 +418,7 @@
             </div>
           </a>
 
-          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="50">
+          <a href="./vedic-meditation.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="50">
             <div class="h-44 w-full overflow-hidden">
               <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
             </div>
@@ -491,7 +431,7 @@
             </div>
           </a>
 
-          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="100">
+          <a href="./gita.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="100">
             <div class="h-44 w-full overflow-hidden">
               <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Gita Demystified" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
             </div>
@@ -504,7 +444,7 @@
             </div>
           </a>
 
-          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="150">
+          <a href="./python.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="150">
             <div class="h-44 w-full overflow-hidden">
               <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Python: Zero → Pro" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
             </div>
@@ -517,7 +457,7 @@
             </div>
           </a>
 
-          <a href="/home/Unavailable.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="200">
+          <a href="./upanishads.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="200">
             <div class="h-44 w-full overflow-hidden">
               <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
             </div>
@@ -533,8 +473,8 @@
       </div>
 
       <div class="mt-6 flex gap-3">
-        <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
       </div>
 
       <div class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
@@ -543,7 +483,7 @@
             <h3 class="text-xl font-semibold">Premium feel. Simple experience.</h3>
             <p class="mt-1 text-sm text-zinc-400">BookMintor makes reading delightful fast.</p>
           </div>
-          <a href="/home/Unavailable.html" class="nav-link inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
         </div>
       </div>
     </section>
@@ -613,8 +553,8 @@
       <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
         <div>
           <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
-            <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_40px_rgba(99,102,241,0.35)]">
-              <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+            <div class="relative h-10 w-10 overflow-hidden rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 p-0.5 shadow-[0_0_40px_rgba(99,102,241,0.35)]">
+               <img src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="h-full w-full rounded-lg object-cover">
             </div>
             <span class="text-lg font-semibold tracking-wide text-zinc-200">
               <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>Mintor
@@ -626,15 +566,15 @@
         <div>
           <h3 class="text-sm font-semibold text-zinc-200">Support</h3>
           <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="/home/Unavailable.html" class="nav-link text-zinc-400 transition hover:text-white">Contact Us</a></li> 
+            <li><a href="./contact.html" class="nav-link text-zinc-400 transition hover:text-white">Contact Us</a></li> 
           </ul>
         </div>
         
         <div>
           <h3 class="text-sm font-semibold text-zinc-200">Legal</h3>
           <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="/home/Unavailable.html" class="nav-link text-zinc-400 transition hover:text-white">Terms of Service</a></li> 
-            <li><a href="/home/Unavailable.html" class="nav-link text-zinc-400 transition hover:text-white">Privacy Policy</a></li> 
+            <li><a href="./terms.html" class="nav-link text-zinc-400 transition hover:text-white">Terms of Service</a></li> 
+            <li><a href="./privacy.html" class="nav-link text-zinc-400 transition hover:text-white">Privacy Policy</a></li> 
           </ul>
         </div>
       </div>
@@ -648,31 +588,37 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
     lucide.createIcons();
-    AOS.init({ duration: 800, once: true });
+    // SPEED UP: Reduced AOS duration for snappier feel
+    AOS.init({ duration: 500, once: true });
     
-    // ==========================================================
-    // Loading Animation Logic (FIXED: Handles renewal on back/forward)
-    // ==========================================================
     const loadingOverlay = document.getElementById('loading-overlay');
     
-    // Function to hide and reset the overlay state
     function resetLoadingOverlay() {
         loadingOverlay.classList.add('hidden', 'opacity-0');
         loadingOverlay.classList.remove('grid');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Year
         document.getElementById('year').textContent = new Date().getFullYear();
-        
-        // Fix for scroll position on page load
         window.scrollTo(0, 0);
         
-        // Select all internal navigation links 
-        const links = document.querySelectorAll('a.nav-link, a[href^="/home/"]'); 
+        // 4. HEADER LOGO SHINE LOGIC
+        const navLogoImg = document.getElementById('navLogoImg');
+        const navLogoShine = document.getElementById('navLogoShine');
+
+        if(navLogoImg) {
+            navLogoImg.onload = () => {
+                navLogoShine.style.display = 'none'; 
+                navLogoImg.classList.remove('opacity-0'); 
+            };
+            if (navLogoImg.complete) {
+                navLogoImg.onload();
+            }
+        }
+        
+        const links = document.querySelectorAll('a.nav-link, a[href^="./"]'); 
 
         links.forEach(link => {
-            // Exclude links that are part of the search form or submit buttons
             if (link.closest('form') && link.getAttribute('type') === 'submit') {
                 return;
             }
@@ -681,62 +627,30 @@
                 e.preventDefault(); 
                 const targetUrl = this.href;
 
-                // Show overlay and trigger transition
                 loadingOverlay.classList.remove('hidden');
                 setTimeout(() => {
                     loadingOverlay.classList.add('grid'); 
                     loadingOverlay.classList.remove('opacity-0'); 
                 }, 10); 
                 
-                // Navigate after animation delay
+                // SPEED UP: Reduced delay from 800ms to 300ms
                 setTimeout(() => {
                     window.location.href = targetUrl;
-                }, 800); 
+                }, 300); 
             });
         });
         
-        // Initial counter animation setup
         setTimeout(() => {
           animateCounter(document.getElementById('happy-readers'), 0, 25, 2000);
           animateCounter(document.getElementById('premium-titles'), 0, 500, 2000);
         }, 500);
-        
-        // ✅ START: Guided Tour Listener
-        const guideBtn = document.getElementById('guide-button');
-        if (guideBtn) {
-            guideBtn.addEventListener('click', startTour);
-        }
-        // ✅ END: Guided Tour Listener
     });
     
-    // ✅ FIX FOR RENEWAL: Use pageshow to ensure the overlay is hidden when navigating back (bfcache fix)
     window.addEventListener('pageshow', (event) => {
         resetLoadingOverlay();
-        // Ensure page starts at top when loaded
         window.scrollTo(0, 0);
     });
 
-    // ==========================================================
-    // Guide Button Hide on Scroll Logic (NEW - User Request)
-    // ==========================================================
-    let hasScrolledDown = false;
-    const guideButton = document.getElementById('guide-button');
-
-    window.addEventListener('scroll', () => {
-        // Only run if the button is visible and we haven't scrolled down yet
-        if (hasScrolledDown || !guideButton) return; 
-
-        // Check if user has scrolled down more than 50 pixels
-        if (window.scrollY > 50) {
-            // Fade out and remove pointer events
-            guideButton.classList.add('opacity-0', 'pointer-events-none');
-            hasScrolledDown = true; // ✅ PERMANENTLY HIDDEN until refresh
-        }
-    });
-
-    // ==========================================================
-    // Counter Animation Logic
-    // ==========================================================
     function animateCounter(element, start, end, duration) {
       let startTime = null;
       const range = end - start;
@@ -757,324 +671,10 @@
       requestAnimationFrame(updateCounter);
     }
     
-    // ==========================================================
-    // Accordion Logic
-    // ==========================================================
     function toggleAccordion(buttonElement) {
         const item = buttonElement.closest('.accordion-item');
         item.classList.toggle('accordion-open');
     }
-
   </script>
-
-  <button id="guide-button" aria-label="Start Guided Tour" class="fixed top-1/2 -translate-y-1/2 right-4 z-50 grid h-12 w-12 place-items-center rounded-full bg-white text-zinc-900 shadow-lg transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-400">
-    <i data-lucide="eye" class="w-6 h-6"></i>
-  </button>
-
-  <div id="tour-overlay" class="fixed inset-0 z-[90] opacity-0 pointer-events-none transition-opacity duration-500" style="background-color: transparent;">
-    
-    <div id="tour-circle" class="absolute h-1 w-1 rounded-full bg-white" style="top: 50%; left: calc(100% - 2rem); transform: translate(-50%, -50%) scale(1); display: block;"></div>
-    
-    <div id="welcome-text" class="absolute inset-0 grid place-items-center text-3xl font-bold text-white opacity-0 transition-opacity duration-500">
-      Welcome Screen
-    </div>
-    
-    <div id="tour-spotlight" class="absolute inset-0 z-50 opacity-0 transition-opacity duration-500 shadow-tour-spotlight"></div>
-    
-    <div id="tour-vignette" class="fixed inset-0 pointer-events-none z-[91] opacity-0 transition-opacity duration-500" 
-         style="background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.9) 100%);"> 
-    </div>
-
-    <div id="tour-infobox" class="fixed bottom-10 left-1/2 -translate-x-1/2 w-96 max-w-[90vw] rounded-xl bg-zinc-900/90 p-5 text-white backdrop-blur-md border border-indigo-400/50 shadow-2xl opacity-0 transition-all duration-500 ease-in-out animate-pulse-border" style="z-index: 92;">
-        <div id="tour-infobox-arrow" class="tour-infobox-arrow hidden"></div>
-        
-        <h4 id="tour-info-title" class="text-lg font-bold text-indigo-300 mb-2"></h4>
-        <p id="tour-info-description" class="text-sm text-zinc-200"></p>
-    </div>
-
-    <div id="tour-loader" class="absolute inset-0 grid place-items-center opacity-0 transition-opacity duration-500" style="z-index: 95;">
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-white/20 border-t-white"></div>
-    </div>
-  </div>
-  <script>
-    // --- Get All Tour Elements ---
-    const guideBtn = document.getElementById('guide-button');
-    const tourOverlay = document.getElementById('tour-overlay');
-    const tourCircle = document.getElementById('tour-circle');
-    const welcomeText = document.getElementById('welcome-text');
-    const tourLoader = document.getElementById('tour-loader');
-    
-    // --- New Spotlight Elements ---
-    const tourSpotlight = document.getElementById('tour-spotlight');
-    const tourVignette = document.getElementById('tour-vignette'); 
-    const infoBox = document.getElementById('tour-infobox');
-    const infoTitle = document.getElementById('tour-info-title');
-    const infoDescription = document.getElementById('tour-info-description');
-    const infoArrow = document.getElementById('tour-infobox-arrow'); 
-
-    // ✅ Flag to prevent tour from running twice
-    let isTourInProgress = false;
-
-    // 🌟 NEW: Typing Effect Globals
-    let currentTypingTimer = null;
-    let currentCursorElement = null;
-    let currentTargetElement = null; // Store the currently highlighted element
-
-    // --- Define Tour Steps (Removed #about step) ---
-    const tourSteps = [
-      { 
-        id: 'hero-section', 
-        title: 'The Hero Section',
-        description: 'This is the first thing you see. You can use the search bar to find any eBook, or see our quick stats like ratings and total readers.'
-      },
-      { 
-        id: 'categories', 
-        title: 'Browse by Category',
-        description: 'Explore all our subjects here. Whether you like Spirituality, Technology, or Business, we have a category for you.'
-      },
-      { 
-        id: 'featured', 
-        title: 'Featured Selections',
-        description: 'These are our hand-picked, most popular eBooks. You can scroll sideways to see top recommendations from our editors.'
-      },
-      { 
-        id: 'faq-section', 
-        title: 'Frequently Asked Questions',
-        description: 'Have a question? Check here first. We have answers for common topics like payments, offline reading, and refund policies.'
-      }
-    ];
-
-    // --- Helper Functions ---
-    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    
-    /**
-     * Typing Function with Blinking Cursor
-     */
-    function typeText(element, text) {
-        return new Promise(resolve => {
-            element.textContent = ''; // Clear existing text
-            
-            // 1. Create and append blinking cursor
-            if (currentCursorElement) {
-                currentCursorElement.remove(); // Remove previous cursor
-            }
-            const cursor = document.createElement('span');
-            // Blinking cursor uses the 'blink' keyframe defined in Tailwind config
-            cursor.className = 'blinking-cursor ml-1 inline-block w-2 h-4 bg-white align-text-bottom animate-blink';
-            element.appendChild(cursor);
-            currentCursorElement = cursor;
-
-            let i = 0;
-            const typingSpeed = 20; // ms per character
-
-            function type() {
-                if (i < text.length) {
-                    element.insertBefore(document.createTextNode(text.charAt(i)), cursor);
-                    i++;
-                    currentTypingTimer = setTimeout(type, typingSpeed);
-                } else {
-                    clearTimeout(currentTypingTimer);
-                    cursor.classList.remove('animate-blink'); // Stop blinking after typing
-                    resolve();
-                }
-            }
-            currentTypingTimer = setTimeout(type, typingSpeed);
-        });
-    }
-
-    /**
-     * Easing function for smooth scroll
-     */
-    function easeInOutQuad(t) {
-      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    }
-
-    /**
-     * New custom "poper" smooth scroll function (User Request: Smooth Scroll)
-     */
-    function customSmoothScrollTo(targetY, duration) {
-      return new Promise(resolve => {
-        const startY = window.scrollY;
-        const distance = targetY - startY;
-        let startTime = null;
-
-        function animation(currentTime) {
-          if (startTime === null) startTime = currentTime;
-          const timeElapsed = currentTime - startTime;
-          const progress = Math.min(timeElapsed / duration, 1);
-          const easedProgress = easeInOutQuad(progress);
-          
-          window.scrollTo(0, startY + distance * easedProgress);
-
-          if (timeElapsed < duration) {
-            requestAnimationFrame(animation);
-          } else {
-            resolve();
-          }
-        }
-        requestAnimationFrame(animation);
-      });
-    }
-
-    /**
-     * Function to show target glow and info box with Vignette
-     */
-    function showSpotlight(element, step) {
-      // 1. Store and Highlight the Target Element
-      currentTargetElement = element;
-      // Add the glow class and set relative/z-index to bring it to the front
-      element.classList.add('tour-target-glow');
-      
-      // 2. Activate Vignette (Cinematic Effect)
-      tourVignette.classList.add('opacity-100'); 
-      
-      // 3. Position the Infobox Arrow
-      infoArrow.classList.remove('hidden');
-
-      // 4. Populate and Show Info Box
-      infoTitle.textContent = step.title;
-      infoBox.classList.add('opacity-100');
-      
-      // 5. Start Typing the Description
-      typeText(infoDescription, step.description);
-    }
-
-    /**
-     * Function to hide target glow
-     */
-    function hideSpotlight() {
-      // 1. Remove Glow/Highlight from previous element
-      if (currentTargetElement) {
-        currentTargetElement.classList.remove('tour-target-glow');
-        currentTargetElement = null;
-      }
-
-      // 2. Deactivate Vignette (Cinematic Effect)
-      tourVignette.classList.remove('opacity-100'); 
-
-      // 3. Clear typing and hide cursor
-      if (currentTypingTimer) {
-        clearTimeout(currentTypingTimer);
-      }
-      if (currentCursorElement) {
-        currentCursorElement.remove();
-        currentCursorElement = null;
-      }
-      infoDescription.textContent = ''; // Clear text content
-
-      // 4. Hide Info Box and Arrow
-      infoBox.classList.remove('opacity-100');
-      infoArrow.classList.add('hidden');
-    }
-
-    // --- Main Tour Function (REBUILT & FIXED) ---
-    async function startTour() {
-      // ✅ Don't run if tour is already in progress
-      if (isTourInProgress) return;
-      isTourInProgress = true;
-
-      // --- A. Start Transition ---
-      
-      // 1. Hide button, Lock scroll, Disable AOS
-      guideBtn.classList.add('opacity-0', 'pointer-events-none');
-      document.body.style.overflow = 'hidden';
-      document.body.classList.add('aos-disabled'); // ✅ DISABLES AOS
-
-      // 2. Show overlay container
-      tourOverlay.classList.remove('opacity-0', 'pointer-events-none');
-      
-      // 3. Start white zoom
-      const btnRect = guideBtn.getBoundingClientRect();
-      tourCircle.style.top = `${btnRect.top + btnRect.height / 2}px`;
-      tourCircle.style.left = `${btnRect.left + btnRect.width / 2}px`;
-      tourCircle.classList.add('animate-circle-scale');
-      
-      await wait(1400); // Wait for animation to mostly fill screen
-
-      // 4. Blackout (using the spotlight shadow)
-      tourSpotlight.classList.add('opacity-100');
-      
-      await wait(200); // Let animation finish
-
-      // 5. Show Welcome Text
-      tourCircle.style.display = 'none'; // Hide the circle
-      welcomeText.classList.add('opacity-100');
-      
-      await wait(2000); // Hold for 2s
-
-      // 6. Fade out welcome
-      welcomeText.classList.remove('opacity-100');
-      await wait(500); // Fade out
-      
-      // 7. Transition to transparent overlay 
-      await wait(500); // Settle
-
-      // --- B. Sequential Guided Scroll ---
-      for (const step of tourSteps) {
-        const element = document.getElementById(step.id);
-        
-        // ✅ Section skipping fix
-        if (!element) {
-            console.error(`Tour Error: Element with ID #${step.id} not found. Skipping.`);
-            continue; // Skip this step
-        }
-
-        // 1. Calculate and Scroll to section (target element is positioned high up, leaving space for infobox)
-        const elementRect = element.getBoundingClientRect();
-        
-        // Scroll target to be 20% down from the viewport top (adjust as needed)
-        const scrollOffset = window.innerHeight * 0.2; 
-        const targetY = elementRect.top + window.scrollY - scrollOffset; 
-        
-        const finalTargetY = Math.max(0, targetY); // Ensure we don't scroll past the top
-        
-        await customSmoothScrollTo(finalTargetY, 1000); // 1-second smooth scroll
-        await wait(200); // Short pause after scroll
-        
-        // 2. Stop & Highlight (poper spotlight)
-        showSpotlight(element, step);
-        
-        // 3. Pause (poper timing for typing + reading)
-        await wait(6000); // Increased pause to 6.0s for typing and reading
-        
-        // 4. Fade out
-        hideSpotlight();
-        await wait(500); // Wait for fade out transition
-      }
-
-      // --- C. End Transition ---
-      
-      // 1. Scroll to top
-      await customSmoothScrollTo(0, 1000); // 1-second smooth scroll to top
-      
-      // 2. Hide spotlight overlay and show loader
-      tourSpotlight.classList.remove('opacity-100');
-      tourLoader.classList.add('opacity-100');
-      
-      await wait(500); // Let fade start
-
-      // 3. Final Fade
-      tourLoader.classList.remove('opacity-100');
-      tourOverlay.classList.add('opacity-0', 'pointer-events-none');
-      
-      await wait(500); // Wait for fade out
-
-      // --- D. Reset ---
-      document.body.style.overflow = 'auto';
-      document.body.classList.remove('aos-disabled'); // ✅ RE-ENABLES AOS
-      
-      guideBtn.classList.add('opacity-0', 'pointer-events-none'); // ✅ Make sure it stays hidden after the tour (User Request)
-      hasScrolledDown = true; // Also set this flag to prevent it from reappearing on any subsequent scroll reset.
-      
-      // Reset circle state
-      tourCircle.style.display = 'block';
-      tourCircle.classList.remove('animate-circle-scale');
-      
-      isTourInProgress = false; // ✅ Allow tour to run again
-    }
-    
-    // Need to re-run lucide.createIcons() to render the new 'eye' icon
-    lucide.createIcons();
-  </script>
-  </body>
+</body>
 </html>
