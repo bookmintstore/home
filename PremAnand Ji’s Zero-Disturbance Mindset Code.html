@@ -6,8 +6,8 @@
   <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <script>
     tailwind.config = {
       theme: {
@@ -25,11 +25,38 @@
             cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
             aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
             coverShine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(200%)' } },
+            fastShimmer: { 
+              '0%': { transform: 'translateX(-30%)', opacity: '1' },
+              '50%': { transform: 'translateX(30%)', opacity: '1' },
+              '100%': { transform: 'translateX(130%)', opacity: '1' }
+            },
+            highlightMove: {
+              '0%': { left: '-60%', opacity: '0' },
+              '20%': { left: '-20%', opacity: '0.9' },
+              '60%': { left: '60%', opacity: '0.9' },
+              '100%': { left: '120%', opacity: '0' }
+            },
             coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
-            glowspin: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
-            modalFadeIn: { '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
-            modalFadeOut: { '0%': { opacity: 1, transform: 'translateY(0) scale(1)' }, '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' } },
-            tagShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
+            glowspin: { 
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' }
+            },
+            modalFadeIn: {
+              '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
+            },
+            modalFadeOut: {
+              '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+              '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' }
+            },
+            buttonClick: {
+              '0%': { transform: 'scale(1)', boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)' },
+              '100%': { transform: 'scale(0.97)', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }
+            },
+            tagShine: {
+              '0%': { transform: 'translateX(-140%) skewX(-30deg)' },
+              '100%': { transform: 'translateX(220%) skewX(-30deg)' }
+            },
             shakeModal: {
                 '0%, 100%': { transform: 'translateX(0)' }, 
                 '10%': { transform: 'translateX(-8px)' },
@@ -42,14 +69,32 @@
                 '80%': { transform: 'translateX(1px)' },
                 '90%': { transform: 'translateX(-1px)' }
             },
-            redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
-            subtleZoomIn: {
-                '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' },
-                '100%': { opacity: 1, transform: 'scale(1) translateY(0)' }
+            redGlow: {
+                '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' },
+                '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' }
             },
-            popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
-            pulseArrow: { '0%': { transform: 'translateX(0px)', opacity: 0.5 }, '50%': { transform: 'translateX(6px)', opacity: 1 }, '100%': { transform: 'translateX(0px)', opacity: 0.5 } },
-            'gradient-shift': { '0%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' }, '100%': { 'background-position': '0% 50%' } }
+            fadeImageIn: {
+                '0%': { opacity: 0 },
+                '100%': { opacity: 1 }
+            },
+            fadeImageOut: {
+                '0%': { opacity: 1 },
+                '100%': { opacity: 0 }
+            },
+            popFloat: {
+                '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 },
+                '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 }
+            },
+            pulseArrow: {
+                '0%': { transform: 'translateX(0px)', opacity: 0.5 },
+                '50%': { transform: 'translateX(6px)', opacity: 1 },
+                '100%': { transform: 'translateX(0px)', opacity: 0.5 }
+            },
+            'gradient-shift': {
+                '0%': { 'background-position': '0% 50%' },
+                '50%': { 'background-position': '100% 50%' },
+                '100%': { 'background-position': '0% 50%' }
+            }
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -58,6 +103,8 @@
             cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
             aura: 'aura 2.4s ease-in-out infinite',
             coverShine: 'coverShine 0.6s ease-in-out infinite',
+            fastShimmer: 'fastShimmer 0.8s linear infinite',
+            highlightMove: 'highlightMove 0.9s linear infinite',
             coverFast: 'coverFast 0.45s linear infinite',
             glowspin: 'glowspin 1.2s linear infinite',
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
@@ -65,7 +112,8 @@
             tagShine: 'tagShine 1.0s ease-in-out infinite',
             shakeModal: 'shakeModal 0.8s ease-in-out 1',
             redGlow: 'redGlow 2.5s infinite ease-in-out',
-            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            fadeImageIn: 'fadeImageIn 0.4s ease-out forwards',
+            fadeImageOut: 'fadeImageOut 0.3s ease-in forwards',
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite'
@@ -90,15 +138,8 @@
         100% { background-position: 0% 50%; }
     }
 
-    /* general - HARDCORE SECURITY */
-    body {
-        font-family:'Poppins',sans-serif;
-        -webkit-user-select: none; /* Chrome/Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+ */
-        user-select: none; /* Standard */
-    }
-    
+    /* general */
+    body{font-family:'Poppins',sans-serif}
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
@@ -194,7 +235,7 @@
 
     /* Cover Shine */
     .cover-shine {
-      position:absolute; inset:0; z-index:20; pointer-events:none;
+      position:absolute; inset:0; z-index:6; pointer-events:none;
       background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%);
       transform: translateX(-160%) skewX(-10deg);
       mix-blend-mode: multiply; 
@@ -317,51 +358,14 @@
     .jumping-loader .ball:nth-child(3) { animation: waveJump 0.8s ease-in-out infinite 0.2s; }
     #paymentLoader .loading-half-wheel { display: none !important; }
     
-    /* FIXED Z-INDEX: 30 */
-    #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 2020; }
+    #paymentModalCloseButton { opacity: 1 !important; pointer-events: auto !important; position: absolute !important; top: 12px !important; right: 12px !important; z-index: 21; }
     
     /* Confirmation Modal */
-    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
+    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1020; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
     #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
     #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; transition: all 0.3s; }
     .payment-modal-blur .modal-content#paymentModalContent { filter: blur(4px) brightness(0.7); pointer-events: none; transition: filter 0.3s ease, brightness 0.3s ease; }
-
-    /* New Payment Selection Styles */
-    .payment-lang-btn {
-        position: relative;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        width: 100%;
-        padding: 16px;
-        margin-bottom: 12px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 12px;
-        color: white;
-        font-weight: 600;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .payment-lang-btn:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(168, 85, 247, 0.5);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4);
-    }
-    .payment-lang-btn .btn-shine {
-        position: absolute;
-        inset: -6px;
-        transform: translateX(-140%) skewX(-30deg);
-        background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%);
-        mix-blend-mode: overlay;
-        pointer-events: none;
-        animation: btnshine 3.0s ease-in-out infinite;
-    }
     
     @media (max-width: 767px) {
         #previewIndicator { top: 20px; left: 0; transform: translateX(0); width: 100%; display: flex; justify-content: center; }
@@ -402,8 +406,6 @@
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover (processed)" src="" loading="eager" />
             <div id="previewOverlay" aria-hidden="true">
-                <div class="cover-shine" id="previewShine" style="display: none; z-index: 20; opacity: 1;"></div>
-                
                 <img id="previewScreenshot" src="" alt="Ebook Screenshot Preview" class="absolute inset-0 w-full h-full object-contain" />
                 <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10">
                     <i data-lucide="x" class="h-4 w-4"></i>
@@ -518,7 +520,7 @@
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rishabh Mehta</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book made the ideas surprisingly easy to apply the calmness shows in daily life now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Tanvi Sharma</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Rao Verma</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">The way expectations are explained here changed how I respond to people. Feels refreshing</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Naina Arora</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tanwar</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Maun Protocol try kiya aur mind ka noise half ho gaya Didn’t expect it to work this well</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
@@ -644,46 +646,38 @@
         
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             
+            <div id="headerBlocker" style="
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 70px; 
+                background: transparent; 
+                z-index: 15; 
+                display: none;
+            "></div>
+
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader">
                     <div class="ball"></div>
                     <div class="ball"></div>
                     <div class="ball"></div>
                 </div>
-                <p class="mt-8 text-lg font-semibold text-indigo-400">Loading Secure Payment...</p>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Redirecting to Secure Payment...</p>
             </div>
 
-            <!-- NEW: Language Selection Container -->
-            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111827; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
-                <h3 class="text-xl font-bold text-white mb-6 text-center">Choose Your Edition</h3>
-                
-                <button onclick="loadPaymentIframe('HINDI')" class="payment-lang-btn">
-                    <span class="btn-shine"></span>
-                    <i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>
-                    Hindi Edition
-                    <i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i>
-                </button>
-
-                <button onclick="loadPaymentIframe('ENGLISH')" class="payment-lang-btn">
-                    <span class="btn-shine"></span>
-                    <i data-lucide="globe" class="h-5 w-5 text-indigo-400"></i>
-                    English Edition
-                    <i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i>
-                </button>
-            </div>
-            
             <iframe 
-                id="paymentIframe" 
-                src="" 
+                id="cashfreeIframe" 
+                src="https://payments.cashfree.com/forms/ebk247pymt" 
                 frameborder="0" 
                 width="100%" 
                 height="100%" 
                 style="border-radius: 12px; display: none;"
-                sandbox="allow-forms allow-scripts allow-modals allow-popups allow-same-origin allow-top-navigation"
+                sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"
             ></iframe>
         </div>
         
-        <p class="text-xs text-zinc-500 text-center py-2">Powered by SuperProfile</p>
+        <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
     </div>
   </div>
 
@@ -713,21 +707,16 @@
 
   <script>
     
-    // Placeholder Payment Links - Replace these!
-    const HINDI_PAYMENT_URL = "YOUR_HINDI_LINK_HERE";
-    const ENGLISH_PAYMENT_URL = "https://superprofile.bio/vp/IGAhYy4D";
-
-    // HARDCORE SECURITY: Disable context menu, key shortcuts
     document.addEventListener('contextmenu', event => {
         event.preventDefault(); 
     });
 
     document.onkeydown = function(e) {
-      if (e.keyCode == 123) { return false; } // F12
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+      if (e.keyCode == 123) { return false; }
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
     };
 
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover%20(5).png';
@@ -764,8 +753,7 @@
     const paymentModal = document.getElementById('paymentModal');
     const paymentModalContent = document.getElementById('paymentModalContent');
     const paymentLoader = document.getElementById('paymentLoader');
-    const paymentLangSelection = document.getElementById('paymentLangSelection');
-    const paymentIframe = document.getElementById('paymentIframe');
+    const cashfreeIframe = document.getElementById('cashfreeIframe');
     const paymentModalCloseButton = document.getElementById('paymentModalCloseButton');
     const confirmationModal = document.getElementById('confirmationModal');
     const confirmationContent = document.getElementById('confirmationContent');
@@ -780,8 +768,10 @@
     const imageCounter = document.getElementById('imageCounter');
     const previewIndicator = document.getElementById('previewIndicator');
     const exitPreviewBtn = document.getElementById('exitPreviewBtn');
-    const previewShine = document.getElementById('previewShine'); 
     let currentImageIndex = 0;
+    
+    // Variable to store the auto-close timer
+    let autoCloseTimer;
 
     cover.setAttribute('aria-busy', 'true');
     let downloadInitiated = false; 
@@ -832,7 +822,6 @@
       const err = document.createElement('div'); err.className = 'proc-error'; err.textContent = '⚠️ Failed to load cover image.'; cover.appendChild(err); err.style.display = 'block'; cover.setAttribute('aria-busy','false');
     };
     
-    // --- IMPROVED PREVIEW LOGIC WITH SHINE & SMOOTH ANIMATION ---
     function showPreviewImage(index) {
         if (index >= SCREENSHOT_URLS.length) {
             index = 0;
@@ -840,30 +829,24 @@
             index = SCREENSHOT_URLS.length - 1;
         }
         
+        if (previewScreenshot.style.opacity === '1') {
+            previewScreenshot.classList.remove('animate-fadeImageIn');
+            previewScreenshot.classList.add('animate-fadeImageOut');
+        } else {
+             previewScreenshot.classList.remove('animate-fadeImageOut'); 
+        }
+
         currentImageIndex = index;
-        
-        // 1. Show Loading Shine
-        previewShine.style.display = 'block';
-        previewScreenshot.style.opacity = '0.5'; // Dim slightly while loading
-        
-        // 2. Preload Next Image
-        const tempImg = new Image();
-        tempImg.src = SCREENSHOT_URLS[currentImageIndex];
-        
-        tempImg.onload = () => {
-            // 3. Hide Shine & Update Source
-            previewShine.style.display = 'none';
-            previewScreenshot.src = tempImg.src;
+
+        setTimeout(() => {
+            previewScreenshot.src = SCREENSHOT_URLS[currentImageIndex];
             imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
             
-            // 4. Trigger Smooth Zoom-Fade Animation
+            previewScreenshot.classList.remove('animate-fadeImageOut');
+            previewScreenshot.classList.add('animate-fadeImageIn');
             previewScreenshot.style.opacity = '1';
-            
-            // Remove animation class if exists to re-trigger
-            previewScreenshot.classList.remove('animate-subtleZoomIn');
-            void previewScreenshot.offsetWidth; // Trigger reflow
-            previewScreenshot.classList.add('animate-subtleZoomIn');
-        };
+
+        }, 300); 
     }
 
     function cycleImage(event) {
@@ -888,7 +871,8 @@
     function exitPreview(event) {
         if (event) event.stopPropagation();
         
-        previewScreenshot.classList.remove('animate-subtleZoomIn');
+        previewScreenshot.classList.remove('animate-fadeImageIn');
+        previewScreenshot.classList.add('animate-fadeImageOut');
         
         setTimeout(() => {
             previewOverlay.style.opacity = '0';
@@ -1196,45 +1180,38 @@
         }, 1000); 
     }
 
-    // --- NEW PAYMENT FLOW LOGIC ---
-
+    // Function to show the payment modal with SHIELD logic
     function openPaymentModal() {
         paymentModal.style.display = 'flex';
         paymentModalContent.classList.add('animate-modalFadeIn');
-        lucide.createIcons();
-
-        // 1. Reset: Show Loader, Hide Selection, Hide Iframe
-        paymentLoader.style.display = 'flex';
-        paymentLoader.style.opacity = '1';
-        paymentLangSelection.style.display = 'none';
-        paymentIframe.style.display = 'none';
-        paymentIframe.src = ''; // Clear source to prevent loading
         
-        // 2. Wait 3 seconds then show Language Buttons
+        paymentLoader.style.display = 'flex';
+        cashfreeIframe.style.display = 'none';
+        paymentLoader.style.opacity = '1'; 
+        
+        // 🔥 ACTIVATE SHIELD (Blocks clicks on header)
+        const blocker = document.getElementById('headerBlocker');
+        if(blocker) {
+            blocker.style.display = 'block'; 
+        }
+
+        // ⏳ 2 MINUTE AUTO CLOSE TIMER (120,000 ms)
+        autoCloseTimer = setTimeout(() => {
+            closePaymentModal(false);
+            console.log("Auto-closed due to inactivity.");
+        }, 120000); // 2 Minutes
+
         window.paymentTimeout = setTimeout(() => {
             paymentLoader.style.opacity = '0';
             
+            if (paymentModal.style.display === 'flex') {
+                cashfreeIframe.style.display = 'block';
+            }
+            
             setTimeout(() => {
                 paymentLoader.style.display = 'none';
-                paymentLangSelection.style.display = 'flex'; // Show buttons
-            }, 400); // Wait for fade out
-        }, 3000);
-    }
-    
-    function loadPaymentIframe(lang) {
-        // 1. Hide buttons
-        paymentLangSelection.style.display = 'none';
-        
-        // 2. Set URL based on selection
-        let urlToLoad = '';
-        if (lang === 'HINDI') {
-            urlToLoad = HINDI_PAYMENT_URL;
-        } else {
-            urlToLoad = ENGLISH_PAYMENT_URL;
-        }
-        
-        paymentIframe.src = urlToLoad;
-        paymentIframe.style.display = 'block';
+            }, 400); 
+        }, 3000); 
     }
     
     function openConfirmationModal() {
@@ -1262,72 +1239,79 @@
             if (shouldExit) {
                 closePaymentModal(true);
             } else {
-                // If cancelled, just stay on the modal in current state
+                // If cancelled, allow them to try again, re-enable confirmation listener if needed
+                // paymentModalCloseButton logic is handled inline, no re-attach needed
             }
             
         }, 400); 
     }
 
     function closePaymentModal(confirmed = false) {
+        // Logic simplified: Just close it.
+        
         paymentModalContent.classList.remove('animate-modalFadeIn');
         paymentModalContent.classList.add('animate-modalFadeOut');
         
         paymentModal.classList.add('closing');
 
         clearTimeout(window.paymentTimeout); 
+        clearTimeout(autoCloseTimer); // Clear the auto-close timer
 
-        // Clear everything immediately
-        paymentIframe.src = '';
         paymentLoader.style.display = 'none';
-        paymentLangSelection.style.display = 'none';
-        paymentIframe.style.display = 'none';
+        cashfreeIframe.style.display = 'none';
 
         setTimeout(() => {
             paymentModal.style.display = 'none';
             paymentModalContent.classList.remove('animate-modalFadeOut');
             paymentModal.classList.remove('closing');
             
+            paymentLoader.style.opacity = '1';
+            
             document.body.style.overflow = ''; 
+            
+            // Hide shield
+             const blocker = document.getElementById('headerBlocker');
+             if(blocker) blocker.style.display = 'none'; 
 
         }, 400); 
     }
     
     buyBtn.addEventListener('click', (e) => {
         e.preventDefault(); 
-        sessionStorage.setItem('payment_initiated', 'true');
         openPaymentModal();
     });
 
+    // --- NEW CELEBRATION LOGIC (Updated: Center Pop Only) ---
     function triggerCelebration() {
+        // Colors: Indigo, Purple, Emerald, Gold
         const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700'];
 
+        // Single central explosion (Center Pop)
         confetti({
-            particleCount: 180,    
-            spread: 100,           
-            origin: { y: 0.6 },    
+            particleCount: 180,    // Good amount for a single burst
+            spread: 100,           // Wider spread
+            origin: { y: 0.6 },    // Slightly lower than center
             colors: colors,
-            zIndex: 2000,          
+            zIndex: 2000,          // Above modal
             gravity: 1.2,
             scalar: 1.2,
             shapes: ['circle', 'square'],
             disableForReducedMotion: true
         });
     }
+    // --- END CELEBRATION LOGIC ---
 
     document.addEventListener('DOMContentLoaded', function() {
       const paymentStatus = getUrlParam('payment_status');
       const secretKey = getUrlParam('secret_key');
-      const isPaymentInitiated = sessionStorage.getItem('payment_initiated');
       
-      if (paymentStatus === 'success' && secretKey === SECRET_KEY && isPaymentInitiated === 'true') {
-        
-        sessionStorage.removeItem('payment_initiated');
-
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY) {
         history.replaceState(null, '', window.location.pathname);
         
         downloadModal.style.display = 'flex';
         modalContent.classList.add('animate-modalFadeIn');
 
+        // TRIGGER THE CELEBRATION EFFECT HERE
         triggerCelebration();
         
         if (SINGLE_LANGUAGE_MODE) {
@@ -1351,8 +1335,6 @@
         }
         
         lucide.createIcons(); 
-      } else if (paymentStatus) {
-          history.replaceState(null, '', window.location.pathname);
       }
       
       lucide.createIcons();
