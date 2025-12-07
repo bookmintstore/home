@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
   
+  <!-- FAVICON (Browser Tab Logo) -->
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- HEAVY SECURITY SCRIPT: DISABLE INSPECT, VIEW SOURCE, RIGHT CLICK -->
+  <!-- HEAVY SECURITY SCRIPT -->
   <script>
-    // Disable Right Click
     document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // Disable Keyboard Shortcuts for Inspect/View Source
     document.onkeydown = function(e) {
-      if (e.keyCode == 123) { return false; } // F12
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) { return false; } // Ctrl+Shift+I/J/C
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (View Source)
-      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { return false; } // Ctrl+S (Save)
+      if (e.keyCode == 123) return false;
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false;
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
     };
   </script>
   
@@ -26,12 +26,16 @@
     tailwind.config = {
       theme: {
         extend: {
+          colors: {
+            brandGreen: '#22c55e', // Screenshot matching green
+            brandDark: '#0b0e13'
+          },
           boxShadow: {
             glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
             ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
             book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
             modalGlow: '0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65)',
-            saleGlow: '0 0 15px rgba(239, 68, 68, 0.6)'
+            saleGlow: '0 0 15px rgba(34, 197, 94, 0.4)' // Green glow for price
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -50,11 +54,13 @@
             popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
             pulseArrow: { '0%': { transform: 'translateX(0px)', opacity: 0.5 }, '50%': { transform: 'translateX(6px)', opacity: 1 }, '100%': { transform: 'translateX(0px)', opacity: 0.5 } },
             'gradient-shift': { '0%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' }, '100%': { 'background-position': '0% 50%' } },
-            rollUp: {
-                '0%': { transform: 'translateY(100%)', opacity: 0 },
-                '20%': { transform: 'translateY(0)', opacity: 1 },
-                '80%': { transform: 'translateY(0)', opacity: 1 },
-                '100%': { transform: 'translateY(-100%)', opacity: 0 }
+            
+            // IMPROVED SMOOTH ROLL UP (Less distance, smoother ease)
+            rollUpSmooth: {
+                '0%': { transform: 'translateY(12px)', opacity: 0 },
+                '15%': { transform: 'translateY(0)', opacity: 1 },
+                '85%': { transform: 'translateY(0)', opacity: 1 },
+                '100%': { transform: 'translateY(-12px)', opacity: 0 }
             }
           },
           animation: {
@@ -74,7 +80,7 @@
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite',
-            rollUp: 'rollUp 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+            rollUpSmooth: 'rollUpSmooth 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards' // Custom Bezier for smoothness
           }
         }
       }
@@ -130,7 +136,7 @@
     .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
     @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
 
-    /* ROLL UP TAG */
+    /* ROLL UP TAG - UPDATED FOR SMOOTHNESS */
     .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
     .tag-text-wrapper { position: relative; height: 100%; display: flex; align-items: center; overflow: hidden; flex-grow: 1; }
     .tag-text { position: absolute; white-space: nowrap; background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; line-height: 1; background-size: 200% auto; animation: gradient-shift 8s ease infinite; }
@@ -242,9 +248,13 @@
   <div id="paymentTimer">Time Left: <span id="timerCount">04:00</span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="./index.html" class="flex items-center gap-2">
-      <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow">
-        <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
+    <a href="index.html" class="flex items-center gap-2">
+      <!-- NEW LOGO IMPLEMENTATION -->
+      <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow flex items-center justify-center">
+        <!-- Shine Element -->
+        <div id="logoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
+        <!-- Logo Image -->
+        <img id="logoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="object-cover w-full h-full opacity-0 transition-opacity duration-500" style="padding: 2px; border-radius: 12px;">
       </div>
       <span class="text-lg font-bold"><span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor</span>
     </a>
@@ -289,7 +299,8 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="1200" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
         </div>
         
-        <div id="pricingContainer" class="text-2xl font-extrabold text-emerald-400"></div>
+        <!-- PRICING CONTAINER (Will be populated by JS) -->
+        <div id="pricingContainer" class="flex items-center gap-3"></div>
 
         <!-- BUTTONS CONTAINER -->
         <div class="flex items-center flex-wrap gap-4 mt-4">
@@ -492,7 +503,7 @@
 
   <script>
     // --- CONFIGURATION ---
-    const IS_SALE_ACTIVE = false; 
+    const IS_SALE_ACTIVE = true; // SALE ON/OFF Control
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png';
     const HINDI_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip"; 
     const ENGLISH_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(ENGLISH%20EDITION).zip"; 
@@ -541,18 +552,34 @@
     const previewIndicator = document.getElementById('previewIndicator');
     const previewShine = document.getElementById('previewShine');
     const productViewerModal = document.getElementById('productViewerModal');
+    const logoImg = document.getElementById('logoImg');
+    const logoShine = document.getElementById('logoShine');
 
-    // --- SALE LOGIC ---
-    if (IS_SALE_ACTIVE) {
-        document.getElementById('saleBanner').style.display = 'block';
-        document.getElementById('pricingContainer').innerHTML = `₹209 <span class="ml-2 line-through text-sm text-zinc-400">₹1699</span><span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold shadow-saleGlow">88% OFF</span>`;
+    // --- LOGO LOADING LOGIC ---
+    if (logoImg.complete) {
+        logoShine.style.display = 'none';
+        logoImg.classList.remove('opacity-0');
     } else {
-        document.getElementById('saleBanner').style.display = 'none';
-        document.getElementById('pricingContainer').innerHTML = `₹1699 <span class="text-sm text-zinc-400 font-normal">Standard Price</span>`;
-        document.getElementById('pricingContainer').classList.replace('text-emerald-400', 'text-white');
+        logoImg.onload = () => {
+            logoShine.style.display = 'none';
+            logoImg.classList.remove('opacity-0');
+        };
     }
 
-    // --- ROLLING TEXT ---
+    // --- SALE LOGIC (UPDATED TO MATCH SCREENSHOT) ---
+    if (IS_SALE_ACTIVE) {
+        document.getElementById('saleBanner').style.display = 'block';
+        document.getElementById('pricingContainer').innerHTML = `
+            <span class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹209</span>
+            <span class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1699</span>
+            <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">88% OFF</span>
+        `;
+    } else {
+        document.getElementById('saleBanner').style.display = 'none';
+        document.getElementById('pricingContainer').innerHTML = `<span class="text-2xl font-bold text-white">₹1699</span> <span class="text-sm text-zinc-400 font-normal">Standard Price</span>`;
+    }
+
+    // --- ROLLING TEXT (UPDATED FOR SMOOTHNESS & DISTANCE) ---
     const TRUST_PHRASES = ["Trending", "Bestseller", "4.9/5 Rated", "Instant Access", "High Demand"];
     let phraseIndex = 0;
     function updateTag() {
@@ -563,10 +590,11 @@
             phraseIndex = (phraseIndex + 1) % TRUST_PHRASES.length;
             const textEl = document.getElementById('rollingText');
             if(textEl) {
-                textEl.classList.remove('animate-rollUp');
-                void textEl.offsetWidth;
+                // Using new smooth animation class
+                textEl.classList.remove('animate-rollUpSmooth');
+                void textEl.offsetWidth; // Trigger Reflow
                 textEl.textContent = TRUST_PHRASES[phraseIndex];
-                textEl.classList.add('animate-rollUp');
+                textEl.classList.add('animate-rollUpSmooth');
             }
         }, 2500);
     }
