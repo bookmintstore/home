@@ -1,717 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>BookMintor: Premium Self Help & Spiritual eBooks | Read Book Mintor Online</title>
-  <meta name="description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online for growth and success. Ad-free and smooth UX." />
-  <meta name="keywords" content="BookMintor, Book Mintor, read ebooks online, premium ebooks, self help ebooks, spiritual ebooks, book reading platform, ebook shop, technology ebooks, business ebooks, fiction books, personal growth, digital library" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://bookmintor.shop/" />
-
-  <meta name="theme-color" content="#0b0e13" />
-  <link rel="manifest" href="https://bookmintor.shop/manifest.json">
-  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
-  <link rel="apple-touch-icon" href="https://bookmintor.shop/images/logo.png">
-
-  <meta property="og:title" content="BookMintor: Premium Self Help & Spiritual eBooks" />
-  <meta property="og:description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bookmintor.shop/" />
-  <meta property="og:image" content="https://bookmintor.shop/images/logo.png" />
-  <meta property="og:site_name" content="BookMintor" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@BookMintor" />
-  <meta name="twitter:title" content="BookMintor: Premium Self Help & Spiritual eBooks" />
-  <meta name="twitter:description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online." />
-  <meta name="twitter:image" content="https://bookmintor.shop/images/logo.png" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
   
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "BookMintor",
-      "alternateName": "Book Mintor",
-      "url": "https://bookmintor.shop/",
-      "logo": "https://bookmintor.shop/images/logo.png",
-      "sameAs": [
-        "https://instagram.com/bookmintor_official",
-        "https://youtube.com/@BookMintorChannel"
-      ],
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://bookmintor.shop/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-  </script>
-
-  <!-- SECURITY SCRIPT: Disables Right Click, F12, Ctrl+U -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- HEAVY SECURITY SCRIPT: DISABLE INSPECT, VIEW SOURCE, RIGHT CLICK -->
   <script>
     // Disable Right Click
     document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    // Disable Keyboard Shortcuts for Inspect/View Source
     document.onkeydown = function(e) {
-        if(e.keyCode == 123) { return false; } // F12
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
-    }
+      if (e.keyCode == 123) { return false; } // F12
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) { return false; } // Ctrl+Shift+I/J/C
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (View Source)
+      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { return false; } // Ctrl+S (Save)
+    };
   </script>
-
-  <script src="https://cdn.tailwindcss.com"></script>
+  
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            indigoGlow: '#6366F1',
-            fuchsiaGlow: '#D946EF',
-          },
           boxShadow: {
-            glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
-            glass: '0 10px 30px -10px rgba(0,0,0,.45)',
+            glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
+            ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
+            book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
+            modalGlow: '0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65)',
+            saleGlow: '0 0 15px rgba(239, 68, 68, 0.6)'
           },
           keyframes: {
-            shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
-            floaty: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-4px)' } },
-            
-            'dot-bounce': { 
-              '0%, 100%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' }, 
-              '50%': { transform: 'translateY(-12px)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' } 
-            },
-            blink: {
-                '0%, 100%': { opacity: 1 },
-                '50%': { opacity: 0 }
-            },
-            'count-up': {
-              '0%': { transform: 'translateY(20px)', opacity: 0 },
-              '100%': { transform: 'translateY(0)', opacity: 1 }
-            },
-            'pulse-glow': {
-              '0%, 100%': { boxShadow: '0 0 5px rgba(99,102,241,0.5)' },
-              '50%': { boxShadow: '0 0 20px rgba(99,102,241,0.8)' }
-            },
-            // Logo Shine Animation
-            logoShine: {
-                '0%': { transform: 'translateX(-100%)' },
-                '100%': { transform: 'translateX(100%)' }
+            shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
+            btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
+            slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
+            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
+            aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
+            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
+            glowspin: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
+            modalFadeIn: { '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
+            modalFadeOut: { '0%': { opacity: 1, transform: 'translateY(0) scale(1)' }, '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' } },
+            tagShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
+            shakeModal: { '0%, 100%': { transform: 'translateX(0)' }, '10%, 90%': { transform: 'translateX(-4px)' }, '50%': { transform: 'translateX(4px)' } },
+            redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
+            subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } },
+            popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
+            pulseArrow: { '0%': { transform: 'translateX(0px)', opacity: 0.5 }, '50%': { transform: 'translateX(6px)', opacity: 1 }, '100%': { transform: 'translateX(0px)', opacity: 0.5 } },
+            'gradient-shift': { '0%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' }, '100%': { 'background-position': '0% 50%' } },
+            rollUp: {
+                '0%': { transform: 'translateY(100%)', opacity: 0 },
+                '20%': { transform: 'translateY(0)', opacity: 1 },
+                '80%': { transform: 'translateY(0)', opacity: 1 },
+                '100%': { transform: 'translateY(-100%)', opacity: 0 }
             }
           },
           animation: {
-            shine: 'shine 1.5s ease-in-out infinite', /* FASTER SHINE */
-            floaty: 'floaty 6s ease-in-out infinite',
-            bounce: 'dot-bounce 0.8s infinite', 
-            blink: 'blink 1s step-end infinite',
-            'roll-up': 'word-roll 20s ease-in-out infinite', /* FASTER ROLL */
-            'count-up': 'count-up 0.8s ease-out forwards',
-            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-            'logo-shine': 'logoShine 3s infinite' /* Logo Shine */
+            shine: 'shine 1.6s ease-in-out infinite',
+            btnshine: 'btnshine 3.0s ease-in-out infinite', 
+            slideUp: 'slideUp .45s ease-out forwards',
+            cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
+            aura: 'aura 2.4s ease-in-out infinite',
+            coverFast: 'coverFast 0.45s linear infinite',
+            glowspin: 'glowspin 1.2s linear infinite',
+            modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
+            modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
+            tagShine: 'tagShine 1.0s ease-in-out infinite',
+            shakeModal: 'shakeModal 0.5s ease-in-out 1',
+            redGlow: 'redGlow 2.5s infinite ease-in-out',
+            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            popFloat: 'popFloat 3s ease-in-out infinite',
+            pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
+            'gradient-shift': 'gradient-shift 8s ease infinite',
+            rollUp: 'rollUp 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards'
           }
         }
       }
     }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
-    /* Smooth Scroll */
-    html { scroll-behavior:smooth } 
-    /* Disable Text Selection for Security */
-    body { 
-        font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
-        -webkit-user-select: none; /* Chrome/Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+ */
-        user-select: none; /* Standard */
-    }
-    .no-scrollbar::-webkit-scrollbar{ display:none }
-    .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
-    
-    /* Dynamic Word Roll Animation */
-    @keyframes word-roll {
-        /* Word 1: Mind. */
-        0%, 14.8% { transform: translateY(0em); }
-        16.6% { transform: translateY(-1.2em); }
+    /* BASIC SETUP */
+    @keyframes waveJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* Word 2: Growth. */
-        18.4%, 31.4% { transform: translateY(-1.2em); }
-        33.3% { transform: translateY(-2.4em); }
-
-        /* Word 3: Career. */
-        35.1%, 48.1% { transform: translateY(-2.4em); }
-        50.0% { transform: translateY(-3.6em); }
-
-        /* Word 4: Future. */
-        51.8%, 64.8% { transform: translateY(-3.6em); }
-        66.6% { transform: translateY(-4.8em); }
-
-        /* Word 5: Success. */
-        68.4%, 81.4% { transform: translateY(-4.8em); }
-        83.3% { transform: translateY(-6.0em); }
-
-        /* Word 6: Skill. */
-        85.1%, 98.1% { transform: translateY(-6.0em); }
-        
-        100% { transform: translateY(0em); }
+    body {
+        font-family:'Poppins',sans-serif;
+        -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        overflow-x: hidden;
     }
     
-    .motion-mask {
-        mask-image: linear-gradient(to bottom, 
-            transparent 0%, 
-            white 10%, 
-            white 90%, 
-            transparent 100%
-        );
-        -webkit-mask-image: linear-gradient(to bottom, 
-            transparent 0%, 
-            white 10%, 
-            white 90%, 
-            transparent 100%
-        );
-    }
+    /* CTA BUTTONS */
+    .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
+    .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
+    .cta-btn:hover .cta-shine { opacity: 1; }
+    .cta-btn .corner-bling{ pointer-events:none; position:absolute; inset:-6px; border-radius:12px; background:radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%), radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%); opacity:0; filter: blur(6px); }
+    .cta-btn:hover .corner-bling { opacity: .95; }
 
-    /* Accordion Styles */
-    .accordion-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
-    }
-    .accordion-open .accordion-content {
-        max-height: 500px; 
-    }
-    .accordion-open .accordion-icon {
-        transform: rotate(180deg);
-    }
+    /* UNLOCK BUTTON */
+    .unlock-btn { display: none; position: relative; overflow: hidden; align-items: center; gap: 8px; background-image: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 10px 20px; border-radius: 12px; font-weight: 700; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); animation: aura 2.4s ease-in-out infinite; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: transform 0.2s; margin-left: 10px; }
+    .unlock-btn:hover { transform: scale(1.05); }
+    .unlock-btn .cta-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 3.0s ease-in-out infinite; }
 
-    .trust-badge {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(217, 70, 239, 0.1));
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      backdrop-filter: blur(10px);
-    }
+    /* BOOK 3D */
+    .book-wrap { perspective:1600px; display:flex; align-items:center; justify-content:center; }
+    .book-3d { width: 240px; height: 340px; position: relative; transform-style: preserve-3d; transform: rotateY(-12deg) rotateX(4deg); transition: transform .35s ease; margin: 12px; }
+    .book-3d:hover { transform: rotateY(-8deg) rotateX(6deg) translateY(-8px); }
+    .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
+    .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
+    #coverFace { cursor: pointer; }
 
-    /* Logo Loading Shine */
-    .logo-shine-effect {
-        position: absolute;
-        inset: 0;
-        background: rgba(255,255,255,0.4);
-        transform: skewX(-20deg);
-        /* Animation is applied via Tailwind utility class */
-    }
+    /* LOADING & SHINE */
+    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
+    .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
+    .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
+    .cover.loaded .cover-loading-spin { opacity: 0; }
+    
+    /* BOOK DETAILS */
+    .spine { position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); }
+    .pages { position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); overflow:hidden; }
+    .top-edge { position:absolute; top: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(90deg) translateY(-10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 8px 8px 0 0; }
+    .bottom-edge { position:absolute; bottom: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(-90deg) translateY(10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 0 0 8px 8px; }
+    .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
+    @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
+
+    /* ROLL UP TAG */
+    .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
+    .tag-text-wrapper { position: relative; height: 100%; display: flex; align-items: center; overflow: hidden; flex-grow: 1; }
+    .tag-text { position: absolute; white-space: nowrap; background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; line-height: 1; background-size: 200% auto; animation: gradient-shift 8s ease infinite; }
+    .subtle-tag .tag-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; opacity: 0.8; animation: tagShine 3.0s ease-in-out infinite; }
+
+    /* STATS & STARS */
+    .stats-section { display: flex; justify-content: space-around; align-items: center; padding: 0; border-top: none; border-bottom: none; margin-top: 16px; }
+    .stat-item { text-align: center; flex-grow: 1; padding: 0 8px; }
+    .stat-value { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #e0f2f1; margin-bottom: 4px; text-shadow: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .stat-value svg { color: #a855f7; filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); }
+    .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
+    
+    /* STAR GLOW FIX */
+    .star-glow svg { filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6)); } /* Amber Glow */
+    .star-glow .filled { fill: #fbbf24; color: #fbbf24; } /* Solid Gold Fill */
+    .star-glow .half { fill: transparent; color: #fbbf24; } /* Allow half icon to handle fill natively if supported, else color */
+    .star-glow .empty { color: #475569; opacity: 0.45; }
+
+    /* PREMIUM LIST */
+    .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
+    .premium-list-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1.0rem; color: #cbd5e1; line-height: 1.4; }
+    .premium-list-item strong { color: #e0f2f1; }
+    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
+    
+    /* MODALS */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 80%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
+    #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
+    
+    /* DOWNLOAD BUTTON */
+    .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+    .download-button:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(16,185,129,0.6); }
+    .download-button:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 2px 5px rgba(16,185,129,0.3); }
+    .download-button .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: screen; pointer-events: none; opacity: 1; animation: btnshine 3.0s ease-in-out infinite; }
+    .download-button:disabled { opacity: 0.6; cursor: not-allowed; background-image: linear-gradient(135deg, #4CAF50, #10B981); box-shadow: none; transform: none; }
+    
+    .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
+    
+    #modalCloseButton { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #64748b; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1010; }
+    #modalCloseButton.show-close { opacity: 1; pointer-events: auto; }
+    .modal-cover-wrap { width: 96px; height: 128px; overflow: hidden; border-radius: 6px; }
+    .modal-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .feedback-textarea { resize: vertical; min-height: 100px; }
+    
+    /* FEEDBACKS */
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; color: white; margin-right: 12px; flex-shrink: 0; }
+    .feedback-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); margin-bottom: 12px; transition: all 0.3s ease; }
+    .feedback-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
+    .feedback-content { flex: 1; }
+    .feedback-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .user-info { display: flex; align-items: center; }
+    .user-details { display: flex; flex-direction: column; }
+    .user-name { font-weight: 600; font-size: 0.9rem; color: #e2e8f0; }
+    .user-location { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+    .feedback-date { font-size: 0.75rem; color: #64748b; text-align: right; }
+    .feedback-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 8px; }
+    .extra-feedback { display: none; }
+    
+    .jumping-loader { display: flex; justify-content: center; align-items: center; height: 60px; }
+    .jumping-loader .ball { width: 14px; height: 14px; margin: 0 4px; background-color: #a855f7; border-radius: 50%; display: inline-block; }
+    .jumping-loader .ball:nth-child(1) { animation: waveJump 0.8s ease-in-out infinite 0s; }
+    .jumping-loader .ball:nth-child(2) { animation: waveJump 0.8s ease-in-out infinite 0.1s; }
+    .jumping-loader .ball:nth-child(3) { animation: waveJump 0.8s ease-in-out infinite 0.2s; }
+    
+    /* PAYMENT & CONFIRMATION */
+    #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
+    #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
+    #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
+    .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; }
+    .payment-modal-blur .modal-content#paymentModalContent { filter: blur(4px) brightness(0.7); pointer-events: none; transition: filter 0.3s ease; }
+    #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: #ef4444; color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; z-index: 2010; box-shadow: 0 0 15px rgba(239,68,68,0.5); font-family: monospace; font-size: 1.0rem; }
+    .invisible-shield { position: absolute; left: 0; width: 100%; height: 70px; background: transparent; z-index: 25; pointer-events: auto; }
+    .payment-lang-btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
+    .payment-lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(168, 85, 247, 0.5); transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4); }
+    .payment-lang-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 3.0s ease-in-out infinite; }
+
+    /* BANNER */
+    #saleBanner { display: none; background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 8px; text-align: center; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    
+    /* PRODUCT VIEWER */
+    #productViewerModal { z-index: 4000; }
+    #productViewerContent { width: 95%; max-width: 900px; height: 85vh; padding: 0; background: #0f172a; display: flex; flex-direction: column; overflow: hidden; }
+    .viewer-header { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #1e293b; }
+    .viewer-body { flex: 1; display: flex; height: 100%; overflow: hidden; }
+    .viewer-sidebar { width: 200px; background: #111827; border-right: 1px solid rgba(255,255,255,0.05); padding: 20px 10px; display: flex; flex-direction: column; gap: 10px; }
+    .viewer-tab { padding: 12px; border-radius: 8px; cursor: pointer; color: #94a3b8; transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+    .viewer-tab:hover { background: rgba(255,255,255,0.05); color: white; }
+    .viewer-tab.active { background: #334155; color: #a855f7; font-weight: 600; }
+    .viewer-main { flex: 1; padding: 20px; overflow-y: auto; background: #020617; display: flex; align-items: center; justify-content: center; position: relative; }
+    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; }
+    .viewer-section.active { display: flex; }
+    
+    /* ZOOM CLASS FOR IMAGES */
+    .viewer-zoom-img { cursor: zoom-in; transition: transform 0.3s ease; max-height: 100%; max-width: 100%; object-fit: contain; }
+    .viewer-zoom-img.zoomed { transform: scale(1.5); cursor: zoom-out; }
+
+    @media (max-width: 768px) { .viewer-body { flex-direction: column; } .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 10px; overflow-x: auto; } .viewer-tab { flex: 1; justify-content: center; white-space: nowrap; } }
   </style>
 </head>
-<body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
+<body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
   
-  <div id="loading-overlay" class="fixed inset-0 z-[999] hidden place-items-center bg-[#0b0e13]/95 opacity-0 transition-opacity duration-300">
-    <div class="flex flex-col items-center">
-      <div class="text-center mb-8">
-        <h3 class="text-xl font-bold text-white mb-2">Loading...</h3>
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
+  </div>
+
+  <div id="saleBanner">🔥 FLASH SALE ENDING SOON: 88% OFF LIMITED TIME OFFER!</div>
+  <div id="paymentTimer">Time Left: <span id="timerCount">04:00</span></div>
+
+  <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="./index.html" class="flex items-center gap-2">
+      <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow">
+        <i data-lucide="book-open" class="w-5 h-5 text-white"></i>
       </div>
-      
-      <div class="flex space-x-2">
-        <div class="h-2 w-2 rounded-full bg-indigo-400 animate-bounce delay-[0ms]"></div>
-        <div class="h-2 w-2 rounded-full bg-sky-400 animate-bounce delay-[100ms]"></div>
-        <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-bounce delay-[200ms]"></div>
+      <span class="text-lg font-bold"><span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor</span>
+    </a>
+    <a href="./spirituality.html" class="text-sm text-zinc-300 hover:text-white">Back to Library</a>
+  </header>
+
+  <section class="max-w-5xl mx-auto px-6 py-12 space-y-8"> 
+      <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="book-wrap relative" data-aos="fade-right">
+        <div id="previewIndicator" class="absolute z-10 sm:block md:translate-x-0 md:-left-4 md:top-20 md:translate-y-0" style="width: 150px; display: none;">
+            <div class="flex items-center gap-1 text-xs font-semibold text-white/90 bg-fuchsia-600/60 backdrop-blur-sm px-2 py-1 rounded-lg border border-fuchsia-400/50 shadow-lg animate-popFloat">
+                <i data-lucide="info" class="h-4 w-4 text-fuchsia-200"></i>
+                <span>Tap here to see preview</span>
+                <i data-lucide="arrow-right" class="h-4 w-4 text-fuchsia-200 animate-pulseArrow"></i>
+            </div>
+        </div>
+        
+        <div class="book-3d" id="book3d">
+          <div class="cover" id="coverFace" aria-busy="true"> 
+            <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true"><div class="loading-half-wheel animate-glowspin"></div></div>
+            <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
+            <img id="coverImg" alt="ebook cover" src="" loading="eager" />
+            <div id="previewOverlay" aria-hidden="true">
+                <div class="cover-shine" id="previewShine" style="display: none; z-index: 20; opacity: 1;"></div>
+                <img id="previewScreenshot" src="" alt="Preview" class="absolute inset-0 w-full h-full object-contain" />
+                <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10"><i data-lucide="x" class="h-4 w-4"></i></button>
+                <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
+            </div>
+          </div>
+          <div class="spine" aria-hidden="true"></div><div class="pages" aria-hidden="true"></div><div class="top-edge" aria-hidden="true"></div><div class="bottom-edge" aria-hidden="true"></div><div class="book-ghost" aria-hidden="true"></div>
+        </div>
       </div>
+
+      <div class="flex-1 space-y-4" data-aos="fade-left">
+        <div id="custom-tag-container"></div>
+        <h1 class="text-3xl font-bold">PremAnand Ji’s Zero-Disturbance Mindset code</h1>
+        <p class="text-zinc-300">A powerful guide inspired by PremAnand Ji to help you master calmness and inner stability.</p>
+        
+        <div class="stats-section" id="stats-section">
+          <div class="stat-item"><div class="stat-value"><i data-lucide="download-cloud" class="h-5 w-5"></i><span data-target="12500" id="downloads-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Downloads</div></div>
+          <div class="stat-item"><div class="stat-value"><i data-lucide="star" class="h-5 w-5"></i><span data-target="4.9" id="rating-value">0.0</span></div><div class="stat-label">Rating</div></div>
+          <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="1200" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
+        </div>
+        
+        <div id="pricingContainer" class="text-2xl font-extrabold text-emerald-400"></div>
+
+        <!-- BUTTONS CONTAINER -->
+        <div class="flex items-center flex-wrap gap-4 mt-4">
+            <!-- BUY BUTTON (Always Visible initially) -->
+            <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-5 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
+              <span>Buy Now</span>
+              <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+              <span class="cta-shine animate-btnshine"></span>
+              <span class="corner-bling"></span>
+            </a>
+            
+            <!-- UNLOCK BUTTON (Hidden by default, Side-by-Side) -->
+            <button id="unlockBtn" class="unlock-btn">
+                <i data-lucide="lock-open" class="h-5 w-5"></i>
+                <span>Access Content</span>
+                <span class="cta-shine animate-btnshine"></span>
+            </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div data-aos="fade-up" class="mb-2"> <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
+      <p class="text-zinc-300 leading-relaxed">Inspired by PremAnand Ji’s teachings, this edition offers a clear path to a steadier mind. The concepts are simplified with practical steps you can use in everyday situations. Whether it’s emotional noise, stress, or expectations, each chapter shows a calm way through. This premium pack also includes HD video, podcast audio, and a mind map to make learning easier in both Hindi and English.</p>
+    </div>
+
+    <div data-aos="fade-up" class="py-2 premium-list-container"> 
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>PREMIUM E-BOOK</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>MIND MAP</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HINDI AND ENGLISH BOTH LANGUAGE</strong></span></div>
+    </div> 
+
+    <div data-aos="fade-up" class="py-4"> <h2 class="text-2xl font-bold mb-4">Q&A</h2>
+      <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
+        <details class="p-4 transition-all"><summary class="cursor-pointer font-semibold flex justify-between items-center">What is the main purpose of the Zero-Disturbance mindset?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300">Its purpose is to help you maintain inner stability even during external chaos.</p></div></details>
+        <details class="p-4 transition-all"><summary class="cursor-pointer font-semibold flex justify-between items-center">Is this mindset only for spiritual people?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300">No. It blends spirituality with psychology, making it suitable for everyone.</p></div></details>
+        <details class="p-4 transition-all"><summary class="cursor-pointer font-semibold flex justify-between items-center">How long does it take to see results?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300">With daily practice, noticeable calmness appears within 7 to 30 days.</p></div></details>
+      </div>
+    </div>
+
+    <!-- FEEDBACKS -->
+    <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
+      <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
+      <div class="space-y-3" id="feedback-list"> 
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rishabh Mehta</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book made the ideas surprisingly easy to apply the calmness shows in daily life now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">E</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Tanvi Sharma</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">M</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Rao Verma</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">The way expectations are explained here changed how I respond to people. Feels refreshing</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Naina Arora</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
+
+        <!-- HIDDEN FEEDBACKS -->
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tanwar</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Maun Protocol try kiya aur mind ka noise half ho gaya Didn’t expect it to work this well</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">D</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Payal jha</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">The structure is clean and modern. Great blend of psychology, reflection, and simple actions...</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aanya sexsena</div><div class="user-location">India</div></div></div><div class="feedback-date">Nov 2025</div></div><div class="feedback-text">Forgiveness ritual improved my sleep. Emotional burden feels much lighter now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">O</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Danish yadav</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Short chapters, strong impact. This feels like a guide I’ll come back to again and again</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">E</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">omkar pandey</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Yeh price me itna premium content mil raha hai honestly shock ho gaya Worth every rupee❤️😍.</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+      </div>
+      <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition">Show More</button>
+    </div>
+  </section>
+
+  <!-- MODALS -->
+  <div id="downloadModal" class="modal">
+    <div id="zipConfirmationModal" class="modal" style="display: none; position: absolute; inset: 0; background-color: rgba(2, 6, 23, 0.9); z-index: 10; border-radius: 12px; align-items: center; justify-content: center; backdrop-filter: blur(2px);">
+        <div id="zipConfirmationContent" class="modal-content" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
+            <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Conformation</h3>
+            <p class="text-base font-semibold text-zinc-300 text-center mb-5">Can your device open <span class="text-yellow-400">.ZIP files</span>?</p>
+            <div class="space-y-3 p-4 bg-zinc-800/50 rounded-lg mb-6 border border-zinc-700">
+                <p class="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">If No, follow these 3 steps:</p>
+                <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Open your <strong class="text-white">Play Store / App Store</strong>.</span></div>
+                <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</span></div>
+                <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Return here and click the button below.</span></div>
+            </div>
+            <button id="enableDownloadBtn" onclick="enableDownloadAndCloseZipConfirm()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">I understand</button>
+        </div>
+    </div>
+    <div class="modal-content" id="modalContent" style="max-width: 450px;">
+      <button id="modalCloseButton" onclick="closeDownloadModal()"><i data-lucide="x" class="h-6 w-6"></i></button>
+      <div class="flex flex-col items-center justify-center mb-6">
+        <div class="modal-cover-wrap mb-4"><img id="modalCoverImg" src="https://bookmintor.shop/images/1762530592.png" alt="Downloaded eBook Cover" /></div>
+        <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-indigo-700"><i data-lucide="party-popper" class="h-5 w-5 text-fuchsia-600"></i> <span class="text-gray-900">Purchase Successful!</span></h2>
+        <p class="text-sm text-gray-700 text-center">Thank you! Your exclusive bundle (PDF, Audio, Video & Mind Map) is ready.</p>
+      </div>
+      <div id="languageSelectionContainer" class="space-y-3 mb-6 transition-opacity duration-300">
+          <button id="hindiSelectBtn" onclick="selectLanguage(HINDI_FILE_ID, 'HINDI')" class="w-full no-shine-button text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 border border-gray-300 rounded-lg shadow-sm transition duration-150 ease-in-out" style="background-image: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #374151;"><i data-lucide="folder-search" class="h-4 w-4 inline mr-2 text-red-500"></i> Download in HINDI</button>
+          <button id="englishSelectBtn" onclick="selectLanguage(ENGLISH_FILE_ID, 'ENGLISH')" class="w-full no-shine-button text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 border border-gray-300 rounded-lg shadow-sm transition duration-150 ease-in-out" style="background-image: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); color: #374151;"><i data-lucide="folder-search" class="h-4 w-4 inline mr-2 text-blue-500"></i> Download in ENGLISH</button>
+      </div>
+      <p id="languageSelectedMessage" class="text-sm font-semibold text-center mb-4 text-emerald-600 hidden"></p>
+      <button id="downloadButton" class="download-button w-full mt-2" onclick="handleDownloadClick(this)" disabled data-file-id=""><i data-lucide="download" class="h-5 w-5"></i><span id="downloadBtnText">Select Language to Enable Download</span><span class="btn-shine"></span></button>
+      <p class="mt-4 text-xs text-gray-500 text-center">Note: The file will automatically start downloading once you click the button.</p>
     </div>
   </div>
 
-  <div class="pointer-events-none fixed inset-0 -z-10">
-    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
-    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/15 blur-[130px]"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%)]"></div>
+  <!-- Feedback Modal -->
+  <div id="feedbackModal" class="modal">
+    <div class="modal-content" id="feedbackModalContent" style="max-width: 400px; padding: 30px; background-color: #1e293b; color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <h2 class="text-xl font-bold mb-2 text-indigo-400 text-center">Tell us what you think!</h2>
+        <p class="text-sm text-zinc-400 text-center mb-6">Your honest feedback helps us improve.</p>
+        <div id="feedbackForm">
+            <textarea id="feedbackTextarea" rows="4" placeholder="Type your honest feedback here (Required)..." class="feedback-textarea w-full p-3 border border-white/20 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm text-white bg-transparent transition duration-300"></textarea>
+            <div class="flex flex-col gap-3 mt-4">
+                <button id="submitFeedbackBtn" class="no-shine-button w-full" style="background-image: linear-gradient(135deg, #6366f1, #a855f7); margin-top: 0px;" onclick="submitFeedback()"><i data-lucide="send" class="h-5 w-5"></i><span id="submitFeedbackText">Submit Feedback</span></button>
+                <button id="noThanksBtn" class="w-full text-sm font-semibold text-zinc-400 hover:text-white transition" onclick="closeFeedbackModal(true)">No Thanks, take me back</button>
+            </div>
+        </div>
+        <div id="feedbackSuccess" class="text-center py-8 hidden">
+            <i data-lucide="check-circle" class="h-10 w-10 text-emerald-400 mx-auto mb-4 text-emerald-500 filter drop-shadow-md"></i><h3 class="text-xl font-bold text-emerald-400">Thanks for your feedback!</h3><p class="text-sm text-zinc-300 mt-2">Redirecting you to the library...</p>
+        </div>
+    </div>
   </div>
 
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/40">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
-        <!-- UPDATED HEADER LOGO WITH SHINE -->
-        <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-[0_0_40px_rgba(99,102,241,0.35)] flex items-center justify-center p-0.5">
-            <div id="navLogoShine" class="logo-shine-effect z-10 pointer-events-none animate-logo-shine"></div>
-            <img id="navLogoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="w-full h-full object-cover rounded-lg opacity-0 transition-opacity duration-500">
+  <!-- Payment Modal -->
+  <div id="paymentModal" class="modal">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
+        <button id="paymentModalCloseButton" onclick="openConfirmationModal()" style="position: absolute; top: 12px; right: 12px; z-index: 2020;"><i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i></button>
+        <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+            <div id="topShield" class="invisible-shield" style="top: 0;"></div>
+            <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
+            <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
+                <div class="jumping-loader"><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
+            </div>
+            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111827; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
+                <h3 class="text-xl font-bold text-white mb-6 text-center">Choose your language</h3>
+                <button onclick="handleLanguageSelection('HINDI')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>Hindi<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
+                <button onclick="handleLanguageSelection('ENGLISH')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="globe" class="h-5 w-5 text-indigo-400"></i>English<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
+            </div>
+            <iframe id="cashfreeIframe" src="" frameborder="0" width="100%" height="100%" style="border-radius: 12px; display: none;" sandbox="allow-forms allow-scripts allow-modals allow-popups allow-same-origin allow-top-navigation"></iframe>
         </div>
-        <span class="text-lg font-semibold tracking-wide text-zinc-200">
-          <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>Mintor
-        </span>
-      </a>
+        <p class="text-xs text-zinc-500 text-center py-2">Powered by Cashfree Payments</p>
+    </div>
+  </div>
 
-      <div class="hidden items-center gap-6 rounded-2xl border border-white/10 bg-white/5 px-5 py-2 backdrop-blur md:flex">
-        <a href="./categories.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">Categories</a>
-        <a href="./featured.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">Featured</a>
-        <a href="./about.html" class="nav-link text-sm text-zinc-300 transition hover:text-white">About</a>
-        <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">Library</a>
-      </div>
-      <a href="./library.html" class="nav-link group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white shadow-[0_0_0_0_rgba(99,102,241,0)] transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">Open Library
-        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
-    </nav>
-  </header>
-
-  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <section id="hero-section" class="grid items-center gap-10 py-10 md:grid-cols-2 md:py-16 lg:py-20">
-      <div data-aos="fade-up">
-        
-        <h1 class="text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-            Premium eBooks to Ignite Your 
-            <span class="text-white">
-                <span id="dynamic-word-container" class="inline-block min-w-[170px] sm:min-w-[200px] lg:min-w-[280px] h-[1.2em] overflow-hidden align-top motion-mask">
-                    <span id="dynamic-word" class="bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent animate-roll-up inline-block leading-[1.2em]">
-                        <div>Mind.</div>
-                        <div>Growth.</div>
-                        <div>Career.</div>
-                        <div>Future.</div>
-                        <div>Success.</div>
-                        <div>Skill.</div>
-                        <div>Mind.</div>
-                    </span>
-                </span>
-            </span>
-        </h1>
-        
-        <p class="mt-4 max-w-xl text-base leading-relaxed text-zinc-300/90 sm:text-lg">Hand picked titles, simple design, and a smooth reading experience. just search, choose, and start reading instantly.</p>
-
-        <div class="mt-6 flex flex-wrap gap-4">
-          <div class="flex items-center gap-2 trust-badge rounded-2xl px-4 py-2">
-            <div class="flex items-center gap-1">
-              <span class="text-yellow-400">★</span>
-              <span class="text-sm font-medium">4.9/5</span>
-            </div>
-            <span class="text-xs text-zinc-400">Rating</span>
-          </div>
-          
-          <div class="flex items-center gap-2 trust-badge rounded-2xl px-4 py-2">
-            <div class="flex items-center gap-1">
-              <span class="text-indigo-400 font-bold" id="happy-readers">0</span>
-              <span class="text-sm font-medium">K+</span>
-            </div>
-            <span class="text-xs text-zinc-400">Happy Readers</span>
-          </div>
-          
-          <div class="flex items-center gap-2 trust-badge rounded-2xl px-4 py-2">
-            <div class="flex items-center gap-1">
-              <span class="text-emerald-400 font-bold" id="premium-titles">0</span>
-              <span class="text-sm font-medium">+</span>
-            </div>
-            <span class="text-xs text-zinc-400">Premium Titles</span>
-          </div>
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal">
+    <div id="confirmationContent">
+        <div class="mb-4"><i data-lucide="alert-triangle" class="h-8 w-8 text-red-400 mx-auto mb-2"></i><p class="conf-text-glow text-lg">Are you sure to exit payment?</p></div>
+        <p class="text-sm text-zinc-300 mb-6">Exiting now may cancel your transaction. Your payment information is secure.</p>
+        <div class="flex flex-col gap-3">
+            <button id="cancelExitBtn" class="download-button w-full" style="background-image: linear-gradient(135deg, #ef4444, #dc2626); margin-top: 0px;" onclick="confirmExitPayment(false)"><i data-lucide="check" class="h-5 w-5"></i>No, Continue Payment</button>
+            <button id="confirmExitBtn" class="w-full text-sm font-semibold text-zinc-400 hover:text-white transition" onclick="confirmExitPayment(true)">Yes, Exit Payment</button>
         </div>
+    </div>
+  </div>
 
-        <form class="mt-6 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 shadow-glow backdrop-blur" action="search.html">
-          <div id="search-icon" class="grid h-10 w-10 place-items-center rounded-xl bg-white/5 text-zinc-300">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+  <!-- PRODUCT VIEWER MODAL -->
+  <div id="productViewerModal" class="modal">
+      <div id="productViewerContent" class="modal-content animate-modalFadeIn">
+          <div class="viewer-header">
+              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> Premium Content</h3>
+              <button onclick="closeViewerModal()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="h-6 w-6"></i></button>
           </div>
-          <input name="q" placeholder="Search ebooks: Gita, Startup, Python…" class="h-12 w-full flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-400" />
-          <button type="submit" class="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-glow transition active:scale-[0.98]">Find eBooks <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
-        </form>
-
-        <div class="mt-8 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> Ad‑free UX</span>
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17l-5 3 1-5-4-4 5-1 3-5 3 5 5 1-4 4 1 5-5-3z"/></svg> Hand‑picked</span>
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a7 7 0 0 1 14 0v3H5v-3Z"/><path d="M10 18v2a2 2 0 1 0 4 0v-2"/></svg> Smooth Animations</span>
-        </div>
-      </div>
-
-      <div id="image-collage" class="relative" data-aos="fade-up" data-aos-delay="100">
-        <div class="relative rounded-[28px] border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-xl">
-          <div class="rounded-[22px] border border-white/10 bg-gradient-to-br from-zinc-900/60 to-zinc-800/40 p-6 shadow-inner">
-            <div class="mb-4 flex items-center justify-between text-xs text-zinc-400">
-              <span class="inline-flex items-center gap-2"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Multi‑category</span>
-              <span>Top Picks</span>
-            </div>
-            <div class="grid grid-cols-3 gap-3">
-              <a href="/spirituality.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Bhagavad Gita" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./featured.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
-                <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Writing & Creativity" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./selfhelp.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
-                <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Mindfulness" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./business.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1473186578172-c141e6798cf4?auto=format&fit=crop&w=1200&q=60" alt="Business" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./technology.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=60" alt="Programming" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./health.html" class="nav-link group relative h-40 overflow-hidden rounded-2xl">
-                <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Health" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-            </div>
-          </div>
-          <div class="pointer-events-none absolute -inset-2 -z-10 rounded-[34px] bg-gradient-to-tr from-indigo-500/10 via-transparent to-fuchsia-500/10 blur-2xl"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="categories" class="py-10">
-      <h2 class="text-2xl font-bold sm:text-3xl">Browse by Category</h2>
-      <p class="mt-1 text-zinc-400">From Spirituality to Technology, explore every subject in one place.</p>
-      <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <a href="./spirituality.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Popular</span>
-            <h3 class="mt-3 text-lg font-semibold">Spirituality</h3>
-            <p class="mt-1 text-sm text-zinc-400">Bhakti, Vedanta, Gita, Upanishads</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1400&q=60" alt="Spirituality" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./selfhelp.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-sky-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Trending</span>
-            <h3 class="mt-3 text-lg font-semibold">Self‑Help</h3>
-            <p class="mt-1 text-sm text-zinc-400">Habits, focus, growth mindset</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=60" alt="Self Help" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./technology.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-purple-500/15 to-indigo-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">New</span>
-            <h3 class="mt-3 text-lg font-semibold">Technology</h3>
-            <p class="mt-1 text-sm text-zinc-400">Programming, data, AI</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=60" alt="Technology" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./business.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-amber-500/15 to-red-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Hot</span>
-            <h3 class="mt-3 text-lg font-semibold">Business</h3>
-            <p class="mt-1 text-sm text-zinc-400">Startup, finance, marketing</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60" alt="Business" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./health.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-emerald-500/15 to-teal-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Editors' pick</span>
-            <h3 class="mt-3 text-lg font-semibold">Health & Wellness</h3>
-            <p class="mt-1 text-sm text-zinc-400">Fitness, ayurveda, mental health</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=1400&q=60" alt="Health & Wellness" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./fiction.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="250">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-pink-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Classic</span>
-            <h3 class="mt-3 text-lg font-semibold">Fiction</h3>
-            <p class="mt-1 text-sm text-zinc-400">Stories, novels, literature</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1400&q=60" alt="Fiction" class="h-full w-full object-cover" />
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section id="featured" class="py-10">
-      <h2 class="text-2xl font-bold sm:text-3xl">Featured Selections</h2>
-      <p class="mt-1 text-zinc-400">Top rated eBooks chosen from our most popular categories.</p>
-
-      <div class="mt-5 overflow-x-auto no-scrollbar">
-        <div class="flex gap-4">
-          <a href="./ayurveda.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=1200&q=60" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Ayurveda for Beginners</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹349</span>
+          <div class="viewer-body">
+              <div class="viewer-sidebar">
+                  <div class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video Class</div>
+                  <div class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
+                  <div class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
+                  <div class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Health • 18h read</p>
-            </div>
-          </a>
+              <div class="viewer-main">
+                  
+                  <!-- VIDEO SECTION: PASTE YOUR VIDEO LINK IN 'src' -->
+                  <div id="view-video" class="viewer-section active">
+                      <div class="w-full max-w-2xl bg-black rounded-lg overflow-hidden border border-zinc-700 shadow-2xl">
+                          <video controls class="w-full h-auto" poster="https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover%20(5).png">
+                              <source src="#" type="video/mp4"> <!-- PASTE VIDEO URL HERE -->
+                              Your browser does not support the video tag.
+                          </video>
+                      </div>
+                  </div>
 
-          <a href="./vedic-meditation.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="50">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Vedic Meditation</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹299</span>
+                  <!-- AUDIO SECTION: PASTE YOUR AUDIO LINK IN 'src' -->
+                  <div id="view-audio" class="viewer-section">
+                      <div class="flex flex-col items-center justify-center text-center p-8 bg-[#1e293b] rounded-xl border border-zinc-700">
+                          <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
+                          <h4 class="text-xl font-bold mb-2">Zero-Disturbance Audio Guide</h4>
+                          <audio controls class="w-full min-w-[300px]">
+                              <source src="#" type="audio/mpeg"> <!-- PASTE AUDIO URL HERE -->
+                          </audio>
+                      </div>
+                  </div>
+
+                  <!-- PDF SECTION: -->
+                  <div id="view-pdf" class="viewer-section"><div class="text-center"><i data-lucide="file-text" class="h-16 w-16 text-zinc-600 mx-auto mb-4"></i><p class="text-zinc-300 mb-4">Click "Download" to view PDF.</p></div></div>
+
+                  <!-- IMAGE SECTION: PASTE YOUR MINDMAP LINK IN 'src' -->
+                  <div id="view-image" class="viewer-section">
+                      <p class="text-zinc-400 text-xs mb-2">Click to Zoom</p>
+                      <!-- CLICK TO ZOOM ENABLED -->
+                      <img onclick="this.classList.toggle('zoomed')" src="https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover%20(5).png" class="viewer-zoom-img" alt="Mind Map"> 
+                  </div>
               </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 22h</p>
-            </div>
-          </a>
-
-          <a href="./gita.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="100">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Gita Demystified" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Gita Demystified</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹199</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 15h</p>
-            </div>
-          </a>
-
-          <a href="./python.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="150">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Python: Zero → Pro" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Python: Zero → Pro</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹449</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Technology • 30h</p>
-            </div>
-          </a>
-
-          <a href="./upanishads.html" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="200">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Upanishads Essentials</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹499</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 30h</p>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="mt-6 flex gap-3">
-        <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
-      </div>
-
-      <div class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 class="text-xl font-semibold">Premium feel. Simple experience.</h3>
-            <p class="mt-1 text-sm text-zinc-400">BookMintor makes reading delightful fast.</p>
           </div>
-          <a href="./library.html" class="nav-link inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
       </div>
-    </section>
+  </div>
 
-    <section id="faq-section" class="py-12 lg:py-20">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center" data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-fuchsia-400">Frequently Asked Questions</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-xl text-zinc-300">Quick answers to the most common questions from our readers.</p>
-            </div>
-            
-            <div class="mt-12 max-w-3xl mx-auto space-y-5">
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>What payment methods are accepted?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">We accept all major credit/debit cards (Visa, MasterCard, Amex), UPI (Google Pay, PhonePe), and NetBanking. All transactions are secure and encrypted.</p>
-                    </div>
-                </div>
+  <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="50">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>Can I read the eBook offline?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">Yes! Once downloaded, you can read your eBook anytime, anywhere without an internet connection.</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="100">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>What is the refund policy?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">We offer a full refund if you are not satisfied within 7 days, provided the eBook hasn't been extensively read.</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="150">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>Is the platform compatible with all devices?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">Our web reader is fully responsive and works perfectly on desktop, mobile, and tablet browsers. No special app is needed!</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="200">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>How often are new titles added?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">We are constantly curating and adding new premium titles every week to keep our library fresh and relevant.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="mt-12 border-t border-white/10 py-10">
-      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
-        <div>
-          <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
-            <div class="relative h-10 w-10 overflow-hidden rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 p-0.5 shadow-[0_0_40px_rgba(99,102,241,0.35)]">
-               <img src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="h-full w-full rounded-lg object-cover">
-            </div>
-            <span class="text-lg font-semibold tracking-wide text-zinc-200">
-              <span class="bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">Book</span>Mintor
-            </span>
-          </a>
-          <p class="mt-4 text-sm text-zinc-400">Premium collection of hand-picked eBooks for growth and a smooth reading experience.</p>
-        </div>
-        
-        <div>
-          <h3 class="text-sm font-semibold text-zinc-200">Support</h3>
-          <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="./contact.html" class="nav-link text-zinc-400 transition hover:text-white">Contact Us</a></li> 
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-sm font-semibold text-zinc-200">Legal</h3>
-          <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="./terms.html" class="nav-link text-zinc-400 transition hover:text-white">Terms of Service</a></li> 
-            <li><a href="./privacy.html" class="nav-link text-zinc-400 transition hover:text-white">Privacy Policy</a></li> 
-          </ul>
-        </div>
-      </div>
-      <div class="mx-auto mt-10 max-w-7xl border-t border-white/5 px-4 pt-6 text-center sm:px-6 lg:px-8">
-        <p class="text-xs text-zinc-500">© <span id="year"></span> BookMintor. All rights reserved.</p>
-      </div>
-    </footer>
-  </main>
-  
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
-    lucide.createIcons();
-    // SPEED UP: Reduced AOS duration for snappier feel
-    AOS.init({ duration: 500, once: true });
+    // --- CONFIGURATION ---
+    const IS_SALE_ACTIVE = true; 
+    const SOURCE_IMAGE = 'https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover%20(5).png';
+    const HINDI_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip"; 
+    const ENGLISH_FILE_ID = "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(ENGLISH%20EDITION).zip"; 
     
-    const loadingOverlay = document.getElementById('loading-overlay');
-    
-    function resetLoadingOverlay() {
-        loadingOverlay.classList.add('hidden', 'opacity-0');
-        loadingOverlay.classList.remove('grid');
+    // ** SINGLE PAYMENT URL FOR ALL **
+    const PAYMENT_URL = "https://payments.cashfree.com/forms/dsdfg2"; // Same URL used for logic
+
+    const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0'; 
+    const SCREENSHOT_URLS = [
+        'https://bookmintor.shop/bundels/ChatGPT%20Image%20Nov%2011,%202025,%2009_54_38%20AM.png', 
+        'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_01%20AM.png', 
+        'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_35%20AM.png', 
+        'https://bookmintor.shop/bundels/screnshorts/Untitled%20design.png', 
+    ];
+
+    // --- DOM ELEMENTS ---
+    const cover = document.getElementById('coverFace'); 
+    const coverImg = document.getElementById('coverImg');
+    const coverShine = document.getElementById('coverShine');
+    const loadingSpin = document.getElementById('loadingSpin'); 
+    const downloadModal = document.getElementById('downloadModal');
+    const modalContent = document.getElementById('modalContent');
+    const modalCloseButton = document.getElementById('modalCloseButton');
+    const downloadButton = document.getElementById('downloadButton');
+    const languageSelectionContainer = document.getElementById('languageSelectionContainer');
+    const languageSelectedMessage = document.getElementById('languageSelectedMessage');
+    const feedbackModal = document.getElementById('feedbackModal');
+    const feedbackModalContent = document.getElementById('feedbackModalContent');
+    const feedbackForm = document.getElementById('feedbackForm');
+    const feedbackSuccess = document.getElementById('feedbackSuccess');
+    const buyBtn = document.getElementById('buyBtn');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const paymentModal = document.getElementById('paymentModal');
+    const paymentModalContent = document.getElementById('paymentModalContent');
+    const paymentLoader = document.getElementById('paymentLoader');
+    const cashfreeIframe = document.getElementById('cashfreeIframe');
+    const confirmationModal = document.getElementById('confirmationModal');
+    const confirmationContent = document.getElementById('confirmationContent');
+    const customTagContainer = document.getElementById('custom-tag-container');
+    const zipConfirmationModal = document.getElementById('zipConfirmationModal');
+    const zipConfirmationContent = document.getElementById('zipConfirmationContent');
+    const paymentLangSelection = document.getElementById('paymentLangSelection');
+    const previewOverlay = document.getElementById('previewOverlay');
+    const previewScreenshot = document.getElementById('previewScreenshot');
+    const imageCounter = document.getElementById('imageCounter');
+    const previewIndicator = document.getElementById('previewIndicator');
+    const previewShine = document.getElementById('previewShine');
+    const productViewerModal = document.getElementById('productViewerModal');
+
+    // --- SALE LOGIC ---
+    if (IS_SALE_ACTIVE) {
+        document.getElementById('saleBanner').style.display = 'block';
+        document.getElementById('pricingContainer').innerHTML = `₹209 <span class="ml-2 line-through text-sm text-zinc-400">₹1699</span><span class="ml-2 px-2 py-0.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-semibold shadow-saleGlow">88% OFF</span>`;
+    } else {
+        document.getElementById('saleBanner').style.display = 'none';
+        document.getElementById('pricingContainer').innerHTML = `₹1699 <span class="text-sm text-zinc-400 font-normal">Standard Price</span>`;
+        document.getElementById('pricingContainer').classList.replace('text-emerald-400', 'text-white');
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('year').textContent = new Date().getFullYear();
-        window.scrollTo(0, 0);
-        
-        // 4. HEADER LOGO SHINE LOGIC
-        const navLogoImg = document.getElementById('navLogoImg');
-        const navLogoShine = document.getElementById('navLogoShine');
-
-        if(navLogoImg) {
-            navLogoImg.onload = () => {
-                navLogoShine.style.display = 'none'; 
-                navLogoImg.classList.remove('opacity-0'); 
-            };
-            if (navLogoImg.complete) {
-                navLogoImg.onload();
+    // --- ROLLING TEXT ---
+    const TRUST_PHRASES = ["Trending", "Bestseller", "4.9/5 Rated", "Instant Access", "High Demand"];
+    let phraseIndex = 0;
+    function updateTag() {
+        if (!customTagContainer) return;
+        customTagContainer.innerHTML = `<div class="subtle-tag"><i data-lucide="zap" class="h-3 w-3 text-indigo-300"></i><div class="tag-text-wrapper"><span class="tag-text" id="rollingText">${TRUST_PHRASES[0]}</span></div><span class="tag-shine"></span></div>`;
+        lucide.createIcons();
+        setInterval(() => {
+            phraseIndex = (phraseIndex + 1) % TRUST_PHRASES.length;
+            const textEl = document.getElementById('rollingText');
+            if(textEl) {
+                textEl.classList.remove('animate-rollUp');
+                void textEl.offsetWidth;
+                textEl.textContent = TRUST_PHRASES[phraseIndex];
+                textEl.classList.add('animate-rollUp');
             }
-        }
-        
-        const links = document.querySelectorAll('a.nav-link, a[href^="./"]'); 
+        }, 2500);
+    }
+    updateTag();
 
-        links.forEach(link => {
-            if (link.closest('form') && link.getAttribute('type') === 'submit') {
-                return;
-            }
+    // --- PRELOAD LOGIC ---
+    function preloadAllImages() {
+        cover.setAttribute('aria-busy', 'true');
+        const imageUrls = [SOURCE_IMAGE, ...SCREENSHOT_URLS];
+        const promises = imageUrls.map(url => new Promise((resolve) => {
+            const img = new Image(); img.src = url; img.onload = resolve; img.onerror = resolve;
+        }));
 
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                const targetUrl = this.href;
-
-                loadingOverlay.classList.remove('hidden');
-                setTimeout(() => {
-                    loadingOverlay.classList.add('grid'); 
-                    loadingOverlay.classList.remove('opacity-0'); 
-                }, 10); 
-                
-                // SPEED UP: Reduced delay from 800ms to 300ms
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 300); 
-            });
+        Promise.all(promises).then(() => {
+            coverImg.src = SOURCE_IMAGE;
+            requestAnimationFrame(()=> { coverImg.style.opacity = '0.6'; coverImg.style.transform = 'scale(1)'; });
+            setTimeout(() => {
+                coverImg.style.opacity = '1'; 
+                coverShine.style.transition = 'opacity 0.32s ease'; coverShine.style.opacity = '0';
+                loadingSpin.style.opacity = '0';
+                setTimeout(()=> {
+                    coverShine.style.display = 'none'; loadingSpin.style.display = 'none'; 
+                    cover.classList.add('loaded'); cover.setAttribute('aria-busy','false');
+                    previewIndicator.style.display = 'block';
+                    setTimeout(() => { previewIndicator.style.opacity = '0'; setTimeout(() => { previewIndicator.style.display = 'none'; }, 500); }, 4000); 
+                }, 450); 
+            }, 700);
         });
-        
-        setTimeout(() => {
-          animateCounter(document.getElementById('happy-readers'), 0, 25, 2000);
-          animateCounter(document.getElementById('premium-titles'), 0, 500, 2000);
-        }, 500);
+    }
+    preloadAllImages();
+
+    // --- PREVIEW LOGIC ---
+    let currentImageIndex = 0;
+    function showPreviewImage(index) {
+        if (index >= SCREENSHOT_URLS.length) index = 0; else if (index < 0) index = SCREENSHOT_URLS.length - 1;
+        currentImageIndex = index;
+        previewShine.style.display = 'block'; previewScreenshot.style.opacity = '0.5';
+        const tempImg = new Image(); tempImg.src = SCREENSHOT_URLS[currentImageIndex];
+        tempImg.onload = () => {
+            previewShine.style.display = 'none'; previewScreenshot.src = tempImg.src;
+            imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
+            previewScreenshot.style.opacity = '1';
+            previewScreenshot.classList.remove('animate-subtleZoomIn');
+            void previewScreenshot.offsetWidth;
+            previewScreenshot.classList.add('animate-subtleZoomIn');
+        };
+    }
+    cover.addEventListener('click', (event) => {
+        if (previewOverlay.style.opacity === '1') { event.stopPropagation(); showPreviewImage(currentImageIndex + 1); } 
+        else { event.preventDefault(); coverImg.style.opacity = '0'; previewOverlay.style.opacity = '1'; previewOverlay.style.pointerEvents = 'auto'; currentImageIndex = -1; showPreviewImage(0); lucide.createIcons(); previewIndicator.style.display = 'none'; }
     });
+    function exitPreview(event) {
+        if (event) event.stopPropagation();
+        previewScreenshot.classList.remove('animate-subtleZoomIn');
+        setTimeout(() => { previewOverlay.style.opacity = '0'; previewOverlay.style.pointerEvents = 'none'; previewScreenshot.style.opacity = '0'; coverImg.style.opacity = '1'; }, 300); 
+    }
+
+    // --- VIEWER ---
+    function switchViewerTab(tabId) {
+        document.querySelectorAll('.viewer-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.viewer-section').forEach(s => s.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        document.getElementById(`view-${tabId}`).classList.add('active');
+    }
+    function openViewerModal() { productViewerModal.style.display = 'flex'; document.querySelector('.viewer-tab').click(); }
+    function closeViewerModal() { productViewerModal.style.display = 'none'; document.querySelectorAll('video, audio').forEach(v => v.pause()); }
+    unlockBtn.addEventListener('click', openViewerModal);
+
+    // --- UTILS ---
+    document.querySelectorAll('details').forEach(detail => {
+      detail.addEventListener('toggle', e => {
+        if (detail.open) { const content = detail.querySelector('.details-content'); requestAnimationFrame(() => content.style.height = content.scrollHeight + 'px'); } 
+        else { detail.querySelector('.details-content').style.height = 0; }
+      });
+    });
+    document.getElementById('showMore').addEventListener('click', e => {
+      const hidden = document.querySelectorAll('.extra-feedback'); const btn = e.target;
+      if (hidden.length > 0 && hidden[0].style.display === 'none') { hidden.forEach(el => el.style.display = 'flex'); btn.textContent = 'Show Less'; } 
+      else { hidden.forEach(el => el.style.display = 'none'); btn.textContent = 'Show More'; }
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    AOS.init({ duration: 800, once: true, offset: 120 });
+    lucide.createIcons();
     
-    window.addEventListener('pageshow', (event) => {
-        resetLoadingOverlay();
-        window.scrollTo(0, 0);
-    });
-
-    function animateCounter(element, start, end, duration) {
-      let startTime = null;
-      const range = end - start;
-      const finalEnd = end;
-
-      const updateCounter = (timestamp) => {
-        if (!startTime) startTime = timestamp;
-        const progress = Math.min((timestamp - startTime) / duration, 1);
-        const value = Math.floor(progress * range + start);
-        
-        element.textContent = progress === 1 ? finalEnd : value;
-
-        if (progress < 1) {
-          requestAnimationFrame(updateCounter);
+    // Stats Animate
+    function animateCount(el, start, end, duration) {
+        let startTime = null; let isFloat = end % 1 !== 0; 
+        function step(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = timestamp - startTime; const pct = Math.min(progress / duration, 1);
+            let val = start + (end - start) * pct;
+            el.textContent = isFloat ? val.toFixed(1) : Math.floor(val).toLocaleString('en-IN');
+            if (pct < 1) window.requestAnimationFrame(step); else el.textContent = isFloat ? end.toFixed(1) : end.toLocaleString('en-IN');
+        } window.requestAnimationFrame(step);
+    }
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            document.querySelectorAll('.stat-value span[data-target]').forEach(span => {
+                const target = parseFloat(span.getAttribute('data-target')); animateCount(span, target % 1 !== 0 ? 0.0 : 0, target, 1800);
+            });
+            observer.disconnect();
         }
-      }
+    }, { threshold: 0.5 }); observer.observe(document.getElementById('stats-section'));
+
+    // --- DOWNLOAD LOGIC ---
+    let selectedFileUrl = '', selectedLangName = '', downloadInitiated = false;
+    const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
+
+    function selectLanguage(fileUrl, langName) {
+        selectedFileUrl = fileUrl; selectedLangName = langName;
+        downloadButton.disabled = true;
+        zipConfirmationModal.style.display = 'flex'; lucide.createIcons();
+    }
+    function enableDownloadAndCloseZipConfirm() {
+        zipConfirmationContent.classList.add('animate-modalFadeOut');
+        setTimeout(() => {
+            zipConfirmationModal.style.display = 'none'; zipConfirmationContent.classList.remove('animate-modalFadeOut');
+            downloadButton.setAttribute('data-file-id', selectedFileUrl);
+            downloadButton.disabled = false;
+            document.getElementById('downloadBtnText').textContent = `Download ${selectedLangName} Bundle`;
+            languageSelectionContainer.style.display = 'none';
+            languageSelectedMessage.textContent = `${selectedLangName} selected. Ready.`;
+            languageSelectedMessage.classList.remove('hidden');
+        }, 400); 
+    }
+
+    // ** FIXED DOWNLOAD + SCREEN LOCK LOGIC **
+    function handleDownloadClick(button) {
+      if (downloadInitiated) return; 
+      const downloadLink = button.getAttribute('data-file-id');
+      if (!downloadLink || button.disabled) return;
       
-      requestAnimationFrame(updateCounter);
+      // Temporarily disable unload warning so browser doesn't block "Are you sure?" just for clicking
+      window.onbeforeunload = null;
+      
+      // Trigger Download
+      window.location.href = downloadLink; 
+      
+      downloadInitiated = true; 
+      button.disabled = true; 
+      modalCloseButton.classList.add('show-close');
+      button.classList.add('loading');
+      document.getElementById('downloadBtnText').textContent = 'Initiating Download...';
+      
+      setTimeout(() => {
+        document.getElementById('downloadBtnText').textContent = 'Download Started!'; 
+        button.classList.remove('loading');
+        
+        // Re-enable screen lock in case they refresh NOW
+        window.onbeforeunload = function() { return "Are you sure you want to leave? Your download might be cancelled."; };
+      }, 4000); 
+    }
+
+    function closeDownloadModal() {
+        modalContent.classList.add('animate-modalFadeOut');
+        downloadModal.classList.add('closing');
+        setTimeout(() => {
+            downloadModal.style.display = 'none';
+            modalContent.classList.remove('animate-modalFadeOut');
+            downloadModal.classList.remove('closing'); 
+            document.body.style.overflow = ''; 
+            if (downloadInitiated) openFeedbackModal();
+        }, 400); 
+    }
+
+    // Feedback
+    function openFeedbackModal() {
+        document.body.style.overflow = 'hidden'; feedbackModal.style.display = 'flex';
+        feedbackModalContent.classList.add('animate-modalFadeIn'); feedbackForm.style.display = 'block'; feedbackSuccess.style.display = 'none';
+        lucide.createIcons();
+    }
+    function closeFeedbackModal(shouldRedirect = false) {
+        feedbackModalContent.classList.add('animate-modalFadeOut'); feedbackModal.classList.add('closing');
+        setTimeout(() => {
+            feedbackModal.style.display = 'none'; feedbackModalContent.classList.remove('animate-modalFadeOut'); feedbackModal.classList.remove('closing'); document.body.style.overflow = ''; 
+            if (shouldRedirect) window.location.href = REDIRECT_URL;
+        }, 400); 
+    }
+    function submitFeedback() {
+        const txt = document.getElementById('feedbackTextarea');
+        if (txt.value.trim().length === 0) {
+            feedbackModalContent.classList.add('animate-shakeModal'); txt.classList.add('border-red-500'); txt.placeholder = '⚠️ Please write something first...'; 
+            setTimeout(() => feedbackModalContent.classList.remove('animate-shakeModal'), 800); 
+            setTimeout(() => { txt.classList.remove('border-red-500'); txt.placeholder = 'Type your honest feedback here...'; }, 3000); return; 
+        }
+        document.getElementById('submitFeedbackBtn').disabled = true;
+        document.getElementById('submitFeedbackText').textContent = 'Sending...';
+        setTimeout(() => {
+            feedbackForm.style.display = 'none'; feedbackSuccess.style.display = 'block';
+            setTimeout(() => closeFeedbackModal(true), 3000); 
+        }, 1000); 
+    }
+
+    // Payment Logic
+    let countdownInterval;
+    function startTimer() {
+        let timeLeft = 240; document.getElementById('paymentTimer').style.display = 'block';
+        if(countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60); const seconds = timeLeft % 60;
+            document.getElementById('timerCount').textContent = `${minutes<10?'0':''}${minutes}:${seconds<10?'0':''}${seconds}`;
+            timeLeft--; if (timeLeft < 0) closePaymentModal(false);
+        }, 1000);
+    }
+    function openPaymentModal() {
+        paymentModal.style.display = 'flex'; paymentModalContent.classList.add('animate-modalFadeIn');
+        paymentLoader.style.display = 'none'; cashfreeIframe.style.display = 'none'; paymentLangSelection.style.display = 'flex'; lucide.createIcons();
     }
     
-    function toggleAccordion(buttonElement) {
-        const item = buttonElement.closest('.accordion-item');
-        item.classList.toggle('accordion-open');
+    // ** SINGLE URL LOGIC **
+    function handleLanguageSelection(lang) {
+        paymentLangSelection.style.display = 'none'; paymentLoader.style.display = 'flex';
+        sessionStorage.setItem('payment_initiated', 'true');
+        sessionStorage.setItem('selected_language', lang); // Save preference
+        
+        // Always use the SAME payment URL
+        cashfreeIframe.src = PAYMENT_URL; 
+        
+        startTimer();
+        setTimeout(() => { paymentLoader.style.display = 'none'; cashfreeIframe.style.display = 'block'; }, 2000);
     }
+    
+    function openConfirmationModal() { confirmationModal.style.display = 'flex'; confirmationModal.classList.add('active'); lucide.createIcons(); }
+    function confirmExitPayment(shouldExit) {
+        confirmationModal.classList.remove('active'); 
+        setTimeout(() => { confirmationModal.style.display = 'none'; if (shouldExit) closePaymentModal(true); }, 400); 
+    }
+    function closePaymentModal() {
+        paymentModalContent.classList.add('animate-modalFadeOut'); paymentModal.classList.add('closing');
+        if(countdownInterval) clearInterval(countdownInterval);
+        document.getElementById('paymentTimer').style.display = 'none';
+        setTimeout(() => {
+            paymentModal.style.display = 'none'; paymentModalContent.classList.remove('animate-modalFadeOut'); paymentModal.classList.remove('closing'); document.body.style.overflow = ''; 
+        }, 400); 
+    }
+    buyBtn.addEventListener('click', (e) => { e.preventDefault(); openPaymentModal(); });
+
+    // --- POST PAYMENT & PERMANENT UNLOCK LOGIC ---
+    function triggerCelebration() {
+        const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700'];
+        confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: colors, zIndex: 2000, disableForReducedMotion: true });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentStatus = urlParams.get('payment_status');
+      const secretKey = urlParams.get('secret_key');
+      const isPaymentInitiated = sessionStorage.getItem('payment_initiated');
+      const preSelectedLang = sessionStorage.getItem('selected_language');
+
+      // 1. CHECK LOCAL STORAGE (Check Memory for previous purchase)
+      if (localStorage.getItem('is_premium_user') === 'true') {
+          // Show Unlock Button alongside Buy Button
+          unlockBtn.style.display = 'inline-flex';
+      }
+
+      // 2. CHECK NEW SUCCESSFUL PAYMENT
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY && isPaymentInitiated === 'true') {
+        
+        // ** CRITICAL FIX: CLEAR URL IMMEDIATELY **
+        // This removes secret URL params before anything else happens
+        history.replaceState(null, '', window.location.pathname);
+
+        // A. Set Permanent Flag
+        localStorage.setItem('is_premium_user', 'true');
+        sessionStorage.removeItem('payment_initiated');
+        
+        // B. Enable Screen Lock (Prevent Refresh/Back)
+        history.pushState(null, document.title, location.href);
+        window.addEventListener('popstate', function () { history.pushState(null, document.title, location.href); });
+        window.onbeforeunload = function() { return "Are you sure you want to leave? Your download might be cancelled."; };
+        
+        // C. Show Buttons properly
+        unlockBtn.style.display = 'inline-flex';
+        
+        // E. Show Download Modal
+        downloadModal.style.display = 'flex';
+        modalContent.classList.add('animate-modalFadeIn');
+        triggerCelebration();
+        
+        // F. Auto-select language logic
+        if (preSelectedLang) {
+            languageSelectionContainer.style.display = 'none';
+            if (preSelectedLang === 'HINDI') {
+                selectedFileUrl = HINDI_FILE_ID; selectedLangName = 'HINDI';
+            } else {
+                selectedFileUrl = ENGLISH_FILE_ID; selectedLangName = 'ENGLISH';
+            }
+            languageSelectedMessage.classList.remove('hidden');
+            languageSelectedMessage.textContent = `${selectedLangName} bundle ready. Confirming ZIP support...`;
+            setTimeout(() => selectLanguage(selectedFileUrl, selectedLangName), 500);
+            sessionStorage.removeItem('selected_language');
+        }
+      } 
+      lucide.createIcons();
+    });
   </script>
 </body>
 </html>
