@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PremAnand Ji’s Zero-Disturbance Mindset code</title>
 
-  <!-- FAVICON -->
   <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
-  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-  <!-- SECURITY SCRIPT -->
   <script>
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
@@ -50,13 +47,15 @@
             modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
             tagShine: 'tagShine 1.0s ease-in-out infinite',
             shakeModal: 'shakeModal 0.5s ease-in-out 1',
+            shakeInput: 'shakeInput 0.4s ease-in-out 1', 
             redGlow: 'redGlow 2.5s infinite ease-in-out',
             subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite',
             rollUpSmooth: 'rollUpSmooth 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-            snakeRotate: 'snakeRotate 4s linear infinite', 
+            snakeRotate: 'snakeRotate 4s linear infinite',
+            priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -70,6 +69,7 @@
             modalFadeOut: { '0%': { opacity: 1, transform: 'translateY(0) scale(1)' }, '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' } },
             tagShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             shakeModal: { '0%, 100%': { transform: 'translateX(0)' }, '10%, 90%': { transform: 'translateX(-4px)' }, '50%': { transform: 'translateX(4px)' } },
+            shakeInput: { '0%, 100%': { transform: 'translateX(0)' }, '20%, 60%': { transform: 'translateX(-5px)' }, '40%, 80%': { transform: 'translateX(5px)' } },
             redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
             subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } },
             popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
@@ -82,6 +82,7 @@
                 '100%': { transform: 'translateY(-12px)', opacity: 0 }
             },
             snakeRotate: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
+            priceSlash: { '0%': { transform: 'scale(1)', opacity: 1 }, '50%': { transform: 'scale(1.2) rotate(-10deg)', opacity: 0.8 }, '100%': { transform: 'scale(0) rotate(20deg)', opacity: 0 } },
           }
         }
       }
@@ -102,7 +103,7 @@
     /* --- PREMIUM SNAKE ANIMATION (FIXED & SMOOTH) --- */
     .snake-container {
         position: relative;
-        display: none; 
+        display: none; /* Changed display to none by default */
         padding: 2px; /* Border thickness */
         border-radius: 12px;
         z-index: 100; 
@@ -118,7 +119,7 @@
     /* The Rotating Gradient Background */
     .snake-border {
         position: absolute;
-        inset: -50%; /* Make it much larger than container to cover rotation */
+        inset: -50%; 
         width: 200%;
         height: 200%;
         top: -50%;
@@ -127,7 +128,7 @@
         animation: snakeRotate 3s linear infinite;
         opacity: 0;
         transition: opacity 0.8s ease;
-        z-index: 0; /* Behind button */
+        z-index: 0; 
         pointer-events: none;
     }
 
@@ -151,7 +152,7 @@
     /* The Button Itself */
     .unlock-btn {
         position: relative;
-        z-index: 10; /* Above the snake border */
+        z-index: 10; 
         display: flex;
         align-items: center;
         gap: 6px;
@@ -168,20 +169,15 @@
         margin: 0;
     }
     
-    /* Dark mask inside container to hide center of gradient (creates border effect) */
     .snake-mask {
         position: absolute;
         inset: 1px;
-        background: #0b0e13; /* Match body bg */
+        background: #0b0e13; 
         border-radius: 11px;
         z-index: 1;
     }
     
-    /* Ensure white button covers the mask */
-    .snake-container .unlock-btn {
-        margin: 0; /* No margin needed with padding container */
-    }
-
+    .snake-container .unlock-btn { margin: 0; }
     .unlock-btn:hover { transform: scale(1.03); }
 
     /* CTA BUTTONS */
@@ -191,21 +187,17 @@
     .cta-btn .corner-bling{ pointer-events:none; position:absolute; inset:-6px; border-radius:12px; background:radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%), radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%); opacity:0; filter: blur(6px); }
     .cta-btn:hover .corner-bling { opacity: .95; }
 
-    /* BOOK 3D */
+    /* BOOK 3D & DETAILS */
     .book-wrap { perspective:1600px; display:flex; align-items:center; justify-content:center; }
     .book-3d { width: 240px; height: 340px; position: relative; transform-style: preserve-3d; transform: rotateY(-12deg) rotateX(4deg); transition: transform .35s ease; margin: 12px; }
     .book-3d:hover { transform: rotateY(-8deg) rotateX(6deg) translateY(-8px); }
     .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
-
-    /* LOADING & SHINE */
-    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
+    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-30deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
     .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
-
-    /* BOOK DETAILS */
     .spine { position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); }
     .pages { position:absolute; left: -8px; top: 10px; width: 16px; height: calc(100% - 20px); transform: rotateY(-90deg) translateX(-8px); background: linear-gradient(90deg,#fcfbf9,#f0efe9); border-radius: 4px 0 0 4px; box-shadow: inset 0 0 8px rgba(0,0,0,0.08); overflow:hidden; }
     .top-edge { position:absolute; top: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(90deg) translateY(-10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 8px 8px 0 0; }
@@ -225,19 +217,22 @@
     .stat-value { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #e0f2f1; margin-bottom: 4px; text-shadow: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .stat-value svg { color: #a855f7; filter: drop-shadow(0 0 4px rgba(168,85,247,0.7)); }
     .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
-
     .star-glow svg { filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6)); }
     .star-glow .filled { fill: #fbbf24; color: #fbbf24; }
     .star-glow .half { fill: transparent; color: #fbbf24; }
     .star-glow .empty { color: #475569; opacity: 0.45; }
 
-    /* PREMIUM LIST */
-    .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
-    .premium-list-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1.0rem; color: #cbd5e1; line-height: 1.4; }
-    .premium-list-item strong { color: #e0f2f1; }
-    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
-
+    /* COUPON SECTION STYLES */
+    .coupon-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 14px; margin-bottom: 8px; }
+    .coupon-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; width: 140px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+    .coupon-input:focus { border-color: #a855f7; outline: none; box-shadow: 0 0 0 2px rgba(168,85,247,0.2); }
+    .coupon-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+    .coupon-btn:hover { background: rgba(168,85,247,0.2); color: white; border-color: rgba(168,85,247,0.4); }
+    .coupon-applied { border-color: #22c55e !important; color: #22c55e !important; background: rgba(34,197,94,0.1) !important; pointer-events: none; }
+    .price-original { position: relative; display: inline-block; color: #9ca3af; text-decoration: line-through; }
+    
     /* MODALS */
+    /* IMPORTANT: .modal ensures fixed positioning covering entire screen and centering content */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 80%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
@@ -294,19 +289,12 @@
     /* PREMIUM DASHBOARD (GLASSMORPHISM) */
     #productViewerModal { z-index: 4000; }
     #productViewerContent { width: 95%; max-width: 1000px; height: 85vh; padding: 0; background: #0f172a; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-    
     .viewer-header { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
-    
     .viewer-body { flex: 1; display: flex; height: 100%; overflow: hidden; }
-    
     .viewer-sidebar { width: 240px; background: rgba(17, 24, 39, 0.6); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; backdrop-filter: blur(5px); }
-    
     .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
-    .viewer-tab:hover { background: rgba(255,255,255,0.05); color: white; }
     .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
-    
     .viewer-main { flex: 1; padding: 30px; overflow-y: auto; background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 60%); display: flex; align-items: center; justify-content: center; position: relative; }
-    
     .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; animation: modalFadeIn 0.4s ease-out; }
     .viewer-section.active { display: flex; }
 
@@ -377,6 +365,12 @@
         color: white;
     }
 
+    /* PREMIUM LIST */
+    .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
+    .premium-list-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1.0rem; color: #cbd5e1; line-height: 1.4; }
+    .premium-list-item strong { color: #e0f2f1; }
+    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
+
     @media (max-width: 768px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
@@ -387,10 +381,9 @@
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
 
-  <!-- TOAST NOTIFICATION ELEMENT -->
   <div id="toastNotification">
-      <i data-lucide="unlock" class="h-5 w-5"></i>
-      <span>Product Unlocked! Access Granted.</span>
+      <i data-lucide="check-circle" class="h-5 w-5"></i>
+      <span id="toastMessage">Product Unlocked! Access Granted.</span>
   </div>
 
   <div class="pointer-events-none fixed inset-0 -z-10">
@@ -403,11 +396,8 @@
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-2">
-      <!-- NEW LOGO IMPLEMENTATION -->
       <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow flex items-center justify-center">
-        <!-- Shine Element -->
         <div id="logoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
-        <!-- Logo Image -->
         <img id="logoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="object-cover w-full h-full opacity-0 transition-opacity duration-500" style="padding: 2px; border-radius: 12px;">
       </div>
       <span class="text-lg font-bold"><span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor</span>
@@ -453,12 +443,21 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="1200" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
         </div>
 
-        <!-- PRICING CONTAINER -->
-        <div id="pricingContainer" class="flex items-center gap-3"></div>
+        <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
+            <div class="flex items-center gap-3">
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹799</span>
+                <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1699</span>
+                <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED OFFER</span>
+            </div>
+            
+            <div class="coupon-wrapper" id="couponSection">
+                <i data-lucide="tag" class="h-4 w-4 text-fuchsia-400"></i>
+                <input type="text" id="couponInput" class="coupon-input" placeholder="Coupon Code">
+                <button onclick="handleCoupon()" id="applyCouponBtn" class="coupon-btn">Apply</button>
+            </div>
+        </div>
 
-        <!-- BUTTONS CONTAINER -->
-        <div class="flex items-center flex-wrap gap-4 mt-4">
-            <!-- BUY BUTTON -->
+        <div class="flex items-center flex-wrap gap-4 mt-2">
             <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
               <span>Buy Now</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
@@ -466,14 +465,11 @@
               <span class="corner-bling"></span>
             </a>
 
-            <!-- UNLOCK BUTTON WRAPPER FOR SNAKE ANIMATION -->
-            <div id="unlockContainer" class="snake-container">
-                <!-- SNAKE BORDER ELEMENTS -->
+            <div id="unlockContainer" class="snake-container" style="display: none;">
                 <div class="snake-border"></div>
                 <div class="snake-glow"></div>
                 <div class="snake-mask"></div>
-                <!-- UNLOCK BUTTON -->
-                <button id="unlockBtn" class="unlock-btn" data-unlocked="false">
+                <button id="unlockBtn" class="unlock-btn" data-unlocked="false" onclick="handleUnlockClick()">
                     <i data-lucide="lock-open" class="h-4 w-4"></i> 
                     <span>Access Content</span>
                 </button>
@@ -487,14 +483,6 @@
       <p class="text-zinc-300 leading-relaxed">A powerful guide inspired by PremAnand Ji to help you master calmness and inner stability. The concepts are simplified with practical steps you can use in everyday situations. Whether it’s emotional noise, stress, or expectations, each chapter shows a calm way through. This premium pack also includes HD video, podcast audio, and a mind map to make learning easier in both Hindi and English.</p>
     </div>
 
-    <div data-aos="fade-up" class="py-2 premium-list-container">
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>PREMIUM E-BOOK</strong></span></div>
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span></div>
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span></div>
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>MIND MAP</strong></span></div>
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HINDI AND ENGLISH BOTH LANGUAGE</strong></span></div>
-    </div>
-
     <div data-aos="fade-up" class="py-4"> <h2 class="text-2xl font-bold mb-4">Q&A</h2>
       <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
         <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">What is the main purpose of the Zero-Disturbance mindset?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">Its purpose is to help you maintain inner stability even during external chaos.</p></div></details>
@@ -503,7 +491,15 @@
       </div>
     </div>
 
-    <!-- FEEDBACKS -->
+
+    <div data-aos="fade-up" class="py-2 premium-list-container">
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>PREMIUM E-BOOK</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>MIND MAP</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HINDI AND ENGLISH BOTH LANGUAGE</strong></span></div>
+    </div>
+
     <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
       <div class="space-y-3" id="feedback-list">
@@ -513,42 +509,21 @@
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">J</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Naina Arora</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
-        <!-- HIDDEN FEEDBACKS -->
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tanwar</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Maun Protocol try kiya aur mind ka noise half ho gaya Didn’t expect it to work this well</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Payal jha</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">The structure is clean and modern. Great blend of psychology, reflection, and simple actions...</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aanya sexsena</div><div class="user-location">India</div></div></div><div class="feedback-date">Nov 2025</div></div><div class="feedback-text">Forgiveness ritual improved my sleep. Emotional burden feels much lighter now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">D</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Danish yadav</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Short chapters, strong impact. This feels like a guide I’ll come back to again and again</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">O</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">omkar pandey</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Yeh price me itna premium content mil raha hai honestly shock ho gaya Worth every rupee❤️😍.</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
       </div>
-      <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition">Show More</button>
+      <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition" onclick="toggleFeedbacks()">Show More</button>
     </div>
   </section>
 
-  <!-- MODALS -->
-  <!-- Download Modal (Used for Language Selection when both are purchased) -->
   <div id="downloadModal" class="modal">
-    <!-- ZIP Confirmation Modal (Step 3 in New Flow) -->
-    <div id="zipConfirmationModal" class="modal" style="display: none; position: absolute; inset: 0; background-color: rgba(2, 6, 23, 0.9); z-index: 10; border-radius: 12px; align-items: center; justify-content: center; backdrop-filter: blur(2px);">
-        <div id="zipConfirmationContent" class="modal-content animate-modalFadeIn" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
-            <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Check</h3>
-            <p class="text-base font-semibold text-zinc-300 text-center mb-5">Can your device open <span class="text-yellow-400">.ZIP files</span>?</p>
-            <div class="space-y-3 p-4 bg-zinc-800/50 rounded-lg mb-6 border border-zinc-700">
-                <p class="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">If No, follow these 3 steps:</p>
-                <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Open your <strong class="text-white">Play Store / App Store</strong>.</span></div>
-                <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</span></div>
-                <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Return here and click the button below.</span></div>
-        </div>
-            <!-- NOTE: Button now calls the new flow function -->
-            <button id="understandZipBtn" onclick="handleZipConfirmation()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">I Understand</button>
-        </div>
-    </div>
-
-    <!-- Language Selection Modal (Opens only if both languages were purchased) -->
     <div id="languageSelectionModal" class="modal-content" style="max-width: 450px; display: none; background-color: #1e293b; color: white;">
       <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Content Language</h2>
       <p class="text-sm text-zinc-300 text-center mb-6">You have unlocked both language bundles. Which version would you like to view?</p>
       
-      <!-- FIX: Close button added to Language Selection Modal -->
       <button onclick="closeDownloadModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
 
       <div id="languageSelectionContainer" class="space-y-4 transition-opacity duration-300">
@@ -562,8 +537,21 @@
     </div>
   </div>
 
+  <div id="zipConfirmationModal" class="modal" style="display: none;">
+      <div id="zipConfirmationContent" class="modal-content animate-modalFadeIn" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
+          <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Check</h3>
+          <p class="text-base font-semibold text-zinc-300 text-center mb-5">Can your device open <span class="text-yellow-400">.ZIP files</span>?</p>
+          <div class="space-y-3 p-4 bg-zinc-800/50 rounded-lg mb-6 border border-zinc-700">
+              <p class="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">If No, follow these 3 steps:</p>
+              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Open your <strong class="text-white">Play Store / App Store</strong>.</span></div>
+              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</span></div>
+              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Return here and click the button below.</span></div>
+      </div>
+          <button id="understandZipBtn" onclick="handleZipConfirmation()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">I Understand</button>
+      </div>
+  </div>
 
-  <!-- Feedback Modal -->
+
   <div id="feedbackModal" class="modal">
     <div class="modal-content" id="feedbackModalContent" style="max-width: 400px; padding: 30px; background-color: #1e293b; color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1);">
         <h2 class="text-xl font-bold mb-2 text-indigo-400 text-center">Tell us what you think!</h2>
@@ -581,7 +569,6 @@
     </div>
   </div>
 
-  <!-- Payment Modal -->
   <div id="paymentModal" class="modal">
     <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111817;">
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()" style="position: absolute; top: 12px; right: 12px; z-index: 2020;"><i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i></button>
@@ -603,7 +590,6 @@
     </div>
   </div>
 
-  <!-- Confirmation Modal -->
   <div id="confirmationModal">
     <div id="confirmationContent">
         <div class="mb-4"><i data-lucide="alert-triangle" class="h-8 w-8 text-red-400 mx-auto mb-2"></i><p class="conf-text-glow text-lg">Are you sure to exit payment?</p></div>
@@ -615,25 +601,21 @@
     </div>
   </div>
 
-  <!-- PRODUCT VIEWER MODAL (DASHBOARD) -->
   <div id="productViewerModal" class="modal">
       <div id="productViewerContent" class="modal-content animate-modalFadeIn">
           <div class="viewer-header">
               <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
               <div class="flex items-center gap-2">
-                  <!-- Download All Files Button -->
                   <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
                       <i data-lucide="download" class="h-4 w-4"></i>
                       <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
                   </button>
-                  <!-- Close Button (X Icon) -->
                   <button onclick="closeViewerModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
                       <i data-lucide="x" class="h-5 w-5"></i>
                   </button>
               </div>
           </div>
 
-          <!-- Language Switcher in Header (Optional, for easy access) -->
           <div id="dashboardLangSwitcher" class="bg-gray-800/50 p-2 border-b border-white/10 flex justify-center gap-4 text-sm font-medium hidden">
                <span class="text-zinc-400">Viewing:</span>
                <button onclick="saveAndOpenDashboard('HINDI')" class="text-red-400 hover:text-red-300 transition underline">HINDI</button>
@@ -643,7 +625,6 @@
 
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <!-- Tabs -->
                   <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video Class</div>
                   <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
@@ -653,7 +634,6 @@
               </div>
               <div class="viewer-main">
 
-                  <!-- VIDEO SECTION -->
                   <div id="view-video" class="viewer-section active">
                       <div class="w-full max-w-2xl bg-black rounded-lg overflow-hidden border border-zinc-700 shadow-2xl mb-4">
                           <video id="videoSource" controls class="w-full h-auto" poster="https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png">
@@ -666,7 +646,6 @@
                       </button>
                   </div>
 
-                  <!-- AUDIO SECTION -->
                   <div id="view-audio" class="viewer-section">
                       <div class="flex flex-col items-center justify-center text-center p-8 bg-[#1e293b]/80 backdrop-blur-md rounded-xl border border-zinc-700 w-full max-w-md shadow-2xl">
                           <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
@@ -680,7 +659,6 @@
                       </div>
                   </div>
 
-                  <!-- PDF SECTION -->
                   <div id="view-pdf" class="viewer-section"><div class="text-center">
                     <div class="w-24 h-24 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-700 shadow-lg">
                         <i data-lucide="file-text" class="h-10 w-10 text-zinc-400"></i>
@@ -692,7 +670,6 @@
                     </button>
                   </div></div>
 
-                  <!-- IMAGE SECTION -->
                   <div id="view-image" class="viewer-section flex-col">
                       <div class="flex justify-between w-full max-w-2xl mb-2 items-center px-2">
                           <p class="text-zinc-400 text-xs uppercase tracking-wide font-semibold"><i data-lucide="zoom-in" class="inline h-3 w-3 mr-1"></i>Click to Zoom</p>
@@ -705,7 +682,6 @@
                       </div>
                   </div>
 
-                  <!-- PRESENTATION SECTION (New) -->
                   <div id="view-ppt" class="viewer-section">
                       <div class="premium-lock-card">
                           <div class="premium-lock-icon bg-indigo-500/20"><i data-lucide="presentation" class="h-10 w-10 text-indigo-400"></i></div>
@@ -715,7 +691,6 @@
                       </div>
                   </div>
 
-                  <!-- EXTRA RESOURCE SECTION (New) -->
                   <div id="view-extra" class="viewer-section">
                       <div class="premium-lock-card">
                           <div class="premium-lock-icon bg-emerald-500/20"><i data-lucide="folder-plus" class="h-10 w-10 text-emerald-400"></i></div>
@@ -734,45 +709,50 @@
 
   <script>
     // =========================================
-    // 1. PRODUCT CONFIGURATION (Toggle Features)
+    // 1. PRODUCT CONFIGURATION
     // =========================================
-    // Change these to true/false to show/hide specific sections in dashboard
     const productConfig = {
-        showVideo: true,
-        showAudio: true,
-        showPdf: true,
-        showMindmap: true,
-        showPpt: true,      // Restored
-        showExtra: true     // Restored
+        showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showPpt: true, showExtra: true
     };
 
     // --- CONFIGURATION ---
-    const IS_SALE_ACTIVE = true; // SALE ON/OFF Control
+    const IS_SALE_ACTIVE = true;
+    const ENABLE_COUPON_SECTION = true; // CHANGE THIS TO false TO HIDE COUPON
+    
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png';
-    const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_002'; // Updated Unique ID
-    const PAYMENT_URL = "https://payments.cashfree.com/forms/dsdfg2";
+    const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_002';
+    
+    // Payment Links (Original & Discounted)
+    const PAYMENT_LINKS = {
+        default: "https://payments.cashfree.com/forms/dsdfg2",  // Normal Price Link
+        discounted: "https://payments.cashfree.com/forms/discounted_link_299" // 299 Price Link (Replace this with real link)
+    };
+    
+    let currentPaymentUrl = PAYMENT_LINKS.default; // Default to normal price
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0';
     const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
+    const VALID_COUPON = "MINTOR299"; // Change this code as needed
 
-    // Dummy URLs for demonstration. Replace with actual file paths.
+    // FIX: Combined all ZIP URLs into one object for direct access
     const ZIP_URLS = {
         HINDI: "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip",
         ENGLISH: "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(ENGLISH%20EDITION).zip"
     };
 
-    // --- PRODUCT CONTENT LINKS (PASTE YOUR LINKS HERE) ---
     const CONTENT_URLS = {
         HINDI: {
             VIDEO: "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/mockups/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A5%87%E0%A4%AE%E0%A4%BE%E0%A4%A8%E0%A4%82%E0%A4%A1_%E0%A4%9C%E0%A5%80__%E0%A4%9C%E0%A4%BC%E0%A5%80%E0%A4%B0%E0%A5%8B-%E0%A4%A1%E0%A4%BF%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AC%E0%A5%87%E0%A4%82%E0%A4%B8_%E0%A4%95%E0%A5%8B%E0%A4%A1%20(EXPLAINER%20VIDEO).mp4",
             AUDIO: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20Audio%20Link.mp3",
             PDF: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20PDF%20Link.pdf",
-            MINDMAP: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20Mindmap%20Image.png"
+            MINDMAP: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20Mindmap%20Image.png",
+            ZIP: ZIP_URLS.HINDI 
         },
         ENGLISH: {
             VIDEO: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20Video%20Link.mp4",
             AUDIO: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20Audio%20Link.mp3",
             PDF: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20PDF%20Link.pdf",
-            MINDMAP: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20Mindmap%20Image.png"
+            MINDMAP: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20Mindmap%20Image.png",
+            ZIP: ZIP_URLS.ENGLISH
         }
     };
     const SCREENSHOT_URLS = [
@@ -783,175 +763,149 @@
     ];
 
     // --- DOM ELEMENTS ---
-    const cover = document.getElementById('coverFace');
-    const coverImg = document.getElementById('coverImg');
-    const coverShine = document.getElementById('coverShine');
-    const loadingSpin = document.getElementById('loadingSpin');
-    const downloadModal = document.getElementById('downloadModal'); // The main modal container for language selection
-    const languageSelectionModal = document.getElementById('languageSelectionModal'); // The language selection content
-    const zipConfirmationModal = document.getElementById('zipConfirmationModal'); // The ZIP check modal container
-    const zipConfirmationContent = document.getElementById('zipConfirmationContent');
-    const toastNotification = document.getElementById('toastNotification');
-    const buyBtn = document.getElementById('buyBtn');
+    const dom = {
+        cover: document.getElementById('coverFace'),
+        coverImg: document.getElementById('coverImg'),
+        coverShine: document.getElementById('coverShine'),
+        loadingSpin: document.getElementById('loadingSpin'),
+        downloadModal: document.getElementById('downloadModal'),
+        languageSelectionModal: document.getElementById('languageSelectionModal'),
+        zipConfirmationModal: document.getElementById('zipConfirmationModal'),
+        zipConfirmationContent: document.getElementById('zipConfirmationContent'),
+        toastNotification: document.getElementById('toastNotification'),
+        toastMessage: document.getElementById('toastMessage'),
+        buyBtn: document.getElementById('buyBtn'),
+        unlockBtn: document.getElementById('unlockBtn'),
+        unlockContainer: document.getElementById('unlockContainer'),
+        productViewerModal: document.getElementById('productViewerModal'),
+        productViewerContent: document.getElementById('productViewerContent'),
+        dashboardTitle: document.getElementById('dashboardTitle'),
+        videoSource: document.getElementById('videoSource'),
+        audioSource: document.getElementById('audioSource'),
+        imageSource: document.getElementById('imageSource'),
+        previewOverlay: document.getElementById('previewOverlay'),
+        previewScreenshot: document.getElementById('previewScreenshot'),
+        imageCounter: document.getElementById('imageCounter'),
+        previewIndicator: document.getElementById('previewIndicator'),
+        previewShine: document.getElementById('previewShine'),
+        
+        // Pricing DOMs
+        displayPrice: document.getElementById('displayPrice'),
+        originalPrice: document.getElementById('originalPrice'),
+        couponInput: document.getElementById('couponInput'),
+        applyCouponBtn: document.getElementById('applyCouponBtn')
+    };
 
-    // Elements for Unlock & Snake Animation
-    const unlockBtn = document.getElementById('unlockBtn');
-    const unlockContainer = document.getElementById('unlockContainer');
-    
-    // REMOVED: vignetteOverlay reference
+    let currentContentLanguage = 'HINDI';
 
-    const productViewerModal = document.getElementById('productViewerModal');
-    const dashboardLangSwitcher = document.getElementById('dashboardLangSwitcher');
+    // =========================================
+    // TOGGLE FEEDBACKS (FIXED - ADDED FUNCTION)
+    // =========================================
+    function toggleFeedbacks() {
+        const hiddenItems = document.querySelectorAll('.extra-feedback');
+        const btn = document.getElementById('showMore');
+        if(!hiddenItems.length || !btn) return;
 
-    // Other elements
-    const paymentModal = document.getElementById('paymentModal');
-    const paymentModalContent = document.getElementById('paymentModalContent');
-    const paymentLoader = document.getElementById('paymentLoader');
-    const cashfreeIframe = document.getElementById('cashfreeIframe');
-    const confirmationModal = document.getElementById('confirmationModal');
-    const customTagContainer = document.getElementById('custom-tag-container');
-    const paymentLangSelection = document.getElementById('paymentLangSelection');
-    const previewOverlay = document.getElementById('previewOverlay');
-    const previewIndicator = document.getElementById('previewIndicator');
-    const logoImg = document.getElementById('logoImg');
-    const logoShine = document.getElementById('logoShine');
-    const pdfSourceBtn = document.getElementById('pdfSourceBtn');
+        // Check if currently hidden (style might be null or none)
+        const isHidden = window.getComputedStyle(hiddenItems[0]).display === 'none';
 
-
-    // --- LOGO LOADING LOGIC ---
-    if (logoImg.complete) {
-        logoShine.style.display = 'none';
-        logoImg.classList.remove('opacity-0');
-    } else {
-        logoImg.onload = () => {
-            logoShine.style.display = 'none';
-            logoImg.classList.remove('opacity-0');
-        };
+        if (isHidden) {
+            // Show items
+            hiddenItems.forEach(item => {
+                item.style.display = 'flex'; // Use flex because class uses flex
+                item.classList.add('animate-slideUp');
+            });
+            btn.textContent = 'Show Less';
+        } else {
+            // Hide items
+            hiddenItems.forEach(item => {
+                item.style.display = 'none';
+                item.classList.remove('animate-slideUp');
+            });
+            btn.textContent = 'Show More';
+            // Optional: smooth scroll back to feedback section to avoid disorientation
+            document.getElementById('feedbacks').scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
     }
 
-    // --- SALE LOGIC ---
-    if (IS_SALE_ACTIVE) {
-        document.getElementById('saleBanner').style.display = 'block';
-        document.getElementById('pricingContainer').innerHTML = `
-            <span class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹209</span>
-            <span class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1699</span>
-            <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">88% OFF</span>
-        `;
-    } else {
-        document.getElementById('saleBanner').style.display = 'none';
-        document.getElementById('pricingContainer').innerHTML = `<span class="text-2xl font-bold text-white">₹1699</span> <span class="text-sm text-zinc-400 font-normal">Standard Price</span>`;
-    }
+    // =========================================
+    // COUPON LOGIC
+    // =========================================
+    function handleCoupon() {
+        if (!ENABLE_COUPON_SECTION) return; // Guard clause if disabled
 
-    // --- ROLLING TEXT (No Change) ---
-    const TRUST_PHRASES = ["Trending", "Bestseller", "4.9/5 Rated", "Instant Access", "High Demand"];
-    let phraseIndex = 0;
-    function updateTag() {
-        if (!customTagContainer) return;
-        customTagContainer.innerHTML = `<div class="subtle-tag"><i data-lucide="zap" class="h-3 w-3 text-indigo-300"></i><div class="tag-text-wrapper"><span class="tag-text" id="rollingText">${TRUST_PHRASES[0]}</span></div><span class="tag-shine"></span></div>`;
-        lucide.createIcons();
-        setInterval(() => {
-            phraseIndex = (phraseIndex + 1) % TRUST_PHRASES.length;
-            const textEl = document.getElementById('rollingText');
-            if(textEl) {
-                textEl.classList.remove('animate-rollUpSmooth');
-                void textEl.offsetWidth;
-                textEl.textContent = TRUST_PHRASES[phraseIndex];
-                textEl.classList.add('animate-rollUpSmooth');
-            }
-        }, 2500);
-    }
-    updateTag();
+        const input = dom.couponInput;
+        const btn = dom.applyCouponBtn;
+        const code = input.value.trim().toUpperCase();
 
-    // --- PRELOAD LOGIC (No Change) ---
-    function preloadAllImages() {
-        cover.setAttribute('aria-busy', 'true');
-        const imageUrls = [SOURCE_IMAGE, ...SCREENSHOT_URLS];
-        const promises = imageUrls.map(url => new Promise((resolve) => {
-            const img = new Image(); img.src = url; img.onload = resolve; img.onerror = resolve;
-        }));
+        if(code === VALID_COUPON) {
+            confetti({ particleCount: 60, spread: 50, origin: { y: 0.5, x: 0.5 }, colors: ['#22c55e', '#ffffff'], zIndex: 10 });
+            
+            input.disabled = true;
+            btn.disabled = true;
+            input.classList.add('coupon-applied');
+            btn.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i>';
+            lucide.createIcons();
 
-        Promise.all(promises).then(() => {
-            coverImg.src = SOURCE_IMAGE;
-            requestAnimationFrame(()=> { coverImg.style.opacity = '0.6'; coverImg.style.transform = 'scale(1)'; });
+            dom.originalPrice.classList.add('animate-priceSlash'); 
+            dom.displayPrice.classList.add('animate-popFloat'); 
+            
             setTimeout(() => {
-                coverImg.style.opacity = '1';
-                coverShine.style.transition = 'opacity 0.32s ease'; coverShine.style.opacity = '0';
-                loadingSpin.style.opacity = '0';
-                setTimeout(()=> {
-                    coverShine.style.display = 'none'; loadingSpin.style.display = 'none';
-                    cover.classList.add('loaded'); cover.setAttribute('aria-busy','false');
-                    previewIndicator.style.display = 'block';
-                    setTimeout(() => { previewIndicator.style.opacity = '0'; setTimeout(() => { previewIndicator.style.display = 'none'; }, 500); }, 4000);
-                }, 450);
-            }, 700);
-        });
-    }
-    preloadAllImages();
+                dom.originalPrice.innerHTML = '₹899'; 
+                dom.displayPrice.innerHTML = '₹299'; 
+                dom.originalPrice.classList.remove('animate-priceSlash');
+            }, 600);
 
-    // --- PREVIEW LOGIC (Slight change to handle event propagation) ---
-    let currentImageIndex = 0;
-    function showPreviewImage(index) {
-        if (index >= SCREENSHOT_URLS.length) index = 0; else if (index < 0) index = SCREENSHOT_URLS.length - 1;
-        currentImageIndex = index;
-        const previewShine = document.getElementById('previewShine'); // Re-get element
-        const imageCounter = document.getElementById('imageCounter'); // Re-get element
-        previewShine.style.display = 'block'; previewScreenshot.style.opacity = '0.5';
-        const tempImg = new Image(); tempImg.src = SCREENSHOT_URLS[currentImageIndex];
-        tempImg.onload = () => {
-            previewShine.style.display = 'none'; previewScreenshot.src = tempImg.src;
-            imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
-            previewScreenshot.style.opacity = '1';
-            previewScreenshot.classList.remove('animate-subtleZoomIn');
-            void previewScreenshot.offsetWidth;
-            previewScreenshot.classList.add('animate-subtleZoomIn');
-        };
+            currentPaymentUrl = PAYMENT_LINKS.discounted;
+            showToast("Coupon Applied! ₹500 Saved 🎉", true);
+
+        } else {
+            input.classList.add('animate-shakeInput', 'border-red-500');
+            setTimeout(() => input.classList.remove('animate-shakeInput', 'border-red-500'), 500);
+            showToast("Invalid code. Please check and try again.", false);
+        }
     }
-    cover.addEventListener('click', (event) => {
-        if (previewOverlay.style.opacity === '1') { event.stopPropagation(); showPreviewImage(currentImageIndex + 1); }
-        else { event.preventDefault(); coverImg.style.opacity = '0'; previewOverlay.style.opacity = '1'; previewOverlay.style.pointerEvents = 'auto'; currentImageIndex = -1; showPreviewImage(0); lucide.createIcons(); previewIndicator.style.display = 'none'; }
-    });
-    function exitPreview(event) {
-        if (event) event.stopPropagation();
-        previewScreenshot.classList.remove('animate-subtleZoomIn');
-        setTimeout(() => { previewOverlay.style.opacity = '0'; previewOverlay.style.pointerEvents = 'none'; previewScreenshot.style.opacity = '0'; coverImg.style.opacity = '1'; }, 300);
+
+    function showToast(msg, isSuccess = true) {
+        dom.toastMessage.textContent = msg;
+        dom.toastNotification.style.background = isSuccess ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)';
+        dom.toastNotification.classList.add('show');
+        setTimeout(() => dom.toastNotification.classList.remove('show'), 3000);
     }
 
     // =========================================
     // 2. DASHBOARD / VIEWER LOGIC
     // =========================================
-    let currentContentLanguage = 'HINDI'; // Default language
-
     function switchViewerTab(tabId) {
-        if (!productConfig) return;
-
-        // Pause any media before switching tabs
         document.querySelectorAll('video, audio').forEach(v => v.pause());
-        
-        // Hide all tabs & sections
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
 
         const clickedTab = document.getElementById(`tab-${tabId}`);
-        const clickedSection = document.getElementById(`view-${tabId}`);
+        if(clickedTab) clickedTab.classList.add('active');
 
-        if(clickedTab && clickedSection) {
-            clickedTab.classList.add('active');
-            clickedSection.classList.add('active');
-        }
+        let targetSectionId = `view-${tabId}`;
+        let isAvailable = true;
+
+        if (tabId === 'ppt' && !productConfig.showPpt) isAvailable = false;
+        if (tabId === 'extra' && !productConfig.showExtra) isAvailable = false;
+        if (tabId === 'video' && !productConfig.showVideo) isAvailable = false;
+
+        if (!isAvailable) targetSectionId = 'view-unavailable';
+
+        const section = document.getElementById(targetSectionId);
+        if(section) section.classList.add('active');
     }
 
     function openViewerModal(lang) {
         if (lang) {
             currentContentLanguage = lang;
-            // Also update local storage if we manually select language
             localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); 
         } else {
-             // If no lang provided, try to load from local storage
              currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI';
         }
 
         try {
-            // A. APPLY CONFIG VISIBILITY
             const tabVideo = document.getElementById('tab-video');
             const tabAudio = document.getElementById('tab-audio');
             const tabPdf = document.getElementById('tab-pdf');
@@ -966,196 +920,245 @@
             if(tabPpt) tabPpt.style.display = productConfig.showPpt ? 'flex' : 'none';
             if(tabExtra) tabExtra.style.display = productConfig.showExtra ? 'flex' : 'none';
 
-            // B. SETUP CONTENT based on currentContentLanguage
-            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; // Fallback
-            const isDualLang = unlockContainer.getAttribute('data-unlocked') === 'BOTH';
+            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
+            const isDualLang = dom.unlockBtn.getAttribute('data-unlocked') === 'BOTH';
 
-            // Set Modal Title
             document.getElementById('dashboardTitle').textContent = `Premium Content (${currentContentLanguage})`;
+            document.getElementById('dashboardLangSwitcher').style.display = isDualLang ? 'flex' : 'none';
 
-            // Show/Hide Language Switcher
-            dashboardLangSwitcher.style.display = isDualLang ? 'flex' : 'none';
-
-            // --- SINGLE FILE DOWNLOAD & SOURCE SETUP ---
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource');
 
-            // Setup Video
             if(content.VIDEO && videoEl) {
                 const source = videoEl.querySelector('source');
                 if(source) { source.src = content.VIDEO; videoEl.load(); }
             }
-
-            // Setup Audio
             if(content.AUDIO && audioEl) {
                 const source = audioEl.querySelector('source');
                 if(source) { source.src = content.AUDIO; audioEl.load(); }
             }
-
-            // Setup Image
             if(content.MINDMAP && imgEl) {
                 imgEl.src = content.MINDMAP;
             }
 
-            productViewerModal.style.display = 'flex';
-            productViewerContent.classList.add('animate-modalFadeIn'); // Ensure modal animation runs
+            dom.productViewerModal.style.display = 'flex';
+            dom.productViewerContent.classList.add('animate-modalFadeIn'); 
 
-            // C. AUTO-SELECT FIRST AVAILABLE TAB
             if (productConfig.showVideo) switchViewerTab('video');
             else if (productConfig.showAudio) switchViewerTab('audio');
             else if (productConfig.showPdf) switchViewerTab('pdf');
             else if (productConfig.showMindmap) switchViewerTab('image');
-            else if (productConfig.showPpt) switchViewerTab('ppt');
-            else if (productConfig.showExtra) switchViewerTab('extra');
 
-            lucide.createIcons(); // Re-create icons for the modal
+            lucide.createIcons(); 
         } catch(e) {
             console.error("Dashboard Error:", e);
-            productViewerModal.style.display = 'flex'; // Force show as fallback
+            dom.productViewerModal.style.display = 'flex'; 
         }
     }
 
     function closeViewerModal() {
-        productViewerContent.classList.remove('animate-modalFadeIn');
-        productViewerContent.classList.add('animate-modalFadeOut');
-
+        dom.productViewerContent.classList.remove('animate-modalFadeIn');
+        dom.productViewerContent.classList.add('animate-modalFadeOut');
         setTimeout(() => {
-            productViewerModal.style.display = 'none';
-            productViewerContent.classList.remove('animate-modalFadeOut');
+            dom.productViewerModal.style.display = 'none';
+            dom.productViewerContent.classList.remove('animate-modalFadeOut');
             document.querySelectorAll('video, audio').forEach(v => v.pause());
         }, 400); 
     }
 
-    // New: Handle Smart Multi-Language Logic when clicking the main unlock button
+    // FIX 2: IMPROVED UNLOCK LOGIC (PERSISTENCE CHECKER)
     function handleUnlockClick() {
-        // 1. Get the unlocked status from the button data attribute (set during DOM load or post-payment)
-        const unlockedStatus = unlockBtn.getAttribute('data-unlocked');
+        // 1. Get status from attribute
+        let status = dom.unlockBtn.getAttribute('data-unlocked');
+        
+        // 2. SAFETY CHECK: If status is false, check localStorage one more time (Double Check for Refresh)
+        if (status === 'false' || !status) {
+            const savedData = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
+            if (savedData && savedData !== 'false') {
+                // Determine correct status from localStorage string
+                if (savedData.includes('HINDI') && savedData.includes('ENGLISH')) status = 'BOTH';
+                else if (savedData.includes('HINDI')) status = 'HINDI';
+                else if (savedData.includes('ENGLISH')) status = 'ENGLISH';
+                
+                // Update DOM immediately to fix state
+                dom.unlockBtn.setAttribute('data-unlocked', status);
+            }
+        }
 
-        if (unlockedStatus === 'HINDI') {
-            openViewerModal('HINDI');
-        } else if (unlockedStatus === 'ENGLISH') {
-            openViewerModal('ENGLISH');
-        } else if (unlockedStatus === 'BOTH') {
-            // Open Language Selection Modal
-            downloadModal.style.display = 'flex';
-            languageSelectionModal.style.display = 'flex';
-            zipConfirmationModal.style.display = 'none';
-            languageSelectionModal.classList.add('animate-modalFadeIn');
+        // 3. Logic Flow
+        if (status === 'BOTH') {
+            dom.downloadModal.style.display = 'flex';
+            dom.languageSelectionModal.style.display = 'block'; 
+            dom.zipConfirmationModal.style.display = 'none'; 
+            dom.languageSelectionModal.classList.add('animate-modalFadeIn');
             lucide.createIcons();
+        } else if (status === 'HINDI') {
+            openViewerModal('HINDI');
+        } else if (status === 'ENGLISH') {
+            openViewerModal('ENGLISH');
         } else {
-             // Fallback for 'false' or missing status - this shouldn't happen if button is visible.
-             console.error("Product not fully unlocked or status missing. Status:", unlockedStatus);
-             // As a strong fallback, open default language dashboard if local storage has a preferred language
-             openViewerModal(localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID));
+             showToast("Please purchase the product first to access content.", false);
         }
     }
 
-    // New: Save Language and Open Dashboard (From Language Selection Modal)
     function saveAndOpenDashboard(lang) {
-        languageSelectionModal.classList.add('animate-modalFadeOut');
-        setTimeout(() => {
-            downloadModal.style.display = 'none';
-            languageSelectionModal.style.display = 'none';
-            languageSelectionModal.classList.remove('animate-modalFadeOut');
-            openViewerModal(lang);
-        }, 400);
-    }
-    
-    // New: Close Download/Language Modal
-    function closeDownloadModal() {
-        downloadModal.style.display = 'none';
-        languageSelectionModal.style.display = 'none';
+        dom.languageSelectionModal.style.display = 'none';
+        dom.downloadModal.style.display = 'none';
+        openViewerModal(lang);
     }
 
-    // New: Centralized Download Handlers (To avoid link previews)
+    function closeDownloadModal() {
+        dom.downloadModal.style.display = 'none';
+    }
+
     function handleDownloadBundleClick() {
         const lang = currentContentLanguage;
-        const zipUrl = ZIP_URLS[lang];
-        window.location.href = zipUrl; // Triggers download/open
+        const url = CONTENT_URLS[lang] ? CONTENT_URLS[lang].ZIP : null;
+
+        if(url) {
+            window.location.href = url;
+        } else {
+             showToast(`Download link missing for ${lang} ZIP.`, false);
+        }
     }
 
     function handleSingleDownload(type) {
-        const lang = currentContentLanguage;
-        let fileUrl = '';
-
-        if (type === 'video') fileUrl = CONTENT_URLS[lang].VIDEO;
-        else if (type === 'audio') fileUrl = CONTENT_URLS[lang].AUDIO;
-        else if (type === 'pdf') {
-            fileUrl = CONTENT_URLS[lang].PDF;
-            // For PDF, we open in a new tab to view, not force download
-            window.open(fileUrl, '_blank');
-            return;
-        }
-        else if (type === 'image') fileUrl = CONTENT_URLS[lang].MINDMAP;
-
-        if (fileUrl) {
-            // Create a temporary anchor element to trigger download
-            const tempLink = document.createElement('a');
-            tempLink.href = fileUrl;
-            // FIX: Ensure filename is set correctly to avoid generic names
-            const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1) || `${type}_${lang}.${fileUrl.split('.').pop() || 'file'}`;
-            tempLink.download = filename;
-            document.body.appendChild(tempLink);
-            tempLink.click();
-            document.body.removeChild(tempLink);
+        const content = CONTENT_URLS[currentContentLanguage];
+        let url = '';
+        if(type === 'video') url = content.VIDEO;
+        if(type === 'audio') url = content.AUDIO;
+        if(type === 'pdf') { window.open(content.PDF, '_blank'); return; }
+        if(type === 'image') url = content.MINDMAP;
+        
+        if(url) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = ''; 
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         } else {
-            console.error(`File not found for type: ${type} and language: ${lang}`);
+             showToast(`File URL missing for ${type}.`, false);
         }
     }
 
-    // FIX: The event listener is attached once here to ensure reliability.
-    if(unlockBtn) {
-        // Remove previous listener if it existed
-        unlockBtn.removeEventListener('click', handleUnlockClick); 
-        // Add correct listener
-        unlockBtn.addEventListener('click', handleUnlockClick);
+    // =========================================
+    // 3. POST PAYMENT & ANIMATION
+    // =========================================
+    let postPaymentLanguage = '';
+
+    function startUnlockProcess(lang) {
+        postPaymentLanguage = lang;
+        triggerCelebration();
+        dom.zipConfirmationModal.style.display = 'flex'; 
+        lucide.createIcons();
     }
 
-    // --- UTILS (Minor additions for click event) ---
-    document.querySelectorAll('summary').forEach(summary => {
-        summary.addEventListener('click', function(e) {
-            e.preventDefault();
-            const details = this.parentElement;
-            const content = details.querySelector('.details-content');
-            if (details.open) {
-                content.style.height = content.scrollHeight + 'px'; content.style.opacity = '1';
-                void content.offsetWidth;
-                content.style.height = '0'; content.style.opacity = '0';
-                setTimeout(() => { details.removeAttribute('open'); }, 300);
-            } else {
-                details.setAttribute('open', ''); content.style.height = '0'; content.style.opacity = '0';
-                void content.offsetWidth;
-                content.style.height = content.scrollHeight + 'px'; content.style.opacity = '1';
-                setTimeout(() => { content.style.height = 'auto'; }, 300);
-            }
-        });
-    });
+    function handleZipConfirmation() {
+        dom.zipConfirmationModal.style.display = 'none';
+        dom.unlockContainer.style.display = 'inline-flex';
+        
+        const status = getUpdatedUnlockStatus(postPaymentLanguage);
+        dom.unlockBtn.setAttribute('data-unlocked', status);
+        dom.unlockContainer.classList.add('snake-active'); 
 
-    // FIX: Improved Show More Logic
-    let isFeedbackExpanded = false;
-    document.getElementById('showMore').addEventListener('click', e => {
-      const hidden = document.querySelectorAll('.extra-feedback'); 
-      const btn = e.target;
-      isFeedbackExpanded = !isFeedbackExpanded; // Toggle state
+        dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-      hidden.forEach(el => {
-          el.style.display = isFeedbackExpanded ? 'flex' : 'none';
-          if(isFeedbackExpanded) {
-              el.classList.remove('animate-slideUp');
-              void el.offsetWidth;
-              el.classList.add('animate-slideUp');
-          }
-      });
+        setTimeout(() => {
+            showToast("Product Unlocked! Access Granted.", true);
+        }, 500);
+
+        setTimeout(() => {
+            dom.unlockContainer.classList.remove('snake-active');
+        }, 5000);
+    }
+
+    function getUpdatedUnlockStatus(newLang) {
+        const current = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
+        let result = newLang;
+        // Merge Logic
+        if ((current.includes('HINDI') && newLang === 'ENGLISH') || 
+            (current.includes('ENGLISH') && newLang === 'HINDI') || 
+            current.includes('BOTH')) {
+            result = 'BOTH';
+        }
+        
+        localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, result);
+        return result; // return simple string logic
+    }
+
+    // =========================================
+    // 4. UTILITIES & INITIALIZATION
+    // =========================================
+    document.addEventListener('DOMContentLoaded', function() {
+      // 0. COUPON ON/OFF CHECK
+      if (!ENABLE_COUPON_SECTION) {
+          const couponEl = document.getElementById('couponSection');
+          if(couponEl) couponEl.style.display = 'none';
+      }
+
+      // 1. Initial State: Hidden by default
+      dom.unlockBtn.setAttribute('data-unlocked', 'false');
+      dom.unlockContainer.style.display = 'none';
+
+      // 2. CHECK LOCAL STORAGE (Persistence Fix for Refresh)
+      const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
       
-      btn.textContent = isFeedbackExpanded ? 'Show Less' : 'Show More';
+      if (unlockedLangs && unlockedLangs !== 'false' && unlockedLangs !== '') {
+          // User has purchased before
+          dom.unlockContainer.style.display = 'inline-flex';
+          
+          let status;
+          if (unlockedLangs.includes('HINDI') && unlockedLangs.includes('ENGLISH')) {
+              status = 'BOTH';
+          } else if (unlockedLangs.includes('HINDI')) {
+              status = 'HINDI';
+          } else if (unlockedLangs.includes('ENGLISH')) {
+              status = 'ENGLISH';
+          } else {
+             // Fallback
+             status = unlockedLangs; 
+          }
+          
+          // Set attribute immediately
+          dom.unlockBtn.setAttribute('data-unlocked', status);
+          dom.unlockContainer.classList.add('snake-active'); // Add glow so they see it
+      }
+
+      // 3. Payment Success Handler
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentStatus = urlParams.get('payment_status');
+      const secretKey = urlParams.get('secret_key');
+      const isPaymentInitiated = sessionStorage.getItem('payment_initiated');
+      const preSelectedLang = sessionStorage.getItem('selected_language');
+
+      if (paymentStatus === 'success' && secretKey === SECRET_KEY && isPaymentInitiated === 'true') {
+        history.replaceState(null, '', window.location.pathname);
+        sessionStorage.removeItem('payment_initiated');
+        const finalStatus = getUpdatedUnlockStatus(preSelectedLang || 'HINDI');
+        dom.unlockBtn.setAttribute('data-unlocked', finalStatus);
+        
+        // Trigger Flow
+        startUnlockProcess(preSelectedLang || 'HINDI');
+      }
+
+      // 4. Load Images & Animations
+      const logoImg = document.getElementById('logoImg');
+      if (logoImg.complete) { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); }
+      else logoImg.onload = () => { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); };
+      
+      if(IS_SALE_ACTIVE) {
+        document.getElementById('saleBanner').style.display = 'block';
+      }
+
+      AOS.init({ duration: 800, once: true, offset: 120 });
+      lucide.createIcons();
+      updateTag();
+      preloadAllImages();
     });
 
-    document.getElementById('year').textContent = new Date().getFullYear();
-    AOS.init({ duration: 800, once: true, offset: 120 });
-    lucide.createIcons();
-
-    // Stats Animate (No Change)
+    // --- STATS ANIMATION ---
     function animateCount(el, start, end, duration) {
         let startTime = null; let isFloat = end % 1 !== 0;
         function step(timestamp) {
@@ -1169,211 +1172,145 @@
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             document.querySelectorAll('.stat-value span[data-target]').forEach(span => {
-                const target = parseFloat(span.getAttribute('data-target')); animateCount(span, target % 1 !== 0 ? 0.0 : 0, target, 1800);
+                const target = parseFloat(span.getAttribute('data-target')); 
+                span.textContent = "0";
+                animateCount(span, target % 1 !== 0 ? 0.0 : 0, target, 2000);
             });
             observer.disconnect();
         }
     }, { threshold: 0.5 }); observer.observe(document.getElementById('stats-section'));
 
-    // --- 3. POST PAYMENT & PERMANENT UNLOCK LOGIC (REVISED FLOW) ---
-    let postPaymentLanguage = '';
-
-    // Step 2: This function is called immediately after payment success
-    function startUnlockProcess(lang) {
-        postPaymentLanguage = lang; // Store the language used for payment
-        // 1. Show Celebration immediately
-        triggerCelebration();
-
-        // 2. Open Zip Confirmation Modal
-        downloadModal.style.display = 'flex';
-        zipConfirmationModal.style.display = 'flex';
-        languageSelectionModal.style.display = 'none'; // Ensure other modal parts are hidden
-        lucide.createIcons(); // Re-create icons for the modal
+    // --- OTHER HELPERS ---
+    function triggerCelebration() { confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); }
+    
+    // Tag Rolling
+    const TRUST_PHRASES = ["Trending", "Bestseller", "4.9/5 Rated", "Instant Access"];
+    let phraseIndex = 0;
+    function updateTag() {
+        const c = document.getElementById('custom-tag-container');
+        if (!c) return;
+        c.innerHTML = `<div class="subtle-tag"><i data-lucide="zap" class="h-3 w-3 text-indigo-300"></i><div class="tag-text-wrapper"><span class="tag-text" id="rollingText">${TRUST_PHRASES[0]}</span></div><span class="tag-shine"></span></div>`;
+        lucide.createIcons();
+        setInterval(() => {
+            phraseIndex = (phraseIndex + 1) % TRUST_PHRASES.length;
+            const el = document.getElementById('rollingText');
+            if(el) { el.classList.remove('animate-rollUpSmooth'); void el.offsetWidth; el.textContent = TRUST_PHRASES[phraseIndex]; el.classList.add('animate-rollUpSmooth'); }
+        }, 2500);
     }
 
-    // Step 4: User clicks "I Understand" on Zip Confirmation modal
-    function handleZipConfirmation() {
-        // 1. Close ZIP Modal with animation
-        zipConfirmationContent.classList.add('animate-modalFadeOut');
-
-        setTimeout(() => {
-            zipConfirmationModal.style.display = 'none';
-            downloadModal.style.display = 'none'; // Close the main modal container
-            zipConfirmationContent.classList.remove('animate-modalFadeOut');
-            
-            // REMOVED: Vignette/Blur Logic
-            // The body-vignette class and overlay code has been removed
-            
-            // 2. Enable Unlock Button and Update Status
-            // We set display to inline-flex on the container (which has z-index: 100)
-            unlockContainer.style.display = 'inline-flex';
-            unlockContainer.classList.add('snake-active'); 
-            unlockBtn.setAttribute('data-unlocked', getUpdatedUnlockStatus(postPaymentLanguage));
-
-            // 3. Page Auto-Scrolls smoothly to center the Green Unlock Button.
-            unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            // 4. "Product Unlocked" Toast Notification appears
-            // Using setTimeout to ensure it triggers visually after scroll
+    // --- PRELOAD AND PREVIEW LOGIC ---
+    function preloadAllImages() {
+        const cover = dom.cover;
+        if(!cover) return;
+        cover.setAttribute('aria-busy', 'true');
+        Promise.all([SOURCE_IMAGE, ...SCREENSHOT_URLS].map(url => new Promise(r => { const i = new Image(); i.src=url; i.onload=r; i.onerror=r; })))
+        .then(() => {
+            dom.coverImg.src = SOURCE_IMAGE;
+            requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
             setTimeout(() => {
-                toastNotification.classList.add('show');
-                setTimeout(() => toastNotification.classList.remove('show'), 4000);
-            }, 500);
-
-            // 5. Snake Animation fades away after its duration (5 seconds)
-            setTimeout(() => {
-                 unlockContainer.classList.remove('snake-active');
-            }, 5000); // 5 seconds (5000ms) matches CSS animation duration
-        }, 400); // Wait for fade-out animation
+                dom.coverImg.style.opacity = '1'; 
+                dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0';
+                dom.loadingSpin.style.opacity = '0'; 
+                setTimeout(()=> {
+                     dom.coverShine.style.display = 'none'; dom.loadingSpin.style.display = 'none';
+                     dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
+                     
+                     dom.previewIndicator.style.display = 'block';
+                     setTimeout(() => { 
+                        dom.previewIndicator.style.opacity = '0'; 
+                        setTimeout(() => { dom.previewIndicator.style.display = 'none'; }, 500); 
+                     }, 4000);
+                }, 450);
+            }, 700);
+        });
     }
 
-    // Function to handle the dual language status storage
-    function getUpdatedUnlockStatus(newLang) {
-        const currentStatus = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
-        let newStatus = '';
-
-        if (currentStatus.includes(newLang)) {
-            newStatus = currentStatus; // Already purchased this one
-        } else if (currentStatus.includes('HINDI') && newLang === 'ENGLISH') {
-            newStatus = 'HINDI,ENGLISH';
-        } else if (currentStatus.includes('ENGLISH') && newLang === 'HINDI') {
-            newStatus = 'ENGLISH,HINDI';
-        } else {
-            newStatus = newLang; // First purchase
-        }
-
-        localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, newStatus);
-
-        if (newStatus.includes('HINDI') && newStatus.includes('ENGLISH')) {
-            return 'BOTH';
-        }
-        return newLang;
+    // --- SCREENSHOT PREVIEW LOGIC ---
+    let currentImageIndex = 0;
+    function showPreviewImage(index) {
+        if (index >= SCREENSHOT_URLS.length) index = 0; else if (index < 0) index = SCREENSHOT_URLS.length - 1;
+        currentImageIndex = index;
+        
+        dom.previewShine.style.display = 'block'; 
+        dom.previewScreenshot.style.opacity = '0.5';
+        
+        const tempImg = new Image(); 
+        tempImg.src = SCREENSHOT_URLS[currentImageIndex];
+        tempImg.onload = () => {
+            dom.previewShine.style.display = 'none'; 
+            dom.previewScreenshot.src = tempImg.src;
+            dom.imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
+            dom.previewScreenshot.style.opacity = '1';
+            
+            dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
+            void dom.previewScreenshot.offsetWidth;
+            dom.previewScreenshot.classList.add('animate-subtleZoomIn');
+        };
     }
 
-    // --- Initial Load and Payment Success Handler ---
-    document.addEventListener('DOMContentLoaded', function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const paymentStatus = urlParams.get('payment_status');
-      const secretKey = urlParams.get('secret_key');
-      const isPaymentInitiated = sessionStorage.getItem('payment_initiated');
-      const preSelectedLang = sessionStorage.getItem('selected_language');
-
-      // 1. CHECK LOCAL STORAGE
-      const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
-
-      if (unlockedLangs) {
-          // If any language is unlocked, show the button
-          unlockContainer.style.display = 'inline-flex';
-          let status;
-          if (unlockedLangs.includes('HINDI') && unlockedLangs.includes('ENGLISH')) {
-              status = 'BOTH';
-          } else if (unlockedLangs.includes('HINDI')) {
-              status = 'HINDI';
-          } else if (unlockedLangs.includes('ENGLISH')) {
-              status = 'ENGLISH';
-          } else {
-             // If stored status is corrupted or empty but present, fallback to false
-             status = 'false'; 
-          }
-          unlockBtn.setAttribute('data-unlocked', status);
-      }
-
-      // 2. CHECK NEW SUCCESSFUL PAYMENT
-      if (paymentStatus === 'success' && secretKey === SECRET_KEY && isPaymentInitiated === 'true') {
-
-        history.replaceState(null, '', window.location.pathname);
-        sessionStorage.removeItem('payment_initiated');
-
-        // Update the unlock status in localStorage
-        const finalStatus = getUpdatedUnlockStatus(preSelectedLang);
-        unlockBtn.setAttribute('data-unlocked', finalStatus);
-
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function () { history.pushState(null, document.title, location.href); });
-        window.onbeforeunload = function() { /* Do nothing to prevent modal conflict */ };
-
-        // --- NEW FLOW START ---
-        if (preSelectedLang) {
-            startUnlockProcess(preSelectedLang);
+    dom.cover.addEventListener('click', e => { 
+        if(dom.previewOverlay.style.opacity === '1') {
+             e.stopPropagation(); 
+             showPreviewImage(currentImageIndex + 1);
         } else {
-            // Fallback default
-            startUnlockProcess('HINDI');
+             e.preventDefault(); 
+             dom.coverImg.style.opacity = '0'; 
+             dom.previewOverlay.style.opacity = '1'; 
+             dom.previewOverlay.style.pointerEvents = 'auto'; 
+             currentImageIndex = -1; 
+             showPreviewImage(0); 
+             lucide.createIcons(); 
+             dom.previewIndicator.style.display = 'none'; 
         }
-      }
-      lucide.createIcons();
     });
 
-    // --- PAYMENT MODAL LOGIC (Minor cleanup/rename) ---
+    function exitPreview(e) { 
+        if(e) e.stopPropagation(); 
+        dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
+        setTimeout(() => { 
+            dom.previewOverlay.style.opacity = '0'; 
+            dom.previewOverlay.style.pointerEvents = 'none'; 
+            dom.previewScreenshot.style.opacity = '0'; 
+            dom.coverImg.style.opacity = '1'; 
+        }, 300);
+    }
+
+    // Payment Modal Logic
     let countdownInterval;
-    function startTimer() {
-        let timeLeft = 240; document.getElementById('paymentTimer').style.display = 'block';
-        if(countdownInterval) clearInterval(countdownInterval);
-        countdownInterval = setInterval(() => {
-            const minutes = Math.floor(timeLeft / 60); const seconds = timeLeft % 60;
-            document.getElementById('timerCount').textContent = `${minutes<10?'0':''}${minutes}:${seconds<10?'0':''}${seconds}`;
-            timeLeft--; if (timeLeft < 0) closePaymentModal(false);
-        }, 1000);
-    }
-    function openPaymentModal() {
-        paymentModal.style.display = 'flex'; paymentModalContent.classList.add('animate-modalFadeIn');
-        paymentLoader.style.display = 'none'; cashfreeIframe.style.display = 'none'; paymentLangSelection.style.display = 'flex'; lucide.createIcons();
-    }
+    function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); document.getElementById('paymentLangSelection').style.display = 'flex'; document.getElementById('cashfreeIframe').style.display = 'none'; lucide.createIcons(); }
+    function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; if(countdownInterval) clearInterval(countdownInterval); }
     function handlePaymentLanguageSelection(lang) {
-        paymentLangSelection.style.display = 'none'; paymentLoader.style.display = 'flex';
-        sessionStorage.setItem('payment_initiated', 'true');
-        sessionStorage.setItem('selected_language', lang);
-        cashfreeIframe.src = PAYMENT_URL;
-        startTimer();
-        setTimeout(() => { paymentLoader.style.display = 'none'; cashfreeIframe.style.display = 'block'; }, 2000);
+        document.getElementById('paymentLangSelection').style.display = 'none'; document.getElementById('paymentLoader').style.display = 'flex';
+        sessionStorage.setItem('payment_initiated', 'true'); sessionStorage.setItem('selected_language', lang);
+        
+        // USE DYNAMIC LINK HERE
+        document.getElementById('cashfreeIframe').src = currentPaymentUrl;
+        
+        setTimeout(() => { document.getElementById('paymentLoader').style.display = 'none'; document.getElementById('cashfreeIframe').style.display = 'block'; }, 2000);
+        let tl = 240; document.getElementById('paymentTimer').style.display='block';
+        countdownInterval = setInterval(() => { tl--; document.getElementById('timerCount').textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; if(tl<0) closePaymentModal(); }, 1000);
     }
-    function openConfirmationModal() { confirmationModal.style.display = 'flex'; confirmationModal.classList.add('active'); lucide.createIcons(); }
-    function confirmExitPayment(shouldExit) {
-        confirmationModal.classList.remove('active');
-        setTimeout(() => { confirmationModal.style.display = 'none'; if (shouldExit) closePaymentModal(true); }, 400);
-    }
-    function closePaymentModal() {
-        paymentModalContent.classList.add('animate-modalFadeOut'); paymentModal.classList.add('closing');
-        if(countdownInterval) clearInterval(countdownInterval);
-        document.getElementById('paymentTimer').style.display = 'none';
-        setTimeout(() => {
-            paymentModal.style.display = 'none'; paymentModalContent.classList.remove('animate-modalFadeOut'); paymentModal.classList.remove('closing'); document.body.style.overflow = '';
-        }, 400);
-    }
-    buyBtn.addEventListener('click', (e) => { e.preventDefault(); openPaymentModal(); });
+    document.getElementById('buyBtn').addEventListener('click', (e) => { e.preventDefault(); openPaymentModal(); });
 
-    // --- CELEBRATION (No Change) ---
-    function triggerCelebration() {
-        const colors = ['#6366f1', '#a855f7', '#10b981', '#FFD700'];
-        confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: colors, zIndex: 2000, disableForReducedMotion: true });
-    }
+    // Payment Confirm Logic
+    function openConfirmationModal() { document.getElementById('confirmationModal').classList.add('active'); document.getElementById('confirmationModal').style.display='flex'; }
+    function confirmExitPayment(y) { document.getElementById('confirmationModal').classList.remove('active'); setTimeout(()=>document.getElementById('confirmationModal').style.display='none',300); if(y) closePaymentModal(); }
 
-    // --- FEEDBACK MODAL (No Change) ---
-    function openFeedbackModal() {
-        document.body.style.overflow = 'hidden'; feedbackModal.style.display = 'flex';
-        feedbackModalContent.classList.add('animate-modalFadeIn'); feedbackForm.style.display = 'block'; feedbackSuccess.style.display = 'none';
-        lucide.createIcons();
-    }
-    function closeFeedbackModal(shouldRedirect = false) {
-        feedbackModalContent.classList.add('animate-modalFadeOut'); feedbackModal.classList.add('closing');
-        setTimeout(() => {
-            feedbackModal.style.display = 'none'; feedbackModalContent.classList.remove('animate-modalFadeOut'); feedbackModal.classList.remove('closing'); document.body.style.overflow = '';
-            if (shouldRedirect) window.location.href = REDIRECT_URL;
-        }, 400);
-    }
+    // Feedback
     function submitFeedback() {
         const txt = document.getElementById('feedbackTextarea');
-        if (txt.value.trim().length === 0) {
-            feedbackModalContent.classList.add('animate-shakeModal'); txt.classList.add('border-red-500'); txt.placeholder = '⚠️ Please write something first...';
-            setTimeout(() => feedbackModalContent.classList.remove('animate-shakeModal'), 800);
-            setTimeout(() => { txt.classList.remove('border-red-500'); txt.placeholder = 'Type your honest feedback here...'; }, 3000); return;
-        }
-        document.getElementById('submitFeedbackBtn').disabled = true;
-        document.getElementById('submitFeedbackText').textContent = 'Sending...';
-        setTimeout(() => {
-            feedbackForm.style.display = 'none'; feedbackSuccess.style.display = 'block';
-            setTimeout(() => closeFeedbackModal(true), 3000);
-        }, 1000);
+        if(!txt.value.trim()) { txt.classList.add('border-red-500'); return; }
+        document.getElementById('feedbackForm').style.display='none'; document.getElementById('feedbackSuccess').style.display='block';
+        setTimeout(() => { document.getElementById('feedbackModal').style.display='none'; }, 2000);
     }
+    
+    // Smooth Details
+    document.querySelectorAll('summary').forEach(s => s.addEventListener('click', function(e) {
+        e.preventDefault();
+        const c = this.parentElement.querySelector('.details-content');
+        if(this.parentElement.hasAttribute('open')) { c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); }
+        else { this.parentElement.setAttribute('open',''); c.style.height='auto'; const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; }
+    }));
   </script>
 </body>
 </html>
