@@ -30,13 +30,33 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { brandGreen: '#22c55e', brandDark: '#0b0e13' },
+          colors: { brandGreen: '#10b981', brandDark: '#0b0e13' },
           boxShadow: {
             glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
             ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
             book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
             modalGlow: '0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65)',
             saleGlow: '0 0 15px rgba(34, 197, 94, 0.4)'
+          },
+          animation: {
+            shine: 'shine 1.6s ease-in-out infinite',
+            btnshine: 'btnshine 3.0s ease-in-out infinite',
+            slideUp: 'slideUp .45s ease-out forwards',
+            cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
+            aura: 'aura 2.4s ease-in-out infinite',
+            coverFast: 'coverFast 0.45s linear infinite',
+            glowspin: 'glowspin 1.2s linear infinite',
+            modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
+            modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
+            tagShine: 'tagShine 1.0s ease-in-out infinite',
+            shakeModal: 'shakeModal 0.5s ease-in-out 1',
+            redGlow: 'redGlow 2.5s infinite ease-in-out',
+            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            popFloat: 'popFloat 3s ease-in-out infinite',
+            pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
+            'gradient-shift': 'gradient-shift 8s ease infinite',
+            rollUpSmooth: 'rollUpSmooth 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+            snakeRotate: 'snakeRotate 4s linear infinite', 
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -61,28 +81,7 @@
                 '85%': { transform: 'translateY(0)', opacity: 1 },
                 '100%': { transform: 'translateY(-12px)', opacity: 0 }
             },
-            // Custom Snake Border Animation Keyframes
-            snakeRotate: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } }
-          },
-          animation: {
-            shine: 'shine 1.6s ease-in-out infinite',
-            btnshine: 'btnshine 3.0s ease-in-out infinite',
-            slideUp: 'slideUp .45s ease-out forwards',
-            cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
-            aura: 'aura 2.4s ease-in-out infinite',
-            coverFast: 'coverFast 0.45s linear infinite',
-            glowspin: 'glowspin 1.2s linear infinite',
-            modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
-            modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
-            tagShine: 'tagShine 1.0s ease-in-out infinite',
-            shakeModal: 'shakeModal 0.5s ease-in-out 1',
-            redGlow: 'redGlow 2.5s infinite ease-in-out',
-            subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            popFloat: 'popFloat 3s ease-in-out infinite',
-            pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
-            'gradient-shift': 'gradient-shift 8s ease infinite',
-            rollUpSmooth: 'rollUpSmooth 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-            snakeRotate: 'snakeRotate 5s linear infinite' // Increased duration to 5s
+            snakeRotate: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
           }
         }
       }
@@ -96,80 +95,94 @@
 
     body {
         font-family:'Poppins',sans-serif;
-        /* Removed user-select none to allow copy/paste in dashboard for links */
         overflow-x: hidden;
-        scroll-behavior: smooth; /* For auto-scroll */
+        scroll-behavior: smooth; 
     }
-
-    /* --- PREMIUM SNAKE ANIMATION (REVISED) --- */
+    
+    /* --- PREMIUM SNAKE ANIMATION (FIXED & SMOOTH) --- */
     .snake-container {
         position: relative;
-        display: none; /* Initially hidden */
-        padding: 2px; 
-        border-radius: 14px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        z-index: 10;
+        display: none; 
+        padding: 2px; /* Border thickness */
+        border-radius: 12px;
+        z-index: 100; 
         margin-left: 10px;
         background: transparent;
+        overflow: hidden;
     }
-
+    
     .snake-container.visible {
         display: inline-flex;
     }
     
-    /* FIX: Increased width/height and added strong glow for visibility */
+    /* The Rotating Gradient Background */
     .snake-border {
         position: absolute;
-        top: 50%; 
-        left: 50%; 
-        width: 300%; /* Increased size */
-        height: 300%; /* Increased size */
-        /* Glowing Green color with a focused half-round tail */
-        background: conic-gradient(transparent 0deg, transparent 270deg, #22c55e 300deg, #22c55e 330deg, transparent 360deg);
-        animation: snakeRotate 5s linear infinite; /* 5s duration */
+        inset: -50%; /* Make it much larger than container to cover rotation */
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        background: conic-gradient(transparent 0deg, transparent 270deg, #10b981 320deg, #34d399 340deg, transparent 360deg);
+        animation: snakeRotate 3s linear infinite;
         opacity: 0;
-        transition: opacity 0.5s ease;
-        z-index: 1;
+        transition: opacity 0.8s ease;
+        z-index: 0; /* Behind button */
         pointer-events: none;
-        filter: drop-shadow(0 0 10px #22c55e) drop-shadow(0 0 20px #22c55e); /* Stronger glow */
-        border-radius: 14px; 
     }
 
-    .snake-active .snake-border {
-        opacity: 1;
-        transition: opacity 1.5s ease 3s; 
+    /* Soft Glow Behind */
+    .snake-glow {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%; height: 100%;
+        background: #10b981;
+        filter: blur(15px);
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        z-index: -1;
     }
 
-    /* FIX: Adjusted padding/font to match Buy Now button size (smaller/compact) */
+    /* Active State */
+    .snake-active .snake-border { opacity: 1; }
+    .snake-active .snake-glow { opacity: 0.6; }
+    
+    /* The Button Itself */
     .unlock-btn {
-        display: flex;
         position: relative;
-        overflow: hidden;
+        z-index: 10; /* Above the snake border */
+        display: flex;
         align-items: center;
         gap: 6px;
-        /* White background, Green Text/Icon */
         background-color: white;
-        color: #10b981; /* Green Text */
-        padding: 8px 16px; /* Reduced padding */
-        border-radius: 10px; /* Adjusted border radius */
+        color: #10b981; 
+        padding: 8px 16px; 
+        border-radius: 10px; 
         font-weight: 700;
-        font-size: 0.9rem; /* Reduced font size */
+        font-size: 0.9rem; 
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         cursor: pointer;
-        border: 2px solid white; 
-        transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
         margin: 0;
-        z-index: 2; 
     }
-    .unlock-btn:hover { transform: scale(1.03); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
-    .unlock-btn i { color: #10b981; }
     
-    /* Ensure Buy Now button is styled for comparison */
-    .cta-btn {
-      padding: 8px 16px; 
-      font-size: 0.9rem;
+    /* Dark mask inside container to hide center of gradient (creates border effect) */
+    .snake-mask {
+        position: absolute;
+        inset: 1px;
+        background: #0b0e13; /* Match body bg */
+        border-radius: 11px;
+        z-index: 1;
     }
+    
+    /* Ensure white button covers the mask */
+    .snake-container .unlock-btn {
+        margin: 0; /* No margin needed with padding container */
+    }
+
+    .unlock-btn:hover { transform: scale(1.03); }
 
     /* CTA BUTTONS */
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
@@ -187,7 +200,6 @@
     #coverFace { cursor: pointer; }
 
     /* LOADING & SHINE */
-    /* Fixed shine animation duration issue by using custom keyframe and resetting in JS */
     .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
     .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
@@ -240,8 +252,6 @@
 
     .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
 
-    #modalCloseButton { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #64748b; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1010; }
-    #modalCloseButton.show-close { opacity: 1; pointer-events: auto; }
     .modal-cover-wrap { width: 96px; height: 128px; overflow: hidden; border-radius: 6px; }
     .modal-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .feedback-textarea { resize: vertical; min-height: 100px; }
@@ -281,19 +291,29 @@
     /* BANNER */
     #saleBanner { display: none; background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 8px; text-align: center; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-    /* PRODUCT VIEWER */
+    /* PREMIUM DASHBOARD (GLASSMORPHISM) */
     #productViewerModal { z-index: 4000; }
-    #productViewerContent { width: 95%; max-width: 900px; height: 85vh; padding: 0; background: #0f172a; display: flex; flex-direction: column; overflow: hidden; }
-    .viewer-header { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #1e293b; }
+    #productViewerContent { width: 95%; max-width: 1000px; height: 85vh; padding: 0; background: #0f172a; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+    
+    .viewer-header { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
+    
     .viewer-body { flex: 1; display: flex; height: 100%; overflow: hidden; }
-    .viewer-sidebar { width: 200px; background: #111827; border-right: 1px solid rgba(255,255,255,0.05); padding: 20px 10px; display: flex; flex-direction: column; gap: 10px; }
-    .viewer-tab { padding: 12px; border-radius: 8px; cursor: pointer; color: #94a3b8; transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+    
+    .viewer-sidebar { width: 240px; background: rgba(17, 24, 39, 0.6); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; backdrop-filter: blur(5px); }
+    
+    .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
     .viewer-tab:hover { background: rgba(255,255,255,0.05); color: white; }
-    .viewer-tab.active { background: #334155; color: #a855f7; font-weight: 600; }
-    .viewer-main { flex: 1; padding: 20px; overflow-y: auto; background: #020617; display: flex; align-items: center; justify-content: center; position: relative; }
-    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; }
+    .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
+    
+    .viewer-main { flex: 1; padding: 30px; overflow-y: auto; background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 60%); display: flex; align-items: center; justify-content: center; position: relative; }
+    
+    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; animation: modalFadeIn 0.4s ease-out; }
     .viewer-section.active { display: flex; }
 
+    /* UNAVAILABLE / PREMIUM CARD STYLES */
+    .premium-lock-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 20px; padding: 40px; text-align: center; max-width: 450px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .premium-lock-icon { background: rgba(168, 85, 247, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; }
+    
     /* ZOOM CLASS FOR IMAGES */
     .viewer-zoom-img { cursor: zoom-in; transition: transform 0.3s ease; max-height: 100%; max-width: 100%; object-fit: contain; }
     .viewer-zoom-img.zoomed { transform: scale(1.5); cursor: zoom-out; }
@@ -339,7 +359,30 @@
         transform: translateX(-50%) translateY(0);
     }
 
-    @media (max-width: 768px) { .viewer-body { flex-direction: column; } .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 10px; overflow-x: auto; } .viewer-tab { flex: 1; justify-content: center; white-space: nowrap; } }
+    /* FIX: Added close button styling for Language Selection Modal */
+    .language-modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        color: #94a3b8;
+        z-index: 10;
+        transition: color 0.2s;
+    }
+    .language-modal-close:hover {
+        color: white;
+    }
+
+    @media (max-width: 768px) { 
+        .viewer-body { flex-direction: column; } 
+        .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
+        .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
+        .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
+    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -410,12 +453,12 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="1200" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
         </div>
 
-        <!-- PRICING CONTAINER (Will be populated by JS) -->
+        <!-- PRICING CONTAINER -->
         <div id="pricingContainer" class="flex items-center gap-3"></div>
 
         <!-- BUTTONS CONTAINER -->
         <div class="flex items-center flex-wrap gap-4 mt-4">
-            <!-- BUY BUTTON (RESIZED SMALLER) -->
+            <!-- BUY BUTTON -->
             <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
               <span>Buy Now</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
@@ -425,11 +468,13 @@
 
             <!-- UNLOCK BUTTON WRAPPER FOR SNAKE ANIMATION -->
             <div id="unlockContainer" class="snake-container">
-                <!-- SNAKE BORDER ELEMENT -->
+                <!-- SNAKE BORDER ELEMENTS -->
                 <div class="snake-border"></div>
-                <!-- UNLOCK BUTTON - Now with White BG/Green Text -->
+                <div class="snake-glow"></div>
+                <div class="snake-mask"></div>
+                <!-- UNLOCK BUTTON -->
                 <button id="unlockBtn" class="unlock-btn" data-unlocked="false">
-                    <i data-lucide="lock-open" class="h-4 w-4"></i> <!-- Smaller Icon -->
+                    <i data-lucide="lock-open" class="h-4 w-4"></i> 
                     <span>Access Content</span>
                 </button>
             </div>
@@ -492,7 +537,7 @@
                 <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Open your <strong class="text-white">Play Store / App Store</strong>.</span></div>
                 <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</span></div>
                 <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Return here and click the button below.</span></div>
-            </div>
+        </div>
             <!-- NOTE: Button now calls the new flow function -->
             <button id="understandZipBtn" onclick="handleZipConfirmation()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">I Understand</button>
         </div>
@@ -501,7 +546,11 @@
     <!-- Language Selection Modal (Opens only if both languages were purchased) -->
     <div id="languageSelectionModal" class="modal-content" style="max-width: 450px; display: none; background-color: #1e293b; color: white;">
       <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Content Language</h2>
-      <p class="text-sm text-zinc-300 text-center mb-6">Which version would you like to view?</p>
+      <p class="text-sm text-zinc-300 text-center mb-6">You have unlocked both language bundles. Which version would you like to view?</p>
+      
+      <!-- FIX: Close button added to Language Selection Modal -->
+      <button onclick="closeDownloadModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
+
       <div id="languageSelectionContainer" class="space-y-4 transition-opacity duration-300">
           <button onclick="saveAndOpenDashboard('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
               <i data-lucide="book" class="h-4 w-4"></i> HINDI Edition
@@ -534,16 +583,16 @@
 
   <!-- Payment Modal -->
   <div id="paymentModal" class="modal">
-    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111827;">
+    <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111817;">
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()" style="position: absolute; top: 12px; right: 12px; z-index: 2020;"><i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i></button>
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             <div id="topShield" class="invisible-shield" style="top: 0;"></div>
             <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
-            <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111827; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
+            <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111817; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader"><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
                 <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
             </div>
-            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111827; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
+            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111817; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
                 <h3 class="text-xl font-bold text-white mb-6 text-center">Choose your language</h3>
                 <button onclick="handlePaymentLanguageSelection('HINDI')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>Hindi<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
                 <button onclick="handlePaymentLanguageSelection('ENGLISH')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="globe" class="h-5 w-5 text-indigo-400"></i>English<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
@@ -571,11 +620,17 @@
       <div id="productViewerContent" class="modal-content animate-modalFadeIn">
           <div class="viewer-header">
               <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
-              <!-- Top Right: Download All Files -->
-              <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-1 rounded-lg">
-                  <i data-lucide="download" class="h-5 w-5"></i>
-                  <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download All Files</span>
-              </button>
+              <div class="flex items-center gap-2">
+                  <!-- Download All Files Button -->
+                  <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
+                      <i data-lucide="download" class="h-4 w-4"></i>
+                      <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
+                  </button>
+                  <!-- Close Button (X Icon) -->
+                  <button onclick="closeViewerModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
+                      <i data-lucide="x" class="h-5 w-5"></i>
+                  </button>
+              </div>
           </div>
 
           <!-- Language Switcher in Header (Optional, for easy access) -->
@@ -588,11 +643,13 @@
 
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <!-- Tabs will be updated by JS based on productConfig -->
+                  <!-- Tabs -->
                   <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video Class</div>
                   <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
                   <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
+                  <div id="tab-ppt" class="viewer-tab" onclick="switchViewerTab('ppt')"><i data-lucide="presentation" class="h-4 w-4"></i> Presentation</div>
+                  <div id="tab-extra" class="viewer-tab" onclick="switchViewerTab('extra')"><i data-lucide="folder-plus" class="h-4 w-4"></i> Extra Resource</div>
               </div>
               <div class="viewer-main">
 
@@ -604,22 +661,20 @@
                               Your browser does support the video tag.
                           </video>
                       </div>
-                      <!-- Sleek Download Icon next to content -->
-                      <button onclick="handleSingleDownload('video')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm">
+                      <button onclick="handleSingleDownload('video')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm transition-colors duration-200">
                           <i data-lucide="download" class="h-4 w-4"></i> Download Video File
                       </button>
                   </div>
 
                   <!-- AUDIO SECTION -->
                   <div id="view-audio" class="viewer-section">
-                      <div class="flex flex-col items-center justify-center text-center p-8 bg-[#1e293b] rounded-xl border border-zinc-700 w-full max-w-md">
+                      <div class="flex flex-col items-center justify-center text-center p-8 bg-[#1e293b]/80 backdrop-blur-md rounded-xl border border-zinc-700 w-full max-w-md shadow-2xl">
                           <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
                           <h4 class="text-xl font-bold mb-2">Zero-Disturbance Audio Guide</h4>
                           <audio id="audioSource" controls class="w-full min-w-[300px] mb-4">
                               <source src="" type="audio/mpeg">
                           </audio>
-                          <!-- Sleek Download Icon next to content -->
-                          <button onclick="handleSingleDownload('audio')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm">
+                          <button onclick="handleSingleDownload('audio')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm transition-colors duration-200">
                               <i data-lucide="download" class="h-4 w-4"></i> Download Audio File
                           </button>
                       </div>
@@ -627,24 +682,49 @@
 
                   <!-- PDF SECTION -->
                   <div id="view-pdf" class="viewer-section"><div class="text-center">
-                    <i data-lucide="file-text" class="h-16 w-16 text-zinc-600 mx-auto mb-4"></i>
-                    <p class="text-zinc-300 mb-4">Click to view in your browser or download the full PDF guide.</p>
-                    <button id="pdfSourceBtn" onclick="handleSingleDownload('pdf')" class="px-6 py-3 bg-indigo-600 rounded-lg text-white font-bold hover:bg-indigo-500 transition flex items-center gap-2 mx-auto">
-                        <i data-lucide="download" class="h-5 w-5"></i> Download/Open PDF
+                    <div class="w-24 h-24 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-700 shadow-lg">
+                        <i data-lucide="file-text" class="h-10 w-10 text-zinc-400"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">Premium eBook</h4>
+                    <p class="text-zinc-400 mb-6 max-w-xs mx-auto">Read the comprehensive guide to mastering inner stability.</p>
+                    <button id="pdfSourceBtn" onclick="handleSingleDownload('pdf')" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2 mx-auto">
+                        <i data-lucide="book-open" class="h-5 w-5"></i> Read / Download PDF
                     </button>
                   </div></div>
 
                   <!-- IMAGE SECTION -->
                   <div id="view-image" class="viewer-section flex-col">
-                      <div class="flex justify-between w-full max-w-2xl mb-2 items-center">
-                          <p class="text-zinc-400 text-xs">Click to Zoom</p>
-                          <!-- Sleek Download Icon next to content -->
-                          <button onclick="handleSingleDownload('image')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm">
+                      <div class="flex justify-between w-full max-w-2xl mb-2 items-center px-2">
+                          <p class="text-zinc-400 text-xs uppercase tracking-wide font-semibold"><i data-lucide="zoom-in" class="inline h-3 w-3 mr-1"></i>Click to Zoom</p>
+                          <button onclick="handleSingleDownload('image')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm transition-colors duration-200">
                               <i data-lucide="download" class="h-4 w-4"></i> Save Image
                           </button>
                       </div>
-                      <img id="imageSource" onclick="this.classList.toggle('zoomed')" src="" class="viewer-zoom-img" alt="Mind Map">
+                      <div class="relative group rounded-lg overflow-hidden border border-zinc-700/50 shadow-2xl">
+                          <img id="imageSource" onclick="this.classList.toggle('zoomed')" src="" class="viewer-zoom-img" alt="Mind Map">
+                      </div>
                   </div>
+
+                  <!-- PRESENTATION SECTION (New) -->
+                  <div id="view-ppt" class="viewer-section">
+                      <div class="premium-lock-card">
+                          <div class="premium-lock-icon bg-indigo-500/20"><i data-lucide="presentation" class="h-10 w-10 text-indigo-400"></i></div>
+                          <h3 class="text-xl font-bold text-white mb-2">Presentation Slides</h3>
+                          <p class="text-zinc-400 mb-6">Access the core concepts in a slide format for quick review.</p>
+                          <button class="px-6 py-2 border border-indigo-500/50 text-indigo-300 rounded-lg hover:bg-indigo-500/10 transition">Coming Soon</button>
+                      </div>
+                  </div>
+
+                  <!-- EXTRA RESOURCE SECTION (New) -->
+                  <div id="view-extra" class="viewer-section">
+                      <div class="premium-lock-card">
+                          <div class="premium-lock-icon bg-emerald-500/20"><i data-lucide="folder-plus" class="h-10 w-10 text-emerald-400"></i></div>
+                          <h3 class="text-xl font-bold text-white mb-2">Bonus Resources</h3>
+                          <p class="text-zinc-400 mb-6">Additional worksheets and checklists to track your progress.</p>
+                          <button class="px-6 py-2 border border-emerald-500/50 text-emerald-300 rounded-lg hover:bg-emerald-500/10 transition">Download Extras</button>
+                      </div>
+                  </div>
+
               </div>
           </div>
       </div>
@@ -661,13 +741,15 @@
         showVideo: true,
         showAudio: true,
         showPdf: true,
-        showMindmap: true // Enable mindmap to show updated features
+        showMindmap: true,
+        showPpt: true,      // Restored
+        showExtra: true     // Restored
     };
 
     // --- CONFIGURATION ---
     const IS_SALE_ACTIVE = true; // SALE ON/OFF Control
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png';
-    const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_002';
+    const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_002'; // Updated Unique ID
     const PAYMENT_URL = "https://payments.cashfree.com/forms/dsdfg2";
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0';
     const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
@@ -715,6 +797,8 @@
     // Elements for Unlock & Snake Animation
     const unlockBtn = document.getElementById('unlockBtn');
     const unlockContainer = document.getElementById('unlockContainer');
+    
+    // REMOVED: vignetteOverlay reference
 
     const productViewerModal = document.getElementById('productViewerModal');
     const dashboardLangSwitcher = document.getElementById('dashboardLangSwitcher');
@@ -872,11 +956,15 @@
             const tabAudio = document.getElementById('tab-audio');
             const tabPdf = document.getElementById('tab-pdf');
             const tabImage = document.getElementById('tab-image');
+            const tabPpt = document.getElementById('tab-ppt');
+            const tabExtra = document.getElementById('tab-extra');
 
             if(tabVideo) tabVideo.style.display = productConfig.showVideo ? 'flex' : 'none';
             if(tabAudio) tabAudio.style.display = productConfig.showAudio ? 'flex' : 'none';
             if(tabPdf) tabPdf.style.display = productConfig.showPdf ? 'flex' : 'none';
             if(tabImage) tabImage.style.display = productConfig.showMindmap ? 'flex' : 'none';
+            if(tabPpt) tabPpt.style.display = productConfig.showPpt ? 'flex' : 'none';
+            if(tabExtra) tabExtra.style.display = productConfig.showExtra ? 'flex' : 'none';
 
             // B. SETUP CONTENT based on currentContentLanguage
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; // Fallback
@@ -918,6 +1006,8 @@
             else if (productConfig.showAudio) switchViewerTab('audio');
             else if (productConfig.showPdf) switchViewerTab('pdf');
             else if (productConfig.showMindmap) switchViewerTab('image');
+            else if (productConfig.showPpt) switchViewerTab('ppt');
+            else if (productConfig.showExtra) switchViewerTab('extra');
 
             lucide.createIcons(); // Re-create icons for the modal
         } catch(e) {
@@ -970,6 +1060,12 @@
             languageSelectionModal.classList.remove('animate-modalFadeOut');
             openViewerModal(lang);
         }, 400);
+    }
+    
+    // New: Close Download/Language Modal
+    function closeDownloadModal() {
+        downloadModal.style.display = 'none';
+        languageSelectionModal.style.display = 'none';
     }
 
     // New: Centralized Download Handlers (To avoid link previews)
@@ -1036,11 +1132,25 @@
         });
     });
 
+    // FIX: Improved Show More Logic
+    let isFeedbackExpanded = false;
     document.getElementById('showMore').addEventListener('click', e => {
-      const hidden = document.querySelectorAll('.extra-feedback'); const btn = e.target;
-      if (hidden.length > 0 && hidden[0].style.display === 'none') { hidden.forEach(el => el.style.display = 'flex'); btn.textContent = 'Show Less'; }
-      else { hidden.forEach(el => el.style.display = 'none'); btn.textContent = 'Show More'; }
+      const hidden = document.querySelectorAll('.extra-feedback'); 
+      const btn = e.target;
+      isFeedbackExpanded = !isFeedbackExpanded; // Toggle state
+
+      hidden.forEach(el => {
+          el.style.display = isFeedbackExpanded ? 'flex' : 'none';
+          if(isFeedbackExpanded) {
+              el.classList.remove('animate-slideUp');
+              void el.offsetWidth;
+              el.classList.add('animate-slideUp');
+          }
+      });
+      
+      btn.textContent = isFeedbackExpanded ? 'Show Less' : 'Show More';
     });
+
     document.getElementById('year').textContent = new Date().getFullYear();
     AOS.init({ duration: 800, once: true, offset: 120 });
     lucide.createIcons();
@@ -1090,10 +1200,13 @@
             zipConfirmationModal.style.display = 'none';
             downloadModal.style.display = 'none'; // Close the main modal container
             zipConfirmationContent.classList.remove('animate-modalFadeOut');
-
+            
+            // REMOVED: Vignette/Blur Logic
+            // The body-vignette class and overlay code has been removed
+            
             // 2. Enable Unlock Button and Update Status
+            // We set display to inline-flex on the container (which has z-index: 100)
             unlockContainer.style.display = 'inline-flex';
-            // FIX: Adding snake-active class here is correct.
             unlockContainer.classList.add('snake-active'); 
             unlockBtn.setAttribute('data-unlocked', getUpdatedUnlockStatus(postPaymentLanguage));
 
@@ -1101,12 +1214,14 @@
             unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             // 4. "Product Unlocked" Toast Notification appears
-            toastNotification.classList.add('show');
-            setTimeout(() => toastNotification.classList.remove('show'), 4000);
+            // Using setTimeout to ensure it triggers visually after scroll
+            setTimeout(() => {
+                toastNotification.classList.add('show');
+                setTimeout(() => toastNotification.classList.remove('show'), 4000);
+            }, 500);
 
             // 5. Snake Animation fades away after its duration (5 seconds)
             setTimeout(() => {
-                 // FIX: Ensure the class is removed to complete the transition and glow fade
                  unlockContainer.classList.remove('snake-active');
             }, 5000); // 5 seconds (5000ms) matches CSS animation duration
         }, 400); // Wait for fade-out animation
