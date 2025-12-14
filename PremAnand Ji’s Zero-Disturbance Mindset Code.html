@@ -32,21 +32,15 @@
             glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
             ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
             book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
-            modalGlow: '0 0 40px rgba(168,85,247,0.75), 0 0 20px rgba(99,102,241,0.65)',
             saleGlow: '0 0 15px rgba(34, 197, 94, 0.4)'
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
             btnshine: 'btnshine 3.0s ease-in-out infinite',
             slideUp: 'slideUp .45s ease-out forwards',
-            cornerPop: 'cornerPop .95s ease-out 0.15s 1 forwards',
-            aura: 'aura 2.4s ease-in-out infinite',
-            coverFast: 'coverFast 0.45s linear infinite',
             glowspin: 'glowspin 1.2s linear infinite',
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
-            modalFadeOut: 'modalFadeOut 0.4s ease-in forwards',
             tagShine: 'tagShine 1.0s ease-in-out infinite',
-            shakeModal: 'shakeModal 0.5s ease-in-out 1',
             shakeInput: 'shakeInput 0.4s ease-in-out 1', 
             redGlow: 'redGlow 2.5s infinite ease-in-out',
             subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -56,19 +50,15 @@
             rollUpSmooth: 'rollUpSmooth 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
             snakeRotate: 'snakeRotate 4s linear infinite',
             priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            coverFast: 'coverFast 0.65s linear infinite', /* Restored for Shine */
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
             btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
-            cornerPop: { '0%': { opacity: 0, transform:'scale(.95)' }, '40%': { opacity: .95 }, '100%': { opacity: 0, transform:'scale(1)' } },
-            aura: { '0%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' }, '50%': { boxShadow: '0 0 26px rgba(168,85,247,0.95)' }, '100%': { boxShadow: '0 0 12px rgba(168,85,247,0.6)' } },
-            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
             glowspin: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
             modalFadeIn: { '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
-            modalFadeOut: { '0%': { opacity: 1, transform: 'translateY(0) scale(1)' }, '100%': { opacity: 0, transform: 'translateY(-10px) scale(1.05)' } },
             tagShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
-            shakeModal: { '0%, 100%': { transform: 'translateX(0)' }, '10%, 90%': { transform: 'translateX(-4px)' }, '50%': { transform: 'translateX(4px)' } },
             shakeInput: { '0%, 100%': { transform: 'translateX(0)' }, '20%, 60%': { transform: 'translateX(-5px)' }, '40%, 80%': { transform: 'translateX(5px)' } },
             redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
             subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } },
@@ -83,6 +73,7 @@
             },
             snakeRotate: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
             priceSlash: { '0%': { transform: 'scale(1)', opacity: 1 }, '50%': { transform: 'scale(1.2) rotate(-10deg)', opacity: 0.8 }, '100%': { transform: 'scale(0) rotate(20deg)', opacity: 0 } },
+            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-20deg)' }, '100%': { transform: 'translateX(160%) skewX(-20deg)' } }, /* Restored Animation */
           }
         }
       }
@@ -93,46 +84,96 @@
     /* BASIC SETUP */
     @keyframes waveJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
+    
     body {
         font-family:'Poppins',sans-serif;
         overflow-x: hidden;
         scroll-behavior: smooth; 
     }
     
-    /* --- PREMIUM SNAKE ANIMATION (FIXED & SMOOTH) --- */
+    /* --- NEW BUNDLE SHOWCASE (VISUAL CARDS) --- */
+    .bundle-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin: 16px 0;
+    }
+    .bundle-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 10px 5px;
+        text-align: center;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .bundle-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+        border-color: rgba(168, 85, 247, 0.4);
+        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15);
+    }
+    .bundle-icon-wrap {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .bundle-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #cbd5e1;
+        line-height: 1.1;
+    }
+    @media (max-width: 640px) {
+        .bundle-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .bundle-label { font-size: 0.65rem; }
+    }
+
+    /* --- RESTORED COVER SHINE (Black Gradient) --- */
+    .cover-shine { 
+        position:absolute; 
+        inset:0; 
+        z-index:20; 
+        pointer-events:none; 
+        /* The specific black gradient for the shine effect */
+        background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%); 
+        transform: translateX(-160%) skewX(-20deg); 
+        mix-blend-mode: multiply; /* Key for black shine on images */
+        opacity: 0.9; 
+        animation: coverFast 0.65s linear infinite; 
+        transition: opacity 0.5s ease;
+        filter: blur(5px);
+    }
+
+    /* SNAKE CONTAINER */
     .snake-container {
         position: relative;
-        display: none; /* Changed display to none by default */
-        padding: 2px; /* Border thickness */
+        display: none; 
+        padding: 2px;
         border-radius: 12px;
         z-index: 100; 
         margin-left: 10px;
         background: transparent;
         overflow: hidden;
     }
-    
-    .snake-container.visible {
-        display: inline-flex;
-    }
-    
-    /* The Rotating Gradient Background */
     .snake-border {
         position: absolute;
-        inset: -50%; 
-        width: 200%;
-        height: 200%;
-        top: -50%;
-        left: -50%;
+        top: 50%; left: 50%;
+        width: 250%; 
+        height: 250%;
         background: conic-gradient(transparent 0deg, transparent 270deg, #10b981 320deg, #34d399 340deg, transparent 360deg);
-        animation: snakeRotate 3s linear infinite;
-        opacity: 0;
-        transition: opacity 0.8s ease;
+        animation: snakeRotate 4s linear infinite; 
         z-index: 0; 
         pointer-events: none;
     }
-
-    /* Soft Glow Behind */
     .snake-glow {
         position: absolute;
         top: 50%; left: 50%;
@@ -140,24 +181,17 @@
         width: 100%; height: 100%;
         background: #10b981;
         filter: blur(15px);
-        opacity: 0;
-        transition: opacity 0.8s ease;
+        opacity: 0.6;
         z-index: -1;
     }
-
-    /* Active State */
-    .snake-active .snake-border { opacity: 1; }
-    .snake-active .snake-glow { opacity: 0.6; }
-    
-    /* The Button Itself */
     .unlock-btn {
         position: relative;
         z-index: 10; 
         display: flex;
         align-items: center;
         gap: 6px;
-        background-color: white;
-        color: #10b981; 
+        background-color: #10b981; 
+        color: white; 
         padding: 8px 16px; 
         border-radius: 10px; 
         font-weight: 700;
@@ -165,10 +199,9 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         cursor: pointer;
         border: none;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.2s, background-color 0.2s;
         margin: 0;
     }
-    
     .snake-mask {
         position: absolute;
         inset: 1px;
@@ -176,9 +209,8 @@
         border-radius: 11px;
         z-index: 1;
     }
-    
     .snake-container .unlock-btn { margin: 0; }
-    .unlock-btn:hover { transform: scale(1.03); }
+    .unlock-btn:hover { transform: scale(1.02); background-color: #059669; }
 
     /* CTA BUTTONS */
     .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
@@ -194,7 +226,6 @@
     .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
-    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-30deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
     .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
@@ -232,23 +263,15 @@
     .price-original { position: relative; display: inline-block; color: #9ca3af; text-decoration: line-through; }
     
     /* MODALS */
-    /* IMPORTANT: .modal ensures fixed positioning covering entire screen and centering content */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 80%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
 
-    /* DOWNLOAD BUTTON */
     .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
     .download-button:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(16,185,129,0.6); }
     .download-button:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 2px 5px rgba(16,185,129,0.3); }
-    .download-button .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: screen; pointer-events: none; opacity: 1; animation: btnshine 3.0s ease-in-out infinite; }
-    .download-button:disabled { opacity: 0.6; cursor: not-allowed; background-image: linear-gradient(135deg, #4CAF50, #10B981); box-shadow: none; transform: none; }
-
     .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
-
-    .modal-cover-wrap { width: 96px; height: 128px; overflow: hidden; border-radius: 6px; }
-    .modal-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .feedback-textarea { resize: vertical; min-height: 100px; }
 
     /* FEEDBACKS */
@@ -276,107 +299,26 @@
     #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
     #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; }
-    .payment-modal-blur .modal-content#paymentModalContent { filter: blur(4px) brightness(0.7); pointer-events: none; transition: filter 0.3s ease; }
     #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: #ef4444; color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; z-index: 2010; box-shadow: 0 0 15px rgba(239,68,68,0.5); font-family: monospace; font-size: 1.0rem; }
     .invisible-shield { position: absolute; left: 0; width: 100%; height: 70px; background: transparent; z-index: 25; pointer-events: auto; }
     .payment-lang-btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
     .payment-lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(168, 85, 247, 0.5); transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4); }
     .payment-lang-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 3.0s ease-in-out infinite; }
-
-    /* BANNER */
     #saleBanner { display: none; background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 8px; text-align: center; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); border-bottom: 1px solid rgba(255,255,255,0.1); }
-
-    /* PREMIUM DASHBOARD (GLASSMORPHISM) */
-    #productViewerModal { z-index: 4000; }
-    #productViewerContent { width: 95%; max-width: 1000px; height: 85vh; padding: 0; background: #0f172a; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-    .viewer-header { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
-    .viewer-body { flex: 1; display: flex; height: 100%; overflow: hidden; }
-    .viewer-sidebar { width: 240px; background: rgba(17, 24, 39, 0.6); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; backdrop-filter: blur(5px); }
-    .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
-    .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
-    .viewer-main { flex: 1; padding: 30px; overflow-y: auto; background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 60%); display: flex; align-items: center; justify-content: center; position: relative; }
-    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; animation: modalFadeIn 0.4s ease-out; }
-    .viewer-section.active { display: flex; }
-
-    /* UNAVAILABLE / PREMIUM CARD STYLES */
-    .premium-lock-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 20px; padding: 40px; text-align: center; max-width: 450px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-    .premium-lock-icon { background: rgba(168, 85, 247, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; }
     
-    /* ZOOM CLASS FOR IMAGES */
-    .viewer-zoom-img { cursor: zoom-in; transition: transform 0.3s ease; max-height: 100%; max-width: 100%; object-fit: contain; }
-    .viewer-zoom-img.zoomed { transform: scale(1.5); cursor: zoom-out; }
-
-    /* SMOOTH ACCORDION STYLE */
-    .details-content {
-        overflow: hidden;
-        height: 0;
-        opacity: 0;
-        transition: height 0.3s ease-out, opacity 0.3s ease-out;
-    }
-    details[open] summary svg {
-        transform: rotate(180deg);
-    }
-    summary {
-        list-style: none;
-        outline: none;
-    }
-    summary::-webkit-details-marker {
-        display: none;
-    }
-
-    /* TOAST NOTIFICATION */
-    #toastNotification {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-100px);
-        background: rgba(16, 185, 129, 0.95);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 50px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        z-index: 5000;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-    #toastNotification.show {
-        transform: translateX(-50%) translateY(0);
-    }
-
-    /* FIX: Added close button styling for Language Selection Modal */
-    .language-modal-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 8px;
-        border-radius: 50%;
-        color: #94a3b8;
-        z-index: 10;
-        transition: color 0.2s;
-    }
-    .language-modal-close:hover {
-        color: white;
-    }
-
-    /* PREMIUM LIST */
+    .details-content { overflow: hidden; height: 0; opacity: 0; transition: height 0.3s ease-out, opacity 0.3s ease-out; }
+    details[open] summary svg { transform: rotate(180deg); }
+    summary { list-style: none; outline: none; }
+    summary::-webkit-details-marker { display: none; }
+    
+    #toastNotification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(16, 185, 129, 0.95); color: white; padding: 12px 24px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 5000; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.2); }
+    #toastNotification.show { transform: translateX(-50%) translateY(0); }
+    .language-modal-close { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #94a3b8; z-index: 10; transition: color 0.2s; }
+    .language-modal-close:hover { color: white; }
     .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
     .premium-list-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 1.0rem; color: #cbd5e1; line-height: 1.4; }
     .premium-list-item strong { color: #e0f2f1; }
     .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
-
-    @media (max-width: 768px) { 
-        .viewer-body { flex-direction: column; } 
-        .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
-        .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
-        .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
-    }
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
@@ -457,7 +399,29 @@
             </div>
         </div>
 
-        <div class="flex items-center flex-wrap gap-4 mt-2">
+        <div class="bundle-showcase mt-4 mb-2">
+            <h3 class="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-widest">Everything Included:</h3>
+            <div class="bundle-grid">
+                <div class="bundle-card animate-popFloat">
+                    <div class="bundle-icon-wrap"><i data-lucide="book-open" class="h-4 w-4 text-fuchsia-400"></i></div>
+                    <span class="bundle-label">E-Book</span>
+                </div>
+                <div class="bundle-card animate-popFloat" style="animation-delay: 0.1s;">
+                    <div class="bundle-icon-wrap"><i data-lucide="headphones" class="h-4 w-4 text-indigo-400"></i></div>
+                    <span class="bundle-label">Audio</span>
+                </div>
+                <div class="bundle-card animate-popFloat" style="animation-delay: 0.2s;">
+                    <div class="bundle-icon-wrap"><i data-lucide="video" class="h-4 w-4 text-emerald-400"></i></div>
+                    <span class="bundle-label">Video</span>
+                </div>
+                <div class="bundle-card animate-popFloat" style="animation-delay: 0.3s;">
+                    <div class="bundle-icon-wrap"><i data-lucide="map" class="h-4 w-4 text-amber-400"></i></div>
+                    <span class="bundle-label">Mind Map</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center flex-wrap gap-4 mt-4">
             <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
               <span>Buy Now</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
@@ -465,7 +429,7 @@
               <span class="corner-bling"></span>
             </a>
 
-            <div id="unlockContainer" class="snake-container" style="display: none;">
+            <div id="unlockContainer" class="snake-container">
                 <div class="snake-border"></div>
                 <div class="snake-glow"></div>
                 <div class="snake-mask"></div>
@@ -483,21 +447,20 @@
       <p class="text-zinc-300 leading-relaxed">A powerful guide inspired by PremAnand Ji to help you master calmness and inner stability. The concepts are simplified with practical steps you can use in everyday situations. Whether it’s emotional noise, stress, or expectations, each chapter shows a calm way through. This premium pack also includes HD video, podcast audio, and a mind map to make learning easier in both Hindi and English.</p>
     </div>
 
-    <div data-aos="fade-up" class="py-4"> <h2 class="text-2xl font-bold mb-4">Q&A</h2>
-      <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
-        <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">What is the main purpose of the Zero-Disturbance mindset?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">Its purpose is to help you maintain inner stability even during external chaos.</p></div></details>
-        <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">Is this mindset only for spiritual people?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">No. It blends spirituality with psychology, making it suitable for everyone.</p></div></details>
-        <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">How long does it take to see results?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">With daily practice, noticeable calmness appears within 7 to 30 days.</p></div></details>
-      </div>
-    </div>
-
-
     <div data-aos="fade-up" class="py-2 premium-list-container">
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>PREMIUM E-BOOK</strong></span></div>
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span></div>
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span></div>
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>MIND MAP</strong></span></div>
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HINDI AND ENGLISH BOTH LANGUAGE</strong></span></div>
+    </div>
+
+    <div data-aos="fade-up" class="py-4"> <h2 class="text-2xl font-bold mb-4">Q&A</h2>
+      <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
+        <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">What is the main purpose of the Zero-Disturbance mindset?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">Its purpose is to help you maintain inner stability even during external chaos.</p></div></details>
+        <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">Is this mindset only for spiritual people?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">No. It blends spirituality with psychology, making it suitable for everyone.</p></div></details>
+        <details class="p-4"><summary class="cursor-pointer font-semibold flex justify-between items-center">How long does it take to see results?<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="details-content"><p class="mt-2 text-sm text-zinc-300 py-2">With daily practice, noticeable calmness appears within 7 to 30 days.</p></div></details>
+      </div>
     </div>
 
     <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
@@ -519,18 +482,18 @@
     </div>
   </section>
 
-  <div id="downloadModal" class="modal">
-    <div id="languageSelectionModal" class="modal-content" style="max-width: 450px; display: none; background-color: #1e293b; color: white;">
-      <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Content Language</h2>
-      <p class="text-sm text-zinc-300 text-center mb-6">You have unlocked both language bundles. Which version would you like to view?</p>
+  <div id="linkSelectionModal" class="modal">
+    <div class="modal-content" style="max-width: 450px; background-color: #1e293b; color: white;">
+      <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Language</h2>
+      <p class="text-sm text-zinc-300 text-center mb-6">You have access to both versions. Choose which one to open:</p>
       
-      <button onclick="closeDownloadModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
+      <button onclick="closeLinkSelectionModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
 
-      <div id="languageSelectionContainer" class="space-y-4 transition-opacity duration-300">
-          <button onclick="saveAndOpenDashboard('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+      <div class="space-y-4">
+          <button onclick="redirectToDrive('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
               <i data-lucide="book" class="h-4 w-4"></i> HINDI Edition
           </button>
-          <button onclick="saveAndOpenDashboard('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+          <button onclick="redirectToDrive('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
               <i data-lucide="globe" class="h-4 w-4"></i> ENGLISH Edition
           </button>
       </div>
@@ -539,13 +502,11 @@
 
   <div id="zipConfirmationModal" class="modal" style="display: none;">
       <div id="zipConfirmationContent" class="modal-content animate-modalFadeIn" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
-          <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Check</h3>
-          <p class="text-base font-semibold text-zinc-300 text-center mb-5">Can your device open <span class="text-yellow-400">.ZIP files</span>?</p>
+          <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> Compatibility Check</h3>
+          <p class="text-base font-semibold text-zinc-300 text-center mb-5">You are about to access the <span class="text-yellow-400">Google Drive Folder</span>.</p>
           <div class="space-y-3 p-4 bg-zinc-800/50 rounded-lg mb-6 border border-zinc-700">
-              <p class="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">If No, follow these 3 steps:</p>
-              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Open your <strong class="text-white">Play Store / App Store</strong>.</span></div>
-              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</span></div>
-              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Return here and click the button below.</span></div>
+              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>Content is hosted securely on Drive.</span></div>
+              <div class="flex items-start text-sm text-zinc-300 gap-2"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-400 mt-0.5 flex-shrink-0"></i><span>You can view or download files directly.</span></div>
       </div>
           <button id="understandZipBtn" onclick="handleZipConfirmation()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">I Understand</button>
       </div>
@@ -601,160 +562,35 @@
     </div>
   </div>
 
-  <div id="productViewerModal" class="modal">
-      <div id="productViewerContent" class="modal-content animate-modalFadeIn">
-          <div class="viewer-header">
-              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
-              <div class="flex items-center gap-2">
-                  <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
-                      <i data-lucide="download" class="h-4 w-4"></i>
-                      <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
-                  </button>
-                  <button onclick="closeViewerModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
-                      <i data-lucide="x" class="h-5 w-5"></i>
-                  </button>
-              </div>
-          </div>
-
-          <div id="dashboardLangSwitcher" class="bg-gray-800/50 p-2 border-b border-white/10 flex justify-center gap-4 text-sm font-medium hidden">
-               <span class="text-zinc-400">Viewing:</span>
-               <button onclick="saveAndOpenDashboard('HINDI')" class="text-red-400 hover:text-red-300 transition underline">HINDI</button>
-               <span class="text-zinc-600">|</span>
-               <button onclick="saveAndOpenDashboard('ENGLISH')" class="text-blue-400 hover:text-blue-300 transition underline">ENGLISH</button>
-          </div>
-
-          <div class="viewer-body">
-              <div class="viewer-sidebar">
-                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video Class</div>
-                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
-                  <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
-                  <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
-                  <div id="tab-ppt" class="viewer-tab" onclick="switchViewerTab('ppt')"><i data-lucide="presentation" class="h-4 w-4"></i> Presentation</div>
-                  <div id="tab-extra" class="viewer-tab" onclick="switchViewerTab('extra')"><i data-lucide="folder-plus" class="h-4 w-4"></i> Extra Resource</div>
-              </div>
-              <div class="viewer-main">
-
-                  <div id="view-video" class="viewer-section active">
-                      <div class="w-full max-w-2xl bg-black rounded-lg overflow-hidden border border-zinc-700 shadow-2xl mb-4">
-                          <video id="videoSource" controls class="w-full h-auto" poster="https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png">
-                              <source src="" type="video/mp4">
-                              Your browser does support the video tag.
-                          </video>
-                      </div>
-                      <button onclick="handleSingleDownload('video')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm transition-colors duration-200">
-                          <i data-lucide="download" class="h-4 w-4"></i> Download Video File
-                      </button>
-                  </div>
-
-                  <div id="view-audio" class="viewer-section">
-                      <div class="flex flex-col items-center justify-center text-center p-8 bg-[#1e293b]/80 backdrop-blur-md rounded-xl border border-zinc-700 w-full max-w-md shadow-2xl">
-                          <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
-                          <h4 class="text-xl font-bold mb-2">Zero-Disturbance Audio Guide</h4>
-                          <audio id="audioSource" controls class="w-full min-w-[300px] mb-4">
-                              <source src="" type="audio/mpeg">
-                          </audio>
-                          <button onclick="handleSingleDownload('audio')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm transition-colors duration-200">
-                              <i data-lucide="download" class="h-4 w-4"></i> Download Audio File
-                          </button>
-                      </div>
-                  </div>
-
-                  <div id="view-pdf" class="viewer-section"><div class="text-center">
-                    <div class="w-24 h-24 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-700 shadow-lg">
-                        <i data-lucide="file-text" class="h-10 w-10 text-zinc-400"></i>
-                    </div>
-                    <h4 class="text-xl font-bold mb-2">Premium eBook</h4>
-                    <p class="text-zinc-400 mb-6 max-w-xs mx-auto">Read the comprehensive guide to mastering inner stability.</p>
-                    <button id="pdfSourceBtn" onclick="handleSingleDownload('pdf')" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-bold hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2 mx-auto">
-                        <i data-lucide="book-open" class="h-5 w-5"></i> Read / Download PDF
-                    </button>
-                  </div></div>
-
-                  <div id="view-image" class="viewer-section flex-col">
-                      <div class="flex justify-between w-full max-w-2xl mb-2 items-center px-2">
-                          <p class="text-zinc-400 text-xs uppercase tracking-wide font-semibold"><i data-lucide="zoom-in" class="inline h-3 w-3 mr-1"></i>Click to Zoom</p>
-                          <button onclick="handleSingleDownload('image')" class="text-zinc-400 hover:text-white flex items-center gap-2 text-sm transition-colors duration-200">
-                              <i data-lucide="download" class="h-4 w-4"></i> Save Image
-                          </button>
-                      </div>
-                      <div class="relative group rounded-lg overflow-hidden border border-zinc-700/50 shadow-2xl">
-                          <img id="imageSource" onclick="this.classList.toggle('zoomed')" src="" class="viewer-zoom-img" alt="Mind Map">
-                      </div>
-                  </div>
-
-                  <div id="view-ppt" class="viewer-section">
-                      <div class="premium-lock-card">
-                          <div class="premium-lock-icon bg-indigo-500/20"><i data-lucide="presentation" class="h-10 w-10 text-indigo-400"></i></div>
-                          <h3 class="text-xl font-bold text-white mb-2">Presentation Slides</h3>
-                          <p class="text-zinc-400 mb-6">Access the core concepts in a slide format for quick review.</p>
-                          <button class="px-6 py-2 border border-indigo-500/50 text-indigo-300 rounded-lg hover:bg-indigo-500/10 transition">Coming Soon</button>
-                      </div>
-                  </div>
-
-                  <div id="view-extra" class="viewer-section">
-                      <div class="premium-lock-card">
-                          <div class="premium-lock-icon bg-emerald-500/20"><i data-lucide="folder-plus" class="h-10 w-10 text-emerald-400"></i></div>
-                          <h3 class="text-xl font-bold text-white mb-2">Bonus Resources</h3>
-                          <p class="text-zinc-400 mb-6">Additional worksheets and checklists to track your progress.</p>
-                          <button class="px-6 py-2 border border-emerald-500/50 text-emerald-300 rounded-lg hover:bg-emerald-500/10 transition">Download Extras</button>
-                      </div>
-                  </div>
-
-              </div>
-          </div>
-      </div>
-  </div>
-
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
   <script>
     // =========================================
     // 1. PRODUCT CONFIGURATION
     // =========================================
-    const productConfig = {
-        showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showPpt: true, showExtra: true
-    };
-
-    // --- CONFIGURATION ---
     const IS_SALE_ACTIVE = true;
-    const ENABLE_COUPON_SECTION = true; // CHANGE THIS TO false TO HIDE COUPON
+    const ENABLE_COUPON_SECTION = true; 
     
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png';
     const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_002';
     
     // Payment Links (Original & Discounted)
     const PAYMENT_LINKS = {
-        default: "https://payments.cashfree.com/forms/dsdfg2",  // Normal Price Link
-        discounted: "https://payments.cashfree.com/forms/discounted_link_299" // 299 Price Link (Replace this with real link)
+        default: "https://payments.cashfree.com/forms/dsdfg2",  
+        discounted: "https://payments.cashfree.com/forms/discounted_link_299" 
     };
     
-    let currentPaymentUrl = PAYMENT_LINKS.default; // Default to normal price
+    let currentPaymentUrl = PAYMENT_LINKS.default; 
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_V2P8Q6R4S7T9W1X5Z0';
     const REDIRECT_URL = 'https://bookmintor.shop/spirituality';
-    const VALID_COUPON = "MINTOR299"; // Change this code as needed
+    const VALID_COUPON = "MINTOR299"; 
 
-    // FIX: Combined all ZIP URLs into one object for direct access
-    const ZIP_URLS = {
-        HINDI: "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/extras/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION).zip",
+    // --- IMPORTANT: GOOGLE DRIVE LINKS ---
+    const DRIVE_LINKS = {
+        HINDI: "PASTE_YOUR_HINDI_DRIVE_LINK_HERE", // <--- PASTE YOUR HINDI LINK HERE
         ENGLISH: "https://drive.google.com/drive/folders/1ye9NW-i4B-I_dmAMfDhLYXq072eqBPek?usp=drive_link"
     };
 
-    const CONTENT_URLS = {
-        HINDI: {
-            VIDEO: "https://bookmintor-cpu45432f34fwefwfds46fqwfq.github.io/resource-library/spiritual/%20%20%20ebook1/mockups/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A5%87%E0%A4%AE%E0%A4%BE%E0%A4%A8%E0%A4%82%E0%A4%A1_%E0%A4%9C%E0%A5%80__%E0%A4%9C%E0%A4%BC%E0%A5%80%E0%A4%B0%E0%A5%8B-%E0%A4%A1%E0%A4%BF%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AC%E0%A5%87%E0%A4%82%E0%A4%B8_%E0%A4%95%E0%A5%8B%E0%A4%A1%20(EXPLAINER%20VIDEO).mp4",
-            AUDIO: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20Audio%20Link.mp3",
-            PDF: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20PDF%20Link.pdf",
-            MINDMAP: "https://placehold.co/600x400/0f172a/94a3b8?text=Hindi%20Mindmap%20Image.png",
-            ZIP: ZIP_URLS.HINDI 
-        },
-        ENGLISH: {
-            VIDEO: "https://drive.google.com/file/d/1F-10qYAphCyX6XyQXf6rFjR6j1jPL-rv/view",
-            AUDIO: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20Audio%20Link.mp3",
-            PDF: "https://drive.google.com/file/d/1FsCR2eeir0C4wnkBRXxa7xA_yK-ThgJa/view?usp=drive_link",
-            MINDMAP: "https://placehold.co/600x400/0f172a/94a3b8?text=English%20Mindmap%20Image.png",
-            ZIP: ZIP_URLS.ENGLISH
-        }
-    };
     const SCREENSHOT_URLS = [
         'https://bookmintor.shop/bundels/ChatGPT%20Image%20Nov%2011,%202025,%2009_54_38%20AM.png',
         'https://bookmintor.shop/bundels/screnshorts/ChatGPT%20Image%20Nov%2011,%202025,%2008_44_01%20AM.png',
@@ -768,21 +604,13 @@
         coverImg: document.getElementById('coverImg'),
         coverShine: document.getElementById('coverShine'),
         loadingSpin: document.getElementById('loadingSpin'),
-        downloadModal: document.getElementById('downloadModal'),
-        languageSelectionModal: document.getElementById('languageSelectionModal'),
+        linkSelectionModal: document.getElementById('linkSelectionModal'),
         zipConfirmationModal: document.getElementById('zipConfirmationModal'),
-        zipConfirmationContent: document.getElementById('zipConfirmationContent'),
         toastNotification: document.getElementById('toastNotification'),
         toastMessage: document.getElementById('toastMessage'),
         buyBtn: document.getElementById('buyBtn'),
         unlockBtn: document.getElementById('unlockBtn'),
         unlockContainer: document.getElementById('unlockContainer'),
-        productViewerModal: document.getElementById('productViewerModal'),
-        productViewerContent: document.getElementById('productViewerContent'),
-        dashboardTitle: document.getElementById('dashboardTitle'),
-        videoSource: document.getElementById('videoSource'),
-        audioSource: document.getElementById('audioSource'),
-        imageSource: document.getElementById('imageSource'),
         previewOverlay: document.getElementById('previewOverlay'),
         previewScreenshot: document.getElementById('previewScreenshot'),
         imageCounter: document.getElementById('imageCounter'),
@@ -796,34 +624,20 @@
         applyCouponBtn: document.getElementById('applyCouponBtn')
     };
 
-    let currentContentLanguage = 'HINDI';
-
     // =========================================
-    // TOGGLE FEEDBACKS (FIXED - ADDED FUNCTION)
+    // TOGGLE FEEDBACKS
     // =========================================
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
         const btn = document.getElementById('showMore');
         if(!hiddenItems.length || !btn) return;
-
-        // Check if currently hidden (style might be null or none)
         const isHidden = window.getComputedStyle(hiddenItems[0]).display === 'none';
-
         if (isHidden) {
-            // Show items
-            hiddenItems.forEach(item => {
-                item.style.display = 'flex'; // Use flex because class uses flex
-                item.classList.add('animate-slideUp');
-            });
+            hiddenItems.forEach(item => { item.style.display = 'flex'; item.classList.add('animate-slideUp'); });
             btn.textContent = 'Show Less';
         } else {
-            // Hide items
-            hiddenItems.forEach(item => {
-                item.style.display = 'none';
-                item.classList.remove('animate-slideUp');
-            });
+            hiddenItems.forEach(item => { item.style.display = 'none'; item.classList.remove('animate-slideUp'); });
             btn.textContent = 'Show More';
-            // Optional: smooth scroll back to feedback section to avoid disorientation
             document.getElementById('feedbacks').scrollIntoView({behavior: 'smooth', block: 'start'});
         }
     }
@@ -832,33 +646,22 @@
     // COUPON LOGIC
     // =========================================
     function handleCoupon() {
-        if (!ENABLE_COUPON_SECTION) return; // Guard clause if disabled
-
+        if (!ENABLE_COUPON_SECTION) return;
         const input = dom.couponInput;
         const btn = dom.applyCouponBtn;
         const code = input.value.trim().toUpperCase();
 
         if(code === VALID_COUPON) {
             confetti({ particleCount: 60, spread: 50, origin: { y: 0.5, x: 0.5 }, colors: ['#22c55e', '#ffffff'], zIndex: 10 });
-            
-            input.disabled = true;
-            btn.disabled = true;
+            input.disabled = true; btn.disabled = true;
             input.classList.add('coupon-applied');
             btn.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i>';
             lucide.createIcons();
-
             dom.originalPrice.classList.add('animate-priceSlash'); 
             dom.displayPrice.classList.add('animate-popFloat'); 
-            
-            setTimeout(() => {
-                dom.originalPrice.innerHTML = '₹899'; 
-                dom.displayPrice.innerHTML = '₹299'; 
-                dom.originalPrice.classList.remove('animate-priceSlash');
-            }, 600);
-
+            setTimeout(() => { dom.originalPrice.innerHTML = '₹899'; dom.displayPrice.innerHTML = '₹299'; dom.originalPrice.classList.remove('animate-priceSlash'); }, 600);
             currentPaymentUrl = PAYMENT_LINKS.discounted;
             showToast("Coupon Applied! ₹500 Saved 🎉", true);
-
         } else {
             input.classList.add('animate-shakeInput', 'border-red-500');
             setTimeout(() => input.classList.remove('animate-shakeInput', 'border-red-500'), 500);
@@ -874,173 +677,49 @@
     }
 
     // =========================================
-    // 2. DASHBOARD / VIEWER LOGIC
+    // 2. UNLOCK & REDIRECT LOGIC
     // =========================================
-    function switchViewerTab(tabId) {
-        document.querySelectorAll('video, audio').forEach(v => v.pause());
-        document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
-
-        const clickedTab = document.getElementById(`tab-${tabId}`);
-        if(clickedTab) clickedTab.classList.add('active');
-
-        let targetSectionId = `view-${tabId}`;
-        let isAvailable = true;
-
-        if (tabId === 'ppt' && !productConfig.showPpt) isAvailable = false;
-        if (tabId === 'extra' && !productConfig.showExtra) isAvailable = false;
-        if (tabId === 'video' && !productConfig.showVideo) isAvailable = false;
-
-        if (!isAvailable) targetSectionId = 'view-unavailable';
-
-        const section = document.getElementById(targetSectionId);
-        if(section) section.classList.add('active');
-    }
-
-    function openViewerModal(lang) {
-        if (lang) {
-            currentContentLanguage = lang;
-            localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); 
-        } else {
-             currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI';
-        }
-
-        try {
-            const tabVideo = document.getElementById('tab-video');
-            const tabAudio = document.getElementById('tab-audio');
-            const tabPdf = document.getElementById('tab-pdf');
-            const tabImage = document.getElementById('tab-image');
-            const tabPpt = document.getElementById('tab-ppt');
-            const tabExtra = document.getElementById('tab-extra');
-
-            if(tabVideo) tabVideo.style.display = productConfig.showVideo ? 'flex' : 'none';
-            if(tabAudio) tabAudio.style.display = productConfig.showAudio ? 'flex' : 'none';
-            if(tabPdf) tabPdf.style.display = productConfig.showPdf ? 'flex' : 'none';
-            if(tabImage) tabImage.style.display = productConfig.showMindmap ? 'flex' : 'none';
-            if(tabPpt) tabPpt.style.display = productConfig.showPpt ? 'flex' : 'none';
-            if(tabExtra) tabExtra.style.display = productConfig.showExtra ? 'flex' : 'none';
-
-            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
-            const isDualLang = dom.unlockBtn.getAttribute('data-unlocked') === 'BOTH';
-
-            document.getElementById('dashboardTitle').textContent = `Premium Content (${currentContentLanguage})`;
-            document.getElementById('dashboardLangSwitcher').style.display = isDualLang ? 'flex' : 'none';
-
-            const videoEl = document.getElementById('videoSource');
-            const audioEl = document.getElementById('audioSource');
-            const imgEl = document.getElementById('imageSource');
-
-            if(content.VIDEO && videoEl) {
-                const source = videoEl.querySelector('source');
-                if(source) { source.src = content.VIDEO; videoEl.load(); }
-            }
-            if(content.AUDIO && audioEl) {
-                const source = audioEl.querySelector('source');
-                if(source) { source.src = content.AUDIO; audioEl.load(); }
-            }
-            if(content.MINDMAP && imgEl) {
-                imgEl.src = content.MINDMAP;
-            }
-
-            dom.productViewerModal.style.display = 'flex';
-            dom.productViewerContent.classList.add('animate-modalFadeIn'); 
-
-            if (productConfig.showVideo) switchViewerTab('video');
-            else if (productConfig.showAudio) switchViewerTab('audio');
-            else if (productConfig.showPdf) switchViewerTab('pdf');
-            else if (productConfig.showMindmap) switchViewerTab('image');
-
-            lucide.createIcons(); 
-        } catch(e) {
-            console.error("Dashboard Error:", e);
-            dom.productViewerModal.style.display = 'flex'; 
-        }
-    }
-
-    function closeViewerModal() {
-        dom.productViewerContent.classList.remove('animate-modalFadeIn');
-        dom.productViewerContent.classList.add('animate-modalFadeOut');
-        setTimeout(() => {
-            dom.productViewerModal.style.display = 'none';
-            dom.productViewerContent.classList.remove('animate-modalFadeOut');
-            document.querySelectorAll('video, audio').forEach(v => v.pause());
-        }, 400); 
-    }
-
-    // FIX 2: IMPROVED UNLOCK LOGIC (PERSISTENCE CHECKER)
     function handleUnlockClick() {
         // 1. Get status from attribute
         let status = dom.unlockBtn.getAttribute('data-unlocked');
         
-        // 2. SAFETY CHECK: If status is false, check localStorage one more time (Double Check for Refresh)
-        if (status === 'false' || !status) {
+        // 2. SAFETY CHECK: Double Check LocalStorage if attribute is missing/false
+        if (!status || status === 'false') {
             const savedData = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
             if (savedData && savedData !== 'false') {
-                // Determine correct status from localStorage string
-                if (savedData.includes('HINDI') && savedData.includes('ENGLISH')) status = 'BOTH';
-                else if (savedData.includes('HINDI')) status = 'HINDI';
-                else if (savedData.includes('ENGLISH')) status = 'ENGLISH';
-                
-                // Update DOM immediately to fix state
+                status = savedData; // Use saved data if available
                 dom.unlockBtn.setAttribute('data-unlocked', status);
             }
         }
 
         // 3. Logic Flow
         if (status === 'BOTH') {
-            dom.downloadModal.style.display = 'flex';
-            dom.languageSelectionModal.style.display = 'block'; 
-            dom.zipConfirmationModal.style.display = 'none'; 
-            dom.languageSelectionModal.classList.add('animate-modalFadeIn');
+            // ONLY SHOW POPUP IF BOTH
+            dom.linkSelectionModal.style.display = 'flex';
+            dom.linkSelectionModal.querySelector('.modal-content').classList.add('animate-modalFadeIn');
             lucide.createIcons();
         } else if (status === 'HINDI') {
-            openViewerModal('HINDI');
+            // DIRECT REDIRECT
+            redirectToDrive('HINDI');
         } else if (status === 'ENGLISH') {
-            openViewerModal('ENGLISH');
+            // DIRECT REDIRECT
+            redirectToDrive('ENGLISH');
         } else {
              showToast("Please purchase the product first to access content.", false);
         }
     }
 
-    function saveAndOpenDashboard(lang) {
-        dom.languageSelectionModal.style.display = 'none';
-        dom.downloadModal.style.display = 'none';
-        openViewerModal(lang);
-    }
-
-    function closeDownloadModal() {
-        dom.downloadModal.style.display = 'none';
-    }
-
-    function handleDownloadBundleClick() {
-        const lang = currentContentLanguage;
-        const url = CONTENT_URLS[lang] ? CONTENT_URLS[lang].ZIP : null;
-
-        if(url) {
+    function redirectToDrive(lang) {
+        const url = DRIVE_LINKS[lang];
+        if (url) {
             window.location.href = url;
         } else {
-             showToast(`Download link missing for ${lang} ZIP.`, false);
+            showToast("Error: Link not found.", false);
         }
     }
 
-    function handleSingleDownload(type) {
-        const content = CONTENT_URLS[currentContentLanguage];
-        let url = '';
-        if(type === 'video') url = content.VIDEO;
-        if(type === 'audio') url = content.AUDIO;
-        if(type === 'pdf') { window.open(content.PDF, '_blank'); return; }
-        if(type === 'image') url = content.MINDMAP;
-        
-        if(url) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = ''; 
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        } else {
-             showToast(`File URL missing for ${type}.`, false);
-        }
+    function closeLinkSelectionModal() {
+        dom.linkSelectionModal.style.display = 'none';
     }
 
     // =========================================
@@ -1057,76 +736,52 @@
 
     function handleZipConfirmation() {
         dom.zipConfirmationModal.style.display = 'none';
-        dom.unlockContainer.style.display = 'inline-flex';
         
+        // UPDATE UI TO SHOW BUTTON
         const status = getUpdatedUnlockStatus(postPaymentLanguage);
         dom.unlockBtn.setAttribute('data-unlocked', status);
-        dom.unlockContainer.classList.add('snake-active'); 
-
+        dom.unlockContainer.style.display = 'inline-flex'; // Force show
+        
         dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        setTimeout(() => {
-            showToast("Product Unlocked! Access Granted.", true);
-        }, 500);
-
-        setTimeout(() => {
-            dom.unlockContainer.classList.remove('snake-active');
-        }, 5000);
+        showToast("Product Unlocked! Access Granted.", true);
     }
 
     function getUpdatedUnlockStatus(newLang) {
         const current = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
         let result = newLang;
-        // Merge Logic
+        // Logic to merge permissions
         if ((current.includes('HINDI') && newLang === 'ENGLISH') || 
             (current.includes('ENGLISH') && newLang === 'HINDI') || 
             current.includes('BOTH')) {
             result = 'BOTH';
         }
-        
         localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, result);
-        return result; // return simple string logic
+        return result;
     }
 
     // =========================================
     // 4. UTILITIES & INITIALIZATION
     // =========================================
     document.addEventListener('DOMContentLoaded', function() {
-      // 0. COUPON ON/OFF CHECK
       if (!ENABLE_COUPON_SECTION) {
           const couponEl = document.getElementById('couponSection');
           if(couponEl) couponEl.style.display = 'none';
       }
 
-      // 1. Initial State: Hidden by default
-      dom.unlockBtn.setAttribute('data-unlocked', 'false');
-      dom.unlockContainer.style.display = 'none';
-
-      // 2. CHECK LOCAL STORAGE (Persistence Fix for Refresh)
+      // --- CRITICAL: PERSISTENCE CHECK ON LOAD ---
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
       
       if (unlockedLangs && unlockedLangs !== 'false' && unlockedLangs !== '') {
-          // User has purchased before
+          // USER HAS PURCHASED BEFORE -> SHOW BUTTON PERMANENTLY
           dom.unlockContainer.style.display = 'inline-flex';
-          
-          let status;
-          if (unlockedLangs.includes('HINDI') && unlockedLangs.includes('ENGLISH')) {
-              status = 'BOTH';
-          } else if (unlockedLangs.includes('HINDI')) {
-              status = 'HINDI';
-          } else if (unlockedLangs.includes('ENGLISH')) {
-              status = 'ENGLISH';
-          } else {
-             // Fallback
-             status = unlockedLangs; 
-          }
-          
-          // Set attribute immediately
-          dom.unlockBtn.setAttribute('data-unlocked', status);
-          dom.unlockContainer.classList.add('snake-active'); // Add glow so they see it
+          dom.unlockBtn.setAttribute('data-unlocked', unlockedLangs);
+      } else {
+          // USER HAS NOT PURCHASED -> HIDE BUTTON
+          dom.unlockContainer.style.display = 'none';
+          dom.unlockBtn.setAttribute('data-unlocked', 'false');
       }
 
-      // 3. Payment Success Handler
+      // Payment Success Handler
       const urlParams = new URLSearchParams(window.location.search);
       const paymentStatus = urlParams.get('payment_status');
       const secretKey = urlParams.get('secret_key');
@@ -1139,11 +794,11 @@
         const finalStatus = getUpdatedUnlockStatus(preSelectedLang || 'HINDI');
         dom.unlockBtn.setAttribute('data-unlocked', finalStatus);
         
-        // Trigger Flow
+        // Show celebration
         startUnlockProcess(preSelectedLang || 'HINDI');
       }
 
-      // 4. Load Images & Animations
+      // Load Images
       const logoImg = document.getElementById('logoImg');
       if (logoImg.complete) { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); }
       else logoImg.onload = () => { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); };
@@ -1198,7 +853,7 @@
         }, 2500);
     }
 
-    // --- PRELOAD AND PREVIEW LOGIC ---
+    // --- PRELOAD AND PREVIEW LOGIC (WITH SHINE RESTORED) ---
     function preloadAllImages() {
         const cover = dom.cover;
         if(!cover) return;
@@ -1206,22 +861,32 @@
         Promise.all([SOURCE_IMAGE, ...SCREENSHOT_URLS].map(url => new Promise(r => { const i = new Image(); i.src=url; i.onload=r; i.onerror=r; })))
         .then(() => {
             dom.coverImg.src = SOURCE_IMAGE;
+            // 1. Initial State
             requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
+            
+            // 2. Wait for initial shine animation to play
             setTimeout(() => {
                 dom.coverImg.style.opacity = '1'; 
-                dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0';
+                
+                // 3. Fade out the shine element smoothly
+                dom.coverShine.style.transition = 'opacity 0.5s ease'; 
+                dom.coverShine.style.opacity = '0';
                 dom.loadingSpin.style.opacity = '0'; 
+                
+                // 4. Remove elements from flow
                 setTimeout(()=> {
-                     dom.coverShine.style.display = 'none'; dom.loadingSpin.style.display = 'none';
-                     dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
+                     dom.coverShine.style.display = 'none'; 
+                     dom.loadingSpin.style.display = 'none';
+                     dom.cover.classList.add('loaded'); 
+                     dom.cover.setAttribute('aria-busy','false');
                      
                      dom.previewIndicator.style.display = 'block';
                      setTimeout(() => { 
                         dom.previewIndicator.style.opacity = '0'; 
                         setTimeout(() => { dom.previewIndicator.style.display = 'none'; }, 500); 
                      }, 4000);
-                }, 450);
-            }, 700);
+                }, 500);
+            }, 1200); // Increased delay slightly to let the shine play longer
         });
     }
 
@@ -1283,7 +948,6 @@
         document.getElementById('paymentLangSelection').style.display = 'none'; document.getElementById('paymentLoader').style.display = 'flex';
         sessionStorage.setItem('payment_initiated', 'true'); sessionStorage.setItem('selected_language', lang);
         
-        // USE DYNAMIC LINK HERE
         document.getElementById('cashfreeIframe').src = currentPaymentUrl;
         
         setTimeout(() => { document.getElementById('paymentLoader').style.display = 'none'; document.getElementById('cashfreeIframe').style.display = 'block'; }, 2000);
