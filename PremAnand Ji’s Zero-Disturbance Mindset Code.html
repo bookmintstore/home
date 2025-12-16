@@ -50,7 +50,8 @@
             rollUpSmooth: 'rollUpSmooth 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
             snakeRotate: 'snakeRotate 4s linear infinite',
             priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-            coverFast: 'coverFast 0.65s linear infinite', /* Restored for Shine */
+            coverFast: 'coverFast 0.65s linear infinite', 
+            softPulse: 'softPulse 2s infinite ease-in-out', 
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -73,7 +74,8 @@
             },
             snakeRotate: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
             priceSlash: { '0%': { transform: 'scale(1)', opacity: 1 }, '50%': { transform: 'scale(1.2) rotate(-10deg)', opacity: 0.8 }, '100%': { transform: 'scale(0) rotate(20deg)', opacity: 0 } },
-            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-20deg)' }, '100%': { transform: 'translateX(160%) skewX(-20deg)' } }, /* Restored Animation */
+            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-20deg)' }, '100%': { transform: 'translateX(160%) skewX(-20deg)' } },
+            softPulse: { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.8 } },
           }
         }
       }
@@ -84,148 +86,42 @@
     /* BASIC SETUP */
     @keyframes waveJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    
-    body {
-        font-family:'Poppins',sans-serif;
-        overflow-x: hidden;
-        scroll-behavior: smooth; 
-    }
-    
-    /* --- NEW BUNDLE SHOWCASE (VISUAL CARDS) --- */
-    .bundle-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-        margin: 16px 0;
-    }
-    .bundle-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 10px 5px;
-        text-align: center;
-        transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .bundle-card:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-3px);
-        border-color: rgba(168, 85, 247, 0.4);
-        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15);
-    }
-    .bundle-icon-wrap {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 6px;
-        background: rgba(255, 255, 255, 0.05);
-    }
-    .bundle-label {
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: #cbd5e1;
-        line-height: 1.1;
-    }
-    @media (max-width: 640px) {
-        .bundle-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .bundle-label { font-size: 0.65rem; }
-    }
+    @keyframes snakeRotate { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    /* --- RESTORED COVER SHINE (Black Gradient) --- */
-    .cover-shine { 
-        position:absolute; 
-        inset:0; 
-        z-index:20; 
-        pointer-events:none; 
-        /* The specific black gradient for the shine effect */
-        background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%); 
-        transform: translateX(-160%) skewX(-20deg); 
-        mix-blend-mode: multiply; /* Key for black shine on images */
-        opacity: 0.9; 
-        animation: coverFast 0.65s linear infinite; 
-        transition: opacity 0.5s ease;
-        filter: blur(5px);
-    }
+    body { font-family:'Poppins',sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+    
+    /* BUNDLE SHOWCASE */
+    .bundle-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+    .bundle-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 10px 5px; text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .bundle-card:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); border-color: rgba(168, 85, 247, 0.4); }
+    .bundle-icon-wrap { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; background: rgba(255, 255, 255, 0.05); }
+    .bundle-label { font-size: 0.7rem; font-weight: 600; color: #cbd5e1; line-height: 1.1; }
 
-    /* SNAKE CONTAINER */
-    .snake-container {
-        position: relative;
-        display: none; 
-        padding: 2px;
-        border-radius: 12px;
-        z-index: 100; 
-        margin-left: 10px;
-        background: transparent;
-        overflow: hidden;
-    }
-    .snake-border {
-        position: absolute;
-        top: 50%; left: 50%;
-        width: 250%; 
-        height: 250%;
-        background: conic-gradient(transparent 0deg, transparent 270deg, #10b981 320deg, #34d399 340deg, transparent 360deg);
-        animation: snakeRotate 4s linear infinite; 
-        z-index: 0; 
-        pointer-events: none;
-    }
-    .snake-glow {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%; height: 100%;
-        background: #10b981;
-        filter: blur(15px);
-        opacity: 0.6;
-        z-index: -1;
-    }
-    .unlock-btn {
-        position: relative;
-        z-index: 10; 
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background-color: #10b981; 
-        color: white; 
-        padding: 8px 16px; 
-        border-radius: 10px; 
-        font-weight: 700;
-        font-size: 0.9rem; 
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        border: none;
-        transition: transform 0.2s, background-color 0.2s;
-        margin: 0;
-    }
-    .snake-mask {
-        position: absolute;
-        inset: 1px;
-        background: #0b0e13; 
-        border-radius: 11px;
-        z-index: 1;
-    }
-    .snake-container .unlock-btn { margin: 0; }
+    /* COVER SHINE (Used for Book & Modal) */
+    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-20deg); mix-blend-mode: multiply; opacity: 0.9; animation: coverFast 0.65s linear infinite; transition: opacity 0.5s ease; filter: blur(5px); }
+
+    /* SNAKE CONTAINER & BUTTON */
+    .snake-container { position: relative; display: none; padding: 2px; border-radius: 12px; z-index: 100; margin-left: 10px; background: transparent; overflow: hidden; }
+    .snake-border { position: absolute; top: 50%; left: 50%; width: 250%; height: 250%; background: conic-gradient(transparent 0deg, transparent 270deg, #10b981 320deg, #34d399 340deg, transparent 360deg); animation: snakeRotate 4s linear infinite; z-index: 0; pointer-events: none; }
+    .snake-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background: #10b981; filter: blur(15px); opacity: 0.6; z-index: -1; }
+    .unlock-btn { position: relative; z-index: 10; display: flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); cursor: pointer; border: none; transition: transform 0.2s, background-color 0.2s; margin: 0; overflow: hidden; }
     .unlock-btn:hover { transform: scale(1.02); background-color: #059669; }
+    .unlock-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 2.5s ease-in-out infinite; }
+    .snake-mask { position: absolute; inset: 1px; background: #0b0e13; border-radius: 11px; z-index: 1; }
 
     /* CTA BUTTONS */
-    .cta-btn{ position:relative; overflow:hidden; animation: aura 2.4s ease-in-out infinite; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
+    .cta-btn{ position:relative; overflow:hidden; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
     .cta-btn .corner-bling{ pointer-events:none; position:absolute; inset:-6px; border-radius:12px; background:radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%), radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%); opacity:0; filter: blur(6px); }
     .cta-btn:hover .corner-bling { opacity: .95; }
 
-    /* BOOK 3D & DETAILS */
+    /* BOOK 3D */
     .book-wrap { perspective:1600px; display:flex; align-items:center; justify-content:center; }
     .book-3d { width: 240px; height: 340px; position: relative; transform-style: preserve-3d; transform: rotateY(-12deg) rotateX(4deg); transition: transform .35s ease; margin: 12px; }
     .book-3d:hover { transform: rotateY(-8deg) rotateX(6deg) translateY(-8px); }
     .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
-    #coverFace { cursor: pointer; }
     .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
@@ -236,13 +132,11 @@
     .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
     @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
 
-    /* ROLL UP TAG */
+    /* TAG & STATS */
     .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
     .tag-text-wrapper { position: relative; height: 100%; display: flex; align-items: center; overflow: hidden; flex-grow: 1; }
     .tag-text { position: absolute; white-space: nowrap; background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; line-height: 1; background-size: 200% auto; animation: gradient-shift 8s ease infinite; }
     .subtle-tag .tag-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; opacity: 0.8; animation: tagShine 3.0s ease-in-out infinite; }
-
-    /* STATS & STARS */
     .stats-section { display: flex; justify-content: space-around; align-items: center; padding: 0; border-top: none; border-bottom: none; margin-top: 16px; }
     .stat-item { text-align: center; flex-grow: 1; padding: 0 8px; }
     .stat-value { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #e0f2f1; margin-bottom: 4px; text-shadow: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
@@ -253,7 +147,7 @@
     .star-glow .half { fill: transparent; color: #fbbf24; }
     .star-glow .empty { color: #475569; opacity: 0.45; }
 
-    /* COUPON SECTION STYLES */
+    /* COUPON */
     .coupon-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 14px; margin-bottom: 8px; }
     .coupon-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; width: 140px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
     .coupon-input:focus { border-color: #a855f7; outline: none; box-shadow: 0 0 0 2px rgba(168,85,247,0.2); }
@@ -268,14 +162,15 @@
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
 
-    .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
-    .download-button:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(16,185,129,0.6); }
-    .download-button:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 2px 5px rgba(16,185,129,0.3); }
-    .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
-    .feedback-textarea { resize: vertical; min-height: 100px; }
+    /* TOAST (FIXED: HIDDEN DEFAULT) */
+    #toastNotification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-200%); background: rgba(16, 185, 129, 0.95); color: white; padding: 12px 24px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 5000; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.2); }
+    #toastNotification.show { transform: translateX(-50%) translateY(0); }
 
-    /* FEEDBACKS */
-    .user-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.9rem; color: white; margin-right: 12px; flex-shrink: 0; }
+    /* TIMER (FIXED) */
+    #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: transparent; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-size: 1.1rem; font-weight: 800; font-family: monospace; z-index: 2010; padding: 4px 10px; border-radius: 8px; }
+
+    /* FEEDBACKS (FIXED LAYOUT) */
+    .user-avatar { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; color: white; margin-right: 12px; flex-shrink: 0; }
     .feedback-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); margin-bottom: 12px; transition: all 0.3s ease; }
     .feedback-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
     .feedback-content { flex: 1; }
@@ -288,6 +183,7 @@
     .feedback-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 8px; }
     .extra-feedback { display: none; }
 
+    /* LOADER BALLS (RESTORED) */
     .jumping-loader { display: flex; justify-content: center; align-items: center; height: 60px; }
     .jumping-loader .ball { width: 14px; height: 14px; margin: 0 4px; background-color: #a855f7; border-radius: 50%; display: inline-block; }
     .jumping-loader .ball:nth-child(1) { animation: waveJump 0.8s ease-in-out infinite 0s; }
@@ -299,20 +195,20 @@
     #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
     #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; }
-    #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: #ef4444; color: white; padding: 6px 16px; border-radius: 20px; font-weight: bold; z-index: 2010; box-shadow: 0 0 15px rgba(239,68,68,0.5); font-family: monospace; font-size: 1.0rem; }
     .invisible-shield { position: absolute; left: 0; width: 100%; height: 70px; background: transparent; z-index: 25; pointer-events: auto; }
     .payment-lang-btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
     .payment-lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(168, 85, 247, 0.5); transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4); }
     .payment-lang-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 3.0s ease-in-out infinite; }
     #saleBanner { display: none; background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 8px; text-align: center; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); border-bottom: 1px solid rgba(255,255,255,0.1); }
     
+    .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+    .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
+    .feedback-textarea { resize: vertical; min-height: 100px; }
     .details-content { overflow: hidden; height: 0; opacity: 0; transition: height 0.3s ease-out, opacity 0.3s ease-out; }
     details[open] summary svg { transform: rotate(180deg); }
     summary { list-style: none; outline: none; }
     summary::-webkit-details-marker { display: none; }
     
-    #toastNotification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(16, 185, 129, 0.95); color: white; padding: 12px 24px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 5000; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.2); }
-    #toastNotification.show { transform: translateX(-50%) translateY(0); }
     .language-modal-close { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #94a3b8; z-index: 10; transition: color 0.2s; }
     .language-modal-close:hover { color: white; }
     .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
@@ -334,7 +230,7 @@
   </div>
 
   <div id="saleBanner">🔥 FLASH SALE ENDING SOON: 88% OFF LIMITED TIME OFFER!</div>
-  <div id="paymentTimer">Time Left: <span id="timerCount">04:00</span></div>
+  <div id="paymentTimer"><span id="timerCount">04:00</span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-2">
@@ -385,6 +281,28 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="1200" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
         </div>
 
+        <div class="bundle-showcase mt-4 mb-2">
+            <h3 class="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-widest">Everything Included:</h3>
+            <div class="bundle-grid">
+                <div class="bundle-card">
+                    <div class="bundle-icon-wrap"><i data-lucide="book-open" class="h-4 w-4 text-fuchsia-400"></i></div>
+                    <span class="bundle-label">E-Book</span>
+                </div>
+                <div class="bundle-card">
+                    <div class="bundle-icon-wrap"><i data-lucide="headphones" class="h-4 w-4 text-indigo-400"></i></div>
+                    <span class="bundle-label">Audio</span>
+                </div>
+                <div class="bundle-card">
+                    <div class="bundle-icon-wrap"><i data-lucide="video" class="h-4 w-4 text-emerald-400"></i></div>
+                    <span class="bundle-label">Video</span>
+                </div>
+                <div class="bundle-card">
+                    <div class="bundle-icon-wrap"><i data-lucide="map" class="h-4 w-4 text-amber-400"></i></div>
+                    <span class="bundle-label">Mind Map</span>
+                </div>
+            </div>
+        </div>
+
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
                 <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹799</span>
@@ -396,28 +314,6 @@
                 <i data-lucide="tag" class="h-4 w-4 text-fuchsia-400"></i>
                 <input type="text" id="couponInput" class="coupon-input" placeholder="Coupon Code">
                 <button onclick="handleCoupon()" id="applyCouponBtn" class="coupon-btn">Apply</button>
-            </div>
-        </div>
-
-        <div class="bundle-showcase mt-4 mb-2">
-            <h3 class="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-widest">Everything Included:</h3>
-            <div class="bundle-grid">
-                <div class="bundle-card animate-popFloat">
-                    <div class="bundle-icon-wrap"><i data-lucide="book-open" class="h-4 w-4 text-fuchsia-400"></i></div>
-                    <span class="bundle-label">E-Book</span>
-                </div>
-                <div class="bundle-card animate-popFloat" style="animation-delay: 0.1s;">
-                    <div class="bundle-icon-wrap"><i data-lucide="headphones" class="h-4 w-4 text-indigo-400"></i></div>
-                    <span class="bundle-label">Audio</span>
-                </div>
-                <div class="bundle-card animate-popFloat" style="animation-delay: 0.2s;">
-                    <div class="bundle-icon-wrap"><i data-lucide="video" class="h-4 w-4 text-emerald-400"></i></div>
-                    <span class="bundle-label">Video</span>
-                </div>
-                <div class="bundle-card animate-popFloat" style="animation-delay: 0.3s;">
-                    <div class="bundle-icon-wrap"><i data-lucide="map" class="h-4 w-4 text-amber-400"></i></div>
-                    <span class="bundle-label">Mind Map</span>
-                </div>
             </div>
         </div>
 
@@ -436,6 +332,7 @@
                 <button id="unlockBtn" class="unlock-btn" data-unlocked="false" onclick="handleUnlockClick()">
                     <i data-lucide="lock-open" class="h-4 w-4"></i> 
                     <span>Access Content</span>
+                    <span class="btn-shine"></span>
                 </button>
             </div>
         </div>
@@ -490,14 +387,45 @@
       <button onclick="closeLinkSelectionModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
 
       <div class="space-y-4">
-          <button onclick="redirectToDrive('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+          <button onclick="openAccessPopup('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
               <i data-lucide="book" class="h-4 w-4"></i> HINDI Edition
           </button>
-          <button onclick="redirectToDrive('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+          <button onclick="openAccessPopup('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
               <i data-lucide="globe" class="h-4 w-4"></i> ENGLISH Edition
           </button>
       </div>
     </div>
+  </div>
+
+  <div id="accessModal" class="modal">
+      <div class="modal-content animate-modalFadeIn" style="width: 95%; max-width: 500px; height: 80vh; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); padding: 0; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+          
+          <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; background: #1e293b;">
+              <h3 class="text-white font-bold flex items-center gap-2"><i data-lucide="folder-open" class="h-5 w-5 text-emerald-400"></i> Premium Content</h3>
+              <button onclick="closeAccessModal()" class="text-zinc-400 hover:text-white transition"><i data-lucide="x" class="h-6 w-6"></i></button>
+          </div>
+
+          <div style="flex: 1; position: relative; background: #000;">
+              
+              <div id="driveLoader" style="position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: #0f172a;">
+                  <div class="cover-shine" style="opacity: 1; animation: coverFast 0.8s linear infinite;"></div>
+                  <div class="flex flex-col items-center z-20">
+                      <div class="jumping-loader mb-2">
+                          <span class="ball"></span><span class="ball"></span><span class="ball"></span>
+                      </div>
+                      <span class="text-xs text-zinc-400 uppercase tracking-widest font-semibold">Loading Secure Drive...</span>
+                  </div>
+              </div>
+
+              <iframe id="driveFrame" src="" style="width: 100%; height: 100%; border: none;" allow="autoplay"></iframe>
+          </div>
+          
+          <div style="padding: 8px; background: #1e293b; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
+              <a id="fallbackLink" href="#" target="_blank" class="text-xs text-zinc-500 hover:text-white flex items-center justify-center gap-1">
+                  <i data-lucide="external-link" class="h-3 w-3"></i> Open in Full Screen
+              </a>
+          </div>
+      </div>
   </div>
 
   <div id="zipConfirmationModal" class="modal" style="display: none;">
@@ -537,7 +465,9 @@
             <div id="topShield" class="invisible-shield" style="top: 0;"></div>
             <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111817; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
-                <div class="jumping-loader"><div class="ball"></div><div class="ball"></div><div class="ball"></div></div>
+                <div class="jumping-loader">
+                    <span class="ball"></span><span class="ball"></span><span class="ball"></span>
+                </div>
                 <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
             </div>
             <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111817; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
@@ -606,6 +536,10 @@
         loadingSpin: document.getElementById('loadingSpin'),
         linkSelectionModal: document.getElementById('linkSelectionModal'),
         zipConfirmationModal: document.getElementById('zipConfirmationModal'),
+        accessModal: document.getElementById('accessModal'), 
+        driveFrame: document.getElementById('driveFrame'), 
+        driveLoader: document.getElementById('driveLoader'), 
+        fallbackLink: document.getElementById('fallbackLink'), 
         toastNotification: document.getElementById('toastNotification'),
         toastMessage: document.getElementById('toastMessage'),
         buyBtn: document.getElementById('buyBtn'),
@@ -677,45 +611,63 @@
     }
 
     // =========================================
-    // 2. UNLOCK & REDIRECT LOGIC
+    // 2. UNLOCK & MODAL LOGIC
     // =========================================
     function handleUnlockClick() {
-        // 1. Get status from attribute
         let status = dom.unlockBtn.getAttribute('data-unlocked');
         
-        // 2. SAFETY CHECK: Double Check LocalStorage if attribute is missing/false
+        // Safety Check
         if (!status || status === 'false') {
             const savedData = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
             if (savedData && savedData !== 'false') {
-                status = savedData; // Use saved data if available
+                status = savedData; 
                 dom.unlockBtn.setAttribute('data-unlocked', status);
             }
         }
 
-        // 3. Logic Flow
         if (status === 'BOTH') {
-            // ONLY SHOW POPUP IF BOTH
             dom.linkSelectionModal.style.display = 'flex';
             dom.linkSelectionModal.querySelector('.modal-content').classList.add('animate-modalFadeIn');
             lucide.createIcons();
         } else if (status === 'HINDI') {
-            // DIRECT REDIRECT
-            redirectToDrive('HINDI');
+            openAccessPopup('HINDI');
         } else if (status === 'ENGLISH') {
-            // DIRECT REDIRECT
-            redirectToDrive('ENGLISH');
+            openAccessPopup('ENGLISH');
         } else {
              showToast("Please purchase the product first to access content.", false);
         }
     }
 
-    function redirectToDrive(lang) {
+    // NEW: Open Access Popup with Iframe
+    function openAccessPopup(lang) {
+        dom.linkSelectionModal.style.display = 'none'; // Close selection if open
         const url = DRIVE_LINKS[lang];
-        if (url) {
-            window.location.href = url;
-        } else {
-            showToast("Error: Link not found.", false);
-        }
+        
+        // Setup Modal
+        dom.accessModal.style.display = 'flex';
+        dom.driveLoader.style.display = 'flex'; // Show loader
+        dom.fallbackLink.href = url; // Set backup link
+        
+        // Set Iframe Source
+        dom.driveFrame.src = url;
+        
+        // Handle Iframe Load Event to remove Shine
+        dom.driveFrame.onload = function() {
+            setTimeout(() => {
+                dom.driveLoader.style.transition = 'opacity 0.5s ease';
+                dom.driveLoader.style.opacity = '0';
+                setTimeout(() => { dom.driveLoader.style.display = 'none'; }, 500);
+            }, 1500); // Small delay to ensure visual load
+        };
+
+        lucide.createIcons();
+    }
+
+    function closeAccessModal() {
+        dom.accessModal.style.display = 'none';
+        dom.driveFrame.src = ''; // Stop loading/reset
+        dom.driveLoader.style.opacity = '1';
+        dom.driveLoader.style.display = 'flex';
     }
 
     function closeLinkSelectionModal() {
@@ -739,6 +691,8 @@
         
         // UPDATE UI TO SHOW BUTTON
         const status = getUpdatedUnlockStatus(postPaymentLanguage);
+        updateButtonShines(true); // Switch shines
+        
         dom.unlockBtn.setAttribute('data-unlocked', status);
         dom.unlockContainer.style.display = 'inline-flex'; // Force show
         
@@ -749,7 +703,6 @@
     function getUpdatedUnlockStatus(newLang) {
         const current = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
         let result = newLang;
-        // Logic to merge permissions
         if ((current.includes('HINDI') && newLang === 'ENGLISH') || 
             (current.includes('ENGLISH') && newLang === 'HINDI') || 
             current.includes('BOTH')) {
@@ -757,6 +710,20 @@
         }
         localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, result);
         return result;
+    }
+
+    // NEW: Helper to swap shine animations
+    function updateButtonShines(isUnlocked) {
+        const buyBtnShine = dom.buyBtn.querySelector('.cta-shine');
+        const unlockBtnShine = dom.unlockBtn.querySelector('.btn-shine');
+        
+        if (isUnlocked) {
+            if(buyBtnShine) buyBtnShine.style.display = 'none'; // Stop Buy shine
+            if(unlockBtnShine) unlockBtnShine.style.display = 'block'; // Start Access shine
+        } else {
+            if(buyBtnShine) buyBtnShine.style.display = 'block';
+            if(unlockBtnShine) unlockBtnShine.style.display = 'none';
+        }
     }
 
     // =========================================
@@ -772,13 +739,15 @@
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
       
       if (unlockedLangs && unlockedLangs !== 'false' && unlockedLangs !== '') {
-          // USER HAS PURCHASED BEFORE -> SHOW BUTTON PERMANENTLY
+          // USER HAS PURCHASED BEFORE
           dom.unlockContainer.style.display = 'inline-flex';
           dom.unlockBtn.setAttribute('data-unlocked', unlockedLangs);
+          updateButtonShines(true); // Correct shines on load
       } else {
-          // USER HAS NOT PURCHASED -> HIDE BUTTON
+          // USER HAS NOT PURCHASED
           dom.unlockContainer.style.display = 'none';
           dom.unlockBtn.setAttribute('data-unlocked', 'false');
+          updateButtonShines(false);
       }
 
       // Payment Success Handler
@@ -943,7 +912,14 @@
     // Payment Modal Logic
     let countdownInterval;
     function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); document.getElementById('paymentLangSelection').style.display = 'flex'; document.getElementById('cashfreeIframe').style.display = 'none'; lucide.createIcons(); }
-    function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; if(countdownInterval) clearInterval(countdownInterval); }
+    
+    // UPDATED CLOSE FUNCTION TO HIDE TIMER
+    function closePaymentModal() { 
+        document.getElementById('paymentModal').style.display = 'none'; 
+        document.getElementById('paymentTimer').style.display = 'none'; // Hide timer
+        if(countdownInterval) clearInterval(countdownInterval); 
+    }
+    
     function handlePaymentLanguageSelection(lang) {
         document.getElementById('paymentLangSelection').style.display = 'none'; document.getElementById('paymentLoader').style.display = 'flex';
         sessionStorage.setItem('payment_initiated', 'true'); sessionStorage.setItem('selected_language', lang);
