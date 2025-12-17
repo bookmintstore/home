@@ -433,7 +433,7 @@
                 <div class="snake-mask"></div>
                 <button id="unlockBtn" class="unlock-btn" data-unlocked="false" onclick="handleUnlockClick()">
                     <i data-lucide="lock-open" class="h-4 w-4"></i> 
-                    <span>Access Content</span>
+                    <span>View Library</span>
                     <span class="btn-shine"></span>
                 </button>
             </div>
@@ -848,7 +848,7 @@
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
             // UPDATED: Show specific language version in dashboard title
-            document.getElementById('dashboardTitle').innerHTML = `Premium Content <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
+            document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
 
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
