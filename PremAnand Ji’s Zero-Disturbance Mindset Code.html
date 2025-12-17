@@ -248,7 +248,69 @@
     #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
     #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; }
+    
+    /* SHIELD FOR IFRAME - FULL AREA */
     .invisible-shield { position: absolute; left: 0; width: 100%; height: 70px; background: transparent; z-index: 25; pointer-events: auto; }
+    
+    /* SMART SHIELD FOR PAYMENT BUTTON AREA - NEW */
+    #smartShieldContainer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 120px; /* Niche ka pura area cover karega */
+        pointer-events: none; /* Container click allow karega, par andar ke div block karenge */
+        z-index: 25;
+    }
+
+    .shield-blocker {
+        position: absolute;
+        background: transparent; 
+        pointer-events: auto; /* Ye click rokega */
+    }
+
+    /* 1. UPAR WALA BLOCKER: Ye Net Banking List ko cover karega */
+    .shield-upper-list {
+        bottom: 60px; /* Button ki height chod kar uske upar */
+        left: 0;
+        width: 100%;
+        height: 60px; /* List area cover */
+    }
+
+    /* 2. NICHE WALA STRIP: Ye 'Redirect back to merchant' aur 'Powered by' ko cover karega */
+    .shield-footer-strip {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 15px; /* Sirf sabse niche wali text line block karega, 15px is safer than 10px */
+    }
+
+    /* 3. SIDE BLOCKERS: Button beech mein hota hai, side click roko */
+    .shield-left-side {
+        bottom: 15px;
+        left: 0;
+        width: 10px; /* Left edge safety */
+        height: 45px;
+    }
+
+    .shield-right-side {
+        bottom: 15px;
+        right: 0;
+        width: 10px; /* Right edge safety */
+        height: 45px;
+    }
+
+    /* CONTEXT MENU BLOCKER OVER IFRAME - NEW SECURITY LAYER */
+    #contextMenuBlocker {
+        position: absolute;
+        inset: 0;
+        background: transparent;
+        z-index: 2010; /* Timer ke niche, Iframe ke upar */
+        pointer-events: none; /* By default clicks ko allow karega, sirf right-click ke liye on hoga */
+    }
+    /* Right click disable karne ke liye JS se 'pointer-events: auto;' set hoga */
+
+    /* OTHER PAYMENT STYLES */
     .payment-lang-btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
     .payment-lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(168, 85, 247, 0.5); transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4); }
     .payment-lang-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 3.0s ease-in-out infinite; }
@@ -421,7 +483,7 @@
 
         <div class="flex items-center flex-wrap gap-4 mt-4">
             <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
-              <span>Get Access</span>
+              <span>Buy Now</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
               <span class="cta-shine animate-btnshine"></span>
               <span class="corner-bling"></span>
@@ -433,7 +495,7 @@
                 <div class="snake-mask"></div>
                 <button id="unlockBtn" class="unlock-btn" data-unlocked="false" onclick="handleUnlockClick()">
                     <i data-lucide="lock-open" class="h-4 w-4"></i> 
-                    <span>View Library</span>
+                    <span>Access Content</span>
                     <span class="btn-shine"></span>
                 </button>
             </div>
@@ -571,8 +633,18 @@
     <div class="modal-content" id="paymentModalContent" style="max-width: 500px; padding: 0; background-color: #111817;">
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()" style="position: absolute; top: 12px; right: 12px; z-index: 2020;"><i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i></button>
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
+            
             <div id="topShield" class="invisible-shield" style="top: 0;"></div>
-            <div id="bottomShield" class="invisible-shield" style="bottom: 0;"></div>
+            
+            <div id="smartShieldContainer">
+                <div class="shield-blocker shield-upper-list"></div>
+                <div class="shield-blocker shield-footer-strip"></div>
+                <div class="shield-blocker shield-left-side"></div>
+                <div class="shield-blocker shield-right-side"></div>
+            </div>
+
+            <div id="contextMenuBlocker" style="display: none;"></div>
+
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111817; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader"><span class="ball"></span><span class="ball"></span><span class="ball"></span></div>
                 <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
@@ -724,7 +796,8 @@
         displayPrice: document.getElementById('displayPrice'),
         originalPrice: document.getElementById('originalPrice'),
         couponInput: document.getElementById('couponInput'),
-        applyCouponBtn: document.getElementById('applyCouponBtn')
+        applyCouponBtn: document.getElementById('applyCouponBtn'),
+        contextMenuBlocker: document.getElementById('contextMenuBlocker') // NEW
     };
 
     let currentContentLanguage = 'HINDI';
@@ -848,7 +921,7 @@
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
             // UPDATED: Show specific language version in dashboard title
-            document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
+            document.getElementById('dashboardTitle').innerHTML = `Premium Content <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
 
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
@@ -1161,16 +1234,48 @@
 
     // Payment Modal
     let countdownInterval;
-    function openPaymentModal() { document.getElementById('paymentModal').style.display = 'flex'; document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); document.getElementById('paymentLangSelection').style.display = 'flex'; document.getElementById('cashfreeIframe').style.display = 'none'; lucide.createIcons(); }
-    function closePaymentModal() { document.getElementById('paymentModal').style.display = 'none'; document.getElementById('paymentTimer').style.display = 'none'; if(countdownInterval) clearInterval(countdownInterval); }
+    function openPaymentModal() { 
+        document.getElementById('paymentModal').style.display = 'flex'; 
+        document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
+        document.getElementById('paymentLangSelection').style.display = 'flex'; 
+        document.getElementById('cashfreeIframe').style.display = 'none'; 
+        lucide.createIcons(); 
+        
+        // Hide shields initially (only needed after iframe loads)
+        document.getElementById('smartShieldContainer').style.display = 'none';
+        document.getElementById('contextMenuBlocker').style.display = 'none';
+    }
+
+    function closePaymentModal() { 
+        document.getElementById('paymentModal').style.display = 'none'; 
+        document.getElementById('paymentTimer').style.display = 'none'; 
+        if(countdownInterval) clearInterval(countdownInterval); 
+        
+        // Hide shields on close
+        document.getElementById('smartShieldContainer').style.display = 'none';
+        document.getElementById('contextMenuBlocker').style.display = 'none';
+    }
+
     function handlePaymentLanguageSelection(lang) {
-        document.getElementById('paymentLangSelection').style.display = 'none'; document.getElementById('paymentLoader').style.display = 'flex';
-        sessionStorage.setItem('payment_initiated', 'true'); sessionStorage.setItem('selected_language', lang);
+        document.getElementById('paymentLangSelection').style.display = 'none'; 
+        document.getElementById('paymentLoader').style.display = 'flex';
+        sessionStorage.setItem('payment_initiated', 'true'); 
+        sessionStorage.setItem('selected_language', lang);
         document.getElementById('cashfreeIframe').src = currentPaymentUrl;
-        setTimeout(() => { document.getElementById('paymentLoader').style.display = 'none'; document.getElementById('cashfreeIframe').style.display = 'block'; }, 2000);
+        
+        setTimeout(() => { 
+            document.getElementById('paymentLoader').style.display = 'none'; 
+            document.getElementById('cashfreeIframe').style.display = 'block'; 
+            
+            // Show the shields after the iframe is ready to be viewed
+            document.getElementById('smartShieldContainer').style.display = 'block';
+            document.getElementById('contextMenuBlocker').style.display = 'block';
+        }, 2000);
+        
         let tl = 240; document.getElementById('paymentTimer').style.display='block';
         countdownInterval = setInterval(() => { tl--; document.getElementById('timerCount').textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; if(tl<0) closePaymentModal(); }, 1000);
     }
+    
     document.getElementById('buyBtn').addEventListener('click', (e) => { e.preventDefault(); openPaymentModal(); });
 
     function openConfirmationModal() { document.getElementById('confirmationModal').classList.add('active'); document.getElementById('confirmationModal').style.display='flex'; }
@@ -1188,6 +1293,17 @@
         if(this.parentElement.hasAttribute('open')) { c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); }
         else { this.parentElement.setAttribute('open',''); c.style.height='auto'; const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; }
     }));
+
+    // NEW SECURITY LOGIC: Block right-click on Iframe area
+    if (dom.contextMenuBlocker) {
+        dom.contextMenuBlocker.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        // Important: Re-enable pointer-events to catch right clicks only when modal is open
+        // We set it to 'auto' in CSS, but the click-blocking properties are set inside the CSS classes.
+        // For right-click on the contextMenuBlocker itself, we need the pointer-events to be 'auto'. 
+        // We are toggling its display in handlePaymentLanguageSelection/closePaymentModal.
+    }
   </script>
 </body>
 </html>
