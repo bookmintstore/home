@@ -1202,7 +1202,7 @@
         if(countdownInterval) clearInterval(countdownInterval); 
     }
     
-    // UPDATED FUNCTION: Activates the bottom shield after 6 seconds delay
+    // UPDATED FUNCTION: Activates the bottom shield after 20 seconds delay
     function handlePaymentLanguageSelection(lang) {
         document.getElementById('paymentLangSelection').style.display = 'none'; 
         document.getElementById('paymentLoader').style.display = 'flex';
@@ -1216,11 +1216,11 @@
             document.getElementById('paymentLoader').style.display = 'none'; 
             document.getElementById('cashfreeIframe').style.display = 'block'; 
             
-            // === NEW LOGIC: Activate bottom shield after 6 seconds ===
+            // === NEW LOGIC: Activate bottom shield after 20 seconds ===
             setTimeout(() => {
                 dom.bottomShield.classList.remove('inactive');
                 dom.bottomShield.style.zIndex = '25'; // Ensure it's above the iframe content
-            }, 20000); // **6 second delay to activate shield**
+            }, 20000); // **20 second delay to activate shield**
             
         }, 2000); // Initial loading delay
         
