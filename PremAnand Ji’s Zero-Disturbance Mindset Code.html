@@ -53,11 +53,13 @@
             priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
             coverFast: 'coverFast 0.65s linear infinite', 
             softPulse: 'softPulse 2s infinite ease-in-out', 
-            subtleZoomIn: 'subtleZoomIn 0.4s ease-out forwards'
+            subtleZoomIn: 'subtleZoomIn 0.4s ease-out forwards',
+            blackShine: 'blackShine 4s ease-in-out infinite' // New Slow Black Shine
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
             btnshine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
+            blackShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
             slideUp: { '0%': {opacity:'0', transform:'translateY(20px)'}, '100%':{opacity:'1', transform:'translateY(0)'} },
             glowspin: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
             modalFadeIn: { '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
@@ -108,7 +110,8 @@
     .cover-loading-spin { position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: #111217; opacity: 1; transition: opacity 0.4s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     
-    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-20deg); mix-blend-mode: multiply; opacity: 1; animation: coverFast 0.65s linear infinite; transition: opacity 0.8s ease-out; filter: blur(5px); }
+    /* BLACK SHINE EFFECT: Visible by default (opacity 1), then fades out */
+    .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 30%, rgba(0,0,0,1) 50%, rgba(0,0,0,0.8) 70%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-20deg); mix-blend-mode: overlay; opacity: 1; animation: coverFast 0.85s linear infinite; transition: opacity 0.8s ease-out; filter: blur(8px); }
 
     /* SNAKE CONTAINER */
     .snake-container { position: relative; display: none; padding: 2px; border-radius: 12px; z-index: 100; margin-left: 10px; background: transparent; overflow: hidden; }
@@ -116,13 +119,17 @@
     .snake-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background: #10b981; filter: blur(15px); opacity: 0.6; z-index: -1; }
     .unlock-btn { position: relative; z-index: 10; display: flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); cursor: pointer; border: none; transition: transform 0.2s, background-color 0.2s; margin: 0; overflow: hidden; }
     .unlock-btn:hover { transform: scale(1.02); background-color: #059669; }
-    .unlock-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.2) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 2.5s ease-in-out infinite; }
+    
+    /* New Black Shine for Access Button */
+    .unlock-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: blackShine 4s ease-in-out infinite; }
     .snake-mask { position: absolute; inset: 1px; background: #0b0e13; border-radius: 11px; z-index: 1; }
 
     /* CTA BUTTONS */
     .cta-btn{ position:relative; overflow:hidden; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
+    /* Class to disable shine via JS */
+    .cta-btn.no-shine .cta-shine { display: none; animation: none; }
     .cta-btn .corner-bling{ pointer-events:none; position:absolute; inset:-6px; border-radius:12px; background:radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%), radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%); opacity:0; filter: blur(6px); }
     .cta-btn:hover .corner-bling { opacity: .95; }
 
@@ -167,9 +174,29 @@
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
 
-    /* TOAST */
-    #toastNotification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-200%); background: rgba(16, 185, 129, 0.95); color: white; padding: 12px 24px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 5000; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.2); }
-    #toastNotification.show { transform: translateX(-50%) translateY(0); }
+    /* PREMIUM TOAST (Top Right) */
+    #toastNotification { 
+        position: fixed; 
+        top: 24px; 
+        right: 24px; 
+        transform: translateX(120%); 
+        background: rgba(15, 23, 42, 0.85); 
+        backdrop-filter: blur(12px);
+        color: white; 
+        padding: 14px 20px; 
+        border-radius: 16px; 
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); 
+        z-index: 5000; 
+        display: flex; 
+        align-items: center; 
+        gap: 12px; 
+        font-weight: 600; 
+        font-size: 0.9rem;
+        transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
+        border-left: 4px solid #10b981;
+    }
+    #toastNotification.show { transform: translateX(0); }
+    #toastNotification.error { border-left-color: #ef4444; }
 
     /* TIMER */
     #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: transparent; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-size: 1.1rem; font-weight: 800; font-family: monospace; z-index: 2010; padding: 4px 10px; border-radius: 8px; }
@@ -285,7 +312,7 @@
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
 
   <div id="toastNotification">
-      <i data-lucide="check-circle" class="h-5 w-5"></i>
+      <div id="toastIcon"><i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i></div>
       <span id="toastMessage">Product Unlocked! Access Granted.</span>
   </div>
 
@@ -322,7 +349,8 @@
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
             <div id="loadingSpin" class="cover-loading-spin"><div class="loading-half-wheel animate-glowspin"></div></div>
-            <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
+            
+            <div class="cover-shine" id="coverShine" aria-hidden="true"></div>
             
             <img id="coverImg" alt="ebook cover" src="https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png" loading="eager" />
 
@@ -338,7 +366,14 @@
       </div>
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
-        <div id="custom-tag-container"></div>
+        
+        <div id="custom-tag-container">
+            <div class="subtle-tag">
+                <div class="tag-text-wrapper"><span class="tag-text">Trending</span></div>
+                <div class="tag-shine"></div>
+            </div>
+        </div>
+
         <h1 class="text-3xl font-bold">PremAnand Ji’s Zero-Disturbance Mindset code</h1>
         <p class="text-zinc-300">A powerful guide inspired by PremAnand Ji to help you master calmness and inner stability.</p>
 
@@ -659,17 +694,17 @@
         'https://bookmintor.shop/bundels/screnshorts/Untitled%20design.png',
     ];
 
-    // --- DOM ELEMENTS (Including missing ones from original code) ---
+    // --- DOM ELEMENTS ---
     const dom = {
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
         coverShine: document.getElementById('coverShine'),
         loadingSpin: document.getElementById('loadingSpin'),
-        previewOverlay: document.getElementById('previewOverlay'), // Added missing reference
-        previewIndicator: document.getElementById('previewIndicator'), // Added missing reference
-        previewScreenshot: document.getElementById('previewScreenshot'), // Added missing reference
-        previewShine: document.getElementById('previewShine'), // Added missing reference
-        imageCounter: document.getElementById('imageCounter'), // Added missing reference
+        previewOverlay: document.getElementById('previewOverlay'),
+        previewIndicator: document.getElementById('previewIndicator'),
+        previewScreenshot: document.getElementById('previewScreenshot'),
+        previewShine: document.getElementById('previewShine'),
+        imageCounter: document.getElementById('imageCounter'),
         
         downloadModal: document.getElementById('downloadModal'),
         languageSelectionModal: document.getElementById('languageSelectionModal'),
@@ -743,8 +778,18 @@
 
     function showToast(msg, isSuccess = true) {
         dom.toastMessage.textContent = msg;
-        dom.toastNotification.style.background = isSuccess ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)';
+        const iconDiv = document.getElementById('toastIcon');
+        
+        if (isSuccess) {
+            dom.toastNotification.classList.remove('error');
+            iconDiv.innerHTML = '<i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i>';
+        } else {
+            dom.toastNotification.classList.add('error');
+            iconDiv.innerHTML = '<i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>';
+        }
+        
         dom.toastNotification.classList.add('show');
+        lucide.createIcons();
         setTimeout(() => dom.toastNotification.classList.remove('show'), 3000);
     }
 
@@ -788,7 +833,8 @@
             const a = document.createElement('a');
             a.href = url;
             a.download = filename || url.split('/').pop();
-            a.target = "_blank"; 
+            // Try target self to avoid popup if possible, though browsers might force it for cross-origin
+            a.target = "_self"; 
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -801,7 +847,8 @@
 
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
-            document.getElementById('dashboardTitle').textContent = `Premium Content`;
+            // UPDATED: Show specific language version in dashboard title
+            document.getElementById('dashboardTitle').innerHTML = `Premium Content <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
 
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
@@ -912,6 +959,10 @@
         dom.unlockBtn.setAttribute('data-unlocked', status);
         dom.unlockContainer.classList.add('snake-active'); 
         dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Remove shine from buy button
+        dom.buyBtn.classList.add('no-shine');
+        
         showToast("Product Unlocked! Access Granted.", true);
     }
 
@@ -1046,6 +1097,8 @@
           dom.unlockContainer.style.display = 'inline-flex';
           dom.unlockBtn.setAttribute('data-unlocked', unlockedLangs);
           dom.unlockContainer.classList.add('snake-active'); 
+          // If unlocked already, ensure Buy button shine is gone
+          dom.buyBtn.classList.add('no-shine');
       }
 
       const urlParams = new URLSearchParams(window.location.search);
