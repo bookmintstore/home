@@ -164,7 +164,7 @@
     
     /* MODALS */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-    .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 80%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
+    .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 85%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
 
@@ -184,13 +184,17 @@
     .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
     .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
     .viewer-main { flex: 1; padding: 0; overflow: hidden; background: #020617; position: relative; }
-    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; }
+    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; }
     .viewer-section.active { display: flex; }
     .pdf-container { width: 100%; height: 100%; }
     .mindmap-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: grab; position: relative; }
     .mindmap-container:active { cursor: grabbing; }
     .mindmap-img { max-width: 90%; max-height: 90%; transition: transform 0.1s ease; transform-origin: 0 0; }
     .audio-player-card { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    
+    /* New Download Button for Viewer Sections */
+    .viewer-download-btn { position: absolute; top: 10px; right: 10px; z-index: 50; display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .viewer-download-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
     /* FEEDBACKS */
     .user-avatar { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; color: white; margin-right: 12px; flex-shrink: 0; }
@@ -429,10 +433,41 @@
   </div>
 
   <div id="zipConfirmationModal" class="modal" style="display: none;">
-      <div id="zipConfirmationContent" class="modal-content animate-modalFadeIn" style="max-width: 320px; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none;">
-          <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Check</h3>
-          <p class="text-base font-semibold text-zinc-300 text-center mb-5">Can your device open <span class="text-yellow-400">.ZIP files</span>?</p>
-          <button id="understandZipBtn" onclick="handleZipConfirmation()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0;">I Understand</button>
+      <div id="zipModalContent" class="modal-content animate-modalFadeIn" style="max-width: 380px; width: 90%; background-color: #0f172a; color: #e2e8f0; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 40px rgba(168,85,247,0.3); opacity: 1; transform: none; display: flex; flex-direction: column; align-items: center;">
+          <div id="zipCheckStep" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+              <h3 class="text-xl font-bold mb-4 text-indigo-300 text-center flex items-center justify-center gap-2"><i data-lucide="shield-check" class="h-6 w-6 text-emerald-400"></i> ZIP Compatibility Check</h3>
+              <p class="text-base font-semibold text-zinc-300 text-center mb-5 leading-relaxed">Can your device open <span class="text-yellow-400">.ZIP files</span>?</p>
+              
+              <div class="bg-white/5 border border-white/10 rounded-xl p-4 mb-5 text-left w-full">
+                  <p class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3">IF NO, FOLLOW THESE 3 STEPS:</p>
+                  <div class="space-y-3">
+                      <div class="flex items-start gap-3">
+                          <div class="mt-0.5 min-w-[18px]"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-500"></i></div>
+                          <p class="text-sm text-zinc-300 leading-snug">Open your <strong class="text-white">Play Store / App Store</strong>.</p>
+                      </div>
+                      <div class="flex items-start gap-3">
+                          <div class="mt-0.5 min-w-[18px]"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-500"></i></div>
+                          <p class="text-sm text-zinc-300 leading-snug">Search and install ZArchiver or <strong class="text-white">Files by Google</strong>.</p>
+                      </div>
+                      <div class="flex items-start gap-3">
+                          <div class="mt-0.5 min-w-[18px]"><i data-lucide="check-circle" class="h-4 w-4 text-emerald-500"></i></div>
+                          <p class="text-sm text-zinc-300 leading-snug">Return here and click the button below.</p>
+                      </div>
+                  </div>
+              </div>
+
+              <button id="understandZipBtn" onclick="handleZipUnderstand()" class="no-shine-button w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); margin: 0; width: 100%;">I Understand</button>
+          </div>
+
+          <div id="zipChoiceStep" style="display: none; width: 100%; flex-direction: column; align-items: center; animation: modalFadeIn 0.3s ease-out forwards;">
+              <h3 class="text-lg font-bold mb-6 text-white text-center">Select an Action</h3>
+              <button onclick="handleZipDownloadNow()" class="payment-lang-btn w-full text-sm py-3 px-4 mb-3" style="background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.3); margin-bottom: 12px; width: 100%;">
+                 <i data-lucide="download" class="h-4 w-4"></i> Download Full ZIP Now
+              </button>
+              <button onclick="handleZipDownloadLater()" class="payment-lang-btn w-full text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #6366f1, #4f46e5); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); margin: 0; width: 100%;">
+                 <i data-lucide="layout-dashboard" class="h-4 w-4"></i> Open Dashboard (Download Later)
+              </button>
+          </div>
       </div>
   </div>
 
@@ -508,18 +543,29 @@
               </div>
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section active">
+                      <a id="btn-dl-video" href="#" target="_blank" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Video</a>
                       <div class="w-full h-full flex flex-col items-center justify-center p-4">
                           <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
                       </div>
                   </div>
+                  
                   <div id="view-audio" class="viewer-section">
+                      <a id="btn-dl-audio" href="#" target="_blank" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Audio</a>
                       <div class="audio-player-card">
                           <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
                           <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
-                  <div id="view-pdf" class="viewer-section"><div class="pdf-container"><iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe></div></div>
+                  
+                  <div id="view-pdf" class="viewer-section">
+                      <a id="btn-dl-pdf" href="#" target="_blank" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save PDF</a>
+                      <div class="pdf-container">
+                          <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
+                      </div>
+                  </div>
+                  
                   <div id="view-image" class="viewer-section" style="overflow: hidden;">
+                      <a id="btn-dl-image" href="#" target="_blank" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Mind Map</a>
                       <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map"></div>
                       <div class="absolute bottom-4 right-4 flex gap-2 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
                           <button onclick="zoomMindmap(0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="plus" class="h-4 w-4"></i></button>
@@ -544,7 +590,7 @@
     
     // Main Cover URL (Must match HTML)
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png';
-    const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_00gf2';
+    const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_00af2';
     
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/dsdfg2",  
@@ -558,7 +604,7 @@
     const ZIP_URLS = { HINDI: "https://github.com/cortex-cradle/ebook1/releases/download/v1.0/PremAnand.Ji.s.Zero-Disturbance.Mindset.Code.HINDI.EDITION.-20251216T041128Z-3-001.zip", ENGLISH: "YOUR_ENGLISH_ZIP_LINK" };
 
     const CONTENT_URLS = {
-        HINDI: { VIDEO: "https://cortex-cradle.github.io/ebook1/sources/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A5%87%E0%A4%AE%E0%A4%BE%E0%A4%A8%E0%A4%82%E0%A4%A6_%E0%A4%9C%E0%A5%80__%E0%A4%9C%E0%A4%BC%E0%A5%80%E0%A4%B0%E0%A5%8B-%E0%A4%A1%E0%A4%BF%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AC%E0%A5%87%E0%A4%82%E0%A4%B8_%E0%A4%95%E0%A5%8B%E0%A4%A1fd.mp4", AUDIO: "https://cortex-cradle.github.io/ebook1/sources/PODCAST%20AUDIO.mp3", PDF: "https://cortex-cradle.github.io/ebook1/sources/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION)%20(.pdf", MINDMAP: "https://cortex-cradle.github.io/ebook1/sources/Mind-map.png", ZIP: ZIP_URLS.HINDI },
+        HINDI: { VIDEO: "https://cortex-cradle.github.io/ebook1/sources/%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A5%87%E0%A4%BE%E0%A4%A8%E0%A4%82%E0%A4%A6_%E0%A4%9C%E0%A5%80__%E0%A4%9C%E0%A4%BC%E0%A5%80%E0%A4%B0%E0%A5%8B-%E0%A4%A1%E0%A4%BF%E0%A4%B8%E0%A5%8D%E0%A4%9F%E0%A4%B0%E0%A5%8D%E0%A4%AC%E0%A5%87%E0%A4%82%E0%A4%B8_%E0%A4%95%E0%A5%8B%E0%A4%A1fd.mp4", AUDIO: "https://cortex-cradle.github.io/ebook1/sources/PODCAST%20AUDIO.mp3", PDF: "https://cortex-cradle.github.io/ebook1/sources/PremAnand%20Ji%E2%80%99s%20Zero-Disturbance%20Mindset%20Code%20(HINDI%20EDITION)%20(.pdf", MINDMAP: "https://cortex-cradle.github.io/ebook1/sources/Mind-map.png", ZIP: ZIP_URLS.HINDI },
         ENGLISH: { VIDEO: "YOUR_ENGLISH_VIDEO_URL.mp4", AUDIO: "YOUR_ENGLISH_AUDIO_URL.mp3", PDF: "YOUR_ENGLISH_PDF_VIEW_LINK", MINDMAP: "YOUR_ENGLISH_MINDMAP_IMAGE.png", ZIP: ZIP_URLS.ENGLISH }
     };
     
@@ -683,14 +729,43 @@
             const imgEl = document.getElementById('imageSource');
             const pdfFr = document.getElementById('pdfFrame');
 
-            if(content.VIDEO && videoEl) { const source = videoEl.querySelector('source'); if(source) { source.src = content.VIDEO; videoEl.load(); } }
-            if(content.AUDIO && audioEl) { const source = audioEl.querySelector('source'); if(source) { source.src = content.AUDIO; audioEl.load(); } }
-            if(content.MINDMAP && imgEl) { imgEl.src = content.MINDMAP; }
+            // 1. Set File Sources
+            if(content.VIDEO && videoEl) { 
+                const source = videoEl.querySelector('source'); 
+                if(source) { source.src = content.VIDEO; videoEl.load(); }
+                // Set download link
+                document.getElementById('btn-dl-video').href = content.VIDEO;
+            }
+            if(content.AUDIO && audioEl) { 
+                const source = audioEl.querySelector('source'); 
+                if(source) { source.src = content.AUDIO; audioEl.load(); }
+                // Set download link
+                document.getElementById('btn-dl-audio').href = content.AUDIO;
+            }
+            if(content.MINDMAP && imgEl) { 
+                imgEl.src = content.MINDMAP; 
+                // Set download link
+                document.getElementById('btn-dl-image').href = content.MINDMAP;
+            }
+            
+            // 2. FIXED PDF LOGIC FOR MOBILE: USE GOOGLE DOCS VIEWER
             if(content.PDF && pdfFr) { 
                 let pdfLink = content.PDF;
-                if(pdfLink.includes('drive.google.com') && pdfLink.includes('/view')) { pdfLink = pdfLink.replace('/view', '/preview'); }
-                pdfFr.src = pdfLink; 
+                // Set download link
+                document.getElementById('btn-dl-pdf').href = pdfLink;
+
+                // Check if it's already a Google Drive PREVIEW link
+                if(pdfLink.includes('drive.google.com') && (pdfLink.includes('/preview') || pdfLink.includes('/view'))) {
+                    // It's likely an embeddable link already, ensure it's preview mode
+                    pdfLink = pdfLink.replace('/view', '/preview'); 
+                    pdfFr.src = pdfLink;
+                } else {
+                    // It's a direct PDF file (e.g. .pdf extension), use Google Viewer to embed it without forcing download
+                    const encodedUrl = encodeURIComponent(pdfLink);
+                    pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`;
+                }
             }
+
             dom.productViewerModal.style.display = 'flex';
             dom.productViewerContent.classList.add('animate-modalFadeIn'); 
             if (productConfig.showVideo) switchViewerTab('video');
@@ -720,15 +795,48 @@
 
     // POST PAYMENT
     let postPaymentLanguage = '';
-    function startUnlockProcess(lang) { postPaymentLanguage = lang; triggerCelebration(); dom.zipConfirmationModal.style.display = 'flex'; lucide.createIcons(); }
-    function handleZipConfirmation() {
-        dom.zipConfirmationModal.style.display = 'none'; dom.unlockContainer.style.display = 'inline-flex';
+    function startUnlockProcess(lang) { 
+        postPaymentLanguage = lang; 
+        triggerCelebration(); 
+        dom.zipConfirmationModal.style.display = 'flex'; 
+        // Reset steps
+        document.getElementById('zipCheckStep').style.display = 'flex';
+        document.getElementById('zipChoiceStep').style.display = 'none';
+        lucide.createIcons(); 
+    }
+
+    // New ZIP Logic Flow
+    function handleZipUnderstand() {
+        // Switch from Check to Choice
+        document.getElementById('zipCheckStep').style.display = 'none';
+        document.getElementById('zipChoiceStep').style.display = 'flex';
+    }
+
+    function handleZipDownloadNow() {
+        // Unlock + Download + Close Modal
+        handleZipCompletion();
+        // Trigger download
+        const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null;
+        if(url) window.location.href = url;
+    }
+
+    function handleZipDownloadLater() {
+        // Just Unlock + Close Modal + Open Dashboard
+        handleZipCompletion();
+        // Open Dashboard directly
+        openViewerModal(postPaymentLanguage);
+    }
+
+    function handleZipCompletion() {
+        dom.zipConfirmationModal.style.display = 'none'; 
+        dom.unlockContainer.style.display = 'inline-flex';
         const status = getUpdatedUnlockStatus(postPaymentLanguage);
         dom.unlockBtn.setAttribute('data-unlocked', status);
         dom.unlockContainer.classList.add('snake-active'); 
         dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        setTimeout(() => { showToast("Product Unlocked! Access Granted.", true); }, 500);
+        showToast("Product Unlocked! Access Granted.", true);
     }
+
     function getUpdatedUnlockStatus(newLang) {
         const current = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
         let result = newLang;
