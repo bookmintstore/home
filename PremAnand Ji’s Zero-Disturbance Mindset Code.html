@@ -48,7 +48,6 @@
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite',
-            // Old animation removed, new one handled in CSS
             snakeRotate: 'snakeRotate 4s linear infinite',
             priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
             coverFast: 'coverFast 0.45s linear infinite', 
@@ -88,42 +87,35 @@
 
     body { font-family:'Poppins',sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
     
-    /* --- NEW SMOOTH ROLLING TEXT CSS START --- */
+    /* --- FIXED SMOOTH ROLLING TEXT CSS START --- */
     .rolling-text-list {
         padding: 0;
         margin: 0;
         list-style: none;
-        /* 8 Unique Items + 1 Clone = 9 Items total.
-           Animation Duration: 16s (Approx 2s per item for readability)
-           Curve: Smooth slide then pause
-        */
+        height: auto;
+        display: block;
         animation: scrollText 16s infinite cubic-bezier(0.25, 1, 0.5, 1);
     }
     .rolling-text-list li {
         height: 26px; /* Matches container height */
+        line-height: 26px;
         display: flex;
-        align-items: center;
+        align-items: center; /* Ensures text is perfectly centered vertically in 26px */
         white-space: nowrap;
     }
     
-    /* Keyframes Calculation for 9 Items:
-       Step = 100% / 9 = 11.11%
-       We pause at each station, then slide to the next.
-       The last frame (100%) lands exactly on the Clone (Item 9), 
-       which visually matches Item 1. Loop resets instantly to 0%.
-    */
     @keyframes scrollText {
-        0%, 9%    { transform: translateY(0); }
-        12.5%, 21.5% { transform: translateY(calc(-100% / 9 * 1)); } /* Item 2 */
-        25%, 34%     { transform: translateY(calc(-100% / 9 * 2)); } /* Item 3 */
-        37.5%, 46.5% { transform: translateY(calc(-100% / 9 * 3)); } /* Item 4 */
-        50%, 59%     { transform: translateY(calc(-100% / 9 * 4)); } /* Item 5 */
-        62.5%, 71.5% { transform: translateY(calc(-100% / 9 * 5)); } /* Item 6 */
-        75%, 84%     { transform: translateY(calc(-100% / 9 * 6)); } /* Item 7 */
-        87.5%, 96.5% { transform: translateY(calc(-100% / 9 * 7)); } /* Item 8 */
-        100%         { transform: translateY(calc(-100% / 9 * 8)); } /* Item 9 (Clone) */
+        0%, 9%       { transform: translateY(0px); }
+        12.5%, 21.5% { transform: translateY(-26px); } 
+        25%, 34%     { transform: translateY(-52px); } 
+        37.5%, 46.5% { transform: translateY(-78px); } 
+        50%, 59%     { transform: translateY(-104px); } 
+        62.5%, 71.5% { transform: translateY(-130px); } 
+        75%, 84%     { transform: translateY(-156px); } 
+        87.5%, 96.5% { transform: translateY(-182px); } 
+        100%         { transform: translateY(-208px); } 
     }
-    /* --- NEW SMOOTH ROLLING TEXT CSS END --- */
+    /* --- FIXED SMOOTH ROLLING TEXT CSS END --- */
 
     /* BUNDLE SHOWCASE */
     .bundle-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
@@ -132,7 +124,7 @@
     .bundle-icon-wrap { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; background: rgba(255, 255, 255, 0.05); }
     .bundle-label { font-size: 0.7rem; font-weight: 600; color: #cbd5e1; line-height: 1.1; }
 
-    /* COVER SHINE & SPINNER (UPDATED TO MATCH EXAMPLE CODE EXACTLY) */
+    /* COVER SHINE & SPINNER */
     .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
@@ -141,7 +133,6 @@
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
     
-    /* SHINE EFFECT FROM EXAMPLE CODE */
     .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
 
     /* SNAKE CONTAINER */
@@ -151,7 +142,6 @@
     .unlock-btn { position: relative; z-index: 10; display: flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); cursor: pointer; border: none; transition: transform 0.2s, background-color 0.2s; margin: 0; overflow: hidden; }
     .unlock-btn:hover { transform: scale(1.02); background-color: #059669; }
     
-    /* New Black Shine for Access Button */
     .unlock-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: blackShine 4s ease-in-out infinite; }
     .snake-mask { position: absolute; inset: 1px; background: #0b0e13; border-radius: 11px; z-index: 1; }
 
@@ -159,7 +149,6 @@
     .cta-btn{ position:relative; overflow:hidden; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
-    /* Class to disable shine via JS */
     .cta-btn.no-shine .cta-shine { display: none; animation: none; }
     .cta-btn .corner-bling{ pointer-events:none; position:absolute; inset:-6px; border-radius:12px; background:radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%), radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%); opacity:0; filter: blur(6px); }
     .cta-btn:hover .corner-bling { opacity: .95; }
@@ -176,8 +165,12 @@
     @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
 
     /* TAG & STATS */
-    .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
-    .tag-text-wrapper { position: relative; height: 100%; display: flex; align-items: center; overflow: hidden; flex-grow: 1; }
+    /* FIXED: Padding 0 10px ensures text area is full height, align-items:center centers wrapper within tag */
+    .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
+    
+    /* FIXED: Changed align-items to flex-start! This keeps list starting from top, preventing the blank/jump issue */
+    .tag-text-wrapper { position: relative; height: 100%; display: flex; align-items: flex-start; overflow: hidden; flex-grow: 1; }
+    
     .tag-text { position: relative; white-space: nowrap; background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; line-height: 1; background-size: 200% auto; animation: gradient-shift 8s ease infinite; }
     .subtle-tag .tag-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; opacity: 0.8; animation: tagShine 3.0s ease-in-out infinite; }
     .stats-section { display: flex; justify-content: space-around; align-items: center; padding: 0; border-top: none; border-bottom: none; margin-top: 16px; }
@@ -249,7 +242,6 @@
     .mindmap-img { max-width: 90%; max-height: 90%; transition: transform 0.1s ease; transform-origin: 0 0; }
     .audio-player-card { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
     
-    /* New Download Button for Viewer Sections */
     .viewer-download-btn { position: absolute; top: 10px; right: 10px; z-index: 50; display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
     .viewer-download-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
@@ -721,14 +713,10 @@
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
   <script>
-    // =========================================
-    // PRODUCT CONFIGURATION
-    // =========================================
     const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true };
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
     
-    // Main Cover URL (Must match HTML)
     const SOURCE_IMAGE = 'https://bookmintor.shop/images/Full%20Package%20Ebook,%20Audio,%20Video%20&%20Mind%20Map%20(5).png';
     const PRODUCT_UNIQUE_ID = 'premanand_mindset_code_00gf2';
     
@@ -755,7 +743,6 @@
         'https://bookmintor.shop/bundels/screnshorts/Untitled%20design.png',
     ];
 
-    // --- DOM ELEMENTS ---
     const dom = {
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
@@ -766,7 +753,6 @@
         previewScreenshot: document.getElementById('previewScreenshot'),
         previewShine: document.getElementById('previewShine'),
         imageCounter: document.getElementById('imageCounter'),
-        
         downloadModal: document.getElementById('downloadModal'),
         languageSelectionModal: document.getElementById('languageSelectionModal'),
         zipConfirmationModal: document.getElementById('zipConfirmationModal'),
@@ -786,14 +772,10 @@
         originalPrice: document.getElementById('originalPrice'),
         couponInput: document.getElementById('couponInput'),
         applyCouponBtn: document.getElementById('applyCouponBtn'),
-        
-        // NEW/UPDATED ELEMENTS
-        bottomShield: document.getElementById('bottomShield') // Added for easy access
+        bottomShield: document.getElementById('bottomShield')
     };
 
     let currentContentLanguage = 'HINDI';
-
-    // MINDMAP ZOOM LOGIC
     let scale = 1, panning = false, pointX = 0, pointY = 0, startX = 0, startY = 0;
     const mmContainer = document.getElementById('mindmapContainer');
     const mmImg = document.getElementById('imageSource');
@@ -805,7 +787,6 @@
     function zoomMindmap(factor) { scale += factor; if(scale < 0.1) scale = 0.1; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
     function resetMindmap() { scale = 1; pointX = 0; pointY = 0; mmImg.style.transform = `translate(0px, 0px) scale(1)`; }
 
-    // FEEDBACKS
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
         const btn = document.getElementById('showMore');
@@ -815,7 +796,6 @@
         else { hiddenItems.forEach(item => { item.style.display = 'none'; item.classList.remove('animate-slideUp'); }); btn.textContent = 'Show More'; document.getElementById('feedbacks').scrollIntoView({behavior: 'smooth', block: 'start'}); }
     }
 
-    // COUPON LOGIC
     function handleCoupon() {
         if (!ENABLE_COUPON_SECTION) return; 
         const input = dom.couponInput;
@@ -843,7 +823,6 @@
     function showToast(msg, isSuccess = true) {
         dom.toastMessage.textContent = msg;
         const iconDiv = document.getElementById('toastIcon');
-        
         if (isSuccess) {
             dom.toastNotification.classList.remove('error');
             iconDiv.innerHTML = '<i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i>';
@@ -851,13 +830,11 @@
             dom.toastNotification.classList.add('error');
             iconDiv.innerHTML = '<i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>';
         }
-        
         dom.toastNotification.classList.add('show');
         lucide.createIcons();
         setTimeout(() => dom.toastNotification.classList.remove('show'), 3000);
     }
 
-    // DASHBOARD LOGIC
     function switchViewerTab(tabId) {
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
@@ -869,35 +846,24 @@
         if(section) section.classList.add('active');
     }
 
-    // --- DIRECT DOWNLOAD HELPER FUNCTION ---
-    // Forces download without opening a new tab by using fetch + blob
     async function handleDirectDownload(url, filename) {
         if (!url) return;
-        showToast("Starting Download... Please wait", true);
-        
+        showToast("Starting Download...", true);
         try {
             const response = await fetch(url);
-            if (!response.ok) throw new Error('Network response was not ok');
             const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
-            
             const a = document.createElement('a');
-            a.style.display = 'none';
             a.href = blobUrl;
             a.download = filename || url.split('/').pop();
             document.body.appendChild(a);
             a.click();
-            
             window.URL.revokeObjectURL(blobUrl);
             document.body.removeChild(a);
             showToast("Download Complete!", true);
         } catch (error) {
-            console.error('Direct download failed, falling back to standard link', error);
-            // Fallback: If fetch fails (CORS), standard download (might open in new tab as last resort)
             const a = document.createElement('a');
             a.href = url;
-            a.download = filename || url.split('/').pop();
-            // Try target self to avoid popup if possible, though browsers might force it for cross-origin
             a.target = "_self"; 
             document.body.appendChild(a);
             a.click();
@@ -908,111 +874,83 @@
     function openViewerModal(lang) {
         if (lang) { currentContentLanguage = lang; localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); } 
         else { currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI'; }
-
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
-            // UPDATED: Show specific language version in dashboard title
             document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
-
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource');
             const pdfFr = document.getElementById('pdfFrame');
-
-            // 1. Set File Sources & Attach Direct Download Handlers
             if(content.VIDEO && videoEl) { 
                 const source = videoEl.querySelector('source'); 
                 if(source) { source.src = content.VIDEO; videoEl.load(); }
-                // Bind Download Button
                 document.getElementById('btn-dl-video').onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4');
             }
             if(content.AUDIO && audioEl) { 
                 const source = audioEl.querySelector('source'); 
                 if(source) { source.src = content.AUDIO; audioEl.load(); }
-                // Bind Download Button
                 document.getElementById('btn-dl-audio').onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3');
             }
             if(content.MINDMAP && imgEl) { 
                 imgEl.src = content.MINDMAP; 
-                // Bind Download Button
                 document.getElementById('btn-dl-image').onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png');
             }
-            
-            // 2. FIXED PDF LOGIC FOR MOBILE: USE GOOGLE DOCS VIEWER
             if(content.PDF && pdfFr) { 
                 let pdfLink = content.PDF;
-                // Bind Download Button
                 document.getElementById('btn-dl-pdf').onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
-
-                // Check if it's already a Google Drive PREVIEW link
-                if(pdfLink.includes('drive.google.com') && (pdfLink.includes('/preview') || pdfLink.includes('/view'))) {
+                if(pdfLink.includes('drive.google.com')) {
                     pdfLink = pdfLink.replace('/view', '/preview'); 
                     pdfFr.src = pdfLink;
                 } else {
-                    // Embed direct PDF link
                     const encodedUrl = encodeURIComponent(pdfLink);
                     pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`;
                 }
             }
-
             dom.productViewerModal.style.display = 'flex';
             dom.productViewerContent.classList.add('animate-modalFadeIn'); 
             if (productConfig.showVideo) switchViewerTab('video');
             lucide.createIcons(); 
-        } catch(e) { console.error("Dashboard Error:", e); }
+        } catch(e) { console.error(e); }
     }
 
     function closeViewerModal() { dom.productViewerModal.style.display = 'none'; document.querySelectorAll('video, audio').forEach(v => v.pause()); }
 
-    // UNLOCK LOGIC
     function handleUnlockClick() {
         let status = dom.unlockBtn.getAttribute('data-unlocked');
-        if (!status || status === 'false') {
-            const savedData = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
-            if (savedData && savedData !== 'false') { status = savedData; dom.unlockBtn.setAttribute('data-unlocked', status); }
-        }
         if (status === 'BOTH') {
-            dom.downloadModal.style.display = 'flex'; dom.languageSelectionModal.style.display = 'block'; dom.zipConfirmationModal.style.display = 'none'; dom.languageSelectionModal.classList.add('animate-modalFadeIn'); lucide.createIcons();
+            dom.downloadModal.style.display = 'flex'; dom.languageSelectionModal.style.display = 'block'; dom.languageSelectionModal.classList.add('animate-modalFadeIn'); lucide.createIcons();
         } else if (status === 'HINDI') { openViewerModal('HINDI'); } 
         else if (status === 'ENGLISH') { openViewerModal('ENGLISH'); } 
-        else { showToast("Please purchase the product first to access content.", false); }
+        else { showToast("Please purchase the product first.", false); }
     }
 
     function saveAndOpenDashboard(lang) { dom.languageSelectionModal.style.display = 'none'; dom.downloadModal.style.display = 'none'; openViewerModal(lang); }
     function closeDownloadModal() { dom.downloadModal.style.display = 'none'; }
-    function handleDownloadBundleClick() { const lang = currentContentLanguage; const url = CONTENT_URLS[lang] ? CONTENT_URLS[lang].ZIP : null; if(url) window.location.href = url; else showToast(`Download link missing for ${lang} ZIP.`, false); }
+    function handleDownloadBundleClick() { const lang = currentContentLanguage; const url = CONTENT_URLS[lang] ? CONTENT_URLS[lang].ZIP : null; if(url) window.location.href = url; }
 
-    // POST PAYMENT
     let postPaymentLanguage = '';
     function startUnlockProcess(lang) { 
         postPaymentLanguage = lang; 
         triggerCelebration(); 
         dom.zipConfirmationModal.style.display = 'flex'; 
-        // Reset steps
         document.getElementById('zipCheckStep').style.display = 'flex';
         document.getElementById('zipChoiceStep').style.display = 'none';
         lucide.createIcons(); 
     }
 
-    // New ZIP Logic Flow
     function handleZipUnderstand() {
-        // Switch from Check to Choice
         document.getElementById('zipCheckStep').style.display = 'none';
         document.getElementById('zipChoiceStep').style.display = 'flex';
     }
 
     function handleZipDownloadNow() {
-        // Unlock + Download + Close Modal
         handleZipCompletion();
-        // Trigger download
         const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null;
         if(url) window.location.href = url;
     }
 
     function handleZipDownloadLater() {
-        // Just Unlock + Close Modal + Open Dashboard
         handleZipCompletion();
-        // Open Dashboard directly
         openViewerModal(postPaymentLanguage);
     }
 
@@ -1022,12 +960,8 @@
         const status = getUpdatedUnlockStatus(postPaymentLanguage);
         dom.unlockBtn.setAttribute('data-unlocked', status);
         dom.unlockContainer.classList.add('snake-active'); 
-        dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Remove shine from buy button
         dom.buyBtn.classList.add('no-shine');
-        
-        showToast("Product Unlocked! Access Granted.", true);
+        showToast("Product Unlocked!", true);
     }
 
     function getUpdatedUnlockStatus(newLang) {
@@ -1038,20 +972,14 @@
         return result;
     }
 
-    // =========================================
-    // IMPROVED IMAGE LOADING LOGIC (FROM EXAMPLE CODE)
-    // =========================================
     function preloadAllImages() {
         dom.cover.setAttribute('aria-busy', 'true');
-        // Use existing arrays/constants
         const imageUrls = [SOURCE_IMAGE, ...SCREENSHOT_URLS];
         const promises = imageUrls.map(url => new Promise((resolve) => {
             const img = new Image(); img.src = url; img.onload = resolve; img.onerror = resolve;
         }));
-
         Promise.all(promises).then(() => {
             dom.coverImg.src = SOURCE_IMAGE;
-            // The magic animation part
             requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
             setTimeout(() => {
                 dom.coverImg.style.opacity = '1'; 
@@ -1060,7 +988,6 @@
                 setTimeout(()=> {
                     dom.coverShine.style.display = 'none'; dom.loadingSpin.style.display = 'none'; 
                     dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
-                    // Preview indicator logic
                     dom.previewIndicator.style.display = 'block';
                     setTimeout(() => { dom.previewIndicator.style.opacity = '0'; setTimeout(() => { dom.previewIndicator.style.display = 'none'; }, 500); }, 4000); 
                 }, 450); 
@@ -1068,19 +995,15 @@
         });
     }
 
-    // SCREENSHOT PREVIEW LOGIC
     let currentImageIndex = 0;
     function showPreviewImage(index) {
         if (index >= SCREENSHOT_URLS.length) index = 0; 
         else if (index < 0) index = SCREENSHOT_URLS.length - 1;
         currentImageIndex = index;
-        
         dom.previewShine.style.display = 'block'; 
         dom.previewScreenshot.style.opacity = '0.5';
-        
         const tempImg = new Image(); 
         tempImg.src = SCREENSHOT_URLS[currentImageIndex];
-        
         tempImg.onload = () => {
             dom.previewShine.style.display = 'none'; 
             dom.previewScreenshot.src = tempImg.src;
@@ -1090,19 +1013,10 @@
             void dom.previewScreenshot.offsetWidth;
             dom.previewScreenshot.classList.add('animate-subtleZoomIn');
         };
-
-        // Error handling for screenshot
-        tempImg.onerror = () => {
-             console.warn("Screenshot failed to load:", SCREENSHOT_URLS[currentImageIndex]);
-             // Try next image
-             if(index < SCREENSHOT_URLS.length - 1) showPreviewImage(index + 1);
-        };
     }
 
     dom.cover.addEventListener('click', e => { 
-        // Only allow click if cover is actually loaded
         if (!dom.cover.classList.contains('loaded')) return;
-
         if(dom.previewOverlay.style.opacity === '1') {
              e.stopPropagation(); 
              showPreviewImage(currentImageIndex + 1);
@@ -1126,26 +1040,18 @@
             dom.previewOverlay.style.pointerEvents = 'none'; 
             dom.previewScreenshot.style.opacity = '0'; 
             dom.coverImg.style.opacity = '1'; 
-            
-            // Re-show hint briefly if needed, or keep it hidden
-            // dom.previewIndicator.style.display = 'block'; 
         }, 300);
     }
 
-    // INITIALIZATION
     document.addEventListener('DOMContentLoaded', function() {
       if (!ENABLE_COUPON_SECTION) { document.getElementById('couponSection').style.display = 'none'; }
-      dom.unlockBtn.setAttribute('data-unlocked', 'false'); dom.unlockContainer.style.display = 'none';
-
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
       if (unlockedLangs && unlockedLangs !== 'false') {
           dom.unlockContainer.style.display = 'inline-flex';
           dom.unlockBtn.setAttribute('data-unlocked', unlockedLangs);
           dom.unlockContainer.classList.add('snake-active'); 
-          // If unlocked already, ensure Buy button shine is gone
           dom.buyBtn.classList.add('no-shine');
       }
-
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
         history.replaceState(null, '', window.location.pathname);
@@ -1155,21 +1061,15 @@
         dom.unlockBtn.setAttribute('data-unlocked', finalStatus);
         startUnlockProcess(preSelectedLang || 'HINDI');
       }
-
       const logoImg = document.getElementById('logoImg');
       if (logoImg.complete) { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); }
       else logoImg.onload = () => { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); };
       if(IS_SALE_ACTIVE) document.getElementById('saleBanner').style.display = 'block';
-
       AOS.init({ duration: 800, once: true, offset: 120 });
       lucide.createIcons();
-      // FIX: Removed updateTag() call since animation is now CSS-only
-      
-      // Start Image Logic (Updated to use preloadAllImages from example code)
       preloadAllImages();
     });
 
-    // STATS
     function animateCount(el, start, end, duration) {
         let startTime = null; let isFloat = end % 1 !== 0;
         function step(timestamp) {
@@ -1191,19 +1091,13 @@
 
     function triggerCelebration() { confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); }
     
-    // FIX: Removed old JS Tag Rolling Logic (TRUST_PHRASES and updateTag function) as it is now handled by CSS
-
-    // Payment Modal
     let countdownInterval;
     function openPaymentModal() { 
         document.getElementById('paymentModal').style.display = 'flex'; 
         document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
         document.getElementById('paymentLangSelection').style.display = 'flex'; 
         document.getElementById('cashfreeIframe').style.display = 'none'; 
-        
-        // Reset bottom shield to inactive before opening
         dom.bottomShield.classList.add('inactive'); 
-        
         lucide.createIcons(); 
     }
     function closePaymentModal() { 
@@ -1212,28 +1106,20 @@
         if(countdownInterval) clearInterval(countdownInterval); 
     }
     
-    // UPDATED FUNCTION: Activates the bottom shield after 20 seconds delay
     function handlePaymentLanguageSelection(lang) {
         document.getElementById('paymentLangSelection').style.display = 'none'; 
         document.getElementById('paymentLoader').style.display = 'flex';
-        
         sessionStorage.setItem('payment_initiated', 'true'); 
         sessionStorage.setItem('selected_language', lang);
-        
         document.getElementById('cashfreeIframe').src = currentPaymentUrl;
-        
         setTimeout(() => { 
             document.getElementById('paymentLoader').style.display = 'none'; 
             document.getElementById('cashfreeIframe').style.display = 'block'; 
-            
-            // === NEW LOGIC: Activate bottom shield after 20 seconds ===
             setTimeout(() => {
                 dom.bottomShield.classList.remove('inactive');
-                dom.bottomShield.style.zIndex = '25'; // Ensure it's above the iframe content
-            }, 39000); // **20 second delay to activate shield**
-            
-        }, 2000); // Initial loading delay
-        
+                dom.bottomShield.style.zIndex = '25'; 
+            }, 39000); 
+        }, 2000); 
         let tl = 240; document.getElementById('paymentTimer').style.display='block';
         countdownInterval = setInterval(() => { tl--; document.getElementById('timerCount').textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; if(tl<0) closePaymentModal(); }, 1000);
     }
