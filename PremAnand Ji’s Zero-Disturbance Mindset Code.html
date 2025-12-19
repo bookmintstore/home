@@ -53,7 +53,8 @@
             coverFast: 'coverFast 0.45s linear infinite', 
             softPulse: 'softPulse 2s infinite ease-in-out', 
             subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            blackShine: 'blackShine 4s ease-in-out infinite' 
+            blackShine: 'blackShine 4s ease-in-out infinite',
+            tapRipple: 'tapRipple 1.6s cubic-bezier(0, 0, 0.2, 1) infinite'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -72,7 +73,8 @@
             priceSlash: { '0%': { transform: 'scale(1)', opacity: 1 }, '50%': { transform: 'scale(1.2) rotate(-10deg)', opacity: 0.8 }, '100%': { transform: 'scale(0) rotate(20deg)', opacity: 0 } },
             coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
             softPulse: { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.8 } },
-            subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } }
+            subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } },
+            tapRipple: { '0%': { transform: 'scale(0.8)', opacity: '0.6' }, '100%': { transform: 'scale(2.2)', opacity: '0' } }
           }
         }
       }
@@ -341,6 +343,11 @@
     .action-text h4 { color: #f1f5f9; font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
     .action-text p { color: #94a3b8; font-size: 0.8rem; }
 
+    /* CUSTOM TAP PROMPT CSS */
+    #tapPrompt {
+        transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     @media (max-width: 768px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
@@ -378,19 +385,29 @@
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-8">
       <div class="flex flex-col md:flex-row items-center gap-8">
       <div class="book-wrap relative" data-aos="fade-right">
-        <div id="previewIndicator" class="absolute z-10 sm:block md:translate-x-0 md:-left-4 md:top-20 md:translate-y-0" style="width: 150px; display: none; opacity: 0; transition: opacity 0.5s ease;">
-            <div class="flex items-center gap-1 text-xs font-semibold text-white/90 bg-fuchsia-600/60 backdrop-blur-sm px-2 py-1 rounded-lg border border-fuchsia-400/50 shadow-lg animate-popFloat">
-                <i data-lucide="info" class="h-4 w-4 text-fuchsia-200"></i>
-                <span>Tap here to see preview</span>
-                <i data-lucide="arrow-right" class="h-4 w-4 text-fuchsia-200 animate-pulseArrow"></i>
-            </div>
-        </div>
-
+        
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
             <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true"><div class="loading-half-wheel animate-glowspin"></div></div>
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover" src="" loading="eager" />
+
+            <!-- NEW SMOOTH EYE-CATCHING PROMPT START -->
+            <div id="tapPrompt" class="absolute inset-0 z-[15] flex flex-col items-center justify-center pointer-events-none opacity-0">
+                <div class="relative flex items-center justify-center">
+                    <div class="absolute w-14 h-14 bg-white/30 rounded-full animate-tapRipple"></div>
+                    <div class="bg-indigo-600/80 backdrop-blur-md p-4 rounded-full shadow-2xl border border-white/20 animate-softPulse">
+                        <i data-lucide="hand" class="h-8 w-8 text-white"></i>
+                    </div>
+                </div>
+                <div class="mt-4 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg border border-white/10 shadow-xl">
+                    <span class="text-[11px] font-bold uppercase tracking-widest text-white flex items-center gap-2">
+                        Tap to See Preview <i data-lucide="eye" class="h-3 w-3"></i>
+                    </span>
+                </div>
+            </div>
+            <!-- NEW SMOOTH EYE-CATCHING PROMPT END -->
+
             <div id="previewOverlay" aria-hidden="true">
                 <div class="cover-shine" id="previewShine" style="display: none; z-index: 20; opacity: 1;"></div>
                 <img id="previewScreenshot" src="" alt="Preview" class="absolute inset-0 w-full h-full object-contain" />
@@ -517,7 +534,7 @@
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
       <div class="space-y-3" id="feedback-list">
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rishabh Mehta</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book made the ideas surprisingly easy to apply the calmness shows in daily life now</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">T</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Tanvi Sharma</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">T</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Tanvi Sharma</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">I didn’t expect such clear explanations... The video and mind map made everything click instantly❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Rao Verma</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">The way expectations are explained here changed how I respond to people. Feels refreshing</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">J</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Jatin Kumar Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly .. 5 minute Shanti Sutra ne mera reaction control karne me real help ki Simple aur kaam ka</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Naina Arora</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Forgiveness ritual felt small but powerful, Amazed how quickly it lifted emotional heaviness❤️❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
@@ -749,7 +766,6 @@
         coverShine: document.getElementById('coverShine'),
         loadingSpin: document.getElementById('loadingSpin'),
         previewOverlay: document.getElementById('previewOverlay'),
-        previewIndicator: document.getElementById('previewIndicator'),
         previewScreenshot: document.getElementById('previewScreenshot'),
         previewShine: document.getElementById('previewShine'),
         imageCounter: document.getElementById('imageCounter'),
@@ -772,7 +788,8 @@
         originalPrice: document.getElementById('originalPrice'),
         couponInput: document.getElementById('couponInput'),
         applyCouponBtn: document.getElementById('applyCouponBtn'),
-        bottomShield: document.getElementById('bottomShield')
+        bottomShield: document.getElementById('bottomShield'),
+        tapPrompt: document.getElementById('tapPrompt')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -988,8 +1005,19 @@
                 setTimeout(()=> {
                     dom.coverShine.style.display = 'none'; dom.loadingSpin.style.display = 'none'; 
                     dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
-                    dom.previewIndicator.style.display = 'block';
-                    setTimeout(() => { dom.previewIndicator.style.opacity = '0'; setTimeout(() => { dom.previewIndicator.style.display = 'none'; }, 500); }, 4000); 
+                    
+                    // START THE EYE-CATCHING TAP PROMPT
+                    setTimeout(() => {
+                        const tapPrompt = document.getElementById('tapPrompt');
+                        if(tapPrompt) {
+                            tapPrompt.style.opacity = '1';
+                            setTimeout(() => {
+                                tapPrompt.style.opacity = '0';
+                                setTimeout(() => { tapPrompt.style.display = 'none'; }, 700);
+                            }, 5000); // Visible for 5 seconds
+                        }
+                    }, 1000);
+
                 }, 450); 
             }, 700);
         });
@@ -1017,6 +1045,11 @@
 
     dom.cover.addEventListener('click', e => { 
         if (!dom.cover.classList.contains('loaded')) return;
+        
+        // Hide tap prompt immediately if user clicks
+        const tapPrompt = document.getElementById('tapPrompt');
+        if(tapPrompt) tapPrompt.style.display = 'none';
+
         if(dom.previewOverlay.style.opacity === '1') {
              e.stopPropagation(); 
              showPreviewImage(currentImageIndex + 1);
@@ -1028,7 +1061,6 @@
              currentImageIndex = -1; 
              showPreviewImage(0); 
              lucide.createIcons(); 
-             dom.previewIndicator.style.display = 'none'; 
         }
     });
 
