@@ -1118,7 +1118,7 @@
             setTimeout(() => {
                 dom.bottomShield.classList.remove('inactive');
                 dom.bottomShield.style.zIndex = '25'; 
-            }, 39000); 
+            }, 36000); 
         }, 2000); 
         let tl = 240; document.getElementById('paymentTimer').style.display='block';
         countdownInterval = setInterval(() => { tl--; document.getElementById('timerCount').textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; if(tl<0) closePaymentModal(); }, 1000);
