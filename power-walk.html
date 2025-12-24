@@ -746,7 +746,7 @@
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_FS899SDZKFSFD97DS';
     const VALID_COUPON = "MINTOR299"; 
 
-    const ZIP_URLS = { HINDI: "https://github.com/cortex-cradle/ebook1/releases/download/v1.00.1-ebbok2-hin/The.Ultimate.Mantra.Science.Vault.hin.zip", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/v1.00.1-ebbok2-eng/The.Ultimate.Mantra.Science.Vault.eng.zip" };
+    const ZIP_URLS = { HINDI: "https://github.com/cortex-cradle/ebook1/releases/download/v1.0_ebook3_hin/The.Kinetic.Architecture.of.Power.hin.zip", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/v1.0_ebook3_eng/The.Kinetic.Architecture.of.Power.eng.zip" };
 
     const CONTENT_URLS = {
         HINDI: { VIDEO: "https://cortex-cradle.github.io/ebook1/ebook3/fils_hin/%E0%A4%B6%E0%A4%95%E0%A5%8D%E0%A4%A4%E0%A4%BF_%E0%A4%95%E0%A5%80_%E0%A4%9A%E0%A4%BE%E0%A4%B2.mp4", AUDIO: "https://cortex-cradle.github.io/ebook1/ebook3/fils_hin/%E0%A4%B6%E0%A4%95%E0%A5%8D%E0%A4%A4%E0%A4%BF%E0%A4%B6%E0%A4%BE%E0%A4%B2%E0%A5%80_%E0%A4%9A%E0%A4%BE%E0%A4%B2%E0%A5%87%E0%A4%82_%E0%A4%86%E0%A4%AA%E0%A4%95%E0%A5%80_%E0%A4%AE%E0%A4%BE%E0%A4%A8%E0%A4%B8%E0%A4%BF%E0%A4%95%E0%A4%A4%E0%A4%BE_%E0%A4%95%E0%A5%80_%E0%A4%AA%E0%A4%B0%E0%A4%9B%E0%A4%BE%E0%A4%88.m4a", PDF: "https://cortex-cradle.github.io/ebook1/ebook3/fils_hin/The_Power_In_Your_Steps.pdf", MINDMAP: "https://cortex-cradle.github.io/ebook1/ebook3/file_eng/Mind%20Map.png", ZIP: ZIP_URLS.HINDI },
@@ -893,7 +893,7 @@
         else { currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI'; }
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
-            document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
+            document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource');
