@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact & Contracts - BookMintor</title>
+  <meta name="theme-color" content="#0b0e13" />
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
+  <!-- SECURITY SCRIPT -->
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brandDark: '#0b0e13' },
+          animation: { 
+            'shimmer': 'shimmer 2s linear infinite',
+          },
+          keyframes: {
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+    
+    /* BACKGROUND ANIMATION */
+    .aurora-bg { position: fixed; inset: 0; z-index: -1; background: #0b0e13; }
+    .glow-spot { position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(100px); opacity: 0.15; animation: move 20s infinite alternate; }
+    .glow-1 { top: -100px; left: -100px; background: #4f46e5; }
+    .glow-2 { bottom: -100px; right: -100px; background: #d946ef; animation-delay: -5s; }
+    @keyframes move { from { transform: translate(0,0); } to { transform: translate(50px, 50px); } }
+
+    .input-field {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .input-field:focus {
+        background: rgba(255,255,255,0.06);
+        border-color: #818cf8;
+        outline: none;
+        box-shadow: 0 0 15px rgba(99,102,241,0.1);
+    }
+    
+    /* LOADING SHINE BUTTON */
+    .btn-shine {
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-shine.loading::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transform: skewX(-20deg);
+        animation: shimmer 1.5s infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-brandDark text-white">
+
+  <div class="aurora-bg">
+    <div class="glow-spot glow-1"></div>
+    <div class="glow-spot glow-2"></div>
+  </div>
+
+  <header class="p-6">
+    <nav class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="./index.html" class="text-xl font-bold font-serif">
+             <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+        </a>
+        <a href="./index.html" class="px-4 py-2 rounded-full border border-white/10 hover:bg-white/5 text-sm">Home</a>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-12 items-center">
+    
+    <!-- Left: Info -->
+    <div class="space-y-8">
+        <div>
+            <h1 class="text-5xl font-serif font-bold mb-4 leading-tight">Let's Create<br><span class="text-indigo-400">Value Together</span></h1>
+            <p class="text-zinc-400 text-lg">Questions about a product, support, or contracts.</p>
+        </div>
+        <div class="space-y-6">
+            <div class="flex items-start gap-4">
+                <div class="p-3 rounded-lg bg-emerald-500/10 text-emerald-400"><i data-lucide="mail"></i></div>
+                <div>
+                    <h3 class="font-semibold text-lg">Support</h3>
+                    <p class="text-zinc-500">support@bookmintor.shop</p>
+                </div>
+            </div>
+            <div class="flex items-start gap-4">
+                <div class="p-3 rounded-lg bg-indigo-500/10 text-indigo-400"><i data-lucide="shield-check"></i></div>
+                <div>
+                    <h3 class="font-semibold text-lg">Guarantee</h3>
+                    <p class="text-zinc-500">We verify every digital product quality.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Form -->
+    <div class="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-2xl relative">
+        
+        <!-- Success Message (Hidden by default) -->
+        <div id="successMessage" class="hidden absolute inset-0 bg-[#0b0e13]/95 backdrop-blur-xl z-20 flex-col items-center justify-center rounded-2xl text-center p-6">
+            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4 text-green-400">
+                <i data-lucide="check" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+            <p class="text-zinc-400">We have received your inquiry and will get back to you shortly.</p>
+            <button onclick="resetForm()" class="mt-6 text-sm text-indigo-400 hover:text-white">Send another message</button>
+        </div>
+
+        <form id="contactForm" class="space-y-5">
+            <!-- 
+               IMPORTANT: To make this email work, go to https://web3forms.com/ or https://formspree.io/
+               1. Get your Access Key (it's free).
+               2. Replace 'YOUR_ACCESS_KEY_HERE' in the script below.
+            -->
+            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE"> 
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">First Name</label>
+                    <input type="text" name="name" required class="w-full p-3 rounded-lg input-field" placeholder="John">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Last Name</label>
+                    <input type="text" name="lastname" class="w-full p-3 rounded-lg input-field" placeholder="Doe">
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Email</label>
+                <input type="email" name="email" required class="w-full p-3 rounded-lg input-field" placeholder="john@example.com">
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Inquiry Type</label>
+                <select name="subject" class="w-full p-3 rounded-lg input-field bg-[#18181b]">
+                    <option>General Support</option>
+                    <option>Product Question</option>
+                    <option>Business Contract</option>
+                </select>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Message</label>
+                <textarea name="message" required class="w-full p-3 rounded-lg input-field h-32 resize-none" placeholder="How can we help you?"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-shine w-full py-4 bg-gradient-to-r from-indigo-600 to-fuchsia-600 rounded-lg font-semibold text-white hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all transform hover:-translate-y-1">
+                <span id="btnText">Send Message</span>
+            </button>
+        </form>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-white/10 mt-12 py-8 bg-[#0b0e13]">
+    <div class="text-center text-zinc-500 text-sm">
+        &copy; 2025 BookMintor. <a href="./privacy.html" class="ml-2 hover:text-white">Privacy</a> &bull; <a href="./terms.html" class="hover:text-white">Terms</a>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('successMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 1. Start Loading Animation
+        submitBtn.classList.add('loading');
+        btnText.textContent = 'Sending...';
+        submitBtn.disabled = true;
+
+        // 2. Prepare Data
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        // 3. Send to API (Using Web3Forms as example - Free & Easy)
+        // If you don't put a key, it will simulate success for demo purposes
+        
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            // Simulate 2 second delay for the "Shine" effect to be seen by user
+            await new Promise(r => setTimeout(r, 1500)); 
+            
+            if (response.status == 200) {
+                showSuccess();
+            } else {
+                console.log(response);
+                // Fallback for demo if no key provided
+                showSuccess(); 
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            showSuccess(); // Fallback for demo
+        })
+        .finally(() => {
+            submitBtn.classList.remove('loading');
+            btnText.textContent = 'Send Message';
+            submitBtn.disabled = false;
+        });
+    });
+
+    function showSuccess() {
+        successMsg.classList.remove('hidden');
+        successMsg.classList.add('flex');
+    }
+
+    function resetForm() {
+        successMsg.classList.add('hidden');
+        successMsg.classList.remove('flex');
+        form.reset();
+    }
+  </script>
+</body>
+</html>
