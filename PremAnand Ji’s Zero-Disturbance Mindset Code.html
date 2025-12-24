@@ -552,16 +552,16 @@
   <div id="downloadModal" class="modal">
     <div id="languageSelectionModal" class="modal-content" style="max-width: 450px; display: none; background-color: #1e293b; color: white;">
       <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Content Language</h2>
-      <p class="text-sm text-zinc-300 text-center mb-6">You have unlocked both language bundles. Which version would you like to view?</p>
+      <p class="text-sm text-zinc-300 text-center mb-6">Which version would you like to view?</p>
       
       <button onclick="closeDownloadModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
 
       <div id="languageSelectionContainer" class="space-y-4 transition-opacity duration-300">
           <button onclick="saveAndOpenDashboard('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
-              <i data-lucide="book" class="h-4 w-4"></i> HINDI Edition
+              <i data-lucide="book" class="h-4 w-4"></i> HINDI
           </button>
           <button onclick="saveAndOpenDashboard('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
-              <i data-lucide="globe" class="h-4 w-4"></i> ENGLISH Edition
+              <i data-lucide="globe" class="h-4 w-4"></i> ENGLISH
           </button>
       </div>
     </div>
@@ -692,14 +692,14 @@
               </div>
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section active">
-                      <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Video</button>
+                      <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="w-full h-full flex flex-col items-center justify-center p-4">
                           <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
                       </div>
                   </div>
                   
                   <div id="view-audio" class="viewer-section">
-                      <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Audio</button>
+                      <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="audio-player-card">
                           <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
                           <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
@@ -707,14 +707,14 @@
                   </div>
                   
                   <div id="view-pdf" class="viewer-section">
-                      <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save PDF</button>
+                      <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="pdf-container">
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
                       </div>
                   </div>
                   
                   <div id="view-image" class="viewer-section" style="overflow: hidden;">
-                      <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Mind Map</button>
+                      <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map"></div>
                       <div class="absolute bottom-4 right-4 flex gap-2 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
                           <button onclick="zoomMindmap(0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="plus" class="h-4 w-4"></i></button>
@@ -893,7 +893,7 @@
         else { currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI'; }
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
-            document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} EDITION</span>`;
+            document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource');
