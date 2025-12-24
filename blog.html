@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookMintor Blog - Insights</title>
+  <meta name="theme-color" content="#0b0e13" />
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
+  <!-- SECURITY SCRIPT -->
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brandDark: '#0b0e13' },
+          fontFamily: {
+             sans: ['Poppins', 'sans-serif'],
+             serif: ['Playfair Display', 'serif'],
+          },
+          animation: {
+            'bg-shift': 'bg-shift 10s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            'bg-shift': {
+                '0%': { filter: 'hue-rotate(0deg)' },
+                '100%': { filter: 'hue-rotate(30deg)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+    
+    .glow-con { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+    .glow-blob {
+        position: absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(99,102,241,0.1), transparent 70%);
+        border-radius: 50%; top: -20%; left: -10%; animation: bg-shift 10s infinite;
+    }
+
+    .blog-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.08);
+        transition: all 0.3s ease;
+    }
+    .blog-card:hover {
+        background: rgba(255,255,255,0.05);
+        transform: translateY(-5px);
+        border-color: rgba(99, 102, 241, 0.3);
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-brandDark text-zinc-100">
+
+  <div class="glow-con"><div class="glow-blob"></div></div>
+
+  <header class="sticky top-0 z-40 backdrop-blur bg-zinc-900/40 border-b border-white/5">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+      <a href="./index.html" class="text-xl font-bold font-serif">
+          <span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor <span class="text-xs tracking-widest text-zinc-500 uppercase ml-1">Blog</span>
+      </a>
+      <a href="./index.html" class="text-sm text-zinc-400 hover:text-white transition">Home</a>
+    </nav>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-12">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+          <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">Insights & <span class="text-indigo-400">Growth</span></h1>
+          <p class="text-zinc-400">Deep dives into business strategies and spiritual mastery.</p>
+      </div>
+
+      <!-- Categories -->
+      <div class="flex flex-wrap gap-4 mb-10 justify-center">
+          <button class="px-5 py-2 rounded-full bg-white/10 text-white text-sm">All</button>
+          <button class="px-5 py-2 rounded-full border border-white/10 text-zinc-400 text-sm hover:text-white hover:border-white/30 transition">Business</button>
+          <button class="px-5 py-2 rounded-full border border-white/10 text-zinc-400 text-sm hover:text-white hover:border-white/30 transition">Spirituality</button>
+      </div>
+
+      <!-- BANNER AD SPACE (TOP) -->
+      <div class="w-full h-32 bg-white/5 border border-white/10 rounded-xl mb-12 flex items-center justify-center text-zinc-600 text-sm uppercase tracking-widest relative overflow-hidden group">
+          <span>Ad Space / Banner</span>
+          <!-- <img src="YOUR_AD_IMAGE_URL.jpg" class="absolute inset-0 w-full h-full object-cover"> -->
+      </div>
+
+      <!-- Blog Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- LINK TO SINGLE PAGE (blog-post-view.html) -->
+          <a href="./blog-post-view.html" class="block">
+            <article class="blog-card rounded-2xl overflow-hidden group h-full flex flex-col">
+                <div class="h-48 bg-zinc-800 relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute top-4 left-4 bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded">BUSINESS</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col">
+                    <h2 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-300 transition">Scaling Digital Products</h2>
+                    <p class="text-zinc-400 text-sm line-clamp-3 mb-4 flex-1">Why "Value Bundles" are the new currency of the internet. Click to read full article.</p>
+                    <div class="flex items-center text-xs text-indigo-400 font-medium mt-auto">
+                        Read More <i data-lucide="arrow-right" class="w-3 h-3 ml-1 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+            </article>
+          </a>
+
+          <!-- Add more cards here linking to same or different post pages -->
+          
+      </div>
+
+  </main>
+
+  <footer class="border-t border-white/10 py-10 bg-[#0b0e13] mt-12 text-center text-sm text-zinc-500">
+      <p>© 2025 BookMintor Blog.</p>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
