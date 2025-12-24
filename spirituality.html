@@ -11,7 +11,10 @@
 
   <!-- SECURITY SCRIPT: Disables Right Click, F12, Ctrl+U -->
   <script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('contextmenu', event => {
+      event.preventDefault();
+      alert("You can't use right click due to security policy.");
+    });
     document.onkeydown = function(e) {
         if(e.keyCode == 123) { return false; } // F12
         if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
@@ -35,14 +38,16 @@
             dotFlash: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-4px)' } },
             // Popup Animations
             zoomIn: { '0%': { transform: 'scale(0.9)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
-            fadeOut: { '0%': { opacity: '1' }, '100%': { opacity: '0' } }
+            fadeOut: { '0%': { opacity: '1' }, '100%': { opacity: '0' } },
+            promoPopup: { '0%': { transform: 'scale(0.8) translateY(50px)', opacity: '0' }, '100%': { transform: 'scale(1) translateY(0)', opacity: '1' } }
           },
           animation: {
             dotFlash1: 'dotFlash 0.6s ease-in-out infinite',
             dotFlash2: 'dotFlash 0.6s ease-in-out infinite 0.1s',
             dotFlash3: 'dotFlash 0.6s ease-in-out infinite 0.2s',
             zoomIn: 'zoomIn 0.3s ease-out forwards',
-            fadeOut: 'fadeOut 0.3s ease-in forwards'
+            fadeOut: 'fadeOut 0.3s ease-in forwards',
+            promoPopup: 'promoPopup 0.5s ease-out forwards'
           }
         }
       }
@@ -200,6 +205,65 @@
         border-radius: 8px;
         box-shadow: 0 0 50px rgba(0,0,0,0.8);
     }
+
+    /* PROMO POPUP STYLES */
+    #promoPopup {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+    }
+    #promoPopup.active { display: flex; }
+    .promo-content {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+        position: relative;
+        animation: promoPopup 0.5s ease-out;
+    }
+    .promo-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        color: #9ca3af;
+        font-size: 1.5rem;
+    }
+    .promo-close:hover { color: #fff; }
+    .promo-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        background: linear-gradient(to right, #a855f7, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .promo-desc { color: #d1d5db; margin: 1rem 0; }
+    .promo-btn {
+        background: linear-gradient(to right, #a855f7, #3b82f6);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: bold;
+        transition: transform 0.3s;
+    }
+    .promo-btn:hover { transform: scale(1.05); }
+
+    /* Inactive Card Styles */
+    .premium-card.inactive {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .premium-card.inactive:hover {
+        transform: none;
+        box-shadow: none;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
@@ -245,7 +309,7 @@
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
     <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
 
-      <!-- CARD 1 -->
+      <!-- CARD 1 (Active by default; to turn off, add class="inactive" to the div) -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up"
            data-link="./PremAnand Ji’s Zero-Disturbance Mindset Code.html"> 
@@ -303,7 +367,7 @@
         </div>
       </div>
 
-      <!-- CARD 2 -->
+      <!-- CARD 2 (Active by default; to turn off, add class="inactive" to the div) -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="60"
            data-link="./mantra-science.html"> 
@@ -360,7 +424,7 @@
         </div>
       </div>
 
-      <!-- CARD 3 -->
+      <!-- CARD 3 (Active by default; to turn off, add class="inactive" to the div) -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="120"
            data-link="./power-walk.html"> 
@@ -417,7 +481,7 @@
         </div>
       </div>
 
-      <!-- CARD 4 -->
+      <!-- CARD 4 (Active by default; to turn off, add class="inactive" to the div) -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="180"
            data-link="./mantras.html"> 
@@ -474,7 +538,7 @@
         </div>
       </div>
 
-      <!-- CARD 5 -->
+      <!-- CARD 5 (Active by default; to turn off, add class="inactive" to the div) -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="240"
            data-link="./upanishads.html"> 
@@ -531,6 +595,177 @@
         </div>
       </div>
 
+      <!-- CARD 6 (New - Active by default; to turn off, add class="inactive" to the div) -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
+           data-aos="fade-up" data-aos-delay="300"
+           data-link="./meditation-mastery.html"> 
+        
+        <div class="loading-overlay">
+            <div class="flex space-x-1">
+                <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash1"></div>
+                <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
+                <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
+            </div>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
+        </div>
+
+        <div class="card-layout">
+            <div class="book-img-container shadow-book" onclick="openImagePopup(event, 'https://images.unsplash.com/photo-1506126617471-036061ff4ae4?auto=format&fit=crop&w=400&q=80')">
+                <div class="book-cover-shine"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 pointer-events-none"></div>
+                <img src="https://images.unsplash.com/photo-1506126617471-036061ff4ae4?auto=format&fit=crop&w=400&q=80" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Meditation Mastery</h3>
+                    <p class="mt-1 text-sm text-zinc-400 line-clamp-2">Unlock inner peace with advanced meditation techniques.</p>
+                </div>
+                
+                <div class="mt-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i>
+                        </div>
+                        <span>(950 reviews)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 text-xs text-zinc-300/90 mb-3">
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>45k+</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>4h</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>32k+</span>
+                    </div>
+
+                    <div class="flex items-end justify-between border-t border-white/10 pt-2">
+                        <div>
+                            <div class="text-2xl font-extrabold tracking-tight text-emerald-300">
+                                ₹599 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-400/30">50% OFF</span>
+                            </div>
+                            <div class="-mt-0.5 text-xs text-zinc-500 line-through">₹1199</div>
+                        </div>
+                        <div class="text-indigo-400 group-hover:translate-x-1 transition-transform">
+                            <i data-lucide="arrow-right-circle" class="h-6 w-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- CARD 7 (New - Active by default; to turn off, add class="inactive" to the div) -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
+           data-aos="fade-up" data-aos-delay="360"
+           data-link="./yoga-soul.html"> 
+        
+        <div class="loading-overlay">
+            <div class="flex space-x-1">
+                <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash1"></div>
+                <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
+                <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
+            </div>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
+        </div>
+
+        <div class="card-layout">
+            <div class="book-img-container shadow-book" onclick="openImagePopup(event, 'https://images.unsplash.com/photo-1506126617471-036061ff4ae4?auto=format&fit=crop&w=400&q=80')">
+                <div class="book-cover-shine"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 pointer-events-none"></div>
+                <img src="https://images.unsplash.com/photo-1506126617471-036061ff4ae4?auto=format&fit=crop&w=400&q=80" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Yoga for the Soul</h3>
+                    <p class="mt-1 text-sm text-zinc-400 line-clamp-2">Harmonize body and mind with soulful yoga practices.</p>
+                </div>
+                
+                <div class="mt-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star-half" class="h-3 w-3 fill-current"></i>
+                        </div>
+                        <span>(820 reviews)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 text-xs text-zinc-300/90 mb-3">
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>38k+</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>3h</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>25k+</span>
+                    </div>
+
+                    <div class="flex items-end justify-between border-t border-white/10 pt-2">
+                        <div>
+                            <div class="text-2xl font-extrabold tracking-tight text-emerald-300">
+                                ₹399 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-400/30">60% OFF</span>
+                            </div>
+                            <div class="-mt-0.5 text-xs text-zinc-500 line-through">₹999</div>
+                        </div>
+                        <div class="text-indigo-400 group-hover:translate-x-1 transition-transform">
+                            <i data-lucide="arrow-right-circle" class="h-6 w-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- CARD 8 (New - Active by default; to turn off, add class="inactive" to the div) -->
+      <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
+           data-aos="fade-up" data-aos-delay="420"
+           data-link="./spiritual-awakening.html"> 
+        
+        <div class="loading-overlay">
+            <div class="flex space-x-1">
+                <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash1"></div>
+                <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-dotFlash2"></div>
+                <div class="h-2 w-2 rounded-full bg-indigo-400 animate-dotFlash3"></div>
+            </div>
+            <span class="mt-3 text-sm font-medium text-zinc-300">Loading...</span>
+        </div>
+
+        <div class="card-layout">
+            <div class="book-img-container shadow-book" onclick="openImagePopup(event, 'https://images.unsplash.com/photo-1506126617471-036061ff4ae4?auto=format&fit=crop&w=400&q=80')">
+                <div class="book-cover-shine"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 pointer-events-none"></div>
+                <img src="https://images.unsplash.com/photo-1506126617471-036061ff4ae4?auto=format&fit=crop&w=400&q=80" alt="Cover" class="book-img-actual">
+            </div>
+            
+            <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
+                <div>
+                    <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Spiritual Awakening Guide</h3>
+                    <p class="mt-1 text-sm text-zinc-400 line-clamp-2">Journey to enlightenment with practical steps and insights.</p>
+                </div>
+                
+                <div class="mt-3">
+                    <div class="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                        <div class="flex text-amber-400 star-glow">
+                            <i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 fill-current"></i><i data-lucide="star" class="h-3 w-3 opacity-50"></i>
+                        </div>
+                        <span>(650 reviews)</span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 text-xs text-zinc-300/90 mb-3">
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="download" class="h-3 w-3"></i>29k+</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="clock" class="h-3 w-3"></i>5h</span>
+                        <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-1"><i data-lucide="users" class="h-3 w-3"></i>18k+</span>
+                    </div>
+
+                    <div class="flex items-end justify-between border-t border-white/10 pt-2">
+                        <div>
+                            <div class="text-2xl font-extrabold tracking-tight text-emerald-300">
+                                ₹499 <span class="align-middle ml-1 rounded-full bg-emerald-600/20 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-300 ring-1 ring-emerald-400/30">70% OFF</span>
+                            </div>
+                            <div class="-mt-0.5 text-xs text-zinc-500 line-through">₹1699</div>
+                        </div>
+                        <div class="text-indigo-400 group-hover:translate-x-1 transition-transform">
+                            <i data-lucide="arrow-right-circle" class="h-6 w-6"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
@@ -541,6 +776,7 @@
         <a href="./privacy.html" class="hover:text-zinc-200">Privacy</a>
         <a href="./terms.html" class="hover:text-zinc-200">Terms</a>
         <a href="./contact.html" class="hover:text-zinc-200">Contact</a>
+        <a href="./blog.html" class="hover:text-zinc-200">Blog</a>
       </div>
     </div>
   </footer>
@@ -548,6 +784,16 @@
   <!-- IMAGE POPUP MODAL -->
   <div id="imagePopup" onclick="closeImagePopup()">
     <img id="popupImg" src="" alt="Full Preview" class="animate-zoomIn">
+  </div>
+
+  <!-- PROMO POPUP MODAL (To turn off, set showPromoPopup = false in script) -->
+  <div id="promoPopup" onclick="closePromoPopup()">
+    <div class="promo-content" onclick="event.stopPropagation()">
+      <span class="promo-close" onclick="closePromoPopup()">&times;</span>
+      <h2 class="promo-title">Exclusive Deal Alert! 🚀</h2>
+      <p class="promo-desc">Grab our premium spiritual bundle at 75% OFF! Unlock inner peace, ancient wisdom, and transformative power today. Limited time only – don't miss out!</p>
+      <a href="/redirect.html" class="promo-btn">Buy Now & Save Big!</a>
+    </div>
   </div>
 
   <script>
@@ -568,7 +814,8 @@
         }
     }
 
-    // IMAGE POPUP LOGIC
+    // IMAGE POPUP LOGIC WITH AUTO-CLOSE AFTER 3 SECONDS
+    let imagePopupTimeout;
     function openImagePopup(event, imgSrc) {
         event.stopPropagation(); // Stop click from triggering card navigation
         event.preventDefault();
@@ -580,6 +827,10 @@
         popup.classList.add('active');
         img.classList.remove('animate-fadeOut');
         img.classList.add('animate-zoomIn');
+
+        // Auto-close after 3 seconds
+        clearTimeout(imagePopupTimeout);
+        imagePopupTimeout = setTimeout(closeImagePopup, 3000);
     }
 
     function closeImagePopup() {
@@ -595,7 +846,28 @@
         }, 300);
     }
 
-    // UPDATED NAVIGATION LOGIC
+    // PROMO POPUP LOGIC (Appears after 3 seconds; set showPromoPopup = false to turn off)
+    let showPromoPopup = false; // Change to false to disable the promo popup
+    if (showPromoPopup) {
+        setTimeout(() => {
+            const promo = document.getElementById('promoPopup');
+            promo.classList.add('active');
+        }, 3000);
+    }
+
+    function closePromoPopup() {
+        const promo = document.getElementById('promoPopup');
+        const content = promo.querySelector('.promo-content');
+        
+        content.classList.remove('animate-promoPopup');
+        content.classList.add('animate-fadeOut');
+        
+        setTimeout(() => {
+            promo.classList.remove('active');
+        }, 300);
+    }
+
+    // UPDATED NAVIGATION LOGIC WITH INACTIVE CARD HANDLING
     document.querySelectorAll('.premium-card').forEach(card => {
         const targetLink = card.getAttribute('data-link'); 
 
@@ -609,6 +881,11 @@
                 if (e.target.closest('.book-img-container')) return;
 
                 e.preventDefault(); 
+
+                if (card.classList.contains('inactive')) {
+                    alert("You aren't able to open this page right now. This is under processing...");
+                    return;
+                }
                 
                 card.classList.add('is-loading');
                 sessionStorage.setItem('loading-card-id', targetLink);
