@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact & Contracts - BookMintor</title>
+  <title>Contact & Contract - BookMintor</title>
   <meta name="theme-color" content="#0b0e13" />
   <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
@@ -24,14 +24,20 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { brandDark: '#0b0e13' },
-          animation: { 
-            'shimmer': 'shimmer 2s linear infinite',
+          animation: {
+            'blob': 'blob 25s infinite alternate',
+            'fade-in': 'fadeIn 1s ease-out forwards',
           },
           keyframes: {
-            shimmer: {
-              '0%': { backgroundPosition: '-200% 0' },
-              '100%': { backgroundPosition: '200% 0' }
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             }
           }
         }
@@ -39,218 +45,160 @@
     }
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: 'Poppins', sans-serif; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+    body { font-family: 'Poppins', sans-serif; user-select: none; }
     
-    /* BACKGROUND ANIMATION */
-    .aurora-bg { position: fixed; inset: 0; z-index: -1; background: #0b0e13; }
-    .glow-spot { position: absolute; width: 600px; height: 600px; border-radius: 50%; filter: blur(100px); opacity: 0.15; animation: move 20s infinite alternate; }
-    .glow-1 { top: -100px; left: -100px; background: #4f46e5; }
-    .glow-2 { bottom: -100px; right: -100px; background: #d946ef; animation-delay: -5s; }
-    @keyframes move { from { transform: translate(0,0); } to { transform: translate(50px, 50px); } }
-
-    .input-field {
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.1);
-        color: white;
-        transition: all 0.3s ease;
+    .glass-input {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
     }
-    .input-field:focus {
-        background: rgba(255,255,255,0.06);
-        border-color: #818cf8;
-        outline: none;
-        box-shadow: 0 0 15px rgba(99,102,241,0.1);
+    .glass-input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #818cf8;
+      outline: none;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
     }
     
-    /* LOADING SHINE BUTTON */
-    .btn-shine {
-        position: relative;
-        overflow: hidden;
-    }
-    .btn-shine.loading::after {
-        content: '';
+    .loading-overlay {
         position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transform: skewX(-20deg);
-        animation: shimmer 1.5s infinite;
+        inset: 0;
+        background: rgba(11, 14, 19, 0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease;
+        z-index: 50;
+        border-radius: 1.5rem;
+        backdrop-filter: blur(10px);
+    }
+    .is-submitting .loading-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .shimmer {
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
     }
   </style>
 </head>
-<body class="min-h-screen bg-brandDark text-white">
+<body class="min-h-screen bg-[#0b0e13] text-zinc-100 flex flex-col relative overflow-hidden">
 
-  <div class="aurora-bg">
-    <div class="glow-spot glow-1"></div>
-    <div class="glow-spot glow-2"></div>
+  <!-- ENHANCED LIQUID BACKGROUND -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 left-1/4 w-[800px] h-[800px] bg-indigo-600/10 rounded-full mix-blend-screen filter blur-[130px] animate-blob"></div>
+    <div class="absolute top-0 right-1/4 w-[600px] h-[600px] bg-fuchsia-600/10 rounded-full mix-blend-screen filter blur-[130px] animate-blob animation-delay-2000"></div>
   </div>
 
-  <header class="p-6">
-    <nav class="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="./index.html" class="text-xl font-bold font-serif">
-             <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
-        </a>
-        <a href="./index.html" class="px-4 py-2 rounded-full border border-white/10 hover:bg-white/5 text-sm">Home</a>
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-[#0b0e13]/60 border-b border-white/5">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a href="./index.html" class="flex items-center gap-3">
+        <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-10 w-10 object-contain drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+        <span class="text-lg font-bold tracking-wide text-zinc-100">
+          <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+        </span>
+      </a>
+      <a href="./index.html" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white hover:bg-white/10 transition">
+        <i data-lucide="x" class="h-4 w-4"></i> Close
+      </a>
     </nav>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-12 items-center">
-    
-    <!-- Left: Info -->
-    <div class="space-y-8">
-        <div>
-            <h1 class="text-5xl font-serif font-bold mb-4 leading-tight">Let's Create<br><span class="text-indigo-400">Value Together</span></h1>
-            <p class="text-zinc-400 text-lg">Questions about a product, support, or contracts.</p>
-        </div>
-        <div class="space-y-6">
-            <div class="flex items-start gap-4">
-                <div class="p-3 rounded-lg bg-emerald-500/10 text-emerald-400"><i data-lucide="mail"></i></div>
-                <div>
-                    <h3 class="font-semibold text-lg">Support</h3>
-                    <p class="text-zinc-500">support@bookmintor.shop</p>
-                </div>
-            </div>
-            <div class="flex items-start gap-4">
-                <div class="p-3 rounded-lg bg-indigo-500/10 text-indigo-400"><i data-lucide="shield-check"></i></div>
-                <div>
-                    <h3 class="font-semibold text-lg">Guarantee</h3>
-                    <p class="text-zinc-500">We verify every digital product quality.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right: Form -->
-    <div class="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-2xl relative">
+  <main class="flex-grow flex items-center justify-center px-4 py-12 opacity-0 animate-fade-in">
+    <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         
-        <!-- Success Message (Hidden by default) -->
-        <div id="successMessage" class="hidden absolute inset-0 bg-[#0b0e13]/95 backdrop-blur-xl z-20 flex-col items-center justify-center rounded-2xl text-center p-6">
-            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4 text-green-400">
-                <i data-lucide="check" class="w-8 h-8"></i>
+        <!-- INFO SECTION (Left) -->
+        <div class="space-y-8">
+            <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+                Let's Start a <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400 filter drop-shadow-[0_0_10px_rgba(99,102,241,0.3)]">Value Contract.</span>
+            </h1>
+            <p class="text-zinc-400 text-lg leading-relaxed border-l-2 border-fuchsia-500/50 pl-6">
+                Have questions about your digital products? Need support with your download? We are here to ensure you get the full value you paid for.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-colors">
+                    <i data-lucide="mail" class="h-6 w-6 text-indigo-400 mb-3"></i>
+                    <h4 class="font-semibold text-white">Email Support</h4>
+                    <span class="text-xs text-zinc-500">support@bookmintor.shop</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-fuchsia-500/30 transition-colors">
+                    <i data-lucide="shield-check" class="h-6 w-6 text-fuchsia-400 mb-3"></i>
+                    <h4 class="font-semibold text-white">Secure Delivery</h4>
+                    <span class="text-xs text-zinc-500">Verified Encryption</span>
+                </div>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-            <p class="text-zinc-400">We have received your inquiry and will get back to you shortly.</p>
-            <button onclick="resetForm()" class="mt-6 text-sm text-indigo-400 hover:text-white">Send another message</button>
         </div>
 
-        <form id="contactForm" class="space-y-5">
-            <!-- 
-               IMPORTANT: To make this email work, go to https://web3forms.com/ or https://formspree.io/
-               1. Get your Access Key (it's free).
-               2. Replace 'YOUR_ACCESS_KEY_HERE' in the script below.
-            -->
-            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE"> 
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-2">
-                    <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">First Name</label>
-                    <input type="text" name="name" required class="w-full p-3 rounded-lg input-field" placeholder="John">
+        <!-- FORM SECTION (Right) -->
+        <div class="bg-white/[0.02] backdrop-blur-2xl border border-white/10 p-8 sm:p-10 rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] relative overflow-hidden" id="contactFormContainer">
+            
+            <!-- LOADING SHINE ANIMATION OVERLAY -->
+            <div class="loading-overlay">
+                <div class="relative">
+                    <div class="w-20 h-20 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <div class="w-3 h-3 bg-fuchsia-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(232,121,249,0.8)]"></div>
+                    </div>
                 </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Last Name</label>
-                    <input type="text" name="lastname" class="w-full p-3 rounded-lg input-field" placeholder="Doe">
+                <p class="mt-6 text-sm font-semibold text-indigo-200 tracking-[0.2em] animate-pulse">ESTABLISHING CONTRACT...</p>
+            </div>
+
+            <!-- Replace 'YOUR_EMAIL_HERE' with your real email -->
+            <form action="https://formsubmit.co/bookmintor@gmail.com" method="POST" class="space-y-6 relative z-10" id="mainForm">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://bookmintor.shop/thankyou.html">
+                <input type="hidden" name="_template" value="table">
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Your Name</label>
+                    <input type="text" name="name" required class="w-full rounded-xl p-4 glass-input" placeholder="Full Name">
                 </div>
-            </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Email Address</label>
+                    <input type="email" name="email" required class="w-full rounded-xl p-4 glass-input" placeholder="name@example.com">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-zinc-500 mb-2 font-medium">Message / Query</label>
+                    <textarea name="message" rows="4" required class="w-full rounded-xl p-4 glass-input" placeholder="Describe your issue or request..."></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white font-bold py-4 rounded-xl hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all transform hover:-translate-y-1 relative overflow-hidden group">
+                    <span class="relative z-10 flex items-center justify-center gap-2">Sign Contract <i data-lucide="send" class="h-4 w-4"></i></span>
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent z-0"></div>
+                </button>
+            </form>
+        </div>
 
-            <div class="space-y-2">
-                <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Email</label>
-                <input type="email" name="email" required class="w-full p-3 rounded-lg input-field" placeholder="john@example.com">
-            </div>
-
-            <div class="space-y-2">
-                <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Inquiry Type</label>
-                <select name="subject" class="w-full p-3 rounded-lg input-field bg-[#18181b]">
-                    <option>General Support</option>
-                    <option>Product Question</option>
-                    <option>Business Contract</option>
-                </select>
-            </div>
-
-            <div class="space-y-2">
-                <label class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Message</label>
-                <textarea name="message" required class="w-full p-3 rounded-lg input-field h-32 resize-none" placeholder="How can we help you?"></textarea>
-            </div>
-
-            <button type="submit" id="submitBtn" class="btn-shine w-full py-4 bg-gradient-to-r from-indigo-600 to-fuchsia-600 rounded-lg font-semibold text-white hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-all transform hover:-translate-y-1">
-                <span id="btnText">Send Message</span>
-            </button>
-        </form>
     </div>
-
   </main>
 
-  <footer class="border-t border-white/10 mt-12 py-8 bg-[#0b0e13]">
-    <div class="text-center text-zinc-500 text-sm">
-        &copy; 2025 BookMintor. <a href="./privacy.html" class="ml-2 hover:text-white">Privacy</a> &bull; <a href="./terms.html" class="hover:text-white">Terms</a>
-    </div>
+  <footer class="border-t border-white/10 py-6 text-center text-sm text-zinc-500 bg-black/40 backdrop-blur">
+    &copy; 2025 BookMintor. Secure Digital Contracts.
   </footer>
 
   <script>
     lucide.createIcons();
-
-    const form = document.getElementById('contactForm');
-    const successMsg = document.getElementById('successMessage');
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
+    const form = document.getElementById('mainForm');
+    const container = document.getElementById('contactFormContainer');
 
     form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // 1. Start Loading Animation
-        submitBtn.classList.add('loading');
-        btnText.textContent = 'Sending...';
-        submitBtn.disabled = true;
-
-        // 2. Prepare Data
-        const formData = new FormData(form);
-        const object = Object.fromEntries(formData);
-        const json = JSON.stringify(object);
-
-        // 3. Send to API (Using Web3Forms as example - Free & Easy)
-        // If you don't put a key, it will simulate success for demo purposes
-        
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: json
-        })
-        .then(async (response) => {
-            // Simulate 2 second delay for the "Shine" effect to be seen by user
-            await new Promise(r => setTimeout(r, 1500)); 
-            
-            if (response.status == 200) {
-                showSuccess();
-            } else {
-                console.log(response);
-                // Fallback for demo if no key provided
-                showSuccess(); 
-            }
-        })
-        .catch(error => {
-            console.log(error);
-            showSuccess(); // Fallback for demo
-        })
-        .finally(() => {
-            submitBtn.classList.remove('loading');
-            btnText.textContent = 'Send Message';
-            submitBtn.disabled = false;
-        });
+        container.classList.add('is-submitting');
     });
-
-    function showSuccess() {
-        successMsg.classList.remove('hidden');
-        successMsg.classList.add('flex');
-    }
-
-    function resetForm() {
-        successMsg.classList.add('hidden');
-        successMsg.classList.remove('flex');
-        form.reset();
-    }
   </script>
 </body>
 </html>
