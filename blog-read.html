@@ -62,8 +62,14 @@
     
     /* Ad Box */
     .ad-box {
-        background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px);
-        display: flex; align-items: center; justify-content: center; text-align: center;
+        background: repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.03) 10px,
+            rgba(255,255,255,0.05) 10px,
+            rgba(255,255,255,0.05) 20px
+        );
+        display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
         border: 1px dashed rgba(255,255,255,0.1);
     }
 
@@ -112,16 +118,25 @@
     </div>
 
     <!-- MAIN CONTENT AREA -->
-    <!-- You can paste as much HTML content here as you want. The CSS handles it beautifully. -->
     <article class="prose prose-invert max-w-none">
         <p class="lead text-lg text-white/90">
             In an era defined by digital noise and constant notifications, finding a moment of true silence is rare. This is where the ancient science of Mantras comes in—not just as a religious practice, but as a sonic technology for the mind.
         </p>
         
-        <!-- IN-ARTICLE AD SLOT (ADSTERRA) -->
-        <div class="my-10 ad-box w-full h-32 rounded-xl text-zinc-600">
-             <!-- Paste Ad Code Here -->
-            <p class="text-sm font-medium">Adaptive Banner Ad Space</p>
+        <!-- IN-ARTICLE AD SLOT (ADSTERRA 728x90) -->
+        <div class="my-10 ad-box w-full min-h-[90px] rounded-xl text-zinc-600 overflow-hidden">
+            <!-- 728x90 Adsterra Banner Code Start -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '541dc43b72f883215c53335b7dd64db8',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="https://www.highperformanceformat.com/541dc43b72f883215c53335b7dd64db8/invoke.js"></script>
+            <!-- 728x90 Adsterra Banner Code End -->
         </div>
 
         <h2>The Science of Sound</h2>
@@ -137,15 +152,20 @@
             Our product, <strong>"The Mantra Science Vault"</strong>, delves deeper into 108 such sounds and their practical applications for student focus and business clarity.
         </p>
 
-        <!-- EXAMPLE IMAGE IN BLOG -->
-        <img src="https://images.unsplash.com/photo-1515984977862-1c7201e36047?auto=format&fit=crop&q=80&w=1000" alt="Meditation">
-
-        <h2>Video Guide</h2>
-        <p>Here is a quick breakdown of how sound frequencies affect the brain:</p>
-
-        <!-- EXAMPLE VIDEO EMBED (Youtube) -->
-        <div class="aspect-video">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- SQUARE AD SLOT (ADSTERRA 300x250) -->
+        <div class="my-10 ad-box w-full min-h-[250px] rounded-xl text-zinc-600 overflow-hidden">
+             <!-- 300x250 Adsterra Square Code Start -->
+             <script type="text/javascript">
+                atOptions = {
+                    'key' : '072c459477797458ea0fce5e798e9eea',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+             </script>
+             <script type="text/javascript" src="https://www.highperformanceformat.com/072c459477797458ea0fce5e798e9eea/invoke.js"></script>
+             <!-- 300x250 Adsterra Square Code End -->
         </div>
 
         <h2>Conclusion</h2>
