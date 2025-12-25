@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookMintor Blog - Insights</title>
+  <title>Insights & Wisdom | BookMintor Blog</title>
   <meta name="theme-color" content="#0b0e13" />
   <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
@@ -24,18 +24,24 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { brandDark: '#0b0e13' },
           fontFamily: {
-             sans: ['Poppins', 'sans-serif'],
-             serif: ['Playfair Display', 'serif'],
+            serif: ['Playfair Display', 'serif'],
+            sans: ['Poppins', 'sans-serif'],
           },
           animation: {
-            'bg-shift': 'bg-shift 10s ease-in-out infinite alternate',
+            'blob': 'blob 20s infinite alternate',
+            'fade-up': 'fadeUp 0.8s ease-out forwards',
           },
           keyframes: {
-            'bg-shift': {
-                '0%': { filter: 'hue-rotate(0deg)' },
-                '100%': { filter: 'hue-rotate(30deg)' }
+            blob: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+              '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+              '100%': { transform: 'translate(0px, 0px) scale(1)' },
+            },
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             }
           }
         }
@@ -43,93 +49,210 @@
     }
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 
   <style>
-    body { font-family: 'Poppins', sans-serif; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
+    body { font-family: 'Poppins', sans-serif; user-select: none; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
     
-    .glow-con { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .glow-blob {
-        position: absolute; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(99,102,241,0.1), transparent 70%);
-        border-radius: 50%; top: -20%; left: -10%; animation: bg-shift 10s infinite;
+    /* Category Filter Button Styles */
+    .filter-btn {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .filter-btn:hover, .filter-btn.active {
+        background: rgba(255,255,255,0.1);
+        border-color: #818cf8; /* Indigo */
+        color: white;
+        box-shadow: 0 0 15px rgba(99,102,241,0.3);
     }
 
+    /* Premium Blog Card */
     .blog-card {
-        background: rgba(255,255,255,0.02);
-        border: 1px solid rgba(255,255,255,0.08);
-        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0; 
+        animation: fadeUp 0.6s ease-out forwards;
     }
     .blog-card:hover {
-        background: rgba(255,255,255,0.05);
-        transform: translateY(-5px);
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.04);
         border-color: rgba(99, 102, 241, 0.3);
-        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    }
+    .blog-card img {
+        transition: transform 0.7s ease;
+    }
+    .blog-card:hover img {
+        transform: scale(1.08);
+    }
+
+    /* Ad Box Placeholder */
+    .ad-box {
+        background: repeating-linear-gradient(
+            45deg,
+            rgba(255,255,255,0.03),
+            rgba(255,255,255,0.03) 10px,
+            rgba(255,255,255,0.05) 10px,
+            rgba(255,255,255,0.05) 20px
+        );
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        border: 1px dashed rgba(255,255,255,0.1);
     }
   </style>
 </head>
-<body class="min-h-screen bg-brandDark text-zinc-100">
+<body class="min-h-screen bg-[#0b0e13] text-zinc-100 relative overflow-x-hidden">
 
-  <div class="glow-con"><div class="glow-blob"></div></div>
+  <!-- BACKGROUND ANIMATION -->
+  <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 left-1/4 w-[800px] h-[800px] bg-indigo-600/10 rounded-full mix-blend-screen filter blur-[120px] animate-blob"></div>
+    <div class="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-fuchsia-600/10 rounded-full mix-blend-screen filter blur-[120px] animate-blob animation-delay-2000"></div>
+  </div>
 
-  <header class="sticky top-0 z-40 backdrop-blur bg-zinc-900/40 border-b border-white/5">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-      <a href="./index.html" class="text-xl font-bold font-serif">
-          <span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor <span class="text-xs tracking-widest text-zinc-500 uppercase ml-1">Blog</span>
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#0b0e13]/70 border-b border-white/5">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <a href="./index.html" class="flex items-center gap-3">
+        <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-10 w-10 object-contain drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+        <div class="flex flex-col">
+            <span class="text-xl font-bold tracking-wide text-zinc-100 leading-none">
+            <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">Official Blog</span>
+        </div>
       </a>
-      <a href="./index.html" class="text-sm text-zinc-400 hover:text-white transition">Home</a>
+      <a href="./index.html" class="hidden sm:block rounded-full bg-white/5 border border-white/10 px-5 py-2 text-xs font-semibold text-white hover:bg-white/10 transition">
+        Visit Store
+      </a>
     </nav>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-12">
-      
-      <div class="text-center max-w-2xl mx-auto mb-16">
-          <h1 class="text-4xl md:text-5xl font-serif font-bold mb-4">Insights & <span class="text-indigo-400">Growth</span></h1>
-          <p class="text-zinc-400">Deep dives into business strategies and spiritual mastery.</p>
-      </div>
+  <!-- BANNER AD (ADSTERRA 728x90) -->
+  <div class="mx-auto max-w-7xl px-6 mt-10 opacity-0 animate-fade-up">
+    <!-- Paste ADSTERRA Code Inside Here -->
+    <div class="ad-box w-full h-24 rounded-2xl text-zinc-600">
+        <span class="text-xs uppercase tracking-widest mb-1">Advertisement</span>
+        <p class="text-sm font-medium">Banner Ad (728x90)</p>
+    </div>
+  </div>
 
-      <!-- Categories -->
-      <div class="flex flex-wrap gap-4 mb-10 justify-center">
-          <button class="px-5 py-2 rounded-full bg-white/10 text-white text-sm">All</button>
-          <button class="px-5 py-2 rounded-full border border-white/10 text-zinc-400 text-sm hover:text-white hover:border-white/30 transition">Business</button>
-          <button class="px-5 py-2 rounded-full border border-white/10 text-zinc-400 text-sm hover:text-white hover:border-white/30 transition">Spirituality</button>
-      </div>
+  <!-- HERO SECTION -->
+  <section class="mx-auto max-w-7xl px-6 py-16 text-center opacity-0 animate-fade-up" style="animation-delay: 0.1s;">
+    <h1 class="text-4xl md:text-6xl font-serif font-medium text-white mb-6 leading-tight">
+        Curated Wisdom for the <br> <span class="text-indigo-400 italic">Modern Mind</span>
+    </h1>
+    <p class="text-zinc-400 max-w-2xl mx-auto text-lg mb-10">
+        Explore deep dives into our digital library. From ancient Upanishads to modern business strategies.
+    </p>
 
-      <!-- BANNER AD SPACE (TOP) -->
-      <div class="w-full h-32 bg-white/5 border border-white/10 rounded-xl mb-12 flex items-center justify-center text-zinc-600 text-sm uppercase tracking-widest relative overflow-hidden group">
-          <span>Ad Space / Banner</span>
-          <!-- <img src="YOUR_AD_IMAGE_URL.jpg" class="absolute inset-0 w-full h-full object-cover"> -->
-      </div>
+    <!-- CATEGORY FILTER BUTTONS -->
+    <div class="flex flex-wrap justify-center gap-4">
+        <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium text-zinc-400" data-filter="all">All Stories</button>
+        <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-zinc-400" data-filter="spirituality">Spirituality</button>
+        <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-zinc-400" data-filter="business">Business</button>
+        <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium text-zinc-400" data-filter="productivity">Productivity</button>
+    </div>
+  </section>
 
-      <!-- Blog Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
-          <!-- LINK TO SINGLE PAGE (blog-post-view.html) -->
-          <a href="./blog-post-view.html" class="block">
-            <article class="blog-card rounded-2xl overflow-hidden group h-full flex flex-col">
-                <div class="h-48 bg-zinc-800 relative overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
-                    <div class="absolute top-4 left-4 bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded">BUSINESS</div>
+  <!-- BLOG GRID -->
+  <main class="mx-auto max-w-7xl px-6 pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blogGrid">
+        
+        <!-- BLOG POST 1: Spirituality -->
+        <a href="./blog-read.html" class="blog-card rounded-2xl overflow-hidden group block" data-category="spirituality" style="animation-delay: 0.2s;">
+            <div class="h-56 w-full overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1516939884455-14a5cbe23644?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Blog Thumb">
+                <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-white border border-white/10">Spirituality</div>
+            </div>
+            <div class="p-6">
+                <div class="text-xs text-zinc-500 mb-3 flex items-center gap-2">
+                    <i data-lucide="calendar" class="h-3 w-3"></i> Dec 24, 2025
                 </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <h2 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-300 transition">Scaling Digital Products</h2>
-                    <p class="text-zinc-400 text-sm line-clamp-3 mb-4 flex-1">Why "Value Bundles" are the new currency of the internet. Click to read full article.</p>
-                    <div class="flex items-center text-xs text-indigo-400 font-medium mt-auto">
-                        Read More <i data-lucide="arrow-right" class="w-3 h-3 ml-1 group-hover:translate-x-1 transition"></i>
-                    </div>
+                <h3 class="text-xl text-white font-serif mb-2 group-hover:text-indigo-400 transition">Why Modern Minds Need Ancient Mantras</h3>
+                <p class="text-zinc-400 text-sm line-clamp-3 mb-4 leading-relaxed">In a world of constant noise, the science of sound offering in Mantras provides a unique anchor...</p>
+                <div class="text-indigo-400 text-sm font-medium flex items-center gap-1">Read Article <i data-lucide="arrow-up-right" class="h-4 w-4"></i></div>
+            </div>
+        </a>
+
+        <!-- AD SLOT IN GRID (ADSTERRA 300x250) -->
+        <div class="ad-box rounded-2xl p-6 min-h-[350px] text-zinc-600 opacity-0 animate-fade-up" style="animation-delay: 0.3s;">
+             <!-- Paste ADSTERRA Code Here -->
+             <span class="text-xs uppercase tracking-widest mb-2">Advertisement</span>
+             <p class="text-center text-sm">Square Ad (300x250)</p>
+        </div>
+
+        <!-- BLOG POST 2: Productivity -->
+        <a href="./blog-read.html" class="blog-card rounded-2xl overflow-hidden group block" data-category="productivity" style="animation-delay: 0.4s;">
+            <div class="h-56 w-full overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Blog Thumb">
+                <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-white border border-white/10">Productivity</div>
+            </div>
+            <div class="p-6">
+                <div class="text-xs text-zinc-500 mb-3 flex items-center gap-2">
+                    <i data-lucide="calendar" class="h-3 w-3"></i> Dec 20, 2025
                 </div>
-            </article>
-          </a>
+                <h3 class="text-xl text-white font-serif mb-2 group-hover:text-indigo-400 transition">The Zero-Disturbance Mindset</h3>
+                <p class="text-zinc-400 text-sm line-clamp-3 mb-4 leading-relaxed">How to maintain high output without burning out. Analyzing the techniques used by top creators...</p>
+                <div class="text-indigo-400 text-sm font-medium flex items-center gap-1">Read Article <i data-lucide="arrow-up-right" class="h-4 w-4"></i></div>
+            </div>
+        </a>
+        
+         <!-- BLOG POST 3: Business -->
+        <a href="./blog-read.html" class="blog-card rounded-2xl overflow-hidden group block" data-category="business" style="animation-delay: 0.5s;">
+            <div class="h-56 w-full overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover" alt="Blog Thumb">
+                <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-white border border-white/10">Business</div>
+            </div>
+            <div class="p-6">
+                <div class="text-xs text-zinc-500 mb-3 flex items-center gap-2">
+                    <i data-lucide="calendar" class="h-3 w-3"></i> Dec 18, 2025
+                </div>
+                <h3 class="text-xl text-white font-serif mb-2 group-hover:text-indigo-400 transition">Digital Scaling Strategies</h3>
+                <p class="text-zinc-400 text-sm line-clamp-3 mb-4 leading-relaxed">Scaling a digital product business isn't just about ads. It's about ecosystem value...</p>
+                <div class="text-indigo-400 text-sm font-medium flex items-center gap-1">Read Article <i data-lucide="arrow-up-right" class="h-4 w-4"></i></div>
+            </div>
+        </a>
 
-          <!-- Add more cards here linking to same or different post pages -->
-          
-      </div>
-
+    </div>
   </main>
 
-  <footer class="border-t border-white/10 py-10 bg-[#0b0e13] mt-12 text-center text-sm text-zinc-500">
-      <p>© 2025 BookMintor Blog.</p>
+  <footer class="border-t border-white/10 py-10 bg-black/20 backdrop-blur">
+    <div class="mx-auto max-w-7xl px-6 text-center text-zinc-500 text-sm">
+        &copy; 2025 BookMintor Blog.
+    </div>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <script>
+    lucide.createIcons();
+    
+    // Smooth Category Filtering Logic
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.blog-card');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all
+            buttons.forEach(b => b.classList.remove('active'));
+            // Add active to clicked
+            btn.classList.add('active');
+            
+            const filterValue = btn.getAttribute('data-filter');
+
+            cards.forEach(card => {
+                if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                    card.style.display = 'block';
+                    // Re-trigger animation
+                    card.style.animation = 'none';
+                    card.offsetHeight; /* trigger reflow */
+                    card.style.animation = 'fadeUp 0.6s ease-out forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+  </script>
 </body>
 </html>
