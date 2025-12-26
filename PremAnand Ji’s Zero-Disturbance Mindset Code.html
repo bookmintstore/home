@@ -1091,7 +1091,6 @@
         dom.unlockBtn.setAttribute('data-unlocked', finalStatus);
         startUnlockProcess(preSelectedLang || 'HINDI');
       }
-      else logoImg.onload = () => { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); };
       if(IS_SALE_ACTIVE) document.getElementById('saleBanner').style.display = 'block';
       AOS.init({ duration: 800, once: true, offset: 120 });
       lucide.createIcons();
