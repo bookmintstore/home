@@ -372,12 +372,15 @@
   <div id="paymentTimer"><span id="timerCount">04:00</span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-2">
-      <div class="relative overflow-hidden h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 shadow-glow flex items-center justify-center">
-        <div id="logoShine" class="absolute inset-0 bg-white/30 skew-x-[-30deg] animate-shine z-10 pointer-events-none"></div>
-        <img id="logoImg" src="https://bookmintor.shop/images/loffgo.png" alt="Logo" class="object-cover w-full h-full opacity-0 transition-opacity duration-500" style="padding: 2px; border-radius: 12px;">
-      </div>
-      <span class="text-lg font-bold"><span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor</span>
+    <a href="index.html" class="flex items-center gap-3 group">
+      <!-- PREMIUM CIRCULAR LOGO WITH LITE SMOOTH GLOW -->
+      <img src="https://bookmintor.shop/images/logo.png" 
+           alt="Logo" 
+           class="h-10 w-10 rounded-full drop-shadow-[0_0_20px_rgba(168,85,247,0.6)] group-hover:scale-110 transition-all duration-300 object-cover">
+      
+      <span class="text-lg font-bold tracking-wide text-zinc-100">
+        <span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>Mintor
+      </span>
     </a>
     <a href="./spirituality.html" class="text-sm text-zinc-300 hover:text-white">Back to Library</a>
   </header>
@@ -1093,9 +1096,6 @@
         dom.unlockBtn.setAttribute('data-unlocked', finalStatus);
         startUnlockProcess(preSelectedLang || 'HINDI');
       }
-      const logoImg = document.getElementById('logoImg');
-      if (logoImg.complete) { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); }
-      else logoImg.onload = () => { document.getElementById('logoShine').style.display='none'; logoImg.classList.remove('opacity-0'); };
       if(IS_SALE_ACTIVE) document.getElementById('saleBanner').style.display = 'block';
       AOS.init({ duration: 800, once: true, offset: 120 });
       lucide.createIcons();
