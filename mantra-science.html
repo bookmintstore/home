@@ -360,7 +360,7 @@
 
   <div id="toastNotification">
       <div id="toastIcon"><i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i></div>
-      <span id="toastMessage">The Ultimate Mantra Science Vault.</span>
+      <span id="toastMessage">Product Unlocked! Access Granted.</span>
   </div>
 
   <div class="pointer-events-none fixed inset-0 -z-10">
@@ -449,9 +449,9 @@
         <p class="text-zinc-300">A modern guide revealing the science, history, and real power of ancient mantras.</p>
 
         <div class="stats-section" id="stats-section">
-          <div class="stat-item"><div class="stat-value"><i data-lucide="download-cloud" class="h-5 w-5"></i><span data-target="49350+" id="downloads-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Downloads</div></div>
+          <div class="stat-item"><div class="stat-value"><i data-lucide="download-cloud" class="h-5 w-5"></i><span data-target="33450+" id="downloads-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Downloads</div></div>
           <div class="stat-item"><div class="stat-value"><i data-lucide="star" class="h-5 w-5"></i><span data-target="4.8" id="rating-value">0.0</span></div><div class="stat-label">Rating</div></div>
-          <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="16745+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
+          <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="27245+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Success Graduates</div></div>
         </div>
 
         <div class="bundle-showcase mt-4 mb-2">
@@ -478,8 +478,8 @@
 
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
-                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹799</span>
-                <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1699</span>
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹199</span>
+                <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1999</span>
                 <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED OFFER</span>
             </div>
             
@@ -497,6 +497,17 @@
               <span class="cta-shine animate-btnshine"></span>
               <span class="corner-bling"></span>
             </a>
+
+            <!-- FEATURE 1: Mystery Box Icon -->
+            <div id="mysteryBoxWrap" class="relative cursor-pointer flex items-center justify-center transition hover:scale-110 active:scale-90" onclick="toggleMysteryTooltip(event)">
+              <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" style="border: 0; width: 45px; height: 45px; pointer-events: none; background: transparent;"></iframe>
+              <div id="mysteryTooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-brandDark/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl opacity-0 scale-95 transition-all duration-300 pointer-events-none z-[60] text-center">
+                <p class="text-[11px] font-medium leading-relaxed text-zinc-200">
+                  Upon successful acquisition, you shall be furnished with a meticulously structured, comprehensive guided instructional curriculum.
+                </p>
+                <div class="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-brandDark/95"></div>
+              </div>
+            </div>
 
             <div id="unlockContainer" class="snake-container">
                 <div class="snake-border"></div>
@@ -538,15 +549,15 @@
       <div class="space-y-3" id="feedback-list">
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rahul Malhotra</div><div class="user-location">India</div></div></div><div class="feedback-date">Nov 2025</div></div><div class="feedback-text">This book completely changed how I understand mantras. Very logical and well explained❤️🥰</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ananya Chatterjee</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">The science behind sound and the nervous system was eye-opening. Content feels premium❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">K</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Karan Iyer</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Clear structure and strong concepts. The flow-state section was especially powerful</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">K</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Karan trivedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Clear structure and strong concepts. The flow-state section was especially powerful</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Amit Singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Oct 2025</div></div><div class="feedback-text">Honestly.... yeh book ne mantra ko superstition se science bana diya mere liye</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Siddharth Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jul 2025</div></div><div class="feedback-text">The HD explainer video made complex ideas very easy to grasp</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Sneha</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">Podcast audio quality is excellent. I listen during travel and feel more focused</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">V</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Vikram Desai</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">Om chanting aur vagus nerve wala part next level tha Calm instantly feel hota hai...😍.</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rohit Saxena</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Historical examples like Shivaji Maharaj added depth and credibility</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Neha Joshi</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">800 rupees me itna solid content milna rare hai. Proper premium pack hai</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Pooja Nair</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">Short practices, deep impact. This feels more like a system than a book.</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">V</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Vikram thakur</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">Om chanting aur vagus nerve wala part next level tha Calm instantly feel hota hai...😍</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rohit yadav</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Historical examples like Shivaji Maharaj added depth and credibility</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Neha Joshi</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">800 rupees me itna solid content milna rare hai. Proper premium pack hai</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Pooja kuswaha</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">Short practices, deep impact. This feels more like a system than a book.</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
       </div>
       <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition" onclick="toggleFeedbacks()">Show More</button>
     </div>
@@ -688,7 +699,7 @@
           </div>
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video Class</div>
+                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
                   <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
                   <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
@@ -733,6 +744,9 @@
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
   <script>
+    // FEATURE 4: Toggle between single or dual language
+    const IS_DUAL_LANGUAGE = true; 
+
     const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true };
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
@@ -742,12 +756,12 @@
     
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/dsdfg2",  
-        discounted: "https://payments.cashfree.com/forms/m2dsf" 
+        discounted: "#" 
     };
     
     let currentPaymentUrl = PAYMENT_LINKS.default; 
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_DSDJ3DSDJ39DFI4FDS';
-    const VALID_COUPON = "MINTOR299"; 
+    const VALID_COUPON = "3fsafa299"; 
 
     const ZIP_URLS = { HINDI: "https://github.com/cortex-cradle/ebook1/releases/download/v1.00.1-ebbok2-hin/The.Ultimate.Mantra.Science.Vault.hin.zip", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/v1.00.1-ebbok2-eng/The.Ultimate.Mantra.Science.Vault.eng.zip" };
 
@@ -792,7 +806,9 @@
         couponInput: document.getElementById('couponInput'),
         applyCouponBtn: document.getElementById('applyCouponBtn'),
         bottomShield: document.getElementById('bottomShield'),
-        tapPrompt: document.getElementById('tapPrompt')
+        tapPrompt: document.getElementById('tapPrompt'),
+        mysteryBoxWrap: document.getElementById('mysteryBoxWrap'),
+        mysteryTooltip: document.getElementById('mysteryTooltip')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -814,6 +830,24 @@
         const isHidden = window.getComputedStyle(hiddenItems[0]).display === 'none';
         if (isHidden) { hiddenItems.forEach(item => { item.style.display = 'flex'; item.classList.add('animate-slideUp'); }); btn.textContent = 'Show Less'; } 
         else { hiddenItems.forEach(item => { item.style.display = 'none'; item.classList.remove('animate-slideUp'); }); btn.textContent = 'Show More'; document.getElementById('feedbacks').scrollIntoView({behavior: 'smooth', block: 'start'}); }
+    }
+
+    // FEATURE 1: Toggle Tooltip
+    function toggleMysteryTooltip(e) {
+      if(e) e.stopPropagation();
+      const tip = dom.mysteryTooltip;
+      const isVisible = tip.style.opacity === '1';
+      tip.style.opacity = isVisible ? '0' : '1';
+      tip.style.scale = isVisible ? '0.95' : '1';
+      tip.style.pointerEvents = isVisible ? 'none' : 'auto';
+      
+      if(!isVisible) {
+        setTimeout(() => { 
+          tip.style.opacity = '0'; 
+          tip.style.scale = '0.95'; 
+          tip.style.pointerEvents = 'none'; 
+        }, 5000);
+      }
     }
 
     function handleCoupon() {
@@ -977,11 +1011,20 @@
     function handleZipCompletion() {
         dom.zipConfirmationModal.style.display = 'none'; 
         dom.unlockContainer.style.display = 'inline-flex';
+        
+        // FEATURE 1: Hide Mystery Box when enabled
+        if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
+
         const status = getUpdatedUnlockStatus(postPaymentLanguage);
         dom.unlockBtn.setAttribute('data-unlocked', status);
         dom.unlockContainer.classList.add('snake-active'); 
         dom.buyBtn.classList.add('no-shine');
         showToast("Product Unlocked!", true);
+
+        // FEATURE 2: Auto Scroll
+        setTimeout(() => {
+          dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 500);
     }
 
     function getUpdatedUnlockStatus(newLang) {
@@ -1086,6 +1129,9 @@
           dom.unlockBtn.setAttribute('data-unlocked', unlockedLangs);
           dom.unlockContainer.classList.add('snake-active'); 
           dom.buyBtn.classList.add('no-shine');
+
+          // FEATURE 1: Hide mystery box if already unlocked
+          if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
       }
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
@@ -1124,15 +1170,31 @@
     function triggerCelebration() { confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); }
     
     let countdownInterval;
+
+    // FEATURE 3 & 4: Open Modal Logic
     function openPaymentModal() { 
+        // FEATURE 3: Freeze Scroll
+        document.body.style.overflow = 'hidden';
+
         document.getElementById('paymentModal').style.display = 'flex'; 
         document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
-        document.getElementById('paymentLangSelection').style.display = 'flex'; 
-        document.getElementById('cashfreeIframe').style.display = 'none'; 
+        
+        // FEATURE 4: Single/Dual Language Condition
+        if (!IS_DUAL_LANGUAGE) {
+            handlePaymentLanguageSelection('ENGLISH'); 
+        } else {
+            document.getElementById('paymentLangSelection').style.display = 'flex'; 
+            document.getElementById('cashfreeIframe').style.display = 'none'; 
+        }
+
         dom.bottomShield.classList.add('inactive'); 
         lucide.createIcons(); 
     }
+
     function closePaymentModal() { 
+        // FEATURE 3: Re-enable Scroll
+        document.body.style.overflow = '';
+
         document.getElementById('paymentModal').style.display = 'none'; 
         document.getElementById('paymentTimer').style.display = 'none'; 
         if(countdownInterval) clearInterval(countdownInterval); 
@@ -1158,7 +1220,11 @@
     document.getElementById('buyBtn').addEventListener('click', (e) => { e.preventDefault(); openPaymentModal(); });
 
     function openConfirmationModal() { document.getElementById('confirmationModal').classList.add('active'); document.getElementById('confirmationModal').style.display='flex'; }
-    function confirmExitPayment(y) { document.getElementById('confirmationModal').classList.remove('active'); setTimeout(()=>document.getElementById('confirmationModal').style.display='none',300); if(y) closePaymentModal(); }
+    function confirmExitPayment(y) { 
+        document.getElementById('confirmationModal').classList.remove('active'); 
+        setTimeout(()=>document.getElementById('confirmationModal').style.display='none',300); 
+        if(y) closePaymentModal(); 
+    }
 
     function submitFeedback() {
         const txt = document.getElementById('feedbackTextarea');
