@@ -498,6 +498,16 @@
               <span class="corner-bling"></span>
             </a>
 
+            <!-- FEATURE 1: Mystery Box Icon & Tooltip -->
+            <div class="relative group">
+                <div class="cursor-pointer hover:scale-110 transition-transform duration-300" onclick="toggleMysteryTooltip(event)">
+                    <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" style="width: 50px; height: 50px; border: none; pointer-events: none; background: transparent;"></iframe>
+                </div>
+                <div id="mysteryTooltip" class="hidden absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-zinc-900/95 backdrop-blur-md border border-white/10 rounded-xl text-[11px] leading-relaxed text-zinc-200 shadow-2xl z-[100] text-center">
+                    Upon the successful completion of your acquisition, you will be granted access to a comprehensive, meticulously structured Complete Guided Course.
+                </div>
+            </div>
+
             <div id="unlockContainer" class="snake-container">
                 <div class="snake-border"></div>
                 <div class="snake-glow"></div>
@@ -543,9 +553,9 @@
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Arjun Patel</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">The hormone explanation made everything logical. Very well written</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">M</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Mohit Bansal</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">This book doesn’t hype confidence. It explains how it naturally develops</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Prateek Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">Thomas Shelby wala example solid tha. Walk aur mindset ka link clear ho gaya</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Prateek Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">Thomas Shelby wala example solid tha. Walk aur mindset ka link clear ho gaya</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ravi Shukla</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">short chapters, strong clarity. I became more aware of my posture instantly</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurav Nair</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Overthinking aur walk ka relation samajh aaya Kaafi helpful laga</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurav Nair</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Overthinking aur walk ka relation samajh aaya Kaafi helpful laga</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">K</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Kavya tripathi</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book feels grounded and real. No fake motivation, just truth</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
       </div>
       <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition" onclick="toggleFeedbacks()">Show More</button>
@@ -733,6 +743,9 @@
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
   <script>
+    /* FEATURE 4: Single/Dual Language Toggle Variable */
+    const IS_DUAL_LANGUAGE = true; // Set to false for single language bypass
+
     const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true };
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
@@ -806,6 +819,25 @@
     
     function zoomMindmap(factor) { scale += factor; if(scale < 0.1) scale = 0.1; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
     function resetMindmap() { scale = 1; pointX = 0; pointY = 0; mmImg.style.transform = `translate(0px, 0px) scale(1)`; }
+
+    /* FEATURE 1: Toggle Tooltip Function */
+    function toggleMysteryTooltip(event) {
+        event.stopPropagation();
+        const tooltip = document.getElementById('mysteryTooltip');
+        if (tooltip) {
+            tooltip.classList.toggle('hidden');
+            // Auto hide after 3 seconds
+            if (!tooltip.classList.contains('hidden')) {
+                setTimeout(() => tooltip.classList.add('hidden'), 4000);
+            }
+        }
+    }
+
+    // Close tooltip on body click
+    document.body.addEventListener('click', () => {
+        const tooltip = document.getElementById('mysteryTooltip');
+        if (tooltip) tooltip.classList.add('hidden');
+    });
 
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
@@ -974,6 +1006,7 @@
         openViewerModal(postPaymentLanguage);
     }
 
+    /* FEATURE 2: Auto Scroll After ZIP Modal Click */
     function handleZipCompletion() {
         dom.zipConfirmationModal.style.display = 'none'; 
         dom.unlockContainer.style.display = 'inline-flex';
@@ -982,6 +1015,11 @@
         dom.unlockContainer.classList.add('snake-active'); 
         dom.buyBtn.classList.add('no-shine');
         showToast("Product Unlocked!", true);
+        
+        // SMOOTH SCROLL TO UNLOCK BUTTON
+        setTimeout(() => {
+            dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
     }
 
     function getUpdatedUnlockStatus(newLang) {
@@ -1124,18 +1162,33 @@
     function triggerCelebration() { confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); }
     
     let countdownInterval;
+
+    /* FEATURE 3: Lock Page Scroll During Payment */
     function openPaymentModal() { 
         document.getElementById('paymentModal').style.display = 'flex'; 
         document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
-        document.getElementById('paymentLangSelection').style.display = 'flex'; 
-        document.getElementById('cashfreeIframe').style.display = 'none'; 
-        dom.bottomShield.classList.add('inactive'); 
+        
+        // DISABLE WEBPAGE SCROLLING
+        document.body.style.overflow = 'hidden';
+
+        /* FEATURE 4: Single/Dual Language Bypass Logic */
+        if (!IS_DUAL_LANGUAGE) {
+            handlePaymentLanguageSelection('ENGLISH'); // Direct bypass to default language
+        } else {
+            document.getElementById('paymentLangSelection').style.display = 'flex'; 
+            document.getElementById('cashfreeIframe').style.display = 'none'; 
+            dom.bottomShield.classList.add('inactive'); 
+        }
         lucide.createIcons(); 
     }
+
     function closePaymentModal() { 
         document.getElementById('paymentModal').style.display = 'none'; 
         document.getElementById('paymentTimer').style.display = 'none'; 
         if(countdownInterval) clearInterval(countdownInterval); 
+
+        // RE-ENABLE WEBPAGE SCROLLING
+        document.body.style.overflow = '';
     }
     
     function handlePaymentLanguageSelection(lang) {
