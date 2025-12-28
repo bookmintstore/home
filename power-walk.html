@@ -247,6 +247,10 @@
     .viewer-download-btn { position: absolute; top: 10px; right: 10px; z-index: 50; display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
     .viewer-download-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
 
+    /* DASHBOARD BLACK SHINE LOADER */
+    .dashboard-loader { position: absolute; inset: 0; z-index: 40; background: #020617; display: flex; align-items: center; justify-content: center; transition: opacity 0.4s ease-out; pointer-events: none; }
+    .dashboard-loader-shine { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0) 100%); transform: translateX(-140%) skewX(-15deg); animation: blackShine 2s infinite ease-in-out; }
+
     /* FEEDBACKS */
     .user-avatar { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; color: white; margin-right: 12px; flex-shrink: 0; }
     .feedback-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); margin-bottom: 12px; transition: all 0.3s ease; }
@@ -373,7 +377,6 @@
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-3 group">
-      <!-- PREMIUM CIRCULAR LOGO WITH LITE SMOOTH GLOW -->
       <img src="https://bookmintor.shop/images/logo.png" 
            alt="Logo" 
            class="h-10 w-10 rounded-full drop-shadow-[0_0_20px_rgba(168,85,247,0.6)] group-hover:scale-110 transition-all duration-300 object-cover">
@@ -395,7 +398,6 @@
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover" src="" loading="eager" />
 
-            <!-- NEW SMOOTH EYE-CATCHING PROMPT START -->
             <div id="tapPrompt" class="absolute inset-0 z-[15] flex flex-col items-center justify-center pointer-events-none opacity-0">
                 <div class="relative flex items-center justify-center">
                     <div class="absolute w-14 h-14 bg-white/30 rounded-full animate-tapRipple"></div>
@@ -409,8 +411,6 @@
                     </span>
                 </div>
             </div>
-            <!-- NEW SMOOTH EYE-CATCHING PROMPT END -->
-
             <div id="previewOverlay" aria-hidden="true">
                 <div class="cover-shine" id="previewShine" style="display: none; z-index: 20; opacity: 1;"></div>
                 <img id="previewScreenshot" src="" alt="Preview" class="absolute inset-0 w-full h-full object-contain" />
@@ -424,7 +424,6 @@
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
         
-        <!-- FIX: Updated Tag Container for Smooth Scrolling -->
         <div id="custom-tag-container">
             <div class="subtle-tag">
                 <div class="tag-text-wrapper">
@@ -437,7 +436,6 @@
                         <li><span class="tag-text">Rich Mindset</span></li>
                         <li><span class="tag-text">Calm Dominance</span></li>
                         <li><span class="tag-text">Masculine Energy</span></li>
-                        <!-- Clone first item (Trending) for seamless loop -->
                         <li aria-hidden="true"><span class="tag-text">Power Presence</span></li>
                     </ul>
                 </div>
@@ -498,16 +496,6 @@
               <span class="corner-bling"></span>
             </a>
 
-            <!-- FEATURE 1: Mystery Box Icon & Tooltip -->
-            <div class="relative group">
-                <div class="cursor-pointer hover:scale-110 transition-transform duration-300" onclick="toggleMysteryTooltip(event)">
-                    <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" style="width: 50px; height: 50px; border: none; pointer-events: none; background: transparent;"></iframe>
-                </div>
-                <div id="mysteryTooltip" class="hidden absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-zinc-900/95 backdrop-blur-md border border-white/10 rounded-xl text-[11px] leading-relaxed text-zinc-200 shadow-2xl z-[100] text-center">
-                    Upon the successful completion of your acquisition, you will be granted access to a comprehensive, meticulously structured Complete Guided Course.
-                </div>
-            </div>
-
             <div id="unlockContainer" class="snake-container">
                 <div class="snake-border"></div>
                 <div class="snake-glow"></div>
@@ -553,7 +541,7 @@
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Arjun Patel</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">The hormone explanation made everything logical. Very well written</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">M</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Mohit Bansal</div><div class="user-location">India</div></div></div><div class="feedback-date">Sep 2025</div></div><div class="feedback-text">This book doesn’t hype confidence. It explains how it naturally develops</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Prateek Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">Thomas Shelby wala example solid tha. Walk aur mindset ka link clear ho gaya</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Prateek Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jun 2025</div></div><div class="feedback-text">Thomas Shelby wala example solid tha. Walk aur mindset ka link clear ho gaya</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ravi Shukla</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">short chapters, strong clarity. I became more aware of my posture instantly</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurav Nair</div><div class="user-location">India</div></div></div><div class="feedback-date">Dec 2025</div></div><div class="feedback-text">Overthinking aur walk ka relation samajh aaya Kaafi helpful laga</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">K</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Kavya tripathi</div><div class="user-location">India</div></div></div><div class="feedback-date">Aug 2025</div></div><div class="feedback-text">This book feels grounded and real. No fake motivation, just truth</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
@@ -705,30 +693,34 @@
               </div>
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section active">
+                      <div class="dashboard-loader" id="loader-video"><div class="dashboard-loader-shine"></div></div>
                       <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="w-full h-full flex flex-col items-center justify-center p-4">
-                          <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
+                          <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800" onloadeddata="hideDashboardLoader('video')"><source src="" type="video/mp4"></video>
                       </div>
                   </div>
                   
                   <div id="view-audio" class="viewer-section">
+                      <div class="dashboard-loader" id="loader-audio"><div class="dashboard-loader-shine"></div></div>
                       <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="audio-player-card">
                           <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
-                          <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
+                          <audio id="audioSource" controls class="w-full mb-4" onloadeddata="hideDashboardLoader('audio')"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
                   
                   <div id="view-pdf" class="viewer-section">
+                      <div class="dashboard-loader" id="loader-pdf"><div class="dashboard-loader-shine"></div></div>
                       <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="pdf-container">
-                          <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
+                          <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;" onload="hideDashboardLoader('pdf')"></iframe>
                       </div>
                   </div>
                   
                   <div id="view-image" class="viewer-section" style="overflow: hidden;">
+                      <div class="dashboard-loader" id="loader-image"><div class="dashboard-loader-shine"></div></div>
                       <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
-                      <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map"></div>
+                      <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map" onload="hideDashboardLoader('image')"></div>
                       <div class="absolute bottom-4 right-4 flex gap-2 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
                           <button onclick="zoomMindmap(0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="plus" class="h-4 w-4"></i></button>
                           <button onclick="zoomMindmap(-0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="minus" class="h-4 w-4"></i></button>
@@ -740,16 +732,25 @@
       </div>
   </div>
 
+  <div id="mysteryBox" class="fixed bottom-6 right-6 z-[100] transition-all duration-500 hover:scale-110 active:scale-95 group">
+      <div id="mysteryTooltip" class="absolute bottom-full right-0 mb-4 w-64 p-4 bg-[#0f172a]/95 backdrop-blur-md border border-white/10 rounded-2xl text-[13px] text-zinc-300 shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300 ease-out leading-relaxed">
+          Upon the successful acquisition of this premium resource, you shall be granted immediate access to an extensively detailed and comprehensive Guided Course, meticulously structured to ensure peak proficiency.
+          <div class="absolute bottom-[-6px] right-6 w-3 h-3 bg-[#0f172a] border-r border-b border-white/10 rotate-45"></div>
+      </div>
+      <div class="relative w-[70px] h-[70px] cursor-pointer" onclick="toggleMysteryTooltip()">
+          <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" class="w-full h-full pointer-events-none"></iframe>
+          <div class="absolute inset-0 z-10"></div>
+      </div>
+  </div>
+
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
   <script>
-    /* FEATURE 4: Single/Dual Language Toggle Variable */
-    const IS_DUAL_LANGUAGE = true; // Set to false for single language bypass
-
     const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true };
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
-    
+    const IS_DUAL_LANGUAGE = true; // FEATURE 4: Single/Dual Toggle (Set to false for direct checkout)
+
     const SOURCE_IMAGE = 'https://cortex-cradle.github.io/ebook1/ebook3/The%20Kinetic%20Architecture%20of%20Power.png';
     const PRODUCT_UNIQUE_ID = 'power_walk_9dsd8d';
     
@@ -805,7 +806,8 @@
         couponInput: document.getElementById('couponInput'),
         applyCouponBtn: document.getElementById('applyCouponBtn'),
         bottomShield: document.getElementById('bottomShield'),
-        tapPrompt: document.getElementById('tapPrompt')
+        tapPrompt: document.getElementById('tapPrompt'),
+        mysteryBox: document.getElementById('mysteryBox')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -820,24 +822,20 @@
     function zoomMindmap(factor) { scale += factor; if(scale < 0.1) scale = 0.1; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
     function resetMindmap() { scale = 1; pointX = 0; pointY = 0; mmImg.style.transform = `translate(0px, 0px) scale(1)`; }
 
-    /* FEATURE 1: Toggle Tooltip Function */
-    function toggleMysteryTooltip(event) {
-        event.stopPropagation();
+    function toggleMysteryTooltip() {
         const tooltip = document.getElementById('mysteryTooltip');
-        if (tooltip) {
-            tooltip.classList.toggle('hidden');
-            // Auto hide after 3 seconds
-            if (!tooltip.classList.contains('hidden')) {
-                setTimeout(() => tooltip.classList.add('hidden'), 4000);
-            }
-        }
+        const isActive = tooltip.style.opacity === '1';
+        tooltip.style.opacity = isActive ? '0' : '1';
+        tooltip.style.translateY = isActive ? '1rem' : '0';
+        tooltip.style.pointerEvents = isActive ? 'none' : 'auto';
     }
 
-    // Close tooltip on body click
-    document.body.addEventListener('click', () => {
-        const tooltip = document.getElementById('mysteryTooltip');
-        if (tooltip) tooltip.classList.add('hidden');
-    });
+    // FEATURE 5: Dashboard Loading Logic
+    function showDashboardLoader(id) { document.getElementById('loader-' + id).style.opacity = '1'; document.getElementById('loader-' + id).style.display = 'flex'; }
+    function hideDashboardLoader(id) { 
+        const loader = document.getElementById('loader-' + id);
+        if(loader) { loader.style.opacity = '0'; setTimeout(() => { loader.style.display = 'none'; }, 400); }
+    }
 
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
@@ -929,6 +927,10 @@
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
             document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
+            
+            // Show loaders before setting sources
+            ['video', 'audio', 'pdf', 'image'].forEach(id => showDashboardLoader(id));
+
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource');
@@ -1006,7 +1008,6 @@
         openViewerModal(postPaymentLanguage);
     }
 
-    /* FEATURE 2: Auto Scroll After ZIP Modal Click */
     function handleZipCompletion() {
         dom.zipConfirmationModal.style.display = 'none'; 
         dom.unlockContainer.style.display = 'inline-flex';
@@ -1016,10 +1017,13 @@
         dom.buyBtn.classList.add('no-shine');
         showToast("Product Unlocked!", true);
         
-        // SMOOTH SCROLL TO UNLOCK BUTTON
+        // FEATURE 1: Hide Mystery Box on Unlock
+        if(dom.mysteryBox) dom.mysteryBox.style.display = 'none';
+
+        // FEATURE 2: Auto Scroll to unlocked button
         setTimeout(() => {
             dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
+        }, 500);
     }
 
     function getUpdatedUnlockStatus(newLang) {
@@ -1124,6 +1128,8 @@
           dom.unlockBtn.setAttribute('data-unlocked', unlockedLangs);
           dom.unlockContainer.classList.add('snake-active'); 
           dom.buyBtn.classList.add('no-shine');
+          // FEATURE 1: Hide Mystery Box if already unlocked
+          if(dom.mysteryBox) dom.mysteryBox.style.display = 'none';
       }
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
@@ -1162,33 +1168,33 @@
     function triggerCelebration() { confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); }
     
     let countdownInterval;
-
-    /* FEATURE 3: Lock Page Scroll During Payment */
     function openPaymentModal() { 
+        // FEATURE 3: Freeze Scroll
+        document.body.style.overflow = 'hidden';
+
         document.getElementById('paymentModal').style.display = 'flex'; 
         document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
         
-        // DISABLE WEBPAGE SCROLLING
-        document.body.style.overflow = 'hidden';
-
-        /* FEATURE 4: Single/Dual Language Bypass Logic */
-        if (!IS_DUAL_LANGUAGE) {
-            handlePaymentLanguageSelection('ENGLISH'); // Direct bypass to default language
+        // FEATURE 4: Single Language logic
+        if(!IS_DUAL_LANGUAGE) {
+            document.getElementById('paymentLangSelection').style.display = 'none'; 
+            handlePaymentLanguageSelection('ENGLISH'); // Default to English for single lang
         } else {
             document.getElementById('paymentLangSelection').style.display = 'flex'; 
             document.getElementById('cashfreeIframe').style.display = 'none'; 
-            dom.bottomShield.classList.add('inactive'); 
         }
+        
+        dom.bottomShield.classList.add('inactive'); 
         lucide.createIcons(); 
     }
 
     function closePaymentModal() { 
+        // FEATURE 3: Re-enable Scroll
+        document.body.style.overflow = '';
+
         document.getElementById('paymentModal').style.display = 'none'; 
         document.getElementById('paymentTimer').style.display = 'none'; 
         if(countdownInterval) clearInterval(countdownInterval); 
-
-        // RE-ENABLE WEBPAGE SCROLLING
-        document.body.style.overflow = '';
     }
     
     function handlePaymentLanguageSelection(lang) {
