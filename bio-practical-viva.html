@@ -690,7 +690,6 @@
           <div class="viewer-body">
               <div class="viewer-sidebar">
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
-                  <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
                   
                   <div id="view-pdf" class="viewer-section">
@@ -699,14 +698,6 @@
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
                       </div>
                   </div>
-                  
-                  <div id="view-image" class="viewer-section" style="overflow: hidden;">
-                      <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
-                      <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map"></div>
-                      <div class="absolute bottom-4 right-4 flex gap-2 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
-                          <button onclick="zoomMindmap(0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="plus" class="h-4 w-4"></i></button>
-                          <button onclick="zoomMindmap(-0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="minus" class="h-4 w-4"></i></button>
-                          <button onclick="resetMindmap()" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="refresh-ccw" class="h-4 w-4"></i></button>
                       </div>
                   </div>
               </div>
@@ -739,8 +730,7 @@
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/v2.01_pdf1_eng/Class.12.Biology.Practical.Viva.TOPPER.S.MASTER.FILE.2026.-compressed.zip" };
 
     const CONTENT_URLS = {
-        HINDI: { VIDEO: "3", AUDIO: "3", PDF: "3", MINDMAP: "#", ZIP: ZIP_URLS.HINDI },
-        ENGLISH: { VIDEO: "", AUDIO: "3", PDF: "https://cortex-cradle.github.io/ebook1/pdf_1_12th_bio/Class%2012%20Biology%20Practical%20&%20Viva%20%E2%80%93%20TOPPER%E2%80%99S%20MASTER%20FILE%20(2026)-compressed.pdf", MINDMAP: "https://cortex-cradle.github.io/ebook1/ebook3/file_eng/Mind%20Map.png", ZIP: ZIP_URLS.ENGLISH }
+        ENGLISH: { VIDEO: "", AUDIO: "3", PDF: "https://cortex-cradle.github.io/ebook1/pdf_1_12th_bio/Class%2012%20Biology%20Practical%20&%20Viva%20%E2%80%93%20TOPPER%E2%80%99S%20MASTER%20FILE%20(2026)-compressed.pdf", MINDMAP: "#", ZIP: ZIP_URLS.ENGLISH }
     };
     
     const SCREENSHOT_URLS = [
