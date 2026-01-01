@@ -235,6 +235,10 @@
     .viewer-sidebar { width: 240px; background: rgba(17, 24, 39, 0.6); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
     .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
     .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
+    
+    /* MODIFICATION 1: Disabled Tab Styling */
+    .viewer-tab.tab-disabled { opacity: 0.3; filter: grayscale(1); pointer-events: none; cursor: default; }
+    
     .viewer-main { flex: 1; padding: 0; overflow: hidden; background: #020617; position: relative; }
     .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; }
     .viewer-section.active { display: flex; }
@@ -348,6 +352,23 @@
         transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* MODIFICATION 3: Support Button Styling */
+    .support-btn { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 6px; 
+        padding: 8px 12px; 
+        background: rgba(255,255,255,0.05); 
+        border: 1px solid rgba(255,255,255,0.1); 
+        border-radius: 10px; 
+        color: #94a3b8; 
+        font-size: 0.8rem; 
+        font-weight: 600; 
+        transition: all 0.3s ease; 
+        text-decoration: none; 
+    }
+    .support-btn:hover { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
     @media (max-width: 768px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
@@ -373,7 +394,6 @@
 
   <header class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="index.html" class="flex items-center gap-3 group">
-      <!-- PREMIUM CIRCULAR LOGO WITH LITE SMOOTH GLOW -->
       <img src="https://bookmintor.shop/images/logo.png" 
            alt="Logo" 
            class="h-10 w-10 rounded-full drop-shadow-[0_0_20px_rgba(168,85,247,0.6)] group-hover:scale-110 transition-all duration-300 object-cover">
@@ -395,7 +415,6 @@
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover" src="" loading="eager" />
 
-            <!-- NEW SMOOTH EYE-CATCHING PROMPT START -->
             <div id="tapPrompt" class="absolute inset-0 z-[15] flex flex-col items-center justify-center pointer-events-none opacity-0">
                 <div class="relative flex items-center justify-center">
                     <div class="absolute w-14 h-14 bg-white/30 rounded-full animate-tapRipple"></div>
@@ -409,8 +428,6 @@
                     </span>
                 </div>
             </div>
-            <!-- NEW SMOOTH EYE-CATCHING PROMPT END -->
-
             <div id="previewOverlay" aria-hidden="true">
                 <div class="cover-shine" id="previewShine" style="display: none; z-index: 20; opacity: 1;"></div>
                 <img id="previewScreenshot" src="" alt="Preview" class="absolute inset-0 w-full h-full object-contain" />
@@ -424,7 +441,6 @@
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
         
-        <!-- FIX: Updated Tag Container for Smooth Scrolling -->
         <div id="custom-tag-container">
             <div class="subtle-tag">
                 <div class="tag-text-wrapper">
@@ -437,7 +453,6 @@
                         <li><span class="tag-text">Topper Notes</span></li>
                         <li><span class="tag-text">Common Mistakes</span></li>
                         <li><span class="tag-text">Score High</span></li>
-                        <!-- Clone first item (Trending) for seamless loop -->
                         <li aria-hidden="true"><span class="tag-text">Board Ready</span></li>
                     </ul>
                 </div>
@@ -490,7 +505,6 @@
               <span class="corner-bling"></span>
             </a>
 
-            <!-- FEATURE 1: Mystery Box Icon -->
             <div id="mysteryBoxWrap" class="relative cursor-pointer flex items-center justify-center transition hover:scale-110 active:scale-90" onclick="toggleMysteryTooltip(event)">
               <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" style="border: 0; width: 45px; height: 45px; pointer-events: none; background: transparent;"></iframe>
               <div id="mysteryTooltip" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-brandDark/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl opacity-0 scale-95 transition-all duration-300 pointer-events-none z-[60] text-center">
@@ -501,7 +515,7 @@
               </div>
             </div>
 
-            <div id="unlockContainer" class="snake-container">
+            <div id="unlockContainer" class="snake-container items-center gap-4">
                 <div class="snake-border"></div>
                 <div class="snake-glow"></div>
                 <div class="snake-mask"></div>
@@ -510,6 +524,10 @@
                     <span>View Library</span>
                     <span class="btn-shine"></span>
                 </button>
+                <a href="mailto:bookmintor@gmail.com?subject=Product Support Request" class="support-btn ml-2">
+                    <i data-lucide="help-circle" class="h-4 w-4"></i>
+                    <span>Need Help?</span>
+                </a>
             </div>
         </div>
 
@@ -689,7 +707,10 @@
           </div>
           <div class="viewer-body">
               <div class="viewer-sidebar">
+                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
+                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
+                  <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section active">
@@ -731,10 +752,15 @@
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
   <script>
-    // FEATURE 4: Toggle between single or dual language
-    const IS_DUAL_LANGUAGE = false; 
+    // MODIFICATION 1: Content configuration
+    const productConfig = { 
+        showVideo: false, 
+        showAudio: false, 
+        showPdf: true, 
+        showMindmap: true 
+    };
 
-    const productConfig = { showVideo: false, showAudio: false, showPdf: true, showMindmap: true };
+    const IS_DUAL_LANGUAGE = false; 
     const IS_SALE_ACTIVE = false;
     const ENABLE_COUPON_SECTION = true; 
     
@@ -793,7 +819,8 @@
         bottomShield: document.getElementById('bottomShield'),
         tapPrompt: document.getElementById('tapPrompt'),
         mysteryBoxWrap: document.getElementById('mysteryBoxWrap'),
-        mysteryTooltip: document.getElementById('mysteryTooltip')
+        mysteryTooltip: document.getElementById('mysteryTooltip'),
+        feedbackModal: document.getElementById('feedbackModal')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -875,6 +902,10 @@
     }
 
     function switchViewerTab(tabId) {
+        // MODIFICATION 1: Prevent switching to disabled sections
+        const cfgKey = 'show' + tabId.charAt(0).toUpperCase() + tabId.slice(1);
+        if (productConfig.hasOwnProperty(cfgKey) && !productConfig[cfgKey]) return;
+
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
@@ -916,6 +947,22 @@
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
             document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
+            
+            // MODIFICATION 1: Update sidebar UI based on config
+            const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', image: 'tab-image' };
+            let firstEnabled = null;
+            
+            Object.keys(tabs).forEach(key => {
+                const el = document.getElementById(tabs[key]);
+                const configKey = 'show' + key.charAt(0).toUpperCase() + key.slice(1);
+                if (productConfig[configKey]) {
+                    el.classList.remove('tab-disabled');
+                    if (!firstEnabled) firstEnabled = key;
+                } else {
+                    el.classList.add('tab-disabled');
+                }
+            });
+
             const videoEl = document.getElementById('videoSource');
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource');
@@ -947,7 +994,10 @@
             }
             dom.productViewerModal.style.display = 'flex';
             dom.productViewerContent.classList.add('animate-modalFadeIn'); 
-            if (productConfig.showVideo) switchViewerTab('video');
+            
+            // Automatically switch to the first enabled tab
+            if (firstEnabled) switchViewerTab(firstEnabled);
+            
             lucide.createIcons(); 
         } catch(e) { console.error(e); }
     }
@@ -997,7 +1047,6 @@
         dom.zipConfirmationModal.style.display = 'none'; 
         dom.unlockContainer.style.display = 'inline-flex';
         
-        // FEATURE 1: Hide Mystery Box when enabled
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
 
         const status = getUpdatedUnlockStatus(postPaymentLanguage);
@@ -1006,10 +1055,16 @@
         dom.buyBtn.classList.add('no-shine');
         showToast("Product Unlocked!", true);
 
-        // FEATURE 2: Auto Scroll
         setTimeout(() => {
           dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 500);
+
+        // MODIFICATION 2: Open Feedback Modal after completion
+        setTimeout(() => {
+            dom.feedbackModal.style.display = 'flex';
+            document.getElementById('feedbackModalContent').classList.add('animate-modalFadeIn');
+            lucide.createIcons();
+        }, 1500);
     }
 
     function getUpdatedUnlockStatus(newLang) {
@@ -1115,7 +1170,6 @@
           dom.unlockContainer.classList.add('snake-active'); 
           dom.buyBtn.classList.add('no-shine');
 
-          // FEATURE 1: Hide mystery box if already unlocked
           if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
       }
       const urlParams = new URLSearchParams(window.location.search);
@@ -1156,15 +1210,11 @@
     
     let countdownInterval;
 
-    // FEATURE 3 & 4: Open Modal Logic
     function openPaymentModal() { 
-        // FEATURE 3: Freeze Scroll
         document.body.style.overflow = 'hidden';
-
         document.getElementById('paymentModal').style.display = 'flex'; 
         document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
         
-        // FEATURE 4: Single/Dual Language Condition
         if (!IS_DUAL_LANGUAGE) {
             handlePaymentLanguageSelection('ENGLISH'); 
         } else {
@@ -1177,9 +1227,7 @@
     }
 
     function closePaymentModal() { 
-        // FEATURE 3: Re-enable Scroll
         document.body.style.overflow = '';
-
         document.getElementById('paymentModal').style.display = 'none'; 
         document.getElementById('paymentTimer').style.display = 'none'; 
         if(countdownInterval) clearInterval(countdownInterval); 
@@ -1211,11 +1259,16 @@
         if(y) closePaymentModal(); 
     }
 
+    // MODIFICATION 2: Feedback Logic
     function submitFeedback() {
         const txt = document.getElementById('feedbackTextarea');
         if(!txt.value.trim()) { txt.classList.add('border-red-500'); return; }
         document.getElementById('feedbackForm').style.display='none'; document.getElementById('feedbackSuccess').style.display='block';
-        setTimeout(() => { document.getElementById('feedbackModal').style.display='none'; }, 2000);
+        setTimeout(() => { dom.feedbackModal.style.display='none'; }, 2000);
+    }
+
+    function closeFeedbackModal(backToLibrary) {
+        dom.feedbackModal.style.display = 'none';
     }
     
     document.querySelectorAll('summary').forEach(s => s.addEventListener('click', function(e) {
