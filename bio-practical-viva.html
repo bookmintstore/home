@@ -691,7 +691,19 @@
               <div class="viewer-sidebar">
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
               </div>
+              <div class="viewer-main">
+                  <div id="view-video" class="viewer-section active">
+                      <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
+                      <div class="w-full h-full flex flex-col items-center justify-center p-4">
+                          <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
+                      </div>
                   </div>
+                  
+                  <div id="view-audio" class="viewer-section">
+                      <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
+                      <div class="audio-player-card">
+                          <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
+                          <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
                   
