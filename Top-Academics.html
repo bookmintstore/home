@@ -6,10 +6,8 @@
   <title>BookMintor Top Academics</title>
   <meta name="theme-color" content="#0b0e13" />
 
-  <!-- 1. WEB ICON (Favicon) -->
   <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
-  <!-- SECURITY SCRIPT -->
   <script>
     let warningShown = false; 
     document.addEventListener('contextmenu', event => {
@@ -227,6 +225,8 @@
         align-items: center;
         justify-content: center;
         backdrop-filter: blur(8px);
+        user-select: none;
+        -webkit-user-select: none;
     }
     #imagePopup.active { display: flex; }
     #popupImg {
@@ -235,7 +235,30 @@
         object-fit: contain;
         border-radius: 8px;
         box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        transition: filter 0.2s, opacity 0.2s;
     }
+
+    /* SCREENSHOT PROTECTION CSS */
+    .screenshot-detect #popupImg {
+        filter: blur(30px) grayscale(1);
+        opacity: 0;
+    }
+    
+    .watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-30deg);
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.15);
+        font-weight: 800;
+        pointer-events: none;
+        white-space: nowrap;
+        z-index: 1100;
+        display: none;
+    }
+    #imagePopup.active .watermark { display: block; }
+    /* -------------------------- */
 
     #promoPopup {
         display: none;
@@ -330,7 +353,6 @@
   <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
     <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
 
-      <!-- CARD 1: HOT Tag (Moved Above Title) -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up"
            data-link="./jee-30-days-revision"> 
@@ -350,7 +372,6 @@
             </div>
             <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
                 <div>
-                    <!-- TAG HERE -->
                     <span class="tag-badge">HOT</span>
                     <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">JEE MAINS 2026 – Last 30 Days Daily Revision System</h3>
                     <p class="mt-1 text-sm text-zinc-400 line-clamp-2">A day-wise smart revision system to avoid PYQ traps and maximize JEE Mains score.</p>
@@ -383,7 +404,6 @@
         </div>
       </div>
 
-      <!-- CARD 2: NEW Tag -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="60"
            data-link="./smart-revision"> 
@@ -403,7 +423,6 @@
             </div>
             <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
                 <div>
-                    <!-- TAG HERE -->
                     <span class="tag-badge">NEW</span>
                     <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">CLASS 12 BOARDS – LAST 30 DAYS SMART REVISION</h3>
                     <p class="mt-1 text-sm text-zinc-400 line-clamp-2">A smart, subject-wise revision guide to maximize Class 12 board scores in the last 30 days.</p>
@@ -436,7 +455,6 @@
         </div>
       </div>
 
-      <!-- CARD 3: BEST Tag -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="120"
            data-link="./bio-practical-viva"> 
@@ -456,7 +474,6 @@
             </div>
             <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
                 <div>
-                    <!-- TAG HERE -->
                     <span class="tag-badge">BEST</span>
                     <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Class 12 Biology Practical & Viva Master File</h3>
                     <p class="mt-1 text-sm text-zinc-400 line-clamp-2">A complete, exam-focused Biology practical and viva guide designed for Class 12 students.</p>
@@ -489,7 +506,6 @@
         </div>
       </div>
 
-      <!-- CARD 4 -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="180"
            data-link="./topper-error-book"> 
@@ -540,7 +556,6 @@
         </div>
       </div>
 
-      <!-- CARD 5 -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="240"
            data-link="./jee-pyq-loopholes"> 
@@ -591,7 +606,6 @@
         </div>
       </div>
 
-      <!-- CARD 6 -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="300"
            data-link="./class-10-repeated-question-zones"> 
@@ -642,7 +656,6 @@
         </div>
       </div>
 
-      <!-- CARD 7 -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="360"
            data-link="./yoga-soul.html"> 
@@ -693,7 +706,6 @@
         </div>
       </div>
 
-      <!-- CARD 8: LIMITED Tag -->
       <div class="group premium-card rounded-2xl overflow-hidden relative cursor-pointer p-4" 
            data-aos="fade-up" data-aos-delay="420"
            data-link="./spiritual-awakening.html"> 
@@ -713,7 +725,6 @@
             </div>
             <div class="flex flex-col h-full justify-between pt-2 sm:pt-0">
                 <div>
-                    <!-- TAG HERE -->
                     <span class="tag-badge">LIMITED</span>
                     <h3 class="font-bold text-white text-lg leading-snug group-hover:text-indigo-400 transition-colors">Spiritual Awakening Guide</h3>
                     <p class="mt-1 text-sm text-zinc-400 line-clamp-2">Journey to enlightenment with practical steps and insights.</p>
@@ -761,12 +772,11 @@
     </div>
   </footer>
 
-  <!-- IMAGE POPUP MODAL -->
   <div id="imagePopup" onclick="closeImagePopup()">
-    <img id="popupImg" src="" alt="Full Preview" class="animate-zoomIn">
+    <div class="watermark">© BookMintor - Protected Content</div>
+    <img id="popupImg" src="" alt="Full Preview" class="animate-zoomIn" oncontextmenu="return false;">
   </div>
 
-  <!-- PROMO POPUP MODAL -->
   <div id="promoPopup" onclick="closePromoPopup()">
     <div class="promo-content" onclick="event.stopPropagation()">
       <span class="promo-close" onclick="closePromoPopup()">&times;</span>
@@ -809,7 +819,7 @@
         img.classList.add('animate-zoomIn');
 
         clearTimeout(imagePopupTimeout);
-        imagePopupTimeout = setTimeout(closeImagePopup, 3000);
+        imagePopupTimeout = setTimeout(closeImagePopup, 6000); // Increased timeout to give user time to view
     }
 
     function closeImagePopup() {
@@ -822,6 +832,7 @@
         setTimeout(() => {
             popup.classList.remove('active');
             img.src = '';
+            document.body.classList.remove('screenshot-detect'); // Clear protection on close
         }, 300);
     }
 
@@ -893,6 +904,73 @@
             }
         }
     });
+
+    /** * ADDED: SCREENSHOT PROTECTION FEATURE 
+     * Protection activates only when #imagePopup has the 'active' class.
+     */
+    (function() {
+        let screenshotWarningShown = false;
+
+        const triggerProtection = () => {
+            const popup = document.getElementById('imagePopup');
+            if (!popup.classList.contains('active')) return;
+
+            document.body.classList.add('screenshot-detect');
+            if (!screenshotWarningShown) {
+                alert("Screenshots are disabled for copyright protection.");
+                screenshotWarningShown = true;
+            }
+            // Flash back to normal after 1.5 seconds
+            setTimeout(() => document.body.classList.remove('screenshot-detect'), 1500);
+        };
+
+        // Desktop: Listen for PrintScreen and Snipping Tool shortcuts
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'PrintScreen' || e.keyCode === 44) {
+                triggerProtection();
+                navigator.clipboard.writeText(""); // Clear clipboard
+            }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            const popup = document.getElementById('imagePopup');
+            if (!popup.classList.contains('active')) return;
+
+            // Detect Win+Shift+S, Cmd+Shift+4, Ctrl+P
+            if (
+                (e.key === 'p' && (e.ctrlKey || e.metaKey)) || 
+                (e.shiftKey && (e.metaKey || e.ctrlKey) && (e.key === 's' || e.keyCode === 83)) ||
+                (e.key === 'PrintScreen')
+            ) {
+                triggerProtection();
+            }
+        });
+
+        // Mobile: Visibility detection (Screenshots often trigger backgrounding)
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                const popup = document.getElementById('imagePopup');
+                if (popup.classList.contains('active')) {
+                    document.body.classList.add('screenshot-detect');
+                }
+            } else {
+                // Return visibility with a slight delay
+                setTimeout(() => document.body.classList.remove('screenshot-detect'), 500);
+            }
+        });
+
+        // Blur on window blur (switching apps/opening control center)
+        window.addEventListener('blur', () => {
+            const popup = document.getElementById('imagePopup');
+            if (popup.classList.contains('active')) {
+                document.body.classList.add('screenshot-detect');
+            }
+        });
+        
+        window.addEventListener('focus', () => {
+            document.body.classList.remove('screenshot-detect');
+        });
+    })();
   </script>
 </body>
 </html>
