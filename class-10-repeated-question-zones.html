@@ -495,8 +495,8 @@
 
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
-                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹199</span>
-                <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1469</span>
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹599</span>
+                <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹1199</span>
                 <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED OFFER</span>
             </div>
             
@@ -773,13 +773,13 @@
     const PRODUCT_UNIQUE_ID = 'class-10-repeated-question-zones-gds54fds3jf';
     
     const PAYMENT_LINKS = {
-        default: "https://payments.cashfree.com/forms/power-walk3",  
-        discounted: "#" 
+        default: "https://payments.cashfree.com/forms/class-10-repeated-question-zonesfromid728sa",  
+        discounted: "https://payments.cashfree.com/forms/class-10-repeated-question-zonecuponfromid839e" 
     };
     
     let currentPaymentUrl = PAYMENT_LINKS.default; 
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_5433SDSAZBR4GFD4T';
-    const VALID_COUPON = "STUMINTOR"; 
+    const VALID_COUPON = "BOARDVIP10"; 
 
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/pdf6_eng_class-10-repeated-question-zones/Class.10.Boards.2026.Repeated.Question.Zones.zip" };
 
@@ -881,9 +881,9 @@
             lucide.createIcons();
             dom.originalPrice.classList.add('animate-priceSlash'); 
             dom.displayPrice.classList.add('animate-popFloat'); 
-            setTimeout(() => { dom.originalPrice.innerHTML = '₹899'; dom.displayPrice.innerHTML = '₹299'; dom.originalPrice.classList.remove('animate-priceSlash'); }, 600);
+            setTimeout(() => { dom.originalPrice.innerHTML = '₹599'; dom.displayPrice.innerHTML = '₹349'; dom.originalPrice.classList.remove('animate-priceSlash'); }, 600);
             currentPaymentUrl = PAYMENT_LINKS.discounted;
-            showToast("Coupon Applied! ₹500 Saved 🎉", true);
+            showToast("Coupon Applied", true);
         } else {
             input.classList.add('animate-shakeInput', 'border-red-500');
             setTimeout(() => input.classList.remove('animate-shakeInput', 'border-red-500'), 500);
