@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Become a Creator - Bookmintor</title>
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
+  <!-- External Libraries for Design & Animation -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- SECURITY SCRIPT: Disables Right Click & Inspect Element -->
+  <script>
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123) return false; // F12
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false; // Ctrl+Shift+I/J/C
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
+      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false; // Ctrl+S
+    };
+  </script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brandDark: '#0b0e13', brandPurple: '#a855f7' },
+          boxShadow: {
+            glow: '0 0 25px rgba(168, 85, 247, 0.4)',
+            inputFocus: '0 0 0 2px rgba(168, 85, 247, 0.5)'
+          },
+          animation: {
+            textShine: 'textShine 3s linear infinite',
+            fogFloat: 'fogFloat 10s ease-in-out infinite alternate',
+            fadeInUp: 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            pulseSlow: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          },
+          keyframes: {
+            textShine: { '0%': { backgroundPosition: '-200% center' }, '100%': { backgroundPosition: '200% center' } },
+            fogFloat: { '0%': { transform: 'translate(0, 0) scale(1)' }, '100%': { transform: 'translate(20px, -20px) scale(1.1)' } },
+            fadeInUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; background-color: #0b0e13; color: white; overflow-x: hidden; }
+    
+    /* Background Fog Animation */
+    .fog-layer { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .fog-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.3; animation: fogFloat 12s infinite alternate; }
+    .blob-1 { top: -15%; left: -10%; width: 600px; height: 600px; background: rgba(99, 102, 241, 0.4); animation-delay: 0s; }
+    .blob-2 { bottom: -15%; right: -10%; width: 700px; height: 700px; background: rgba(168, 85, 247, 0.3); animation-delay: -4s; }
+    
+    /* Creator Shine Text */
+    .creator-shine {
+        background: linear-gradient(90deg, #94a3b8 0%, #ffffff 50%, #94a3b8 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: textShine 3s linear infinite;
+        font-weight: 800;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        margin-top: 4px;
+    }
+
+    /* Form Elements */
+    .glass-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    
+    .form-input {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: white;
+        padding: 14px 16px;
+        width: 100%;
+        transition: all 0.3s ease;
+        outline: none;
+        font-size: 0.95rem;
+    }
+    .form-input:focus {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: #a855f7;
+        box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
+    }
+    .form-label { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 6px; display: block; font-weight: 500; margin-left: 2px; }
+
+    /* Custom Select */
+    select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+    
+    /* Success Box */
+    #successBox { display: none; animation: fadeInUp 0.5s ease-out; }
+  </style>
+</head>
+<body class="selection:bg-fuchsia-500/30">
+
+  <div class="fog-layer">
+      <div class="fog-blob blob-1"></div>
+      <div class="fog-blob blob-2"></div>
+  </div>
+
+  <header class="max-w-4xl mx-auto px-6 py-10 flex flex-col items-center text-center">
+    <a href="index.html" class="flex flex-col items-center gap-2 group">
+      <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-16 w-16 rounded-full shadow-glow group-hover:scale-105 transition-all duration-300">
+      
+      <div class="flex flex-col items-center leading-none mt-2">
+          <span class="text-3xl font-bold tracking-wide text-zinc-100">
+            <span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+          </span>
+          <span class="creator-shine">For Creators Only</span>
+      </div>
+    </a>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-6 pb-24">
+      
+      <!-- Intro Text -->
+      <div class="text-center mb-10" data-aos="fade-up">
+          <h1 class="text-2xl md:text-4xl font-bold mb-3 text-white">Join the Elite Creator Circle</h1>
+          <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto">Share your expertise via Ebooks & Notes. We handle the tech, you keep the profits.</p>
+      </div>
+
+      <!-- Application Form -->
+      <div id="creatorFormContainer" class="glass-card rounded-2xl p-6 md:p-10" data-aos="fade-up" data-aos-delay="100">
+          <form id="creatorForm" onsubmit="submitCreatorForm(event)" class="space-y-6">
+              
+              <!-- Name & Phone -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                      <label class="form-label">Full Name</label>
+                      <input type="text" name="name" required class="form-input" placeholder="e.g. Rahul Kumar">
+                  </div>
+                  <div>
+                      <label class="form-label">Phone Number (WhatsApp)</label>
+                      <input type="tel" name="phone" required class="form-input" placeholder="+91 974# ######">
+                  </div>
+              </div>
+
+              <!-- Email -->
+              <div>
+                  <label class="form-label">Email Address</label>
+                  <input type="email" name="email" required class="form-input" placeholder="creator@example.com">
+              </div>
+
+              <!-- Profession Dropdown -->
+              <div>
+                  <label class="form-label">Current Profession</label>
+                  <select name="profession" required class="form-input text-zinc-300">
+                      <option value="" disabled selected>Select an option...</option>
+                      <option value="Student">Student (Topper/Aspirant)</option>
+                      <option value="Teacher">Professional Teacher</option>
+                      <option value="Content Creator">YouTuber / Instagram Creator</option>
+                      <option value="Working Professional">Working Professional</option>
+                      <option value="Other">Other</option>
+                  </select>
+              </div>
+
+              <!-- Niche -->
+              <div>
+                  <label class="form-label">Your Niche / Topic</label>
+                  <input type="text" name="niche" required class="form-input" placeholder="e.g. Class 12, Coding, Stock Market">
+              </div>
+
+              <!-- Why Creator -->
+              <div>
+                  <label class="form-label">Why do you want to join?</label>
+                  <textarea name="reason" rows="3" required class="form-input" placeholder="Tell us briefly about your vision..."></textarea>
+              </div>
+
+              <!-- What to Sell -->
+              <div>
+                  <label class="form-label">What content will you sell?</label>
+                  <div class="grid grid-cols-2 gap-3 mt-1">
+                      <label class="flex items-center gap-3 p-3 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5 transition">
+                          <input type="checkbox" name="productType" value="Ebook" class="accent-fuchsia-500 w-4 h-4">
+                          <span class="text-sm text-zinc-300">E-Books (PDF)</span>
+                      </label>
+                      <label class="flex items-center gap-3 p-3 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5 transition">
+                          <input type="checkbox" name="productType" value="Notes" class="accent-fuchsia-500 w-4 h-4">
+                          <span class="text-sm text-zinc-300">Handwritten Notes</span>
+                      </label>
+                  </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white font-bold py-4 rounded-xl shadow-[0_10px_30px_-10px_rgba(168,85,247,0.5)] transform transition hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 group mt-4">
+                  <span>Submit Application</span>
+                  <i data-lucide="send" class="h-4 w-4 group-hover:translate-x-1 transition-transform"></i>
+              </button>
+              
+              <p class="text-center text-xs text-zinc-500 mt-4"><i data-lucide="lock" class="inline h-3 w-3 mb-0.5"></i> Your data is 100% secure with us.</p>
+          </form>
+      </div>
+
+      <!-- Success Message (Hidden) -->
+      <div id="successBox" class="glass-card rounded-2xl p-10 text-center max-w-lg mx-auto">
+          <div class="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+              <i data-lucide="check" class="h-10 w-10 text-emerald-400"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-white mb-3">Application Submitted! 🎉</h2>
+          <p class="text-zinc-300 text-sm leading-relaxed mb-8">
+              Thank you for applying to be a Creator. Our team has received your details.<br>
+              <span class="text-emerald-400 font-medium">We will review your profile and contact you via Email/WhatsApp shortly.</span>
+          </p>
+          <a href="index.html" class="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-semibold transition-all hover:border-white/30">
+              <i data-lucide="arrow-left" class="h-4 w-4"></i> Back to Home
+          </a>
+      </div>
+
+  </main>
+
+  <script>
+    // Initialize Animations
+    AOS.init({ duration: 800, once: true });
+    lucide.createIcons();
+
+    function submitCreatorForm(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        const formDiv = document.getElementById('creatorFormContainer');
+        const successDiv = document.getElementById('successBox');
+        
+        // 1. Gather Data
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // 2. Button Loading State
+        const originalBtnContent = btn.innerHTML;
+        btn.innerHTML = '<span class="animate-spin mr-2">⏳</span> Processing...';
+        btn.disabled = true;
+        btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+        // 3. SEND DATA (IMPORTANT STEP)
+        // Yahan par hum data ko bhejenge. Abhi ye sirf console me dikhayega aur success dikhayega.
+        // Agar aapko Email par data chahiye, toh "Formspree" use karein (free hai).
+        // Code me niche dekhein kaise connect karna hai.
+
+        console.log("Creator Data Collected:", data); // Check Console (F12) to see data
+
+        /* --- DATA KAISE MILEGA? (REAL SETUP) ---
+           Step 1: Go to https://formspree.io/ and create a free form.
+           Step 2: Copy your Form ID endpoint (e.g., https://formspree.io/f/xmqonbzb).
+           Step 3: Replace the URL below in fetch().
+        */
+
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/mojjvorz"; // Updated with your URL
+
+        if (FORMSPREE_ENDPOINT) {
+            fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) showSuccess();
+                else alert("Oops! There was a problem submitting your form");
+            });
+        } else {
+            // Agar URL nahi hai toh bhi success dikhao (Demo Mode)
+            setTimeout(() => {
+                showSuccess();
+            }, 1500);
+        }
+
+        function showSuccess() {
+            // Smooth Transition
+            formDiv.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            formDiv.style.opacity = '0';
+            formDiv.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                formDiv.style.display = 'none';
+                successDiv.style.display = 'block';
+                lucide.createIcons();
+                
+                // Celebration Confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { y: 0.6 },
+                    colors: ['#6366f1', '#a855f7', '#10b981'],
+                    disableForReducedMotion: true
+                });
+            }, 500);
+        }
+    }
+  </script>
+</body>
+</html>
