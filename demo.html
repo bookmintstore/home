@@ -119,6 +119,7 @@
     /* MODAL DP NO OVERLAY STYLE */
     .dp-container { position: relative; width: 100px; height: 100px; margin: -50px auto 10px; }
     .dp-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid #0f172a; z-index: 2; position: relative; }
+    /* Updated background style: Use same image as bg, blur it */
     .dp-blur-bg { position: absolute; inset: 0; background-size: cover; filter: blur(12px); border-radius: 50%; z-index: 1; opacity: 0.6; }
 
     .social-btn {
@@ -430,12 +431,20 @@
   <!-- AAROHI PROFILE MODAL -->
   <div id="creatorProfileModal" class="modal">
       <div class="modal-content !max-width-none !w-[90%] !max-w-md bg-[#0f172a] border border-white/10 !p-0 overflow-hidden shadow-profileGlow">
-          <div class="h-24 bg-gradient-to-r from-indigo-600 via-purple-600 to-fuchsia-600 relative">
-              <button onclick="closeCreatorProfile()" class="absolute top-4 right-4 text-white/50 hover:text-white transition z-20"><i data-lucide="x" class="h-6 w-6"></i></button>
+          
+          <!-- FIXED: Pink/Blue Gradient Removed. Added Blurred Image Background -->
+          <div class="h-32 relative overflow-hidden">
+              <!-- Blurred Background Image Layer -->
+              <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://bookmintor.shop/images/aarohi_pandey.png'); filter: blur(5px); transform: scale(1.1); opacity: 0.7;"></div>
+              <!-- Dark Overlay for Readability -->
+              <div class="absolute inset-0 bg-black/20"></div>
+              
+              <button onclick="closeCreatorProfile()" class="absolute top-4 right-4 text-white hover:text-white/80 transition z-20"><i data-lucide="x" class="h-6 w-6"></i></button>
           </div>
+
           <div class="px-6 pb-8 text-center">
               <div class="dp-container">
-                  <div class="dp-blur-bg" style="background-image: url('https://bookmintor.shop/images/aarohi_pandey.png');"></div>
+                  <!-- DP Image -->
                   <img src="https://bookmintor.shop/images/aarohi_pandey.png" class="dp-img" alt="Aarohi DP">
               </div>
               
@@ -470,7 +479,7 @@
               <div class="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-5 shadow-[0_0_30px_rgba(16,185,129,0.2)] animate-pulse border border-emerald-500/20">
                   <i data-lucide="message-circle" class="h-8 w-8 text-emerald-500"></i>
               </div>
-              <h2 class="text-2xl font-bold text-white mb-2">You're In! 🎉</h2>
+              <h2 class="text-2xl font-bold text-white mb-2">You're In</h2>
               <p class="text-zinc-400 text-sm mb-6 leading-relaxed">Don't miss out on daily exam leaks & tips. Join <span class="text-white font-bold">Aarohi's Private Community</span> now!</p>
               
               <a href="#" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3.5 rounded-xl shadow-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 mb-3">
