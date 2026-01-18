@@ -561,14 +561,23 @@
         </div>
 
         <div class="bundle-showcase mt-4 mb-2">
-            <h3 class="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-widest">Included:</h3>
+             <h3 class="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-widest">Everything Included:</h3>
             <div class="bundle-grid">
                 <div class="bundle-card">
                     <div class="bundle-icon-wrap"><i data-lucide="book-open" class="h-4 w-4 text-fuchsia-400"></i></div>
-                    <span class="bundle-label">ebook PDF</span>
+                    <span class="bundle-label">E-Book</span>
+                </div>
+                <div class="bundle-card">
+                    <div class="bundle-icon-wrap"><i data-lucide="headphones" class="h-4 w-4 text-indigo-400"></i></div>
+                    <span class="bundle-label">Audio</span>
+                </div>
+                <div class="bundle-card">
+                    <div class="bundle-icon-wrap"><i data-lucide="video" class="h-4 w-4 text-emerald-400"></i></div>
+                    <span class="bundle-label">Video</span>
                 </div>
             </div>
         </div>
+
 
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
@@ -623,9 +632,12 @@
     </div>
 
     <div data-aos="fade-up" class="py-2 premium-list-container">
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>E-BOOK </strong></span></div>
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>ENGLISH HINDI MIX LANGUAGE</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>E-BOOK (pdf)</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>ENGLISH HINID MIX LANGUAGE</strong></span></div>
     </div>
+
 
     <div data-aos="fade-up" class="py-4"> <h2 class="text-2xl font-bold mb-4">Q&A</h2>
       <div class="divide-y divide-white/10 rounded-xl border border-white/10 bg-white/5">
@@ -847,8 +859,8 @@
     const IS_SALE_ACTIVE = false;
     const ENABLE_COUPON_SECTION = true; 
     
-    const SOURCE_IMAGE = 'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/f27fa600-bfad-43fd-9498-d7ba4d917449.png';
-    const PRODUCT_UNIQUE_ID = 'class-12-biology-write-this-get-marks-k4af4aFD3f';
+    const SOURCE_IMAGE = 'https://github.com/cortex-cradle/ebbok1/aarohibook/arrohi_book_cover.png';
+    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-893dsd3cjdf';
     
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/class-12-biology-write-this-get-marks-fromid92asds",  
@@ -856,27 +868,20 @@
     };
     
     let currentPaymentUrl = PAYMENT_LINKS.default; 
-    const SECRET_KEY = 'EBOOK_SECRET_K3Y_gf3SD46FFSDFFU96G';
-    const VALID_COUPON = "EXAMINERKEY"; 
+    const SECRET_KEY = 'EBOOK_SECRET_K3Y_AAROHSD368NDSVF';
+    const VALID_COUPON = "AARIHOCN3C"; 
 
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
 
     const CONTENT_URLS = {
         HINDI: { VIDEO: "3", AUDIO: "3", PDF: "3", MINDMAP: "#", ZIP: ZIP_URLS.HINDI },
-        ENGLISH: { VIDEO: "", AUDIO: "3", PDF: "https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/Class%2012%20Biology%20%E2%80%93%20Write%20This,%20Get%20Marks%20(2026)-compressed.pdf", MINDMAP: "https://cortex-cradle.github.io/ebook1/ebook3/file_eng/Mind%20Map.png", ZIP: ZIP_URLS.ENGLISH }
+        ENGLISH: { VIDEO: "https://github.com/cortex-cradle/ebbok1/aarohibook/%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A5%87_%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82%20exp%20(1).mp4", AUDIO: "https://github.com/cortex-cradle/ebbok1/aarohibook/%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82_%E0%A4%AE%E0%A5%8C%E0%A4%A8_%E0%A4%B8%E0%A4%AE%E0%A4%B0%E0%A5%8D%E0%A4%AA%E0%A4%A3.m4a", PDF: "https://github.com/cortex-cradle/ebbok1/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf", MINDMAP: "#", ZIP: ZIP_URLS.ENGLISH }
     };
     
     const SCREENSHOT_URLS = [
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss1%20(5).png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss10.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss3.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss4.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss5.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss6.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss7.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss8.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss9.png',
-        'https://cortex-cradle.github.io/ebook1/pdf8_eng_class-12-biology-get-marks.html/ss2%20(3).png',
+        'https://github.com/cortex-cradle/ebbok1/aarohibook/ss1.png',
+        'https://github.com/cortex-cradle/ebbok1/aarohibook/ss2.png',
+        'https://github.com/cortex-cradle/ebbok1/aarohibook/ss3.png',
     ];
 
     const dom = {
