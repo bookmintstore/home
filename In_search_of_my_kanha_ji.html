@@ -58,8 +58,7 @@
             tapRipple: 'tapRipple 1.6s cubic-bezier(0, 0, 0.2, 1) infinite',
             blinkSupport: 'blinkSupport 2s ease-in-out infinite',
             slideUpFade: 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            profileSnake: 'profileSnake 5s linear forwards',
-            fadeOut: 'fadeOut 0.5s ease-out forwards'
+            profileShine: 'profileShine 1.2s ease-out forwards'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -82,8 +81,25 @@
             tapRipple: { '0%': { transform: 'scale(0.8)', opacity: '0.6' }, '100%': { transform: 'scale(2.2)', opacity: '0' } },
             blinkSupport: { '0%, 100%': { opacity: '1', transform: 'scale(1)' }, '50%': { opacity: '0.7', transform: 'scale(0.95)' } },
             slideUpFade: { '0%': { opacity: 0, transform: 'translateY(50px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
-            profileSnake: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
-            fadeOut: { '0%': { opacity: 1 }, '100%': { opacity: 0 } }
+            profileShine: { 
+              '0%': { 
+                transform: 'translateX(-150%) translateY(-150%) rotate(45deg)',
+                opacity: '0' 
+              }, 
+              '15%': { 
+                opacity: '0.8' 
+              },
+              '50%': { 
+                opacity: '0.9' 
+              },
+              '85%': { 
+                opacity: '0.8' 
+              },
+              '100%': { 
+                transform: 'translateX(150%) translateY(150%) rotate(45deg)',
+                opacity: '0' 
+              } 
+            }
           }
         }
       }
@@ -107,67 +123,61 @@
     .brand-col { display: flex; flex-direction: column; line-height: 1; justify-content: center; }
     .creator-text { font-size: 0.55rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-top: 3px; margin-left: 1px; }
     
-    /* PROFILE SNAKE GLOW CONTAINER - FIXED */
-    .profile-snake-container {
-        position: relative;
-        display: inline-block;
-        padding: 3px;
-        border-radius: 14px;
-        overflow: hidden;
-        margin-bottom: 24px;
-        transition: all 0.3s ease;
-    }
-    .profile-snake-border {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 250%;
-        height: 250%;
-        background: conic-gradient(transparent 0deg, transparent 260deg, #a855f7 300deg, #6366f1 330deg, #8b5cf6 350deg, transparent 360deg);
-        z-index: 0;
-        pointer-events: none;
-        opacity: 1;
-        transition: opacity 0.5s ease-out;
-    }
-    .profile-snake-glow {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 110%;
-        height: 110%;
-        background: #a855f7;
-        filter: blur(20px);
-        opacity: 0.4;
-        z-index: -1;
-        transition: opacity 0.5s ease-out;
-    }
-    .profile-snake-mask {
-        position: absolute;
-        inset: 2px;
-        background: #0b0e13;
-        border-radius: 12px;
-        z-index: 1;
-    }
-    
+    /* AAROHI PROFILE TRIGGER - UPDATED */
     .aarohi-profile-trigger {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        align-items: center;
+        display: flex; 
+        align-items: center; 
         gap: 10px;
         cursor: pointer;
-        padding: 8px 14px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.03);
+        padding: 12px 16px; 
+        border-radius: 16px;
+        background: rgba(255,255,255,0.03); 
         border: 1px solid rgba(255,255,255,0.08);
         transition: all 0.3s ease;
         width: fit-content;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
     }
     .aarohi-profile-trigger:hover {
-        background: rgba(255,255,255,0.08);
-        transform: translateY(-2px);
+        background: rgba(255,255,255,0.08); 
+        transform: translateY(-2px); 
         border-color: rgba(168, 85, 247, 0.4);
+    }
+    
+    /* PROFILE SHINE EFFECT */
+    .profile-shine-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+        opacity: 0;
+    }
+    
+    .profile-shine {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 300%;
+        background: linear-gradient(
+            45deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 25%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(255, 255, 255, 0) 75%,
+            transparent 100%
+        );
+        transform: translateX(-150%) translateY(-150%) rotate(45deg);
+        filter: blur(15px);
+    }
+    
+    .profile-shine-overlay.active .profile-shine {
+        animation: profileShine 1.2s ease-out forwards;
     }
     
     /* MODAL DP NO OVERLAY STYLE */
@@ -197,27 +207,29 @@
     .bundle-icon-wrap { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; background: rgba(255, 255, 255, 0.05); }
     .bundle-label { font-size: 0.7rem; font-weight: 600; color: #cbd5e1; line-height: 1.1; }
 
-    /* COVER SHINE & SPINNER */
+    /* COVER SHINE & SPINNER - UPDATED */
     .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
     
-    .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.2s ease-out; }
+    .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
     
     .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
 
-    /* COVER BLACK OVERLAY */
+    /* COVER BLACK OVERLAY FOR TAP MESSAGE */
     .cover-black-overlay {
         position: absolute;
         inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         z-index: 14;
+        pointer-events: none;
         opacity: 0;
         transition: opacity 0.5s ease;
-        pointer-events: none;
+        border-radius: 8px;
     }
+    
     .cover-black-overlay.active {
         opacity: 1;
     }
@@ -551,7 +563,7 @@
         
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
-            <!-- Black Overlay for Readability -->
+            <!-- COVER BLACK OVERLAY FOR TAP MESSAGE -->
             <div class="cover-black-overlay" id="coverBlackOverlay"></div>
             
             <a href="mailto:bookmintor@gmail.com?subject=Product Support Request" class="cover-support-btn animate-blinkSupport" title="Need Help?">
@@ -587,28 +599,26 @@
       </div>
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
-        
-        <!-- AAROHI PROFILE SECTION (MOVED HERE) - FIXED SNAKE ANIMATION -->
-        <div class="profile-snake-container" id="profileSnakeContainer">
-            <div class="profile-snake-border"></div>
-            <div class="profile-snake-glow"></div>
-            <div class="profile-snake-mask"></div>
-            <div onclick="openCreatorProfile()" class="aarohi-profile-trigger">
-                <div class="relative">
-                    <img src="https://bookmintor.shop/images/aarohi_pandey.png" class="h-9 w-9 rounded-full object-cover border-2 border-white/20" alt="Aarohi">
-                    <div class="absolute -bottom-0.5 -right-0.5 bg-emerald-500 h-2.5 w-2.5 rounded-full border-2 border-[#0b0e13]"></div>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xs font-bold text-zinc-100 flex items-center gap-1 leading-tight">Aarohi Pandey <i data-lucide="verified" class="h-3 w-3 text-blue-400"></i></span>
-                    <div class="flex items-center gap-1 mt-0.5">
-                        <div class="flex text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i></div>
-                        <span class="text-[9px] text-zinc-400 font-bold ml-1">4.9</span>
-                    </div>
+        <!-- AAROHI PROFILE TRIGGER (Moved here with shine effect) -->
+        <div onclick="openCreatorProfile()" class="aarohi-profile-trigger" id="aarohiProfileCard">
+            <!-- PROFILE SHINE EFFECT -->
+            <div class="profile-shine-overlay" id="profileShineOverlay">
+                <div class="profile-shine"></div>
+            </div>
+            
+            <div class="relative">
+                <img src="https://bookmintor.shop/images/aarohi_pandey.png" class="h-9 w-9 rounded-full object-cover border-2 border-white/20" alt="Aarohi">
+                <div class="absolute -bottom-0.5 -right-0.5 bg-emerald-500 h-2.5 w-2.5 rounded-full border-2 border-[#0b0e13]"></div>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-xs font-bold text-zinc-100 flex items-center gap-1 leading-tight">Aarohi Pandey <i data-lucide="verified" class="h-3 w-3 text-blue-400"></i></span>
+                <div class="flex items-center gap-1 mt-0.5">
+                    <div class="flex text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i></div>
+                    <span class="text-[9px] text-zinc-400 font-bold ml-1">4.9</span>
                 </div>
             </div>
         </div>
-
-        <!-- ROLLING TEXT/TAGS SECTION -->
+        
         <div id="custom-tag-container">
             <div class="subtle-tag">
                 <div class="tag-text-wrapper">
@@ -628,7 +638,6 @@
             </div>
         </div>
 
-        <!-- MAIN TITLE -->
         <h1 class="text-3xl font-bold">In Search of My Kanha Ji</h1>
         <p class="text-zinc-300">A heartfelt spiritual journey written in simple words, connecting devotion, emotions, and inner peace.</p>
 
@@ -713,7 +722,7 @@
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>E-BOOK (pdf)</strong></span></div>
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span></div>
         <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span></div>
-        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>ENGLISH HINID MIX LANGUAGE</strong></span></div>
+        <div class="premium-list-item"><span class="simple-tick">✓</span><span class="feature-text"><strong>ENGLISH HINDI MIX LANGUAGE</strong></span></div>
     </div>
 
 
@@ -966,7 +975,6 @@
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
         coverShine: document.getElementById('coverShine'),
-        coverBlackOverlay: document.getElementById('coverBlackOverlay'),
         loadingSpin: document.getElementById('loadingSpin'),
         previewOverlay: document.getElementById('previewOverlay'),
         previewScreenshot: document.getElementById('previewScreenshot'),
@@ -997,7 +1005,8 @@
         mysteryBoxWrap: document.getElementById('mysteryBoxWrap'),
         mysteryTooltip: document.getElementById('mysteryTooltip'),
         feedbackModal: document.getElementById('feedbackModal'),
-        profileSnakeContainer: document.getElementById('profileSnakeContainer')
+        coverBlackOverlay: document.getElementById('coverBlackOverlay'),
+        profileShineOverlay: document.getElementById('profileShineOverlay')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -1052,12 +1061,29 @@
 
     function openCommunityModal() {
         document.getElementById('communityModal').style.display = 'flex';
-        document.getElementById('communityModal').querySelector('.modal-content').classList.add('animate-slideUpFade');
+        document.getElementById('communityModal').querySelector('.modal-content').classList.add('animate-modalFadeIn');
         lucide.createIcons();
     }
 
     function closeCommunityModal() {
         document.getElementById('communityModal').style.display = 'none';
+    }
+
+    // NEW: Profile Shine Effect (One-time trigger on scroll)
+    function triggerProfileShine() {
+        if (localStorage.getItem('profileShineTriggered') === 'true') return;
+        
+        const shineOverlay = dom.profileShineOverlay;
+        if (!shineOverlay) return;
+        
+        shineOverlay.style.opacity = '1';
+        shineOverlay.classList.add('active');
+        
+        setTimeout(() => {
+            shineOverlay.style.opacity = '0';
+            shineOverlay.classList.remove('active');
+            localStorage.setItem('profileShineTriggered', 'true');
+        }, 1200);
     }
 
     function handleCoupon() {
@@ -1248,16 +1274,19 @@
         // Stack Buttons Logic
         dom.actionContainer.classList.add('stacked');
         
-        // Shine Shift Logic: Remove shine from purple button, add to green button
-        dom.buyBtn.classList.add('no-shine');
-        // Keep purple button enabled and clickable
-        dom.buyBtn.innerHTML = '<span>Get Access</span> <i data-lucide="shopping-cart" class="h-4 w-4"></i>';
-        dom.buyBtn.style.opacity = '1';
-        dom.buyBtn.style.pointerEvents = 'auto';
+        // Button Persistence Logic: Keep purple button enabled but remove shine
+        const ctaShine = dom.buyBtn.querySelector('.cta-shine');
+        if (ctaShine) {
+            ctaShine.style.display = 'none';
+            ctaShine.style.animation = 'none';
+        }
         
-        // Add shine to unlock button
+        // Apply shine to green unlock button
         const unlockShine = dom.unlockBtn.querySelector('.btn-shine');
-        if(unlockShine) unlockShine.style.display = 'block';
+        if(unlockShine) {
+            unlockShine.style.display = 'block';
+            unlockShine.style.animation = 'blackShine 4s ease-in-out infinite';
+        }
 
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
     }
@@ -1296,25 +1325,16 @@
         }));
         Promise.all(promises).then(() => {
             dom.coverImg.src = SOURCE_IMAGE;
-            requestAnimationFrame(()=> { 
-                dom.coverImg.style.opacity = '0.6'; 
-                dom.coverImg.style.transform = 'scale(1)'; 
-                
-                // FIXED: Loading spinner disappears immediately
-                dom.loadingSpin.style.opacity = '0';
-                setTimeout(() => {
-                    dom.loadingSpin.style.display = 'none';
-                }, 200);
-            });
+            requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
             setTimeout(() => {
                 dom.coverImg.style.opacity = '1'; 
-                dom.coverShine.style.transition = 'opacity 0.32s ease'; 
-                dom.coverShine.style.opacity = '0';
-                
+                dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0';
+                dom.loadingSpin.style.opacity = '0';
+                // Immediately hide loading spinner once image is loaded
+                dom.loadingSpin.style.display = 'none';
                 setTimeout(()=> {
                     dom.coverShine.style.display = 'none'; 
-                    dom.cover.classList.add('loaded'); 
-                    dom.cover.setAttribute('aria-busy','false');
+                    dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
                     
                     setTimeout(() => {
                         const tapPrompt = document.getElementById('tapPrompt');
@@ -1325,11 +1345,9 @@
                             
                             setTimeout(() => {
                                 tapPrompt.style.opacity = '0';
-                                // Hide black overlay when tap prompt fades
-                                setTimeout(() => { 
-                                    tapPrompt.style.display = 'none'; 
-                                    dom.coverBlackOverlay.classList.remove('active');
-                                }, 700);
+                                // Hide black overlay when tap prompt disappears
+                                dom.coverBlackOverlay.classList.remove('active');
+                                setTimeout(() => { tapPrompt.style.display = 'none'; }, 700);
                             }, 5000); 
                         }
                     }, 1000);
@@ -1365,6 +1383,7 @@
         const tapPrompt = document.getElementById('tapPrompt');
         if(tapPrompt) {
             tapPrompt.style.display = 'none';
+            // Hide black overlay when preview starts
             dom.coverBlackOverlay.classList.remove('active');
         }
 
@@ -1393,55 +1412,6 @@
         }, 300);
     }
 
-    // Profile Snake Glow Animation on Scroll - FIXED VERSION
-    let profileSnakeAnimationPlayed = false;
-    
-    function handleProfileSnakeAnimation() {
-        if (profileSnakeAnimationPlayed) return;
-        
-        const profileContainer = dom.profileSnakeContainer;
-        if (profileContainer) {
-            profileSnakeAnimationPlayed = true;
-            
-            // Start the animation
-            const border = profileContainer.querySelector('.profile-snake-border');
-            const glow = profileContainer.querySelector('.profile-snake-glow');
-            
-            if (border && glow) {
-                // Apply animation only to border and glow, not the container
-                border.style.animation = 'profileSnake 5s linear forwards';
-                glow.style.animation = 'softPulse 2s ease-in-out';
-                
-                // After 5 seconds, fade out just the border and glow
-                setTimeout(() => {
-                    border.style.opacity = '0';
-                    glow.style.opacity = '0';
-                    
-                    // Remove the snake container but keep the profile visible
-                    setTimeout(() => {
-                        // Remove padding and border from container
-                        profileContainer.style.padding = '0';
-                        profileContainer.style.background = 'transparent';
-                        profileContainer.style.border = 'none';
-                        
-                        // Remove snake elements completely
-                        border.style.display = 'none';
-                        glow.style.display = 'none';
-                        const mask = profileContainer.querySelector('.profile-snake-mask');
-                        if(mask) mask.style.display = 'none';
-                        
-                        // Reset profile trigger styling to normal
-                        const profileTrigger = profileContainer.querySelector('.aarohi-profile-trigger');
-                        if(profileTrigger) {
-                            profileTrigger.style.margin = '0';
-                            profileTrigger.style.padding = '8px 14px';
-                        }
-                    }, 500);
-                }, 5000);
-            }
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
       if (!ENABLE_COUPON_SECTION) { document.getElementById('couponSection').style.display = 'none'; }
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
@@ -1464,13 +1434,6 @@
       
       // Set current year in footer
       document.getElementById('year').textContent = new Date().getFullYear();
-    });
-
-    // Add scroll listener for profile snake animation
-    window.addEventListener('scroll', function() {
-        if (!profileSnakeAnimationPlayed && window.scrollY > 10) {
-            handleProfileSnakeAnimation();
-        }
     });
 
     function animateCount(el, start, end, duration) {
@@ -1559,6 +1522,15 @@
         if(this.parentElement.hasAttribute('open')) { c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); }
         else { this.parentElement.setAttribute('open',''); c.style.height='auto'; const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; }
     }));
+    
+    // Scroll listener for profile shine effect
+    let scrollTriggered = false;
+    window.addEventListener('scroll', function() {
+        if (!scrollTriggered && window.scrollY > 50) {
+            triggerProfileShine();
+            scrollTriggered = true;
+        }
+    }, { once: false });
   </script>
 </body>
 </html>
