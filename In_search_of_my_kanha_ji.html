@@ -57,7 +57,9 @@
             blackShine: 'blackShine 4s ease-in-out infinite',
             tapRipple: 'tapRipple 1.6s cubic-bezier(0, 0, 0.2, 1) infinite',
             blinkSupport: 'blinkSupport 2s ease-in-out infinite',
-            slideUpFade: 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+            slideUpFade: 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            profileSnake: 'profileSnake 5s linear forwards',
+            fadeOut: 'fadeOut 0.5s ease-out forwards'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -79,7 +81,9 @@
             subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } },
             tapRipple: { '0%': { transform: 'scale(0.8)', opacity: '0.6' }, '100%': { transform: 'scale(2.2)', opacity: '0' } },
             blinkSupport: { '0%, 100%': { opacity: '1', transform: 'scale(1)' }, '50%': { opacity: '0.7', transform: 'scale(0.95)' } },
-            slideUpFade: { '0%': { opacity: 0, transform: 'translateY(50px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } }
+            slideUpFade: { '0%': { opacity: 0, transform: 'translateY(50px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
+            profileSnake: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
+            fadeOut: { '0%': { opacity: 1 }, '100%': { opacity: 0 } }
           }
         }
       }
@@ -103,17 +107,67 @@
     .brand-col { display: flex; flex-direction: column; line-height: 1; justify-content: center; }
     .creator-text { font-size: 0.55rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-top: 3px; margin-left: 1px; }
     
+    /* PROFILE SNAKE GLOW CONTAINER - FIXED */
+    .profile-snake-container {
+        position: relative;
+        display: inline-block;
+        padding: 3px;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+    .profile-snake-border {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 250%;
+        height: 250%;
+        background: conic-gradient(transparent 0deg, transparent 260deg, #a855f7 300deg, #6366f1 330deg, #8b5cf6 350deg, transparent 360deg);
+        z-index: 0;
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+    }
+    .profile-snake-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 110%;
+        height: 110%;
+        background: #a855f7;
+        filter: blur(20px);
+        opacity: 0.4;
+        z-index: -1;
+        transition: opacity 0.5s ease-out;
+    }
+    .profile-snake-mask {
+        position: absolute;
+        inset: 2px;
+        background: #0b0e13;
+        border-radius: 12px;
+        z-index: 1;
+    }
+    
     .aarohi-profile-trigger {
-        display: flex; align-items: center; gap: 10px;
-        margin-top: 24px; /* Added spacing from logo */
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 10px;
         cursor: pointer;
-        padding: 8px 14px; border-radius: 14px;
-        background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+        padding: 8px 14px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
         transition: all 0.3s ease;
         width: fit-content;
     }
     .aarohi-profile-trigger:hover {
-        background: rgba(255,255,255,0.08); transform: translateY(-2px); border-color: rgba(168, 85, 247, 0.4);
+        background: rgba(255,255,255,0.08);
+        transform: translateY(-2px);
+        border-color: rgba(168, 85, 247, 0.4);
     }
     
     /* MODAL DP NO OVERLAY STYLE */
@@ -148,11 +202,25 @@
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
     
-    .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
+    .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.2s ease-out; }
     .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
     
     .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
+
+    /* COVER BLACK OVERLAY */
+    .cover-black-overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 14;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+    }
+    .cover-black-overlay.active {
+        opacity: 1;
+    }
 
     /* SNAKE CONTAINER */
     .snake-container { position: relative; display: none; padding: 3px; border-radius: 12px; z-index: 100; margin-left: 0; background: transparent; overflow: hidden; box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
@@ -411,24 +479,9 @@
           <span class="creator-text">CREATOR</span>
       </div>
     </a>
-
-    <!-- AAROHI PROFILE TRIGGER (With more spacing) -->
-    <div onclick="openCreatorProfile()" class="aarohi-profile-trigger">
-        <div class="relative">
-            <img src="https://bookmintor.shop/images/aarohi_pandey.png" class="h-9 w-9 rounded-full object-cover border-2 border-white/20" alt="Aarohi">
-            <div class="absolute -bottom-0.5 -right-0.5 bg-emerald-500 h-2.5 w-2.5 rounded-full border-2 border-[#0b0e13]"></div>
-        </div>
-        <div class="flex flex-col">
-            <span class="text-xs font-bold text-zinc-100 flex items-center gap-1 leading-tight">Aarohi Pandey <i data-lucide="verified" class="h-3 w-3 text-blue-400"></i></span>
-            <div class="flex items-center gap-1 mt-0.5">
-                <div class="flex text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i></div>
-                <span class="text-[9px] text-zinc-400 font-bold ml-1">4.9</span>
-            </div>
-        </div>
-    </div>
   </header>
 
- <!-- AAROHI PROFILE MODAL -->
+  <!-- AAROHI PROFILE MODAL -->
   <div id="creatorProfileModal" class="modal">
       <div class="modal-content !max-width-none !w-[90%] !max-w-md bg-[#0f172a] border border-white/10 !p-0 overflow-hidden shadow-profileGlow">
           
@@ -459,7 +512,7 @@
 
               <div class="text-left mb-6">
                   <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2">About Aarohi</h4>
-                  <p class="text-sm text-zinc-300 leading-relaxed">I love reading books and writing stories from real life.I write what I feel, and what words can’t stay silent about.</p>
+                  <p class="text-sm text-zinc-300 leading-relaxed">I love reading books and writing stories from real life.I write what I feel, and what words can't stay silent about.</p>
               </div>
 
               <div class="grid grid-cols-2 gap-3">
@@ -498,6 +551,9 @@
         
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
+            <!-- Black Overlay for Readability -->
+            <div class="cover-black-overlay" id="coverBlackOverlay"></div>
+            
             <a href="mailto:bookmintor@gmail.com?subject=Product Support Request" class="cover-support-btn animate-blinkSupport" title="Need Help?">
                 <i data-lucide="help-circle" class="h-4 w-4"></i>
             </a>
@@ -532,6 +588,27 @@
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
         
+        <!-- AAROHI PROFILE SECTION (MOVED HERE) - FIXED SNAKE ANIMATION -->
+        <div class="profile-snake-container" id="profileSnakeContainer">
+            <div class="profile-snake-border"></div>
+            <div class="profile-snake-glow"></div>
+            <div class="profile-snake-mask"></div>
+            <div onclick="openCreatorProfile()" class="aarohi-profile-trigger">
+                <div class="relative">
+                    <img src="https://bookmintor.shop/images/aarohi_pandey.png" class="h-9 w-9 rounded-full object-cover border-2 border-white/20" alt="Aarohi">
+                    <div class="absolute -bottom-0.5 -right-0.5 bg-emerald-500 h-2.5 w-2.5 rounded-full border-2 border-[#0b0e13]"></div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xs font-bold text-zinc-100 flex items-center gap-1 leading-tight">Aarohi Pandey <i data-lucide="verified" class="h-3 w-3 text-blue-400"></i></span>
+                    <div class="flex items-center gap-1 mt-0.5">
+                        <div class="flex text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]"><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i><i data-lucide="star" class="h-2 w-2 fill-current"></i></div>
+                        <span class="text-[9px] text-zinc-400 font-bold ml-1">4.9</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROLLING TEXT/TAGS SECTION -->
         <div id="custom-tag-container">
             <div class="subtle-tag">
                 <div class="tag-text-wrapper">
@@ -551,6 +628,7 @@
             </div>
         </div>
 
+        <!-- MAIN TITLE -->
         <h1 class="text-3xl font-bold">In Search of My Kanha Ji</h1>
         <p class="text-zinc-300">A heartfelt spiritual journey written in simple words, connecting devotion, emotions, and inner peace.</p>
 
@@ -650,17 +728,17 @@
     <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
       <div class="space-y-3" id="feedback-list">
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Amit singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Aarohi Pandey, the way you’ve written this feels pure and honest. You should definitely write more books🎉🔥</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rohit Dubey</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">This didn’t feel like reading it felt like listening to someone’s heart. Waiting for Part 2 already</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Amit singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Aarohi Pandey, the way you've written this feels pure and honest. You should definitely write more books🎉🔥</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rohit Dubey</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">This didn't feel like reading it felt like listening to someone's heart. Waiting for Part 2 already</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tiwari</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Very calm and emotional arohi you have a beautiful way of expressing devotion🙌❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
-        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ankit Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Simple words deep feelings you’ll go very far with writing like this</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ankit Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Simple words deep feelings you'll go very far with writing like this</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">V</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Vivek S.</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">It takes courage to write from within aarohi pandey please keep writing💖</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
 
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">K</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Kunal Pandey</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">The audio version felt very personal. It stayed with me even after finishing it</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Prashant Tripa.</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">This book feels like a quiet walk with Kanha. Excited to read your next work</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Nikhil Chaturvedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">No heavy language no drama... Just honest emotions. That’s what I liked most🥰</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rakesh Srivastava</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Aarohi your writing has softness and strength together Don’t stop</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
-        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Dwivedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">I read it slowly, not because it was long, but because I didn’t want it to end</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Nikhil Chaturvedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">No heavy language no drama... Just honest emotions. That's what I liked most🥰</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rakesh Srivastava</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Aarohi your writing has softness and strength together Don't stop</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Dwivedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">I read it slowly, not because it was long, but because I didn't want it to end</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
       </div>
       <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition" onclick="toggleFeedbacks()">Show More</button>
     </div>
@@ -888,6 +966,7 @@
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
         coverShine: document.getElementById('coverShine'),
+        coverBlackOverlay: document.getElementById('coverBlackOverlay'),
         loadingSpin: document.getElementById('loadingSpin'),
         previewOverlay: document.getElementById('previewOverlay'),
         previewScreenshot: document.getElementById('previewScreenshot'),
@@ -917,7 +996,8 @@
         tapPrompt: document.getElementById('tapPrompt'),
         mysteryBoxWrap: document.getElementById('mysteryBoxWrap'),
         mysteryTooltip: document.getElementById('mysteryTooltip'),
-        feedbackModal: document.getElementById('feedbackModal')
+        feedbackModal: document.getElementById('feedbackModal'),
+        profileSnakeContainer: document.getElementById('profileSnakeContainer')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -972,7 +1052,7 @@
 
     function openCommunityModal() {
         document.getElementById('communityModal').style.display = 'flex';
-        document.getElementById('communityModal').querySelector('.modal-content').classList.add('animate-modalFadeIn');
+        document.getElementById('communityModal').querySelector('.modal-content').classList.add('animate-slideUpFade');
         lucide.createIcons();
     }
 
@@ -1168,12 +1248,14 @@
         // Stack Buttons Logic
         dom.actionContainer.classList.add('stacked');
         
-        // Shine Logic: Disable buy shine, enable unlock shine
+        // Shine Shift Logic: Remove shine from purple button, add to green button
         dom.buyBtn.classList.add('no-shine');
-        dom.buyBtn.innerHTML = '<span>Access Granted</span> <i data-lucide="check-circle" class="h-4 w-4"></i>';
-        dom.buyBtn.style.opacity = '0.7';
-        dom.buyBtn.style.pointerEvents = 'none';
+        // Keep purple button enabled and clickable
+        dom.buyBtn.innerHTML = '<span>Get Access</span> <i data-lucide="shopping-cart" class="h-4 w-4"></i>';
+        dom.buyBtn.style.opacity = '1';
+        dom.buyBtn.style.pointerEvents = 'auto';
         
+        // Add shine to unlock button
         const unlockShine = dom.unlockBtn.querySelector('.btn-shine');
         if(unlockShine) unlockShine.style.display = 'block';
 
@@ -1214,22 +1296,40 @@
         }));
         Promise.all(promises).then(() => {
             dom.coverImg.src = SOURCE_IMAGE;
-            requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
+            requestAnimationFrame(()=> { 
+                dom.coverImg.style.opacity = '0.6'; 
+                dom.coverImg.style.transform = 'scale(1)'; 
+                
+                // FIXED: Loading spinner disappears immediately
+                dom.loadingSpin.style.opacity = '0';
+                setTimeout(() => {
+                    dom.loadingSpin.style.display = 'none';
+                }, 200);
+            });
             setTimeout(() => {
                 dom.coverImg.style.opacity = '1'; 
-                dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0';
-                dom.loadingSpin.style.opacity = '0';
+                dom.coverShine.style.transition = 'opacity 0.32s ease'; 
+                dom.coverShine.style.opacity = '0';
+                
                 setTimeout(()=> {
-                    dom.coverShine.style.display = 'none'; dom.loadingSpin.style.display = 'none'; 
-                    dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
+                    dom.coverShine.style.display = 'none'; 
+                    dom.cover.classList.add('loaded'); 
+                    dom.cover.setAttribute('aria-busy','false');
                     
                     setTimeout(() => {
                         const tapPrompt = document.getElementById('tapPrompt');
                         if(tapPrompt) {
                             tapPrompt.style.opacity = '1';
+                            // Show black overlay when tap prompt appears
+                            dom.coverBlackOverlay.classList.add('active');
+                            
                             setTimeout(() => {
                                 tapPrompt.style.opacity = '0';
-                                setTimeout(() => { tapPrompt.style.display = 'none'; }, 700);
+                                // Hide black overlay when tap prompt fades
+                                setTimeout(() => { 
+                                    tapPrompt.style.display = 'none'; 
+                                    dom.coverBlackOverlay.classList.remove('active');
+                                }, 700);
                             }, 5000); 
                         }
                     }, 1000);
@@ -1263,7 +1363,10 @@
         if (!dom.cover.classList.contains('loaded')) return;
         
         const tapPrompt = document.getElementById('tapPrompt');
-        if(tapPrompt) tapPrompt.style.display = 'none';
+        if(tapPrompt) {
+            tapPrompt.style.display = 'none';
+            dom.coverBlackOverlay.classList.remove('active');
+        }
 
         if(dom.previewOverlay.style.opacity === '1') {
              e.stopPropagation(); 
@@ -1290,6 +1393,55 @@
         }, 300);
     }
 
+    // Profile Snake Glow Animation on Scroll - FIXED VERSION
+    let profileSnakeAnimationPlayed = false;
+    
+    function handleProfileSnakeAnimation() {
+        if (profileSnakeAnimationPlayed) return;
+        
+        const profileContainer = dom.profileSnakeContainer;
+        if (profileContainer) {
+            profileSnakeAnimationPlayed = true;
+            
+            // Start the animation
+            const border = profileContainer.querySelector('.profile-snake-border');
+            const glow = profileContainer.querySelector('.profile-snake-glow');
+            
+            if (border && glow) {
+                // Apply animation only to border and glow, not the container
+                border.style.animation = 'profileSnake 5s linear forwards';
+                glow.style.animation = 'softPulse 2s ease-in-out';
+                
+                // After 5 seconds, fade out just the border and glow
+                setTimeout(() => {
+                    border.style.opacity = '0';
+                    glow.style.opacity = '0';
+                    
+                    // Remove the snake container but keep the profile visible
+                    setTimeout(() => {
+                        // Remove padding and border from container
+                        profileContainer.style.padding = '0';
+                        profileContainer.style.background = 'transparent';
+                        profileContainer.style.border = 'none';
+                        
+                        // Remove snake elements completely
+                        border.style.display = 'none';
+                        glow.style.display = 'none';
+                        const mask = profileContainer.querySelector('.profile-snake-mask');
+                        if(mask) mask.style.display = 'none';
+                        
+                        // Reset profile trigger styling to normal
+                        const profileTrigger = profileContainer.querySelector('.aarohi-profile-trigger');
+                        if(profileTrigger) {
+                            profileTrigger.style.margin = '0';
+                            profileTrigger.style.padding = '8px 14px';
+                        }
+                    }, 500);
+                }, 5000);
+            }
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       if (!ENABLE_COUPON_SECTION) { document.getElementById('couponSection').style.display = 'none'; }
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
@@ -1309,6 +1461,16 @@
       AOS.init({ duration: 800, once: true, offset: 120 });
       lucide.createIcons();
       preloadAllImages();
+      
+      // Set current year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    // Add scroll listener for profile snake animation
+    window.addEventListener('scroll', function() {
+        if (!profileSnakeAnimationPlayed && window.scrollY > 10) {
+            handleProfileSnakeAnimation();
+        }
     });
 
     function animateCount(el, start, end, duration) {
