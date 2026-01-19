@@ -668,7 +668,7 @@
 
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
-                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹198</span>
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹311</span>
                 <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹999</span>
                 <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED</span>
             </div>
@@ -951,12 +951,12 @@
     
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds",  
-        discounted: "#" 
+        discounted: "https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d" 
     };
     
     let currentPaymentUrl = PAYMENT_LINKS.default; 
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_AAROHSD368NDSVF';
-    const VALID_COUPON = "AARIHOCN3C"; 
+    const VALID_COUPON = "FIRST198"; 
 
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
 
@@ -1100,7 +1100,7 @@
             lucide.createIcons();
             dom.originalPrice.classList.add('animate-priceSlash'); 
             dom.displayPrice.classList.add('animate-popFloat'); 
-            setTimeout(() => { dom.originalPrice.innerHTML = '₹311'; dom.displayPrice.innerHTML = '₹208'; dom.originalPrice.classList.remove('animate-priceSlash'); }, 600);
+            setTimeout(() => { dom.originalPrice.innerHTML = '₹311'; dom.displayPrice.innerHTML = '₹198'; dom.originalPrice.classList.remove('animate-priceSlash'); }, 600);
             currentPaymentUrl = PAYMENT_LINKS.discounted;
             showToast("Coupon Applied", true);
         } else {
