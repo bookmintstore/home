@@ -58,7 +58,10 @@
             tapRipple: 'tapRipple 1.6s cubic-bezier(0, 0, 0.2, 1) infinite',
             blinkSupport: 'blinkSupport 2s ease-in-out infinite',
             slideUpFade: 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            profileShine: 'profileShine 1.2s ease-out forwards'
+            profileShine: 'profileShine 1.2s ease-out forwards',
+            fadeInOut: 'fadeInOut 0.3s ease forwards',
+            textSlideUp: 'textSlideUp 0.5s ease-out forwards',
+            textGlow: 'textGlow 2s ease-in-out infinite'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -99,6 +102,18 @@
                 transform: 'translateX(150%) translateY(150%) rotate(45deg)',
                 opacity: '0' 
               } 
+            },
+            fadeInOut: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            textSlideUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            textGlow: {
+              '0%, 100%': { textShadow: '0 0 8px rgba(168, 85, 247, 0.5)' },
+              '50%': { textShadow: '0 0 15px rgba(168, 85, 247, 0.8), 0 0 20px rgba(168, 85, 247, 0.4)' }
             }
           }
         }
@@ -456,11 +471,249 @@
 
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
+    /* NEW PREMIUM FEATURES - UPDATED */
+    /* Floating Quick Actions Menu */
+    .floating-quick-actions {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 999;
+    }
+
+    .quick-actions-btn {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        position: relative;
+    }
+
+    .quick-actions-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 30px rgba(99, 102, 241, 0.6);
+    }
+
+    .quick-actions-menu {
+        position: absolute;
+        bottom: 70px;
+        right: 0;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(16px);
+        border-radius: 16px;
+        padding: 12px;
+        min-width: 200px;
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 
+                    0 0 0 1px rgba(255, 255, 255, 0.1),
+                    0 0 30px rgba(168, 85, 247, 0.4);
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        z-index: 1000;
+    }
+
+    .quick-actions-menu.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: all;
+    }
+
+    .quick-action-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #e2e8f0;
+        margin-bottom: 6px;
+        border: 1px solid transparent;
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .quick-action-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(168, 85, 247, 0.3);
+        transform: translateX(-4px);
+    }
+
+    .quick-action-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .quick-action-icon {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quick-action-text {
+        font-size: 0.9rem;
+        font-weight: 500;
+        flex: 1;
+    }
+
+    .demo-badge {
+        font-size: 0.7rem;
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+    /* Premium Loading Overlay */
+    .premium-loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(11, 14, 19, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .premium-loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .rolling-text-animation {
+        height: 40px;
+        margin-top: 30px;
+        position: relative;
+        width: 300px;
+        overflow: hidden;
+    }
+
+    .loading-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .loading-text.active {
+        opacity: 1;
+        transform: translateY(0);
+        animation: textGlow 2s ease-in-out infinite;
+    }
+
+    .loading-text .text-shine {
+        background: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% auto;
+        animation: gradient-shift 8s ease infinite;
+    }
+
+    /* Dashboard Flipbook Button */
+    .dashboard-flipbook-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dashboard-flipbook-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: softPulse 1.5s ease-in-out infinite;
+        position: absolute;
+        top: 6px;
+        right: 6px;
+    }
+
+    /* Flipbook Modal */
+    .flipbook-modal-content {
+        width: 95%;
+        max-width: 900px;
+        height: 80vh;
+        padding: 0;
+        background: #0f172a;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .flipbook-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.95);
+    }
+
+    .flipbook-iframe-container {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .flipbook-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
     @media (max-width: 768px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
         .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
         .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
+        .floating-quick-actions {
+            bottom: 20px;
+            right: 20px;
+        }
+        .quick-actions-menu {
+            right: -50px;
+            min-width: 180px;
+        }
     }
   </style>
 </head>
@@ -469,6 +722,62 @@
   <div id="toastNotification">
       <div id="toastIcon"><i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i></div>
       <span id="toastMessage">Product Unlocked! Access Granted.</span>
+  </div>
+
+  <!-- Premium Loading Overlay -->
+  <div id="premiumLoadingOverlay" class="premium-loading-overlay">
+      <div class="jumping-loader">
+          <span class="ball"></span>
+          <span class="ball"></span>
+          <span class="ball"></span>
+      </div>
+      <div class="rolling-text-animation">
+          <div id="loadingText1" class="loading-text"><span class="text-shine">Initializing Data...</span></div>
+          <div id="loadingText2" class="loading-text"><span class="text-shine">Fetching Source...</span></div>
+          <div id="loadingText3" class="loading-text"><span class="text-shine">Loading 3D Assets...</span></div>
+          <div id="loadingText4" class="loading-text"><span class="text-shine">Rendering Pages...</span></div>
+          <div id="loadingText5" class="loading-text"><span class="text-shine">Optimizing Experience...</span></div>
+          <div id="loadingText6" class="loading-text"><span class="text-shine">Almost There...</span></div>
+      </div>
+  </div>
+
+  <!-- Flipbook Modal -->
+  <div id="flipbookModal" class="modal">
+      <div id="flipbookModalContent" class="flipbook-modal-content animate-modalFadeIn">
+          <div class="flipbook-header">
+              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="book-open" class="h-5 w-5 text-emerald-400"></i> <span id="flipbookTitle">Flipbook Preview</span></h3>
+              <div class="flex items-center gap-2">
+                  <button onclick="closeFlipbookModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
+                      <i data-lucide="x" class="h-5 w-5"></i>
+                  </button>
+              </div>
+          </div>
+          <div class="flipbook-iframe-container">
+              <iframe id="flipbookFrame" class="flipbook-iframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+          </div>
+      </div>
+  </div>
+
+  <!-- Floating Quick Actions Menu -->
+  <div class="floating-quick-actions">
+      <div id="quickActionsMenu" class="quick-actions-menu">
+          <div class="quick-action-item" onclick="openSupport()">
+              <div class="quick-action-icon"><i data-lucide="help-circle" class="h-4 w-4 text-indigo-400"></i></div>
+              <div class="quick-action-text">Support</div>
+          </div>
+          <div class="quick-action-item" onclick="toggleReactionMenu()">
+              <div class="quick-action-icon"><i data-lucide="heart" class="h-4 w-4 text-red-400"></i></div>
+              <div class="quick-action-text">Love This</div>
+          </div>
+          <div id="demoFlipbookItem" class="quick-action-item" onclick="openDemoFlipbook()">
+              <div class="quick-action-icon"><i data-lucide="book-open" class="h-4 w-4 text-emerald-400"></i></div>
+              <div class="quick-action-text">Demo Flipbook</div>
+              <div class="demo-badge">FREE</div>
+          </div>
+      </div>
+      <button id="quickActionsBtn" class="quick-actions-btn" onclick="toggleQuickActions()">
+          <i data-lucide="layers" class="h-6 w-6"></i>
+      </button>
   </div>
 
   <div class="pointer-events-none fixed inset-0 -z-10">
@@ -558,10 +867,6 @@
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
             <div class="cover-black-overlay" id="coverBlackOverlay"></div>
-            
-            <a href="mailto:bookmintor@gmail.com?subject=Product Support Request" class="cover-support-btn animate-blinkSupport" title="Need Help?">
-                <i data-lucide="help-circle" class="h-4 w-4"></i>
-            </a>
 
             <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true"><div class="loading-half-wheel animate-glowspin"></div></div>
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
@@ -597,10 +902,6 @@
                 <button onclick="sendReaction('🎉')" class="hover:scale-125 transition">🎉</button>
                 <button onclick="sendReaction('🙏🏻')" class="hover:scale-125 transition">🙏🏻</button>
             </div>
-            <button onclick="toggleReactionMenu()" class="reaction-trigger-btn flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-zinc-300">
-                <i data-lucide="heart" id="triggerHeart" class="h-4 w-4 text-red-500"></i>
-                <span id="live-reaction-text">Love this?</span>
-            </button>
         </div>
       </div>
 
@@ -880,6 +1181,11 @@
           <div class="viewer-header">
               <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
               <div class="flex items-center gap-2">
+                  <button id="dashboardFlipbookBtn" class="dashboard-flipbook-btn" onclick="openDashboardFlipbook()">
+                      <i data-lucide="book-open" class="h-4 w-4"></i>
+                      <span>Open Flipbook</span>
+                      <div class="live-dot"></div>
+                  </button>
                   <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
                       <i data-lucide="download" class="h-4 w-4"></i>
                       <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
@@ -899,7 +1205,7 @@
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section active">
                       <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
-                      <div class="w-full h-full flex flex-col items-center justify-center p-4">
+                      <div class="w-full h-full flex flex-col items-center justify-content: center; p-4">
                           <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
                       </div>
                   </div>
@@ -981,8 +1287,6 @@
             confetti({ particleCount: 50, spread: 40, origin: { y: 0.8 }, colors: ['#ef4444', '#ffffff'] });
             showToast(`Shared ${emoji}! Thanks for the love.`, true);
             window.toggleReactionMenu();
-            const textElement = document.getElementById('live-reaction-text');
-            if (textElement) textElement.innerText = "Loved!";
         }).catch((err) => {
             console.error("Firebase Error: ", err);
             showToast("Something went wrong, try again.", false);
@@ -1010,6 +1314,8 @@
         ENGLISH: { VIDEO: "https://bookmintor.shop/aarohibook/%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A5%87_%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82%20exp%20(1).mp4", AUDIO: "https://bookmintor.shop/aarohibook/%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82_%E0%A4%AE%E0%A5%8C%E0%A4%A8_%E0%A4%B8%E0%A4%AE%E0%A4%B0%E0%A5%8D%E0%A4%AA%E0%A4%A3.m4a", PDF: "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf", MINDMAP: "#", ZIP: ZIP_URLS.ENGLISH }
     };
     const SCREENSHOT_URLS = ['https://bookmintor.shop/aarohibook/ss1.png', 'https://bookmintor.shop/aarohibook/ss2.png', 'https://bookmintor.shop/aarohibook/ss3.png'];
+    const FLIPBOOK_URL = "#"; // Demo flipbook URL
+    const DASHBOARD_FLIPBOOK_URL = "https://bookmintor.shop/read"; // Premium flipbook URL
 
     const dom = {
         cover: document.getElementById('coverFace'),
@@ -1046,7 +1352,15 @@
         mysteryTooltip: document.getElementById('mysteryTooltip'),
         feedbackModal: document.getElementById('feedbackModal'),
         coverBlackOverlay: document.getElementById('coverBlackOverlay'),
-        profileShineOverlay: document.getElementById('profileShineOverlay')
+        profileShineOverlay: document.getElementById('profileShineOverlay'),
+        quickActionsBtn: document.getElementById('quickActionsBtn'),
+        quickActionsMenu: document.getElementById('quickActionsMenu'),
+        demoFlipbookItem: document.getElementById('demoFlipbookItem'),
+        premiumLoadingOverlay: document.getElementById('premiumLoadingOverlay'),
+        dashboardFlipbookBtn: document.getElementById('dashboardFlipbookBtn'),
+        flipbookModal: document.getElementById('flipbookModal'),
+        flipbookFrame: document.getElementById('flipbookFrame'),
+        flipbookTitle: document.getElementById('flipbookTitle')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -1061,6 +1375,136 @@
     function zoomMindmap(factor) { scale += factor; if(scale < 0.1) scale = 0.1; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
     function resetMindmap() { scale = 1; pointX = 0; pointY = 0; mmImg.style.transform = `translate(0px, 0px) scale(1)`; }
 
+    /* NEW FUNCTIONS FOR PREMIUM FEATURES */
+
+    function toggleQuickActions() {
+        dom.quickActionsMenu.classList.toggle('active');
+        const icon = dom.quickActionsBtn.querySelector('i');
+        if (dom.quickActionsMenu.classList.contains('active')) {
+            icon.style.transform = 'rotate(45deg)';
+        } else {
+            icon.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    function openSupport() {
+        window.location.href = "mailto:bookmintor@gmail.com?subject=Product Support Request";
+        toggleQuickActions();
+    }
+
+    function openDemoFlipbook() {
+        const isUnlocked = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
+        if (isUnlocked && isUnlocked !== 'false') {
+            showToast("You already have full access!", true);
+            toggleQuickActions();
+            return;
+        }
+        triggerPremiumLoadingSequence('demo');
+        toggleQuickActions();
+    }
+
+    function openDashboardFlipbook() {
+        triggerPremiumLoadingSequence('dashboard');
+    }
+
+    function triggerPremiumLoadingSequence(type) {
+        // Show loading overlay
+        dom.premiumLoadingOverlay.classList.add('active');
+        
+        // Reset all text elements
+        const texts = ['loadingText1', 'loadingText2', 'loadingText3', 'loadingText4', 'loadingText5', 'loadingText6'];
+        texts.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('active');
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+            }
+        });
+        
+        // Animate texts one by one - SLOWER (600ms instead of 400ms)
+        let currentIndex = 0;
+        const textInterval = setInterval(() => {
+            if (currentIndex > 0) {
+                const prevEl = document.getElementById(texts[currentIndex - 1]);
+                if (prevEl) {
+                    prevEl.classList.remove('active');
+                    prevEl.style.opacity = '0';
+                    prevEl.style.transform = 'translateY(-20px)';
+                }
+            }
+            
+            const currentEl = document.getElementById(texts[currentIndex]);
+            if (currentEl) {
+                currentEl.classList.add('active');
+                currentEl.style.opacity = '1';
+                currentEl.style.transform = 'translateY(0)';
+            }
+            
+            currentIndex++;
+            
+            if (currentIndex >= texts.length) {
+                clearInterval(textInterval);
+                setTimeout(() => {
+                    dom.premiumLoadingOverlay.classList.remove('active');
+                    // Open flipbook in modal
+                    if (type === 'demo') {
+                        openFlipbookModal('Demo Flipbook', FLIPBOOK_URL);
+                    } else {
+                        openFlipbookModal('Premium Flipbook', DASHBOARD_FLIPBOOK_URL);
+                    }
+                }, 800);
+            }
+        }, 600); // Increased from 400ms to 600ms for slower animation
+    }
+
+    function openFlipbookModal(title, url) {
+        dom.flipbookTitle.textContent = title;
+        dom.flipbookFrame.src = url;
+        dom.flipbookModal.style.display = 'flex';
+        setTimeout(() => {
+            dom.flipbookModal.querySelector('.flipbook-modal-content').classList.add('animate-modalFadeIn');
+        }, 10);
+        lucide.createIcons();
+    }
+
+    function closeFlipbookModal() {
+        dom.flipbookModal.style.display = 'none';
+        dom.flipbookFrame.src = '';
+    }
+
+    function updateDemoButtonVisibility() {
+        const isUnlocked = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
+        if (isUnlocked && isUnlocked !== 'false') {
+            dom.demoFlipbookItem.style.display = 'none';
+        } else {
+            dom.demoFlipbookItem.style.display = 'flex';
+        }
+    }
+
+    /* MODIFIED setUnlockedState FUNCTION */
+    function setUnlockedState(status) {
+        dom.unlockContainer.style.display = 'inline-flex'; 
+        dom.unlockBtn.setAttribute('data-unlocked', status); 
+        dom.unlockContainer.classList.add('snake-active');
+        dom.actionContainer.classList.add('stacked'); 
+        const ctaShine = dom.buyBtn.querySelector('.cta-shine');
+        if (ctaShine) { 
+            ctaShine.style.display = 'none'; 
+            ctaShine.style.animation = 'none'; 
+        }
+        const unlockShine = dom.unlockBtn.querySelector('.btn-shine');
+        if(unlockShine) { 
+            unlockShine.style.display = 'block'; 
+            unlockShine.style.animation = 'blackShine 4s ease-in-out infinite'; 
+        }
+        if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
+        
+        // Hide demo flipbook button when unlocked
+        updateDemoButtonVisibility();
+    }
+
+    /* EXISTING FUNCTIONS (MODIFIED WHERE NEEDED) */
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
         const btn = document.getElementById('showMore');
@@ -1201,15 +1645,6 @@
     function handleZipDownloadNow() { handleZipCompletion(); const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null; if(url) window.location.href = url; }
     function handleZipDownloadLater() { handleZipCompletion(); openViewerModal(postPaymentLanguage); }
 
-    function setUnlockedState(status) {
-        dom.unlockContainer.style.display = 'inline-flex'; dom.unlockBtn.setAttribute('data-unlocked', status); dom.unlockContainer.classList.add('snake-active');
-        dom.actionContainer.classList.add('stacked'); const ctaShine = dom.buyBtn.querySelector('.cta-shine');
-        if (ctaShine) { ctaShine.style.display = 'none'; ctaShine.style.animation = 'none'; }
-        const unlockShine = dom.unlockBtn.querySelector('.btn-shine');
-        if(unlockShine) { unlockShine.style.display = 'block'; unlockShine.style.animation = 'blackShine 4s ease-in-out infinite'; }
-        if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
-    }
-
     function handleZipCompletion() {
         dom.zipConfirmationModal.style.display = 'none'; const status = getUpdatedUnlockStatus(postPaymentLanguage);
         setUnlockedState(status); showToast("Product Unlocked!", true);
@@ -1281,6 +1716,7 @@
       if(IS_SALE_ACTIVE) document.getElementById('saleBanner').style.display = 'block';
       AOS.init({ duration: 800, once: true, offset: 120 }); lucide.createIcons(); preloadAllImages();
       document.getElementById('year').textContent = new Date().getFullYear();
+      updateDemoButtonVisibility();
     });
 
     let scrollTriggered = false;
@@ -1342,6 +1778,15 @@
         if(this.parentElement.hasAttribute('open')) { c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); }
         else { this.parentElement.setAttribute('open',''); c.style.height='auto'; const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; }
     }));
+
+    // Close quick actions menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dom.quickActionsMenu.contains(e.target) && !dom.quickActionsBtn.contains(e.target)) {
+            dom.quickActionsMenu.classList.remove('active');
+            const icon = dom.quickActionsBtn.querySelector('i');
+            icon.style.transform = 'rotate(0deg)';
+        }
+    });
   </script>
 </body>
 </html>
