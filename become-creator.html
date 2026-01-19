@@ -6,43 +6,36 @@
   <title>Become a Creator - Bookmintor</title>
   <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
-  <!-- External Libraries for Design & Animation -->
+  <!-- External Libraries -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-  <!-- SECURITY SCRIPT: Disables Right Click & Inspect Element -->
-  <script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false; // F12
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false; // Ctrl+Shift+I/J/C
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
-      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false; // Ctrl+S
-    };
-  </script>
-
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: { brandDark: '#0b0e13', brandPurple: '#a855f7' },
-          boxShadow: {
-            glow: '0 0 25px rgba(168, 85, 247, 0.4)',
-            inputFocus: '0 0 0 2px rgba(168, 85, 247, 0.5)'
+          colors: { 
+            brandDark: '#020408', 
+            brandPurple: '#a855f7',
+            brandIndigo: '#6366f1'
           },
           animation: {
-            textShine: 'textShine 3s linear infinite',
-            fogFloat: 'fogFloat 10s ease-in-out infinite alternate',
-            fadeInUp: 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            pulseSlow: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+            'royal-shine': 'royalShine 4s infinite',
+            'fog-move': 'fogMove 20s infinite alternate',
+            'spin-slow': 'spin 8s linear infinite',
           },
           keyframes: {
-            textShine: { '0%': { backgroundPosition: '-200% center' }, '100%': { backgroundPosition: '200% center' } },
-            fogFloat: { '0%': { transform: 'translate(0, 0) scale(1)' }, '100%': { transform: 'translate(20px, -20px) scale(1.1)' } },
-            fadeInUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } }
+            royalShine: {
+              '0%': { backgroundPosition: '-200% center' },
+              '100%': { backgroundPosition: '200% center' }
+            },
+            fogMove: {
+              '0%': { transform: 'translate(0, 0) scale(1)' },
+              '100%': { transform: 'translate(100px, -50px) scale(1.2)' }
+            }
           }
         }
       }
@@ -50,253 +43,409 @@
   </script>
 
   <style>
-    body { font-family: 'Poppins', sans-serif; background-color: #0b0e13; color: white; overflow-x: hidden; }
-    
-    /* Background Fog Animation */
-    .fog-layer { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-    .fog-blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.3; animation: fogFloat 12s infinite alternate; }
-    .blob-1 { top: -15%; left: -10%; width: 600px; height: 600px; background: rgba(99, 102, 241, 0.4); animation-delay: 0s; }
-    .blob-2 { bottom: -15%; right: -10%; width: 700px; height: 700px; background: rgba(168, 85, 247, 0.3); animation-delay: -4s; }
-    
-    /* Creator Shine Text */
-    .creator-shine {
-        background: linear-gradient(90deg, #94a3b8 0%, #ffffff 50%, #94a3b8 100%);
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+    body { 
+        font-family: 'Space Grotesk', sans-serif; 
+        background-color: #020408;
+        color: white; 
+        overflow: hidden; /* Hide scroll until loader finishes */
+        min-height: 100vh;
+    }
+
+    /* --- ADVANCED PRELOADER --- */
+    #preloader {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .loading-text-container { height: 30px; overflow: hidden; text-align: center; }
+    .loading-text { font-size: 1.2rem; font-weight: bold; color: #a855f7; animation: rollText 8s infinite; }
+    @keyframes rollText {
+        0%, 15% { transform: translateY(0); }
+        20%, 35% { transform: translateY(-30px); }
+        40%, 55% { transform: translateY(-60px); }
+        60%, 75% { transform: translateY(-90px); }
+        80%, 100% { transform: translateY(-120px); }
+    }
+
+    /* --- RIGHT CORNER LIGHT ENTRANCE --- */
+    #entrance-light {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 0%;
+        height: 100%;
+        background: white;
+        box-shadow: -50px 0 150px 50px white;
+        z-index: 9999;
+        transition: width 1.2s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.8s ease 1s;
+        pointer-events: none;
+    }
+    .page-reveal #entrance-light {
+        width: 150%;
+        opacity: 0;
+    }
+
+    /* --- ROYAL SHINE EFFECT --- */
+    .king-shine {
+        background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
         background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: textShine 3s linear infinite;
-        font-weight: 800;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        font-size: 0.7rem;
-        margin-top: 4px;
+        animation: royalShine 4s linear infinite;
     }
 
-    /* Form Elements */
-    .glass-card {
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(16px);
+    /* --- FOG BACKGROUND --- */
+    .fog-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+    }
+    .blob {
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        filter: blur(120px);
+        opacity: 0.25;
+        border-radius: 50%;
+        animation: fog-move 25s infinite alternate;
+    }
+    .blob-indigo { background: #6366f1; top: -20%; right: -10%; }
+    .blob-purple { background: #a855f7; bottom: -20%; left: -10%; animation-delay: -5s; }
+
+    /* --- GLOW PROGRESS BAR --- */
+    #progressBar {
+        box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.6);
+        background: linear-gradient(to right, #6366f1, #ffffff, #a855f7);
+        background-size: 200% auto;
+        animation: royalShine 3s linear infinite;
+    }
+
+    /* --- ADVANCED FORM CARD --- */
+    .advanced-card {
+        background: rgba(15, 23, 42, 0.3);
+        backdrop-filter: blur(25px);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 25px 80px -20px rgba(0,0,0,0.6);
+        border-radius: 32px;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
-    .form-input {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        color: white;
-        padding: 14px 16px;
-        width: 100%;
-        transition: all 0.3s ease;
-        outline: none;
-        font-size: 0.95rem;
-    }
-    .form-input:focus {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: #a855f7;
-        box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.1);
-    }
-    .form-label { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 6px; display: block; font-weight: 500; margin-left: 2px; }
+    .advanced-card:hover { border-color: rgba(168, 85, 247, 0.3); }
 
-    /* Custom Select */
-    select.form-input { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
-    
-    /* Success Box */
-    #successBox { display: none; animation: fadeInUp 0.5s ease-out; }
+    .premium-input {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 16px;
+        width: 100%;
+        color: white;
+        transition: all 0.3s;
+        outline: none;
+    }
+    .premium-input:focus {
+        border-color: #a855f7;
+        background: rgba(168, 85, 247, 0.05);
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+    }
+
+    .step-content { display: none; }
+    .step-content.active { display: block; animation: fadeInUp 0.7s forwards; }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
-<body class="selection:bg-fuchsia-500/30">
+<body class="selection:bg-white/20">
 
-  <div class="fog-layer">
-      <div class="fog-blob blob-1"></div>
-      <div class="fog-blob blob-2"></div>
+  <!-- 1. PRELOADER -->
+  <div id="preloader">
+      <div class="mb-6">
+          <img src="https://bookmintor.shop/images/logo.png" class="h-20 w-20 animate-spin-slow">
+      </div>
+      <div class="loading-text-container">
+          <div class="loading-text">
+              Initializing Core...<br>
+              Fetching Secure Data...<br>
+              Loading Assets...<br>
+              Encrypting Connection...<br>
+              Almost Ready...
+          </div>
+      </div>
   </div>
 
-  <header class="max-w-4xl mx-auto px-6 py-10 flex flex-col items-center text-center">
-    <a href="index.html" class="flex flex-col items-center gap-2 group">
-      <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-16 w-16 rounded-full shadow-glow group-hover:scale-105 transition-all duration-300">
-      
-      <div class="flex flex-col items-center leading-none mt-2">
-          <span class="text-3xl font-bold tracking-wide text-zinc-100">
-            <span class="bg-gradient-to-r from-indigo-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
-          </span>
-          <span class="creator-shine">For Creators Only</span>
-      </div>
-    </a>
+  <!-- 2. ENTRANCE LIGHT -->
+  <div id="entrance-light"></div>
+
+  <!-- 3. FOG BACKGROUND -->
+  <div class="fog-bg">
+      <div class="blob blob-indigo"></div>
+      <div class="blob blob-purple"></div>
+  </div>
+
+  <!-- Home Button -->
+  <a href="index.html" class="fixed top-8 left-8 z-50 flex items-center gap-3 px-5 py-2.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl hover:bg-white/10 transition-all hover:scale-110 group">
+      <i data-lucide="arrow-left" class="w-4 h-4 text-zinc-400 group-hover:-translate-x-1 transition-transform"></i>
+      <span class="text-sm font-bold tracking-widest text-zinc-300 uppercase">Home</span>
+  </a>
+
+  <!-- Header -->
+  <header class="max-w-4xl mx-auto px-6 pt-24 pb-12 flex flex-col items-center text-center">
+    <div class="relative mb-6">
+        <div class="absolute inset-0 bg-white/20 blur-3xl rounded-full animate-pulse scale-150"></div>
+        <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="relative h-24 w-24 rounded-full shadow-2xl border-2 border-white/10">
+    </div>
+    
+    <div data-aos="zoom-in">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-2 tracking-tighter">
+            <span class="king-shine">Bookmintor</span>
+        </h1>
+        <p class="text-zinc-500 text-sm font-bold tracking-[0.4em] uppercase opacity-70">Creator Elite Membership</p>
+    </div>
   </header>
 
-  <main class="max-w-3xl mx-auto px-6 pb-24">
+  <main class="max-w-3xl mx-auto px-6 pb-32">
       
-      <!-- Intro Text -->
-      <div class="text-center mb-10" data-aos="fade-up">
-          <h1 class="text-2xl md:text-4xl font-bold mb-3 text-white">Join the Elite Creator Circle</h1>
-          <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto">Share your expertise via Ebooks & Notes. We handle the tech, you keep the profits.</p>
+      <!-- GLOW PROGRESS BAR -->
+      <div class="w-full bg-white/5 h-1.5 rounded-full mb-12 overflow-hidden">
+          <div id="progressBar" class="h-full transition-all duration-1000 ease-out shadow-[0_0_15px_white]" style="width: 20%;"></div>
       </div>
 
-      <!-- Application Form -->
-      <div id="creatorFormContainer" class="glass-card rounded-2xl p-6 md:p-10" data-aos="fade-up" data-aos-delay="100">
-          <form id="creatorForm" onsubmit="submitCreatorForm(event)" class="space-y-6">
+      <!-- THE ADVANCED CARD FORM -->
+      <div id="formContainer" class="advanced-card p-10 md:p-16 relative">
+          
+          <form id="creatorForm" onsubmit="submitCreatorForm(event)">
               
-              <!-- Name & Phone -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                      <label class="form-label">Full Name</label>
-                      <input type="text" name="name" required class="form-input" placeholder="e.g. Rahul Kumar">
-                  </div>
-                  <div>
-                      <label class="form-label">Phone Number (WhatsApp)</label>
-                      <input type="tel" name="phone" required class="form-input" placeholder="+91 974# ######">
-                  </div>
-              </div>
-
-              <!-- Email -->
-              <div>
-                  <label class="form-label">Email Address</label>
-                  <input type="email" name="email" required class="form-input" placeholder="creator@example.com">
-              </div>
-
-              <!-- Profession Dropdown -->
-              <div>
-                  <label class="form-label">Current Profession</label>
-                  <select name="profession" required class="form-input text-zinc-300">
-                      <option value="" disabled selected>Select an option...</option>
-                      <option value="Student">Student (Topper/Aspirant)</option>
-                      <option value="Teacher">Professional Teacher</option>
-                      <option value="Content Creator">YouTuber / Instagram Creator</option>
-                      <option value="Working Professional">Working Professional</option>
-                      <option value="Other">Other</option>
-                  </select>
-              </div>
-
-              <!-- Niche -->
-              <div>
-                  <label class="form-label">Your Niche / Topic</label>
-                  <input type="text" name="niche" required class="form-input" placeholder="e.g. Class 12, Coding, Stock Market">
-              </div>
-
-              <!-- Why Creator -->
-              <div>
-                  <label class="form-label">Why do you want to join?</label>
-                  <textarea name="reason" rows="3" required class="form-input" placeholder="Tell us briefly about your vision..."></textarea>
-              </div>
-
-              <!-- What to Sell -->
-              <div>
-                  <label class="form-label">What content will you sell?</label>
-                  <div class="grid grid-cols-2 gap-3 mt-1">
-                      <label class="flex items-center gap-3 p-3 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5 transition">
-                          <input type="checkbox" name="productType" value="Ebook" class="accent-fuchsia-500 w-4 h-4">
-                          <span class="text-sm text-zinc-300">E-Books (PDF)</span>
-                      </label>
-                      <label class="flex items-center gap-3 p-3 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5 transition">
-                          <input type="checkbox" name="productType" value="Notes" class="accent-fuchsia-500 w-4 h-4">
-                          <span class="text-sm text-zinc-300">Handwritten Notes</span>
-                      </label>
+              <!-- STEP 1: IDENTITY -->
+              <div class="step-content active" data-step="1">
+                  <h3 class="text-zinc-500 font-bold uppercase tracking-widest text-xs mb-2">Step 01 / 05</h3>
+                  <h2 class="text-3xl font-bold mb-8">Who are you?</h2>
+                  <div class="space-y-6">
+                      <input type="text" name="name" required class="premium-input" placeholder="Full Name">
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <input type="tel" name="phone" required class="premium-input" placeholder="WhatsApp Number">
+                          <input type="email" name="email" required class="premium-input" placeholder="Email Address">
+                      </div>
                   </div>
               </div>
 
-              <!-- Submit Button -->
-              <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-fuchsia-600 hover:from-indigo-500 hover:to-fuchsia-500 text-white font-bold py-4 rounded-xl shadow-[0_10px_30px_-10px_rgba(168,85,247,0.5)] transform transition hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 group mt-4">
-                  <span>Submit Application</span>
-                  <i data-lucide="send" class="h-4 w-4 group-hover:translate-x-1 transition-transform"></i>
-              </button>
-              
-              <p class="text-center text-xs text-zinc-500 mt-4"><i data-lucide="lock" class="inline h-3 w-3 mb-0.5"></i> Your data is 100% secure with us.</p>
+              <!-- STEP 2: EXPERIENCE -->
+              <div class="step-content" data-step="2">
+                  <h3 class="text-zinc-500 font-bold uppercase tracking-widest text-xs mb-2">Step 02 / 05</h3>
+                  <h2 class="text-3xl font-bold mb-8">Your Influence</h2>
+                  <div class="space-y-6">
+                      <select name="profession" required class="premium-input bg-zinc-900">
+                          <option value="" disabled selected>Select Profession</option>
+                          <option value="Teacher">Professional Educator</option>
+                          <option value="Student">Student / Aspirant</option>
+                          <option value="Influencer">Social Media Creator</option>
+                          <option value="Professional">Corporate Professional</option>
+                      </select>
+                      <input type="text" name="experience" class="premium-input" placeholder="Years of Experience / Teaching">
+                      <input type="text" name="social" class="premium-input" placeholder="Instagram/YouTube Channel Link">
+                  </div>
+              </div>
+
+              <!-- STEP 3: CONTENT -->
+              <div class="step-content" data-step="3">
+                  <h3 class="text-zinc-500 font-bold uppercase tracking-widest text-xs mb-2">Step 03 / 05</h3>
+                  <h2 class="text-3xl font-bold mb-8">Niche & Content</h2>
+                  <div class="space-y-6">
+                      <input type="text" name="niche" required class="premium-input" placeholder="Your Niche (e.g. UPSC, JEE, Coding)">
+                      <div class="grid grid-cols-2 gap-4">
+                          <label class="p-4 border border-white/10 rounded-2xl bg-white/5 cursor-pointer hover:bg-white/10 transition">
+                              <input type="checkbox" name="productType" value="Ebook" class="mr-3 accent-white">
+                              <span class="text-sm">E-Books</span>
+                          </label>
+                          <label class="p-4 border border-white/10 rounded-2xl bg-white/5 cursor-pointer hover:bg-white/10 transition">
+                              <input type="checkbox" name="productType" value="Notes" class="mr-3 accent-white">
+                              <span class="text-sm">Handwritten Notes</span>
+                          </label>
+                      </div>
+                      <input type="text" name="sampleLink" class="premium-input" placeholder="Link to a sample of your content">
+                  </div>
+              </div>
+
+              <!-- STEP 4: TECH CHECK -->
+              <div class="step-content" data-step="4">
+                  <h3 class="text-zinc-500 font-bold uppercase tracking-widest text-xs mb-2">Step 04 / 05</h3>
+                  <h2 class="text-3xl font-bold mb-8">Hardware & Frequency</h2>
+                  <div class="space-y-6">
+                      <input type="text" name="device" class="premium-input" placeholder="What device do you use? (iPad, Tablet, PC)">
+                      <select name="frequency" required class="premium-input bg-zinc-900">
+                          <option value="" disabled selected>Upload Frequency</option>
+                          <option value="Daily">Daily</option>
+                          <option value="Weekly">Weekly</option>
+                          <option value="Monthly">Monthly</option>
+                      </select>
+                  </div>
+              </div>
+
+              <!-- STEP 5: VISION -->
+              <div class="step-content" data-step="5">
+                  <h3 class="text-zinc-500 font-bold uppercase tracking-widest text-xs mb-2">Step 05 / 05</h3>
+                  <h2 class="text-3xl font-bold mb-8">Your Vision</h2>
+                  <div class="space-y-6">
+                      <textarea name="vision" rows="4" required class="premium-input" placeholder="Why do you want to join Bookmintor? What is your monthly goal?"></textarea>
+                  </div>
+              </div>
+
+              <!-- NAV BUTTONS -->
+              <div class="mt-12 flex gap-4">
+                  <button type="button" id="prevBtn" class="hidden flex-1 py-5 rounded-2xl bg-white/5 border border-white/10 font-bold hover:bg-white/10 transition-all">
+                      Back
+                  </button>
+                  <button type="button" id="nextBtn" class="flex-[2] py-5 rounded-2xl bg-white text-black font-extrabold shadow-[0_0_30px_white] hover:scale-[1.03] active:scale-95 transition-all">
+                      Continue Journey
+                  </button>
+                  <button type="submit" id="submitBtn" class="hidden flex-[2] py-5 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-extrabold shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:scale-[1.03] active:scale-95 transition-all">
+                      Finalize Application
+                  </button>
+              </div>
+
           </form>
       </div>
 
-      <!-- Success Message (Hidden) -->
-      <div id="successBox" class="glass-card rounded-2xl p-10 text-center max-w-lg mx-auto">
-          <div class="w-24 h-24 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.3)]">
-              <i data-lucide="check" class="h-10 w-10 text-emerald-400"></i>
+      <!-- SUCCESS SCREEN -->
+      <div id="successPanel" class="hidden advanced-card p-16 text-center" data-aos="zoom-in">
+          <div class="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20">
+              <i data-lucide="shield-check" class="w-10 h-10 text-white animate-pulse"></i>
           </div>
-          <h2 class="text-2xl font-bold text-white mb-3">Application Submitted! 🎉</h2>
-          <p class="text-zinc-300 text-sm leading-relaxed mb-8">
-              Thank you for applying to be a Creator. Our team has received your details.<br>
-              <span class="text-emerald-400 font-medium">We will review your profile and contact you via Email/WhatsApp shortly.</span>
+          <h2 class="text-4xl font-bold mb-4 king-shine">Application Received!</h2>
+          <p class="text-zinc-400 mb-10 leading-relaxed">
+              Welcome to the elite circle. Our curators will analyze your profile and contact you on WhatsApp/Email within 24 hours.
           </p>
-          <a href="index.html" class="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-semibold transition-all hover:border-white/30">
-              <i data-lucide="arrow-left" class="h-4 w-4"></i> Back to Home
+          <a href="index.html" class="inline-block px-10 py-4 bg-white text-black font-bold rounded-2xl hover:scale-105 transition-all">
+              Return Home
           </a>
       </div>
 
   </main>
 
   <script>
-    // Initialize Animations
-    AOS.init({ duration: 800, once: true });
+    // INIT
     lucide.createIcons();
+    AOS.init({ duration: 1000, once: true });
 
+    // 1. LOADING & REVEAL LOGIC
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Trigger Right Light Roshni
+                document.body.classList.add('page-reveal');
+            }, 500);
+        }, 3500); // 3.5s loading feel
+    });
+
+    // 2. MULTI-STEP LOGIC
+    let currentStep = 1;
+    const totalSteps = 5;
+    const formContainer = document.getElementById('formContainer');
+    const successPanel = document.getElementById('successPanel');
+    const progressBar = document.getElementById('progressBar');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function updateStep() {
+        document.querySelectorAll('.step-content').forEach(s => {
+            s.classList.remove('active');
+            if(s.dataset.step == currentStep) s.classList.add('active');
+        });
+
+        // Progress
+        progressBar.style.width = (currentStep / totalSteps) * 100 + '%';
+
+        // Nav
+        prevBtn.classList.toggle('hidden', currentStep === 1);
+        if(currentStep === totalSteps) {
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+        } else {
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+        }
+        
+        lucide.createIcons();
+    }
+
+    nextBtn.addEventListener('click', () => {
+        const activeStep = document.querySelector(`.step-content[data-step="${currentStep}"]`);
+        const inputs = activeStep.querySelectorAll('input[required], select[required], textarea[required]');
+        let valid = true;
+        
+        inputs.forEach(input => {
+            if(!input.value) {
+                valid = false;
+                input.classList.add('border-red-500');
+                setTimeout(() => input.classList.remove('border-red-500'), 2000);
+            }
+        });
+
+        if(valid && currentStep < totalSteps) {
+            currentStep++;
+            updateStep();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if(currentStep > 1) {
+            currentStep--;
+            updateStep();
+        }
+    });
+
+    // 3. SUBMISSION
     function submitCreatorForm(e) {
         e.preventDefault();
-        
         const btn = document.getElementById('submitBtn');
-        const formDiv = document.getElementById('creatorFormContainer');
-        const successDiv = document.getElementById('successBox');
-        
-        // 1. Gather Data
         const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
         
-        // 2. Button Loading State
-        const originalBtnContent = btn.innerHTML;
-        btn.innerHTML = '<span class="animate-spin mr-2">⏳</span> Processing...';
+        btn.innerHTML = '<span class="animate-spin mr-2">🌀</span> Finalizing...';
         btn.disabled = true;
-        btn.classList.add('opacity-80', 'cursor-not-allowed');
 
-        // 3. SEND DATA (IMPORTANT STEP)
-        // Yahan par hum data ko bhejenge. Abhi ye sirf console me dikhayega aur success dikhayega.
-        // Agar aapko Email par data chahiye, toh "Formspree" use karein (free hai).
-        // Code me niche dekhein kaise connect karna hai.
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/mojjvorz"; 
 
-        console.log("Creator Data Collected:", data); // Check Console (F12) to see data
-
-        /* --- DATA KAISE MILEGA? (REAL SETUP) ---
-           Step 1: Go to https://formspree.io/ and create a free form.
-           Step 2: Copy your Form ID endpoint (e.g., https://formspree.io/f/xmqonbzb).
-           Step 3: Replace the URL below in fetch().
-        */
-
-        const FORMSPREE_ENDPOINT = "https://formspree.io/f/mojjvorz"; // Updated with your URL
-
-        if (FORMSPREE_ENDPOINT) {
-            fetch(FORMSPREE_ENDPOINT, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                if (response.ok) showSuccess();
-                else alert("Oops! There was a problem submitting your form");
-            });
-        } else {
-            // Agar URL nahi hai toh bhi success dikhao (Demo Mode)
-            setTimeout(() => {
-                showSuccess();
-            }, 1500);
-        }
-
-        function showSuccess() {
-            // Smooth Transition
-            formDiv.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            formDiv.style.opacity = '0';
-            formDiv.style.transform = 'scale(0.95)';
-            
-            setTimeout(() => {
-                formDiv.style.display = 'none';
-                successDiv.style.display = 'block';
-                lucide.createIcons();
-                
-                // Celebration Confetti
+        fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                formContainer.classList.add('hidden');
+                successPanel.classList.remove('hidden');
                 confetti({
-                    particleCount: 150,
+                    particleCount: 200,
                     spread: 80,
                     origin: { y: 0.6 },
-                    colors: ['#6366f1', '#a855f7', '#10b981'],
-                    disableForReducedMotion: true
+                    colors: ['#ffffff', '#a855f7', '#6366f1']
                 });
-            }, 500);
-        }
+            } else {
+                alert("Something went wrong. Please try again.");
+                btn.innerHTML = 'Retry Application';
+                btn.disabled = false;
+            }
+        });
     }
+
+    // Security
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = e => {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
   </script>
 </body>
 </html>
