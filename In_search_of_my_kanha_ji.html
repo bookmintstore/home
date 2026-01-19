@@ -119,11 +119,9 @@
     .rolling-text-list li { height: 26px; line-height: 26px; display: flex; align-items: center; white-space: nowrap; }
     @keyframes scrollText { 0%, 9% { transform: translateY(0px); } 12.5%, 21.5% { transform: translateY(-26px); } 25%, 34% { transform: translateY(-52px); } 37.5%, 46.5% { transform: translateY(-78px); } 50%, 59% { transform: translateY(-104px); } 62.5%, 71.5% { transform: translateY(-130px); } 75%, 84% { transform: translateY(-156px); } 87.5%, 96.5% { transform: translateY(-182px); } 100% { transform: translateY(-208px); } }
 
-    /* NEW CREATOR STYLES CORRECTED */
     .brand-col { display: flex; flex-direction: column; line-height: 1; justify-content: center; }
     .creator-text { font-size: 0.55rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-top: 3px; margin-left: 1px; }
     
-    /* AAROHI PROFILE TRIGGER - UPDATED */
     .aarohi-profile-trigger {
         display: flex; 
         align-items: center; 
@@ -145,7 +143,6 @@
         border-color: rgba(168, 85, 247, 0.4);
     }
     
-    /* PROFILE SHINE EFFECT */
     .profile-shine-overlay {
         position: absolute;
         top: 0;
@@ -180,10 +177,8 @@
         animation: profileShine 1.2s ease-out forwards;
     }
     
-    /* MODAL DP NO OVERLAY STYLE */
     .dp-container { position: relative; width: 100px; height: 100px; margin: -50px auto 10px; }
     .dp-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid #0f172a; z-index: 2; position: relative; }
-    /* Updated background style: Use same image as bg, blur it */
     .dp-blur-bg { position: absolute; inset: 0; background-size: cover; filter: blur(12px); border-radius: 50%; z-index: 1; opacity: 0.6; }
 
     .social-btn {
@@ -192,6 +187,17 @@
         font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: 0.3s;
     }
     .social-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
+
+    .reaction-trigger-btn {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+    }
+    .reaction-trigger-btn:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(239, 68, 68, 0.4);
+    }
 
     /* BUTTON STACKING LOGIC */
     .action-container { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; align-items: center; }
@@ -207,7 +213,7 @@
     .bundle-icon-wrap { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; background: rgba(255, 255, 255, 0.05); }
     .bundle-label { font-size: 0.7rem; font-weight: 600; color: #cbd5e1; line-height: 1.1; }
 
-    /* COVER SHINE & SPINNER - UPDATED */
+    /* COVER SHINE & SPINNER */
     .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
@@ -218,7 +224,6 @@
     
     .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
 
-    /* COVER BLACK OVERLAY FOR TAP MESSAGE */
     .cover-black-overlay {
         position: absolute;
         inset: 0;
@@ -264,7 +269,6 @@
     .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
     @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
 
-    /* Support Button styling */
     .cover-support-btn {
         position: absolute;
         top: 10px;
@@ -319,11 +323,10 @@
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
 
-    /* WHATSAPP POPUP SPECIFIC */
     #communityModal { align-items: flex-end; justify-content: center; padding-bottom: 20px; }
     @media (min-width: 640px) { #communityModal { align-items: center; padding-bottom: 0; } }
 
-    /* PREMIUM TOAST (Top Right) */
+    /* PREMIUM TOAST */
     #toastNotification { 
         position: fixed; 
         top: 24px; 
@@ -347,7 +350,6 @@
     #toastNotification.show { transform: translateX(0); }
     #toastNotification.error { border-left-color: #ef4444; }
 
-    /* TIMER */
     #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: transparent; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-size: 1.1rem; font-weight: 800; font-family: monospace; z-index: 2010; padding: 4px 10px; border-radius: 8px; }
 
     /* DASHBOARD */
@@ -420,7 +422,6 @@
     .premium-list-item strong { color: #e0f2f1; }
     .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
 
-    /* New Premium Action Buttons */
     .action-card {
         background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
         border: 1px solid rgba(255,255,255,0.1);
@@ -478,7 +479,7 @@
   <div id="saleBanner">🔥FLASH SALE IS LIVE! Actual Price ₹311, Launch Offer ₹119 for the next few hours. </div>
   <div id="paymentTimer"><span id="timerCount"></span></div>
 
-  <header class="max-w-7xl mx-auto px-6 py-6 flex flex-col items-start gap-1">
+  <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
     <a href="/become-creator" class="flex items-center gap-3 group">
       <img src="https://bookmintor.shop/images/logo.png" 
            alt="Logo" 
@@ -491,28 +492,24 @@
           <span class="creator-text">CREATOR</span>
       </div>
     </a>
+    
+    <a href="index.html" class="text-xs font-bold uppercase tracking-widest text-white/30 hover:text-white transition duration-300">
+        Go Home
+    </a>
   </header>
 
-  <!-- AAROHI PROFILE MODAL -->
   <div id="creatorProfileModal" class="modal">
       <div class="modal-content !max-width-none !w-[90%] !max-w-md bg-[#0f172a] border border-white/10 !p-0 overflow-hidden shadow-profileGlow">
-          
-          <!-- FIXED: Pink/Blue Gradient Removed. Added Blurred Image Background -->
           <div class="h-32 relative overflow-hidden">
-              <!-- Blurred Background Image Layer -->
               <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://bookmintor.shop/images/aarohi_pandey.png'); filter: blur(3px); transform: scale(1.1); opacity: 0.7;"></div>
-              <!-- Dark Overlay for Readability -->
               <div class="absolute inset-0 bg-black/20"></div>
-              
               <button onclick="closeCreatorProfile()" class="absolute top-4 right-4 text-white hover:text-white/80 transition z-20"><i data-lucide="x" class="h-6 w-6"></i></button>
           </div>
 
           <div class="px-6 pb-8 text-center">
               <div class="dp-container">
-                  <!-- DP Image -->
                   <img src="https://bookmintor.shop/images/aarohi_pandey.png" class="dp-img" alt="Aarohi DP">
               </div>
-              
               <h2 class="text-2xl font-bold mt-4 text-white flex items-center justify-center gap-2">Aarohi Pandey <i data-lucide="verified" class="h-5 w-5 text-blue-400"></i></h2>
               <p class="text-indigo-400 font-medium text-sm">Reader & Writer</p>
               
@@ -528,7 +525,6 @@
               </div>
 
               <div class="grid grid-cols-2 gap-3">
-                  <!-- UPDATE THESE LINKS -->
                   <a href="https://www.snapchat.com/@aarohi_pandey17?share_id=WnZ3MNYm-d8&locale=en-GB" target="_blank" class="social-btn text-[#fffc00] flex justify-center no-underline"><i data-lucide="ghost" class="h-4 w-4"></i> Snapchat</a>
                   <a href="https://www.instagram.com/aarohi__pandey17/" target="_blank" class="social-btn text-[#e4405f] flex justify-center no-underline"><i data-lucide="instagram" class="h-4 w-4"></i> Instagram</a>
                   <a href="https://whatsapp.com/channel/0029Vb7dw6J2UPBJe7iDpq2y" target="_blank" class="social-btn col-span-2 text-emerald-400 border-emerald-400/20 bg-emerald-400/5 justify-center shadow-[0_0_15px_rgba(16,185,129,0.2)] no-underline"><i data-lucide="message-circle" class="h-5 w-5"></i> Join WhatsApp Community</a>
@@ -537,7 +533,6 @@
       </div>
   </div>
 
-  <!-- WHATSAPP COMMUNITY POPUP (REPLACES FEEDBACK, PERSISTENT) -->
   <div id="communityModal" class="modal">
       <div class="modal-content !w-full !max-w-md !p-0 bg-[#0f172a] border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.2)] animate-slideUpFade rounded-2xl overflow-hidden mb-0 sm:mb-8">
           <div class="h-1.5 w-full bg-gradient-to-r from-emerald-400 to-green-600"></div>
@@ -548,7 +543,6 @@
               <h2 class="text-2xl font-bold text-white mb-2">You're In</h2>
               <p class="text-zinc-400 text-sm mb-6 leading-relaxed">Don't miss out. Join <span class="text-white font-bold">Aarohi's Private Community.</span></p>
               
-              <!-- UPDATE THIS LINK FOR POST-PURCHASE JOINING -->
               <a href="https://whatsapp.com/channel/0029Vb7dw6J2UPBJe7iDpq2y" target="_blank" class="block w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3.5 rounded-xl shadow-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2 mb-3 no-underline">
                   <i data-lucide="message-circle" class="h-5 w-5 fill-current"></i> Join WhatsApp Community
               </a>
@@ -563,7 +557,6 @@
         
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
-            <!-- COVER BLACK OVERLAY FOR TAP MESSAGE -->
             <div class="cover-black-overlay" id="coverBlackOverlay"></div>
             
             <a href="mailto:bookmintor@gmail.com?subject=Product Support Request" class="cover-support-btn animate-blinkSupport" title="Need Help?">
@@ -596,12 +589,23 @@
           </div>
           <div class="spine" aria-hidden="true"></div><div class="pages" aria-hidden="true"></div><div class="top-edge" aria-hidden="true"></div><div class="bottom-edge" aria-hidden="true"></div><div class="book-ghost" aria-hidden="true"></div>
         </div>
+
+        <div class="absolute -bottom-4 right-0 flex flex-col items-end z-[40]">
+            <div id="reactionMenu" class="hidden mb-3 bg-white/10 backdrop-blur-md p-2 rounded-full border border-white/20 flex gap-3 animate-slideUp">
+                <button onclick="sendReaction('❤️')" class="hover:scale-125 transition">❤️</button>
+                <button onclick="sendReaction('🙌')" class="hover:scale-125 transition">🙌</button>
+                <button onclick="sendReaction('✨')" class="hover:scale-125 transition">✨</button>
+                <button onclick="sendReaction('🙏')" class="hover:scale-125 transition">🙏</button>
+            </div>
+            <button onclick="toggleReactionMenu()" class="reaction-trigger-btn flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-zinc-300">
+                <i data-lucide="heart" id="triggerHeart" class="h-4 w-4 text-red-500"></i>
+                <span id="live-reaction-text">Love this?</span>
+            </button>
+        </div>
       </div>
 
       <div class="flex-1 space-y-4" data-aos="fade-left">
-        <!-- AAROHI PROFILE TRIGGER (Moved here with shine effect) -->
         <div onclick="openCreatorProfile()" class="aarohi-profile-trigger" id="aarohiProfileCard">
-            <!-- PROFILE SHINE EFFECT -->
             <div class="profile-shine-overlay" id="profileShineOverlay">
                 <div class="profile-shine"></div>
             </div>
@@ -642,7 +646,7 @@
         <p class="text-zinc-300">A heartfelt spiritual journey written in simple words, connecting devotion, emotions, and inner peace.</p>
 
         <div class="stats-section" id="stats-section">
-          <div class="stat-item"><div class="stat-value"><i data-lucide="book-heart" class="h-5 w-5"></i><span data-target="456+" id="downloads-value">0</span><span class="text-lg">+</span></div><div class="stat-label">Hearts Reached</div></div>
+          <div class="stat-item"><div class="stat-value text-red-400"><i data-lucide="heart" class="h-5 w-5 fill-current"></i><span data-target="400" id="live-heart-count">400</span><span class="text-lg">+</span></div><div class="stat-label">Hearts Reached</div></div>
           <div class="stat-item"><div class="stat-value"><i data-lucide="star" class="h-5 w-5"></i><span data-target="4.9" id="rating-value">0.0</span></div><div class="stat-label">Rating</div></div>
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="70+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">feedback</div></div>
         </div>
@@ -713,7 +717,6 @@
       </div>
     </div>
 
-    <!-- ... (Rest of content same as previous) ... -->
     <div data-aos="fade-up" class="mb-2"> <h2 class="text-2xl font-bold mb-2">About this Ebook</h2>
       <p class="text-zinc-300 leading-relaxed">Mera Kanha: Ek Antaryatra is not written to impress, but to express. Written by Aarohi Pandey, this ebook feels like a quiet conversation with Kanha, filled with emotions, devotion, and inner reflections. The words are simple, but the feelings behind them are deep. Along with the ebook, readers also get an explainer video and a podcast-style audio, making the experience more personal and immersive. This book is for those who seek calm, connection, and a moment of silence within themselves.</p>
     </div>
@@ -844,9 +847,7 @@
         <button id="paymentModalCloseButton" onclick="openConfirmationModal()" style="position: absolute; top: 12px; right: 12px; z-index: 2020;"><i data-lucide="x" class="h-6 w-6 text-zinc-400 hover:text-white"></i></button>
         <div id="paymentContainer" style="width: 100%; height: 550px; position: relative;">
             <div id="topShield" class="invisible-shield" style="top: 0; height: 70px;"></div>
-            
             <div id="bottomShield" class="invisible-shield inactive" style="bottom: 0; height: 120px;"></div>
-            
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111817; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader"><span class="ball"></span><span class="ball"></span><span class="ball"></span></div>
                 <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
@@ -901,7 +902,6 @@
                           <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
                       </div>
                   </div>
-                  
                   <div id="view-audio" class="viewer-section">
                       <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="audio-player-card">
@@ -909,14 +909,12 @@
                           <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
-                  
                   <div id="view-pdf" class="viewer-section">
                       <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="pdf-container">
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
                       </div>
                   </div>
-                  
                   <div id="view-image" class="viewer-section" style="overflow: hidden;">
                       <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map"></div>
@@ -933,43 +931,84 @@
 
   <footer class="mt-12 border-t border-white/10 py-8 text-center text-sm text-zinc-400">© <span id="year"></span> BookMintor. All rights reserved.</footer>
 
-  <script>
-    // MODIFICATION 1: Content configuration
-    const productConfig = { 
-        showVideo: true, 
-        showAudio: true, 
-        showPdf: true, 
-        showMindmap: true, 
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDMu6fFPEJRKhxWBDhh27HcMSqMkxmCXEE",
+      authDomain: "kanhajibook.firebaseapp.com",
+      databaseURL: "https://kanhajibook-default-rtdb.firebaseio.com", 
+      projectId: "kanhajibook",
+      storageBucket: "kanhajibook.firebasestorage.app",
+      messagingSenderId: "883158985851",
+      appId: "1:883158985851:web:321ad4bd21a695628dc6de",
+      measurementId: "G-G2FQ7Y704R"
     };
 
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const heartRef = ref(db, 'reactions/hearts');
+
+    const BASE_HEART_COUNT = 400; 
+
+    onValue(heartRef, (snapshot) => {
+        const dbValue = snapshot.val() || 0;
+        const totalCount = BASE_HEART_COUNT + dbValue;
+        const countElement = document.getElementById('live-heart-count');
+        if (countElement) countElement.innerText = totalCount;
+    });
+
+    window.toggleReactionMenu = function() {
+        const menu = document.getElementById('reactionMenu');
+        if (menu) menu.classList.toggle('hidden');
+    };
+
+    window.sendReaction = function(emoji) {
+        const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
+        
+        if (localStorage.getItem(storageKey)) {
+            showToast("You've already shared your love! ❤️", true);
+            window.toggleReactionMenu();
+            return;
+        }
+
+        runTransaction(heartRef, (currentValue) => {
+            return (currentValue || 0) + 1;
+        }).then(() => {
+            localStorage.setItem(storageKey, 'true');
+            confetti({ particleCount: 50, spread: 40, origin: { y: 0.8 }, colors: ['#ef4444', '#ffffff'] });
+            showToast(`Shared ${emoji}! Thanks for the love.`, true);
+            window.toggleReactionMenu();
+            const textElement = document.getElementById('live-reaction-text');
+            if (textElement) textElement.innerText = "Loved!";
+        }).catch((err) => {
+            console.error("Firebase Error: ", err);
+            showToast("Something went wrong, try again.", false);
+        });
+    };
+  </script>
+
+  <script>
+    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true };
     const IS_DUAL_LANGUAGE = false; 
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
-    
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
     const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-893dsd3cjdf';
-    
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds",  
         discounted: "https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d" 
     };
-    
     let currentPaymentUrl = PAYMENT_LINKS.default; 
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_AAROHSD368NDSVF';
     const VALID_COUPON = "KANHA89"; 
-
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
-
     const CONTENT_URLS = {
         HINDI: { VIDEO: "3", AUDIO: "3", PDF: "3", MINDMAP: "#", ZIP: ZIP_URLS.HINDI },
         ENGLISH: { VIDEO: "https://bookmintor.shop/aarohibook/%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A5%87_%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82%20exp%20(1).mp4", AUDIO: "https://bookmintor.shop/aarohibook/%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82_%E0%A4%AE%E0%A5%8C%E0%A4%A8_%E0%A4%B8%E0%A4%AE%E0%A4%B0%E0%A5%8D%E0%A4%AA%E0%A4%A3.m4a", PDF: "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf", MINDMAP: "#", ZIP: ZIP_URLS.ENGLISH }
     };
-    
-    const SCREENSHOT_URLS = [
-        'https://bookmintor.shop/aarohibook/ss1.png',
-        'https://bookmintor.shop/aarohibook/ss2.png',
-        'https://bookmintor.shop/aarohibook/ss3.png',
-    ];
+    const SCREENSHOT_URLS = ['https://bookmintor.shop/aarohibook/ss1.png', 'https://bookmintor.shop/aarohibook/ss2.png', 'https://bookmintor.shop/aarohibook/ss3.png'];
 
     const dom = {
         cover: document.getElementById('coverFace'),
@@ -1030,7 +1069,6 @@
         else { hiddenItems.forEach(item => { item.style.display = 'none'; item.classList.remove('animate-slideUp'); }); btn.textContent = 'Show More'; document.getElementById('feedbacks').scrollIntoView({behavior: 'smooth', block: 'start'}); }
     }
 
-    // FEATURE 1: Toggle Tooltip
     function toggleMysteryTooltip(e) {
       if(e) e.stopPropagation();
       const tip = dom.mysteryTooltip;
@@ -1038,47 +1076,20 @@
       tip.style.opacity = isVisible ? '0' : '1';
       tip.style.scale = isVisible ? '0.95' : '1';
       tip.style.pointerEvents = isVisible ? 'none' : 'auto';
-      
-      if(!isVisible) {
-        setTimeout(() => { 
-          tip.style.opacity = '0'; 
-          tip.style.scale = '0.95'; 
-          tip.style.pointerEvents = 'none'; 
-        }, 5000);
-      }
+      if(!isVisible) { setTimeout(() => { tip.style.opacity = '0'; tip.style.scale = '0.95'; tip.style.pointerEvents = 'none'; }, 5000); }
     }
 
-    // NEW FUNCTIONS FOR CREATOR & COMMUNITY
-    function openCreatorProfile() {
-        document.getElementById('creatorProfileModal').style.display = 'flex';
-        document.getElementById('creatorProfileModal').querySelector('.modal-content').classList.add('animate-modalFadeIn');
-        lucide.createIcons();
-    }
+    function openCreatorProfile() { document.getElementById('creatorProfileModal').style.display = 'flex'; document.getElementById('creatorProfileModal').querySelector('.modal-content').classList.add('animate-modalFadeIn'); lucide.createIcons(); }
+    function closeCreatorProfile() { document.getElementById('creatorProfileModal').style.display = 'none'; }
+    function openCommunityModal() { document.getElementById('communityModal').style.display = 'flex'; document.getElementById('communityModal').querySelector('.modal-content').classList.add('animate-modalFadeIn'); lucide.createIcons(); }
+    function closeCommunityModal() { document.getElementById('communityModal').style.display = 'none'; }
 
-    function closeCreatorProfile() {
-        document.getElementById('creatorProfileModal').style.display = 'none';
-    }
-
-    function openCommunityModal() {
-        document.getElementById('communityModal').style.display = 'flex';
-        document.getElementById('communityModal').querySelector('.modal-content').classList.add('animate-modalFadeIn');
-        lucide.createIcons();
-    }
-
-    function closeCommunityModal() {
-        document.getElementById('communityModal').style.display = 'none';
-    }
-
-    // NEW: Profile Shine Effect (One-time trigger on scroll)
     function triggerProfileShine() {
         if (localStorage.getItem('profileShineTriggered') === 'true') return;
-        
         const shineOverlay = dom.profileShineOverlay;
         if (!shineOverlay) return;
-        
         shineOverlay.style.opacity = '1';
         shineOverlay.classList.add('active');
-        
         setTimeout(() => {
             shineOverlay.style.opacity = '0';
             shineOverlay.classList.remove('active');
@@ -1088,21 +1099,14 @@
 
     function handleCoupon() {
         if (!ENABLE_COUPON_SECTION) return; 
-        const input = dom.couponInput;
-        const btn = dom.applyCouponBtn;
-        const code = input.value.trim().toUpperCase();
-
+        const input = dom.couponInput; const btn = dom.applyCouponBtn; const code = input.value.trim().toUpperCase();
         if(code === VALID_COUPON) {
             confetti({ particleCount: 60, spread: 50, origin: { y: 0.5, x: 0.5 }, colors: ['#22c55e', '#ffffff'], zIndex: 10 });
-            input.disabled = true; btn.disabled = true;
-            input.classList.add('coupon-applied');
-            btn.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i>';
-            lucide.createIcons();
-            dom.originalPrice.classList.add('animate-priceSlash'); 
-            dom.displayPrice.classList.add('animate-popFloat'); 
+            input.disabled = true; btn.disabled = true; input.classList.add('coupon-applied');
+            btn.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i>'; lucide.createIcons();
+            dom.originalPrice.classList.add('animate-priceSlash'); dom.displayPrice.classList.add('animate-popFloat'); 
             setTimeout(() => { dom.originalPrice.innerHTML = '₹119'; dom.displayPrice.innerHTML = '₹89'; dom.originalPrice.classList.remove('animate-priceSlash'); }, 600);
-            currentPaymentUrl = PAYMENT_LINKS.discounted;
-            showToast("Coupon Applied", true);
+            currentPaymentUrl = PAYMENT_LINKS.discounted; showToast("Coupon Applied", true);
         } else {
             input.classList.add('animate-shakeInput', 'border-red-500');
             setTimeout(() => input.classList.remove('animate-shakeInput', 'border-red-500'), 500);
@@ -1113,23 +1117,15 @@
     function showToast(msg, isSuccess = true) {
         dom.toastMessage.textContent = msg;
         const iconDiv = document.getElementById('toastIcon');
-        if (isSuccess) {
-            dom.toastNotification.classList.remove('error');
-            iconDiv.innerHTML = '<i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i>';
-        } else {
-            dom.toastNotification.classList.add('error');
-            iconDiv.innerHTML = '<i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>';
-        }
-        dom.toastNotification.classList.add('show');
-        lucide.createIcons();
+        if (isSuccess) { dom.toastNotification.classList.remove('error'); iconDiv.innerHTML = '<i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i>'; } 
+        else { dom.toastNotification.classList.add('error'); iconDiv.innerHTML = '<i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>'; }
+        dom.toastNotification.classList.add('show'); lucide.createIcons();
         setTimeout(() => dom.toastNotification.classList.remove('show'), 3000);
     }
 
     function switchViewerTab(tabId) {
-        // MODIFICATION 1: Prevent switching to disabled sections
         const cfgKey = 'show' + tabId.charAt(0).toUpperCase() + tabId.slice(1);
         if (productConfig.hasOwnProperty(cfgKey) && !productConfig[cfgKey]) return;
-
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
@@ -1144,24 +1140,13 @@
         if (!url) return;
         showToast("Starting Download...", true);
         try {
-            const response = await fetch(url);
-            const blob = await response.blob();
+            const response = await fetch(url); const blob = await response.blob();
             const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.download = filename || url.split('/').pop();
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(blobUrl);
-            document.body.removeChild(a);
+            const a = document.createElement('a'); a.href = blobUrl; a.download = filename || url.split('/').pop();
+            document.body.appendChild(a); a.click(); window.URL.revokeObjectURL(blobUrl); document.body.removeChild(a);
             showToast("Download Complete!", true);
         } catch (error) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.target = "_self"; 
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            const a = document.createElement('a'); a.href = url; a.target = "_self"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
         }
     }
 
@@ -1171,56 +1156,24 @@
         try {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
             document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
-            
             const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', image: 'tab-image' };
             let firstEnabled = null;
-            
             Object.keys(tabs).forEach(key => {
-                const el = document.getElementById(tabs[key]);
-                const configKey = 'show' + key.charAt(0).toUpperCase() + key.slice(1);
-                if (productConfig[configKey]) {
-                    el.classList.remove('tab-disabled');
-                    if (!firstEnabled) firstEnabled = key;
-                } else {
-                    el.classList.add('tab-disabled');
-                }
+                const el = document.getElementById(tabs[key]); const configKey = 'show' + key.charAt(0).toUpperCase() + key.slice(1);
+                if (productConfig[configKey]) { el.classList.remove('tab-disabled'); if (!firstEnabled) firstEnabled = key; } else { el.classList.add('tab-disabled'); }
             });
-
-            const videoEl = document.getElementById('videoSource');
-            const audioEl = document.getElementById('audioSource');
-            const imgEl = document.getElementById('imageSource');
-            const pdfFr = document.getElementById('pdfFrame');
-            if(content.VIDEO && videoEl) { 
-                const source = videoEl.querySelector('source'); 
-                if(source) { source.src = content.VIDEO; videoEl.load(); }
-                document.getElementById('btn-dl-video').onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4');
-            }
-            if(content.AUDIO && audioEl) { 
-                const source = audioEl.querySelector('source'); 
-                if(source) { source.src = content.AUDIO; audioEl.load(); }
-                document.getElementById('btn-dl-audio').onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3');
-            }
-            if(content.MINDMAP && imgEl) { 
-                imgEl.src = content.MINDMAP; 
-                document.getElementById('btn-dl-image').onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png');
-            }
+            const videoEl = document.getElementById('videoSource'); const audioEl = document.getElementById('audioSource');
+            const imgEl = document.getElementById('imageSource'); const pdfFr = document.getElementById('pdfFrame');
+            if(content.VIDEO && videoEl) { const source = videoEl.querySelector('source'); if(source) { source.src = content.VIDEO; videoEl.load(); } document.getElementById('btn-dl-video').onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); }
+            if(content.AUDIO && audioEl) { const source = audioEl.querySelector('source'); if(source) { source.src = content.AUDIO; audioEl.load(); } document.getElementById('btn-dl-audio').onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3'); }
+            if(content.MINDMAP && imgEl) { imgEl.src = content.MINDMAP; document.getElementById('btn-dl-image').onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); }
             if(content.PDF && pdfFr) { 
-                let pdfLink = content.PDF;
-                document.getElementById('btn-dl-pdf').onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
-                if(pdfLink.includes('drive.google.com')) {
-                    pdfLink = pdfLink.replace('/view', '/preview'); 
-                    pdfFr.src = pdfLink;
-                } else {
-                    const encodedUrl = encodeURIComponent(pdfLink);
-                    pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`;
-                }
+                let pdfLink = content.PDF; document.getElementById('btn-dl-pdf').onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
+                if(pdfLink.includes('drive.google.com')) { pdfLink = pdfLink.replace('/view', '/preview'); pdfFr.src = pdfLink; } 
+                else { const encodedUrl = encodeURIComponent(pdfLink); pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; }
             }
-            dom.productViewerModal.style.display = 'flex';
-            dom.productViewerContent.classList.add('animate-modalFadeIn'); 
-            
-            if (firstEnabled) switchViewerTab(firstEnabled);
-            
-            lucide.createIcons(); 
+            dom.productViewerModal.style.display = 'flex'; dom.productViewerContent.classList.add('animate-modalFadeIn'); 
+            if (firstEnabled) switchViewerTab(firstEnabled); lucide.createIcons(); 
         } catch(e) { console.error(e); }
     }
 
@@ -1228,10 +1181,8 @@
 
     function handleUnlockClick() {
         let status = dom.unlockBtn.getAttribute('data-unlocked');
-        if (status === 'BOTH') {
-            dom.downloadModal.style.display = 'flex'; dom.languageSelectionModal.style.display = 'block'; dom.languageSelectionModal.classList.add('animate-modalFadeIn'); lucide.createIcons();
-        } else if (status === 'HINDI') { openViewerModal('HINDI'); } 
-        else if (status === 'ENGLISH') { openViewerModal('ENGLISH'); } 
+        if (status === 'BOTH') { dom.downloadModal.style.display = 'flex'; dom.languageSelectionModal.style.display = 'block'; dom.languageSelectionModal.classList.add('animate-modalFadeIn'); lucide.createIcons(); } 
+        else if (status === 'HINDI') { openViewerModal('HINDI'); } else if (status === 'ENGLISH') { openViewerModal('ENGLISH'); } 
         else { showToast("Please purchase the product first.", false); }
     }
 
@@ -1241,117 +1192,54 @@
 
     let postPaymentLanguage = '';
     function startUnlockProcess(lang) { 
-        postPaymentLanguage = lang; 
-        triggerCelebration(); 
-        dom.zipConfirmationModal.style.display = 'flex'; 
-        document.getElementById('zipCheckStep').style.display = 'flex';
-        document.getElementById('zipChoiceStep').style.display = 'none';
-        lucide.createIcons(); 
+        postPaymentLanguage = lang; triggerCelebration(); dom.zipConfirmationModal.style.display = 'flex'; 
+        document.getElementById('zipCheckStep').style.display = 'flex'; document.getElementById('zipChoiceStep').style.display = 'none'; lucide.createIcons(); 
     }
 
-    function handleZipUnderstand() {
-        document.getElementById('zipCheckStep').style.display = 'none';
-        document.getElementById('zipChoiceStep').style.display = 'flex';
-    }
+    function handleZipUnderstand() { document.getElementById('zipCheckStep').style.display = 'none'; document.getElementById('zipChoiceStep').style.display = 'flex'; }
+    function handleZipDownloadNow() { handleZipCompletion(); const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null; if(url) window.location.href = url; }
+    function handleZipDownloadLater() { handleZipCompletion(); openViewerModal(postPaymentLanguage); }
 
-    function handleZipDownloadNow() {
-        handleZipCompletion();
-        const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null;
-        if(url) window.location.href = url;
-    }
-
-    function handleZipDownloadLater() {
-        handleZipCompletion();
-        openViewerModal(postPaymentLanguage);
-    }
-
-    // FUNCTION TO HANDLE UNLOCKED STATE UI
     function setUnlockedState(status) {
-        dom.unlockContainer.style.display = 'inline-flex';
-        dom.unlockBtn.setAttribute('data-unlocked', status);
-        dom.unlockContainer.classList.add('snake-active');
-        
-        // Stack Buttons Logic
-        dom.actionContainer.classList.add('stacked');
-        
-        // Button Persistence Logic: Keep purple button enabled but remove shine
-        const ctaShine = dom.buyBtn.querySelector('.cta-shine');
-        if (ctaShine) {
-            ctaShine.style.display = 'none';
-            ctaShine.style.animation = 'none';
-        }
-        
-        // Apply shine to green unlock button
+        dom.unlockContainer.style.display = 'inline-flex'; dom.unlockBtn.setAttribute('data-unlocked', status); dom.unlockContainer.classList.add('snake-active');
+        dom.actionContainer.classList.add('stacked'); const ctaShine = dom.buyBtn.querySelector('.cta-shine');
+        if (ctaShine) { ctaShine.style.display = 'none'; ctaShine.style.animation = 'none'; }
         const unlockShine = dom.unlockBtn.querySelector('.btn-shine');
-        if(unlockShine) {
-            unlockShine.style.display = 'block';
-            unlockShine.style.animation = 'blackShine 4s ease-in-out infinite';
-        }
-
+        if(unlockShine) { unlockShine.style.display = 'block'; unlockShine.style.animation = 'blackShine 4s ease-in-out infinite'; }
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
     }
 
     function handleZipCompletion() {
-        dom.zipConfirmationModal.style.display = 'none'; 
-        
-        const status = getUpdatedUnlockStatus(postPaymentLanguage);
-        setUnlockedState(status);
-        
-        showToast("Product Unlocked!", true);
-
-        setTimeout(() => {
-          dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 500);
-
-        // MODIFIED: SHOW WHATSAPP COMMUNITY MODAL INSTEAD OF FEEDBACK (PERSISTENT)
-        setTimeout(() => {
-            openCommunityModal();
-        }, 1500);
+        dom.zipConfirmationModal.style.display = 'none'; const status = getUpdatedUnlockStatus(postPaymentLanguage);
+        setUnlockedState(status); showToast("Product Unlocked!", true);
+        setTimeout(() => { dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
+        setTimeout(() => { openCommunityModal(); }, 1500);
     }
 
     function getUpdatedUnlockStatus(newLang) {
         const current = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
         let result = newLang;
         if ((current.includes('HINDI') && newLang === 'ENGLISH') || (current.includes('ENGLISH') && newLang === 'HINDI') || current.includes('BOTH')) { result = 'BOTH'; }
-        localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, result);
-        return result;
+        localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, result); return result;
     }
 
     function preloadAllImages() {
-        dom.cover.setAttribute('aria-busy', 'true');
-        const imageUrls = [SOURCE_IMAGE, ...SCREENSHOT_URLS];
-        const promises = imageUrls.map(url => new Promise((resolve) => {
-            const img = new Image(); img.src = url; img.onload = resolve; img.onerror = resolve;
-        }));
+        dom.cover.setAttribute('aria-busy', 'true'); const imageUrls = [SOURCE_IMAGE, ...SCREENSHOT_URLS];
+        const promises = imageUrls.map(url => new Promise((resolve) => { const img = new Image(); img.src = url; img.onload = resolve; img.onerror = resolve; }));
         Promise.all(promises).then(() => {
-            dom.coverImg.src = SOURCE_IMAGE;
-            requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
+            dom.coverImg.src = SOURCE_IMAGE; requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
             setTimeout(() => {
-                dom.coverImg.style.opacity = '1'; 
-                dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0';
-                dom.loadingSpin.style.opacity = '0';
-                // Immediately hide loading spinner once image is loaded
-                dom.loadingSpin.style.display = 'none';
+                dom.coverImg.style.opacity = '1'; dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0';
+                dom.loadingSpin.style.opacity = '0'; dom.loadingSpin.style.display = 'none';
                 setTimeout(()=> {
-                    dom.coverShine.style.display = 'none'; 
-                    dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
-                    
+                    dom.coverShine.style.display = 'none'; dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
                     setTimeout(() => {
                         const tapPrompt = document.getElementById('tapPrompt');
                         if(tapPrompt) {
-                            tapPrompt.style.opacity = '1';
-                            // Show black overlay when tap prompt appears
-                            dom.coverBlackOverlay.classList.add('active');
-                            
-                            setTimeout(() => {
-                                tapPrompt.style.opacity = '0';
-                                // Hide black overlay when tap prompt disappears
-                                dom.coverBlackOverlay.classList.remove('active');
-                                setTimeout(() => { tapPrompt.style.display = 'none'; }, 700);
-                            }, 5000); 
+                            tapPrompt.style.opacity = '1'; dom.coverBlackOverlay.classList.add('active');
+                            setTimeout(() => { tapPrompt.style.opacity = '0'; dom.coverBlackOverlay.classList.remove('active'); setTimeout(() => { tapPrompt.style.display = 'none'; }, 700); }, 5000); 
                         }
                     }, 1000);
-
                 }, 450); 
             }, 700);
         });
@@ -1359,178 +1247,100 @@
 
     let currentImageIndex = 0;
     function showPreviewImage(index) {
-        if (index >= SCREENSHOT_URLS.length) index = 0; 
-        else if (index < 0) index = SCREENSHOT_URLS.length - 1;
-        currentImageIndex = index;
-        dom.previewShine.style.display = 'block'; 
-        dom.previewScreenshot.style.opacity = '0.5';
-        const tempImg = new Image(); 
-        tempImg.src = SCREENSHOT_URLS[currentImageIndex];
+        if (index >= SCREENSHOT_URLS.length) index = 0; else if (index < 0) index = SCREENSHOT_URLS.length - 1;
+        currentImageIndex = index; dom.previewShine.style.display = 'block'; dom.previewScreenshot.style.opacity = '0.5';
+        const tempImg = new Image(); tempImg.src = SCREENSHOT_URLS[currentImageIndex];
         tempImg.onload = () => {
-            dom.previewShine.style.display = 'none'; 
-            dom.previewScreenshot.src = tempImg.src;
+            dom.previewShine.style.display = 'none'; dom.previewScreenshot.src = tempImg.src;
             dom.imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
-            dom.previewScreenshot.style.opacity = '1';
-            dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
-            void dom.previewScreenshot.offsetWidth;
-            dom.previewScreenshot.classList.add('animate-subtleZoomIn');
+            dom.previewScreenshot.style.opacity = '1'; dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
+            void dom.previewScreenshot.offsetWidth; dom.previewScreenshot.classList.add('animate-subtleZoomIn');
         };
     }
 
     dom.cover.addEventListener('click', e => { 
         if (!dom.cover.classList.contains('loaded')) return;
-        
-        const tapPrompt = document.getElementById('tapPrompt');
-        if(tapPrompt) {
-            tapPrompt.style.display = 'none';
-            // Hide black overlay when preview starts
-            dom.coverBlackOverlay.classList.remove('active');
-        }
-
-        if(dom.previewOverlay.style.opacity === '1') {
-             e.stopPropagation(); 
-             showPreviewImage(currentImageIndex + 1);
-        } else {
-             e.preventDefault(); 
-             dom.coverImg.style.opacity = '0'; 
-             dom.previewOverlay.style.opacity = '1'; 
-             dom.previewOverlay.style.pointerEvents = 'auto'; 
-             currentImageIndex = -1; 
-             showPreviewImage(0); 
-             lucide.createIcons(); 
-        }
+        const tapPrompt = document.getElementById('tapPrompt'); if(tapPrompt) { tapPrompt.style.display = 'none'; dom.coverBlackOverlay.classList.remove('active'); }
+        if(dom.previewOverlay.style.opacity === '1') { e.stopPropagation(); showPreviewImage(currentImageIndex + 1); } 
+        else { e.preventDefault(); dom.coverImg.style.opacity = '0'; dom.previewOverlay.style.opacity = '1'; dom.previewOverlay.style.pointerEvents = 'auto'; currentImageIndex = -1; showPreviewImage(0); lucide.createIcons(); }
     });
 
-    function exitPreview(e) { 
-        if(e) e.stopPropagation(); 
-        dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
-        setTimeout(() => { 
-            dom.previewOverlay.style.opacity = '0'; 
-            dom.previewOverlay.style.pointerEvents = 'none'; 
-            dom.previewScreenshot.style.opacity = '0'; 
-            dom.coverImg.style.opacity = '1'; 
-        }, 300);
-    }
+    function exitPreview(e) { if(e) e.stopPropagation(); dom.previewScreenshot.classList.remove('animate-subtleZoomIn'); setTimeout(() => { dom.previewOverlay.style.opacity = '0'; dom.previewOverlay.style.pointerEvents = 'none'; dom.previewScreenshot.style.opacity = '0'; dom.coverImg.style.opacity = '1'; }, 300); }
 
     document.addEventListener('DOMContentLoaded', function() {
       if (!ENABLE_COUPON_SECTION) { document.getElementById('couponSection').style.display = 'none'; }
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
-      if (unlockedLangs && unlockedLangs !== 'false') {
-          setUnlockedState(unlockedLangs);
-      }
+      if (unlockedLangs && unlockedLangs !== 'false') { setUnlockedState(unlockedLangs); }
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
-        history.replaceState(null, '', window.location.pathname);
-        sessionStorage.removeItem('payment_initiated');
-        const preSelectedLang = sessionStorage.getItem('selected_language');
-        const finalStatus = getUpdatedUnlockStatus(preSelectedLang || 'HINDI');
-        dom.unlockBtn.setAttribute('data-unlocked', finalStatus);
-        startUnlockProcess(preSelectedLang || 'HINDI');
+        history.replaceState(null, '', window.location.pathname); sessionStorage.removeItem('payment_initiated');
+        const preSelectedLang = sessionStorage.getItem('selected_language'); const finalStatus = getUpdatedUnlockStatus(preSelectedLang || 'HINDI');
+        dom.unlockBtn.setAttribute('data-unlocked', finalStatus); startUnlockProcess(preSelectedLang || 'HINDI');
       }
       if(IS_SALE_ACTIVE) document.getElementById('saleBanner').style.display = 'block';
-      AOS.init({ duration: 800, once: true, offset: 120 });
-      lucide.createIcons();
-      preloadAllImages();
-      
-      // Set current year in footer
+      AOS.init({ duration: 800, once: true, offset: 120 }); lucide.createIcons(); preloadAllImages();
       document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    let scrollTriggered = false;
+    window.addEventListener('scroll', function() {
+        if (!scrollTriggered && window.scrollY > 100) {
+            triggerProfileShine();
+            scrollTriggered = true;
+        }
     });
 
     function animateCount(el, start, end, duration) {
         let startTime = null; let isFloat = end % 1 !== 0;
         function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = timestamp - startTime; const pct = Math.min(progress / duration, 1);
-            let val = start + (end - start) * pct;
-            el.textContent = isFloat ? val.toFixed(1) : Math.floor(val).toLocaleString('en-IN');
+            if (!startTime) startTime = timestamp; const progress = timestamp - startTime; const pct = Math.min(progress / duration, 1);
+            let val = start + (end - start) * pct; el.textContent = isFloat ? val.toFixed(1) : Math.floor(val).toLocaleString('en-IN');
             if (pct < 1) window.requestAnimationFrame(step); else el.textContent = isFloat ? end.toFixed(1) : end.toLocaleString('en-IN');
         } window.requestAnimationFrame(step);
     }
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             document.querySelectorAll('.stat-value span[data-target]').forEach(span => {
-                animateCount(span, 0, parseFloat(span.getAttribute('data-target')), 2000);
+                if (span.id !== 'live-heart-count') { animateCount(span, 0, parseFloat(span.getAttribute('data-target')), 2000); }
             });
             observer.disconnect();
         }
     }, { threshold: 0.5 }); observer.observe(document.getElementById('stats-section'));
 
     function triggerCelebration() { confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); }
-    
     let countdownInterval;
 
     function openPaymentModal() { 
-        document.body.style.overflow = 'hidden';
-        document.getElementById('paymentModal').style.display = 'flex'; 
-        document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
-        
-        if (!IS_DUAL_LANGUAGE) {
-            handlePaymentLanguageSelection('ENGLISH'); 
-        } else {
-            document.getElementById('paymentLangSelection').style.display = 'flex'; 
-            document.getElementById('cashfreeIframe').style.display = 'none'; 
-        }
-
-        dom.bottomShield.classList.add('inactive'); 
-        lucide.createIcons(); 
+        document.body.style.overflow = 'hidden'; document.getElementById('paymentModal').style.display = 'flex'; document.getElementById('paymentModalContent').classList.add('animate-modalFadeIn'); 
+        if (!IS_DUAL_LANGUAGE) { handlePaymentLanguageSelection('ENGLISH'); } else { document.getElementById('paymentLangSelection').style.display = 'flex'; document.getElementById('cashfreeIframe').style.display = 'none'; }
+        dom.bottomShield.classList.add('inactive'); lucide.createIcons(); 
     }
-
-    function closePaymentModal() { 
-        document.body.style.overflow = '';
-        document.getElementById('paymentModal').style.display = 'none'; 
-        document.getElementById('paymentTimer').style.display = 'none'; 
-        if(countdownInterval) clearInterval(countdownInterval); 
-    }
-    
+    function closePaymentModal() { document.body.style.overflow = ''; document.getElementById('paymentModal').style.display = 'none'; document.getElementById('paymentTimer').style.display = 'none'; if(countdownInterval) clearInterval(countdownInterval); }
     function handlePaymentLanguageSelection(lang) {
-        document.getElementById('paymentLangSelection').style.display = 'none'; 
-        document.getElementById('paymentLoader').style.display = 'flex';
-        sessionStorage.setItem('payment_initiated', 'true'); 
-        sessionStorage.setItem('selected_language', lang);
+        document.getElementById('paymentLangSelection').style.display = 'none'; document.getElementById('paymentLoader').style.display = 'flex';
+        sessionStorage.setItem('payment_initiated', 'true'); sessionStorage.setItem('selected_language', lang);
         document.getElementById('cashfreeIframe').src = currentPaymentUrl;
         setTimeout(() => { 
-            document.getElementById('paymentLoader').style.display = 'none'; 
-            document.getElementById('cashfreeIframe').style.display = 'block'; 
-            setTimeout(() => {
-                dom.bottomShield.classList.remove('inactive');
-                dom.bottomShield.style.zIndex = '25'; 
-            }, 36000); 
+            document.getElementById('paymentLoader').style.display = 'none'; document.getElementById('cashfreeIframe').style.display = 'block'; 
+            setTimeout(() => { dom.bottomShield.classList.remove('inactive'); dom.bottomShield.style.zIndex = '25'; }, 36000); 
         }, 2000); 
         let tl = 240; document.getElementById('paymentTimer').style.display='block';
         countdownInterval = setInterval(() => { tl--; document.getElementById('timerCount').textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; if(tl<0) closePaymentModal(); }, 1000);
     }
     document.getElementById('buyBtn').addEventListener('click', (e) => { e.preventDefault(); openPaymentModal(); });
-
     function openConfirmationModal() { document.getElementById('confirmationModal').classList.add('active'); document.getElementById('confirmationModal').style.display='flex'; }
-    function confirmExitPayment(y) { 
-        document.getElementById('confirmationModal').classList.remove('active'); 
-        setTimeout(()=>document.getElementById('confirmationModal').style.display='none',300); 
-        if(y) closePaymentModal(); 
-    }
-
-    // LEGACY FEEDBACK FUNCTIONS (KEPT TO AVOID ERRORS BUT NOT USED IN MAIN FLOW)
+    function confirmExitPayment(y) { document.getElementById('confirmationModal').classList.remove('active'); setTimeout(()=>document.getElementById('confirmationModal').style.display='none',300); if(y) closePaymentModal(); }
     function submitFeedback() {
-        const txt = document.getElementById('feedbackTextarea');
-        if(!txt.value.trim()) { txt.classList.add('border-red-500'); return; }
+        const txt = document.getElementById('feedbackTextarea'); if(!txt.value.trim()) { txt.classList.add('border-red-500'); return; }
         document.getElementById('feedbackForm').style.display='none'; document.getElementById('feedbackSuccess').style.display='block';
         setTimeout(() => { dom.feedbackModal.style.display='none'; }, 2000);
     }
     function closeFeedbackModal(backToLibrary) { dom.feedbackModal.style.display = 'none'; }
-    
     document.querySelectorAll('summary').forEach(s => s.addEventListener('click', function(e) {
         e.preventDefault(); const c = this.parentElement.querySelector('.details-content');
         if(this.parentElement.hasAttribute('open')) { c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); }
         else { this.parentElement.setAttribute('open',''); c.style.height='auto'; const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; }
     }));
-    
-    // Scroll listener for profile shine effect
-    let scrollTriggered = false;
-    window.addEventListener('scroll', function() {
-        if (!scrollTriggered && window.scrollY > 50) {
-            triggerProfileShine();
-            scrollTriggered = true;
-        }
-    }, { once: false });
   </script>
 </body>
 </html>
