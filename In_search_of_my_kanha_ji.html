@@ -61,7 +61,9 @@
             profileShine: 'profileShine 1.2s ease-out forwards',
             fadeInOut: 'fadeInOut 0.3s ease forwards',
             textSlideUp: 'textSlideUp 0.5s ease-out forwards',
-            textGlow: 'textGlow 2s ease-in-out infinite'
+            textGlow: 'textGlow 2s ease-in-out infinite',
+            bounceIn: 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
+            pulseGlow: 'pulseGlow 2s ease-in-out infinite'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -114,6 +116,16 @@
             textGlow: {
               '0%, 100%': { textShadow: '0 0 8px rgba(168, 85, 247, 0.5)' },
               '50%': { textShadow: '0 0 15px rgba(168, 85, 247, 0.8), 0 0 20px rgba(168, 85, 247, 0.4)' }
+            },
+            bounceIn: {
+              '0%': { opacity: 0, transform: 'scale(0.3)' },
+              '50%': { opacity: 1, transform: 'scale(1.05)' },
+              '70%': { transform: 'scale(0.9)' },
+              '100%': { opacity: 1, transform: 'scale(1)' }
+            },
+            pulseGlow: {
+              '0%, 100%': { boxShadow: '0 0 5px rgba(168, 85, 247, 0.3)' },
+              '50%': { boxShadow: '0 0 15px rgba(168, 85, 247, 0.6)' }
             }
           }
         }
@@ -274,7 +286,7 @@
     .cta-btn:hover .corner-bling { opacity: .95; }
 
     /* BOOK 3D */
-    .book-wrap { perspective:1600px; display:flex; align-items:center; justify-content:center; }
+    .book-wrap { perspective:1600px; display:flex; align-items:center; justify-content:center; position: relative; }
     .book-3d { width: 240px; height: 340px; position: relative; transform-style: preserve-3d; transform: rotateY(-12deg) rotateX(4deg); transition: transform .35s ease; margin: 12px; }
     .book-3d:hover { transform: rotateY(-8deg) rotateX(6deg) translateY(-8px); }
     .spine { position:absolute; left: -12px; top: 6px; width: 24px; height: calc(100% - 12px); transform-origin: left center; transform: rotateY(90deg) translateX(-12px); border-radius: 8px 0 0 8px; background: linear-gradient(180deg,#e6e6e8,#cfcfd3); box-shadow: inset 0 2px 6px rgba(0,0,0,0.06); }
@@ -380,6 +392,8 @@
     .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; }
     .viewer-section.active { display: flex; }
     .pdf-container { width: 100%; height: 100%; }
+    .flipbook-container { width: 100%; height: 100%; }
+    .flipbook-iframe { width: 100%; height: 100%; border: none; }
     .mindmap-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: grab; position: relative; }
     .mindmap-container:active { cursor: grabbing; }
     .mindmap-img { max-width: 90%; max-height: 90%; transition: transform 0.1s ease; transform-origin: 0 0; }
@@ -472,38 +486,72 @@
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
     /* NEW PREMIUM FEATURES - UPDATED */
-    /* Floating Quick Actions Menu */
+    /* Floating Quick Actions Menu - NOW AT BOTTOM RIGHT CORNER */
     .floating-quick-actions {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
+        position: absolute;
+        bottom: 15px; /* Changed from top to bottom */
+        right: 15px;
+        z-index: 100;
     }
 
     .quick-actions-btn {
-        width: 56px;
-        height: 56px;
-        background: linear-gradient(135deg, #6366f1, #a855f7);
-        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #f59e0b, #d97706); /* Changed to orange gradient */
+        backdrop-filter: blur(10px);
+        border-radius: 50%; /* Made it circular */
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3);
         cursor: pointer;
         transition: all 0.3s ease;
-        border: none;
+        border: 2px solid rgba(255, 255, 255, 0.5); /* Brighter border */
+        animation: pulseGlow 2s ease-in-out infinite;
         position: relative;
+    }
+
+    /* Tooltip for button */
+    .quick-actions-btn::before {
+        content: 'Quick Actions';
+        position: absolute;
+        bottom: 100%;
+        right: 50%;
+        transform: translateX(50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        margin-bottom: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 101;
     }
 
     .quick-actions-btn:hover {
         transform: scale(1.1);
-        box-shadow: 0 12px 30px rgba(99, 102, 241, 0.6);
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.4);
+    }
+
+    .quick-actions-btn:hover::before {
+        opacity: 1;
+    }
+
+    .quick-actions-btn.clicked {
+        animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
     .quick-actions-menu {
         position: absolute;
-        bottom: 70px;
+        bottom: 60px; /* Changed from top to bottom */
         right: 0;
         background: rgba(15, 23, 42, 0.98);
         backdrop-filter: blur(16px);
@@ -632,55 +680,16 @@
         animation: gradient-shift 8s ease infinite;
     }
 
-    /* Dashboard Flipbook Button */
-    .dashboard-flipbook-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .dashboard-flipbook-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-    }
-
-    .live-dot {
-        width: 8px;
-        height: 8px;
-        background: #10b981;
-        border-radius: 50%;
-        animation: softPulse 1.5s ease-in-out infinite;
-        position: absolute;
-        top: 6px;
-        right: 6px;
-    }
-
-    /* Flipbook Modal */
-    .flipbook-modal-content {
-        width: 95%;
-        max-width: 900px;
-        height: 80vh;
+    /* Demo Flipbook Modal */
+    #demoFlipbookModal .modal-content {
+        max-width: 95%;
+        max-height: 90vh;
         padding: 0;
         background: #0f172a;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+        width: 95%;
     }
 
-    .flipbook-header {
+    #demoFlipbookModal .viewer-header {
         padding: 16px 24px;
         border-bottom: 1px solid rgba(255,255,255,0.08);
         display: flex;
@@ -689,16 +698,8 @@
         background: rgba(15, 23, 42, 0.95);
     }
 
-    .flipbook-iframe-container {
-        flex: 1;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .flipbook-iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
+    #demoFlipbookModal .flipbook-container {
+        height: calc(90vh - 60px);
     }
 
     @media (max-width: 768px) { 
@@ -707,12 +708,21 @@
         .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
         .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
         .floating-quick-actions {
-            bottom: 20px;
-            right: 20px;
+            bottom: 10px;
+            right: 10px;
         }
         .quick-actions-menu {
-            right: -50px;
+            bottom: 55px;
+            right: 0;
             min-width: 180px;
+        }
+        #demoFlipbookModal .modal-content {
+            max-width: 98%;
+            max-height: 85vh;
+            width: 98%;
+        }
+        #demoFlipbookModal .flipbook-container {
+            height: calc(85vh - 60px);
         }
     }
   </style>
@@ -739,50 +749,6 @@
           <div id="loadingText5" class="loading-text"><span class="text-shine">Optimizing Experience...</span></div>
           <div id="loadingText6" class="loading-text"><span class="text-shine">Almost There...</span></div>
       </div>
-  </div>
-
-  <!-- Flipbook Modal -->
-  <div id="flipbookModal" class="modal">
-      <div id="flipbookModalContent" class="flipbook-modal-content animate-modalFadeIn">
-          <div class="flipbook-header">
-              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="book-open" class="h-5 w-5 text-emerald-400"></i> <span id="flipbookTitle">Flipbook Preview</span></h3>
-              <div class="flex items-center gap-2">
-                  <button onclick="closeFlipbookModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
-                      <i data-lucide="x" class="h-5 w-5"></i>
-                  </button>
-              </div>
-          </div>
-          <div class="flipbook-iframe-container">
-              <iframe id="flipbookFrame" class="flipbook-iframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
-          </div>
-      </div>
-  </div>
-
-  <!-- Floating Quick Actions Menu -->
-  <div class="floating-quick-actions">
-      <div id="quickActionsMenu" class="quick-actions-menu">
-          <div class="quick-action-item" onclick="openSupport()">
-              <div class="quick-action-icon"><i data-lucide="help-circle" class="h-4 w-4 text-indigo-400"></i></div>
-              <div class="quick-action-text">Support</div>
-          </div>
-          <div class="quick-action-item" onclick="toggleReactionMenu()">
-              <div class="quick-action-icon"><i data-lucide="heart" class="h-4 w-4 text-red-400"></i></div>
-              <div class="quick-action-text">Love This</div>
-          </div>
-          <div id="demoFlipbookItem" class="quick-action-item" onclick="openDemoFlipbook()">
-              <div class="quick-action-icon"><i data-lucide="book-open" class="h-4 w-4 text-emerald-400"></i></div>
-              <div class="quick-action-text">Demo Flipbook</div>
-              <div class="demo-badge">FREE</div>
-          </div>
-      </div>
-      <button id="quickActionsBtn" class="quick-actions-btn" onclick="toggleQuickActions()">
-          <i data-lucide="layers" class="h-6 w-6"></i>
-      </button>
-  </div>
-
-  <div class="pointer-events-none fixed inset-0 -z-10">
-    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
-    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/20 blur-[140px]"></div>
   </div>
 
   <div id="saleBanner">🔥FLASH SALE IS LIVE! Actual Price ₹311, Launch Offer ₹119 for the next few hours. </div>
@@ -890,6 +856,28 @@
                 <img id="previewScreenshot" src="" alt="Preview" class="absolute inset-0 w-full h-full object-contain" />
                 <button onclick="exitPreview(event)" id="exitPreviewBtn" class="absolute top-2 right-2 p-1 bg-black/30 text-white rounded-full hover:bg-black/50 transition z-10"><i data-lucide="x" class="h-4 w-4"></i></button>
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
+            </div>
+            
+            <!-- Floating Quick Actions Menu - NOW AT BOTTOM RIGHT CORNER -->
+            <div class="floating-quick-actions">
+                <div id="quickActionsMenu" class="quick-actions-menu">
+                    <div class="quick-action-item" onclick="openSupport()">
+                        <div class="quick-action-icon"><i data-lucide="help-circle" class="h-4 w-4 text-indigo-400"></i></div>
+                        <div class="quick-action-text">Support</div>
+                    </div>
+                    <div class="quick-action-item" onclick="toggleReactionMenu()">
+                        <div class="quick-action-icon"><i data-lucide="heart" class="h-4 w-4 text-red-400"></i></div>
+                        <div class="quick-action-text">Love This</div>
+                    </div>
+                    <div id="demoFlipbookItem" class="quick-action-item" onclick="openDemoFlipbook()">
+                        <div class="quick-action-icon"><i data-lucide="book-open" class="h-4 w-4 text-emerald-400"></i></div>
+                        <div class="quick-action-text">Demo Flipbook</div>
+                        <div class="demo-badge">FREE</div>
+                    </div>
+                </div>
+                <button id="quickActionsBtn" class="quick-actions-btn" onclick="toggleQuickActions()">
+                    <i data-lucide="settings" class="h-5 w-5"></i>
+                </button>
             </div>
           </div>
           <div class="spine" aria-hidden="true"></div><div class="pages" aria-hidden="true"></div><div class="top-edge" aria-hidden="true"></div><div class="bottom-edge" aria-hidden="true"></div><div class="book-ghost" aria-hidden="true"></div>
@@ -1127,6 +1115,23 @@
       </div>
   </div>
 
+  <!-- Demo Flipbook Modal -->
+  <div id="demoFlipbookModal" class="modal">
+      <div class="modal-content animate-modalFadeIn" style="max-width: 95%; max-height: 90vh; padding: 0; background: #0f172a; width: 95%;">
+          <div class="viewer-header">
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                  <i data-lucide="book-open" class="h-5 w-5 text-emerald-400"></i>
+                  Demo Flipbook Preview
+              </h3>
+              <button onclick="closeDemoFlipbookModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
+                  <i data-lucide="x" class="h-5 w-5"></i>
+              </button>
+          </div>
+          <div class="flipbook-container" style="height: calc(90vh - 60px);">
+              <iframe id="demoFlipbookFrame" class="flipbook-iframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+          </div>
+      </div>
+  </div>
 
   <div id="feedbackModal" class="modal">
     <div class="modal-content" id="feedbackModalContent" style="max-width: 400px; padding: 30px; background-color: #1e293b; color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1);">
@@ -1181,11 +1186,6 @@
           <div class="viewer-header">
               <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
               <div class="flex items-center gap-2">
-                  <button id="dashboardFlipbookBtn" class="dashboard-flipbook-btn" onclick="openDashboardFlipbook()">
-                      <i data-lucide="book-open" class="h-4 w-4"></i>
-                      <span>Open Flipbook</span>
-                      <div class="live-dot"></div>
-                  </button>
                   <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
                       <i data-lucide="download" class="h-4 w-4"></i>
                       <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
@@ -1200,6 +1200,7 @@
                   <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
                   <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
+                  <div id="tab-flipbook" class="viewer-tab" onclick="switchViewerTab('flipbook')"><i data-lucide="book-open" class="h-4 w-4"></i> Flipbook</div>
                   <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
               <div class="viewer-main">
@@ -1220,6 +1221,12 @@
                       <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="pdf-container">
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
+                      </div>
+                  </div>
+                  <div id="view-flipbook" class="viewer-section">
+                      <button id="btn-dl-flipbook" class=""><i data-lucide="" class="h-4 w-4"></i></button>
+                      <div class="flipbook-container">
+                          <iframe id="flipbookFrame" class="flipbook-iframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                       </div>
                   </div>
                   <div id="view-image" class="viewer-section" style="overflow: hidden;">
@@ -1295,12 +1302,12 @@
   </script>
 
   <script>
-    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true };
+    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showFlipbook: true };
     const IS_DUAL_LANGUAGE = false; 
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
-    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-54fdsd3cjdf';
+    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-5407g98768cjdf';
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds",  
         discounted: "https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d" 
@@ -1310,12 +1317,25 @@
     const VALID_COUPON = "KANHA89"; 
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
     const CONTENT_URLS = {
-        HINDI: { VIDEO: "3", AUDIO: "3", PDF: "3", MINDMAP: "#", ZIP: ZIP_URLS.HINDI },
-        ENGLISH: { VIDEO: "https://bookmintor.shop/aarohibook/%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A5%87_%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82%20exp%20(1).mp4", AUDIO: "https://bookmintor.shop/aarohibook/%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82_%E0%A4%AE%E0%A5%8C%E0%A4%A8_%E0%A4%B8%E0%A4%AE%E0%A4%B0%E0%A5%8D%E0%A4%AA%E0%A4%A3.m4a", PDF: "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf", MINDMAP: "#", ZIP: ZIP_URLS.ENGLISH }
+        HINDI: { 
+            VIDEO: "3", 
+            AUDIO: "3", 
+            PDF: "3", 
+            MINDMAP: "#", 
+            ZIP: ZIP_URLS.HINDI,
+            FLIPBOOK: "https://flipbookpdf.net/web/site/full-premium-content-hindi.pdf.html"
+        },
+        ENGLISH: { 
+            VIDEO: "https://bookmintor.shop/aarohibook/%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A5%87_%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82%20exp%20(1).mp4", 
+            AUDIO: "https://bookmintor.shop/aarohibook/%E0%A4%95%E0%A4%BE%E0%A4%A8%E0%A5%8D%E0%A4%B9%E0%A4%BE_%E0%A4%9C%E0%A5%80_%E0%A4%95%E0%A5%80_%E0%A4%96%E0%A5%8B%E0%A4%9C_%E0%A4%AE%E0%A5%87%E0%A4%82_%E0%A4%AE%E0%A5%8C%E0%A4%A8_%E0%A4%B8%E0%A4%AE%E0%A4%B0%E0%A5%8D%E0%A4%AA%E0%A4%A3.m4a", 
+            PDF: "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf", 
+            MINDMAP: "#", 
+            ZIP: ZIP_URLS.ENGLISH,
+            FLIPBOOK: "https://bookmintor.shop/read"
+        }
     };
     const SCREENSHOT_URLS = ['https://bookmintor.shop/aarohibook/ss1.png', 'https://bookmintor.shop/aarohibook/ss2.png', 'https://bookmintor.shop/aarohibook/ss3.png'];
-    const FLIPBOOK_URL = "#"; // Demo flipbook URL
-    const DASHBOARD_FLIPBOOK_URL = "https://bookmintor.shop/read"; // Premium flipbook URL
+    const DEMO_FLIPBOOK_URL = "https://bookmintor.shop/read";
 
     const dom = {
         cover: document.getElementById('coverFace'),
@@ -1342,6 +1362,7 @@
         audioSource: document.getElementById('audioSource'),
         imageSource: document.getElementById('imageSource'),
         pdfFrame: document.getElementById('pdfFrame'),
+        flipbookFrame: document.getElementById('flipbookFrame'),
         displayPrice: document.getElementById('displayPrice'),
         originalPrice: document.getElementById('originalPrice'),
         couponInput: document.getElementById('couponInput'),
@@ -1357,10 +1378,8 @@
         quickActionsMenu: document.getElementById('quickActionsMenu'),
         demoFlipbookItem: document.getElementById('demoFlipbookItem'),
         premiumLoadingOverlay: document.getElementById('premiumLoadingOverlay'),
-        dashboardFlipbookBtn: document.getElementById('dashboardFlipbookBtn'),
-        flipbookModal: document.getElementById('flipbookModal'),
-        flipbookFrame: document.getElementById('flipbookFrame'),
-        flipbookTitle: document.getElementById('flipbookTitle')
+        demoFlipbookModal: document.getElementById('demoFlipbookModal'),
+        demoFlipbookFrame: document.getElementById('demoFlipbookFrame')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -1378,13 +1397,14 @@
     /* NEW FUNCTIONS FOR PREMIUM FEATURES */
 
     function toggleQuickActions() {
-        dom.quickActionsMenu.classList.toggle('active');
-        const icon = dom.quickActionsBtn.querySelector('i');
-        if (dom.quickActionsMenu.classList.contains('active')) {
-            icon.style.transform = 'rotate(45deg)';
-        } else {
-            icon.style.transform = 'rotate(0deg)';
-        }
+        const btn = dom.quickActionsBtn;
+        const menu = dom.quickActionsMenu;
+        
+        // Add click animation
+        btn.classList.add('clicked');
+        setTimeout(() => btn.classList.remove('clicked'), 500);
+        
+        menu.classList.toggle('active');
     }
 
     function openSupport() {
@@ -1403,10 +1423,6 @@
         toggleQuickActions();
     }
 
-    function openDashboardFlipbook() {
-        triggerPremiumLoadingSequence('dashboard');
-    }
-
     function triggerPremiumLoadingSequence(type) {
         // Show loading overlay
         dom.premiumLoadingOverlay.classList.add('active');
@@ -1422,7 +1438,7 @@
             }
         });
         
-        // Animate texts one by one - SLOWER (600ms instead of 400ms)
+        // Animate texts one by one
         let currentIndex = 0;
         const textInterval = setInterval(() => {
             if (currentIndex > 0) {
@@ -1447,38 +1463,48 @@
                 clearInterval(textInterval);
                 setTimeout(() => {
                     dom.premiumLoadingOverlay.classList.remove('active');
-                    // Open flipbook in modal
+                    // Open demo flipbook in modal
                     if (type === 'demo') {
-                        openFlipbookModal('Demo Flipbook', FLIPBOOK_URL);
-                    } else {
-                        openFlipbookModal('Premium Flipbook', DASHBOARD_FLIPBOOK_URL);
+                        openDemoFlipbookModal();
                     }
                 }, 800);
             }
-        }, 600); // Increased from 400ms to 600ms for slower animation
+        }, 600);
     }
 
-    function openFlipbookModal(title, url) {
-        dom.flipbookTitle.textContent = title;
-        dom.flipbookFrame.src = url;
-        dom.flipbookModal.style.display = 'flex';
-        setTimeout(() => {
-            dom.flipbookModal.querySelector('.flipbook-modal-content').classList.add('animate-modalFadeIn');
-        }, 10);
-        lucide.createIcons();
+    function openDemoFlipbookModal() {
+        if (dom.demoFlipbookFrame) {
+            dom.demoFlipbookFrame.src = DEMO_FLIPBOOK_URL;
+        }
+        if (dom.demoFlipbookModal) {
+            dom.demoFlipbookModal.style.display = 'flex';
+            const modalContent = dom.demoFlipbookModal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.classList.add('animate-modalFadeIn');
+            }
+            lucide.createIcons();
+        }
     }
 
-    function closeFlipbookModal() {
-        dom.flipbookModal.style.display = 'none';
-        dom.flipbookFrame.src = '';
+    function closeDemoFlipbookModal() {
+        if (dom.demoFlipbookModal) {
+            dom.demoFlipbookModal.style.display = 'none';
+            if (dom.demoFlipbookFrame) {
+                dom.demoFlipbookFrame.src = '';
+            }
+        }
     }
 
     function updateDemoButtonVisibility() {
         const isUnlocked = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
         if (isUnlocked && isUnlocked !== 'false') {
-            dom.demoFlipbookItem.style.display = 'none';
+            if (dom.demoFlipbookItem) {
+                dom.demoFlipbookItem.style.display = 'none';
+            }
         } else {
-            dom.demoFlipbookItem.style.display = 'flex';
+            if (dom.demoFlipbookItem) {
+                dom.demoFlipbookItem.style.display = 'flex';
+            }
         }
     }
 
@@ -1579,6 +1605,14 @@
         let targetSectionId = `view-${tabId}`;
         const section = document.getElementById(targetSectionId);
         if(section) section.classList.add('active');
+        
+        // Load flipbook if needed
+        if (tabId === 'flipbook') {
+            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH;
+            if (content.FLIPBOOK) {
+                dom.flipbookFrame.src = content.FLIPBOOK;
+            }
+        }
     }
 
     async function handleDirectDownload(url, filename) {
@@ -1599,9 +1633,9 @@
         if (lang) { currentContentLanguage = lang; localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); } 
         else { currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI'; }
         try {
-            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.HINDI; 
+            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
             document.getElementById('dashboardTitle').innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
-            const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', image: 'tab-image' };
+            const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', flipbook: 'tab-flipbook', image: 'tab-image' };
             let firstEnabled = null;
             Object.keys(tabs).forEach(key => {
                 const el = document.getElementById(tabs[key]); const configKey = 'show' + key.charAt(0).toUpperCase() + key.slice(1);
@@ -1617,12 +1651,20 @@
                 if(pdfLink.includes('drive.google.com')) { pdfLink = pdfLink.replace('/view', '/preview'); pdfFr.src = pdfLink; } 
                 else { const encodedUrl = encodeURIComponent(pdfLink); pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; }
             }
+            if(content.FLIPBOOK) {
+                document.getElementById('btn-dl-flipbook').onclick = () => handleDirectDownload(content.FLIPBOOK, 'flipbook.html');
+            }
             dom.productViewerModal.style.display = 'flex'; dom.productViewerContent.classList.add('animate-modalFadeIn'); 
             if (firstEnabled) switchViewerTab(firstEnabled); lucide.createIcons(); 
         } catch(e) { console.error(e); }
     }
 
-    function closeViewerModal() { dom.productViewerModal.style.display = 'none'; document.querySelectorAll('video, audio').forEach(v => v.pause()); }
+    function closeViewerModal() { 
+        dom.productViewerModal.style.display = 'none'; 
+        document.querySelectorAll('video, audio').forEach(v => v.pause());
+        // Clear flipbook iframe
+        dom.flipbookFrame.src = '';
+    }
 
     function handleUnlockClick() {
         let status = dom.unlockBtn.getAttribute('data-unlocked');
@@ -1717,6 +1759,15 @@
       AOS.init({ duration: 800, once: true, offset: 120 }); lucide.createIcons(); preloadAllImages();
       document.getElementById('year').textContent = new Date().getFullYear();
       updateDemoButtonVisibility();
+      
+      // Close quick actions menu when clicking outside
+      document.addEventListener('click', function(e) {
+          if (dom.quickActionsMenu && dom.quickActionsBtn) {
+              if (!dom.quickActionsMenu.contains(e.target) && !dom.quickActionsBtn.contains(e.target)) {
+                  dom.quickActionsMenu.classList.remove('active');
+              }
+          }
+      });
     });
 
     let scrollTriggered = false;
@@ -1778,15 +1829,6 @@
         if(this.parentElement.hasAttribute('open')) { c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); }
         else { this.parentElement.setAttribute('open',''); c.style.height='auto'; const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; }
     }));
-
-    // Close quick actions menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!dom.quickActionsMenu.contains(e.target) && !dom.quickActionsBtn.contains(e.target)) {
-            dom.quickActionsMenu.classList.remove('active');
-            const icon = dom.quickActionsBtn.querySelector('i');
-            icon.style.transform = 'rotate(0deg)';
-        }
-    });
   </script>
 </body>
 </html>
