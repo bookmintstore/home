@@ -3,384 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive PDF Flipbook</title>
+    <title>Secure Bookmintor Flipbook</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --accent-color: #3b82f6;
+            --bg-color: #020408; 
+            --accent-color: #a855f7;
+            --brand-indigo: #6366f1;
             --text-main: #ffffff;
-            --overlay-bg: rgba(0, 0, 0, 0.9);
+            --overlay-bg: rgba(0, 0, 0, 0.95);
+        }
+
+        /* --- SECURITY: NO SELECTION --- */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
             background: var(--bg-color);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        /* --- HEADER --- */
+        .brand-header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
             align-items: center;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .brand-logo {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .brand-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: royalShine 4s linear infinite;
+        }
+
+        @keyframes royalShine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* --- WRAPPER FIX: CENTERED WITHOUT SHIFTING --- */
+        #flipbook-wrapper {
+            flex: 1;
+            display: flex;
             justify-content: center;
-            height: 100vh;
+            align-items: center;
+            padding: 40px 0 100px 0; /* Space for counter */
             overflow: hidden;
         }
 
-        /* Flipbook Container */
-        #flipbook-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            padding-bottom: 80px; /* Space for the floating counter */
-            box-sizing: border-box;
-        }
-
         #flipbook {
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
-            background: #1a1a1a;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+            background: #111;
             visibility: hidden;
-            transition: opacity 0.5s ease;
         }
 
         .page {
             background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
 
         canvas {
             width: 100% !important;
             height: 100% !important;
+            display: block;
         }
 
-        /* Fixed & Stylized Page Counter (Matching standard reader apps) */
+        /* --- BLURRED NOTES SYSTEM --- */
+        #notes-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .add-note-btn {
+            background: rgba(168, 85, 247, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            color: white;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .add-note-btn:hover {
+            background: rgba(168, 85, 247, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .sticky-note {
+            background: rgba(255, 255, 150, 0.15); /* Glassy yellow */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 15px;
+            border-radius: 16px;
+            width: 220px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
+            position: relative;
+            animation: notePop 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .sticky-note::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 15%; bottom: 15%;
+            width: 4px;
+            background: #ffd700;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .delete-note {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+        .delete-note:hover { opacity: 1; color: #ff4444; }
+
+        @keyframes notePop {
+            from { opacity: 0; transform: translateY(10px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --- COUNTER --- */
         .counter-container {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 50;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 8px 24px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 100px;
-        }
-
-        .page-count {
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 1px;
-            user-select: none;
-        }
-
-        .page-count span#current-page {
-            color: var(--accent-color);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .page-count .separator {
-            margin: 0 8px;
-            opacity: 0.5;
-            font-weight: 300;
-        }
-
-        /* Introduction Overlay */
-        #guide-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--overlay-bg);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-
-        #guide-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .guide-content {
-            max-width: 400px;
-            padding: 20px;
-            animation: fadeInScale 0.5s ease-out;
-        }
-
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .guide-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        .instruction-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 30px;
+            border-radius: 100px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .instruction-icon {
-            margin-right: 15px;
-            color: var(--accent-color);
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
         }
 
-        .instruction-text {
-            text-align: left;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
+        #current-page { color: var(--accent-color); font-weight: 800; font-size: 1.3rem; }
+        .total-slash { opacity: 0.3; font-weight: 300; }
 
-        .start-btn {
-            margin-top: 20px;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-
-        .start-btn:hover {
-            transform: scale(1.05);
-            background: #2563eb;
-        }
-
-        /* Loader */
+        /* --- ADVANCED LOADER --- */
         #loader {
             position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: var(--bg-color);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            z-index: 200;
-            background: var(--bg-color);
-            width: 100%;
-            height: 100%;
+            align-items: center;
+            transition: opacity 0.8s ease;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-color);
+        .spinner-outer {
+            width: 70px;
+            height: 70px;
+            border: 2px solid rgba(168, 85, 247, 0.1);
+            border-top: 2px solid var(--accent-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #loading-progress {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            #flipbook {
-                width: 92vw !important;
-                height: 75vh !important;
-            }
-            .counter-container {
-                bottom: 20px;
-                padding: 6px 18px;
-            }
+        /* --- MODAL --- */
+        #note-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
         }
+
+        .modal-content {
+            background: #0f1115;
+            padding: 35px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 420px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-content textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 18px;
+            border-radius: 18px;
+            resize: none;
+            margin: 20px 0;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .modal-content textarea:focus { border-color: var(--accent-color); }
+
+        .modal-btns { display: flex; gap: 12px; }
+        .modal-btns button { 
+            flex: 1; 
+            padding: 14px; 
+            border-radius: 15px; 
+            border: none; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        .save-btn { background: var(--accent-color); color: white; }
+        .cancel-btn { background: rgba(255,255,255,0.05); color: #888; }
+        .save-btn:hover { filter: brightness(1.2); }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-    <!-- Loading Screen -->
-    <div id="loader">
-        <div class="spinner"></div>
-        <p id="loading-text">Preparing your book...</p>
+    <div class="brand-header">
+        <img src="https://bookmintor.shop/images/logo.png" class="brand-logo" alt="Logo">
+        <span class="brand-name">Bookmintor</span>
     </div>
 
-    <!-- Guide Overlay -->
-    <div id="guide-overlay">
-        <div class="guide-content">
-            <h2 class="guide-title">How to Read</h2>
-            
-            <div class="instruction-item">
-                <div class="instruction-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="m13 13 6 6"/></svg>
-                </div>
-                <div class="instruction-text">
-                    <strong>Tap or Click</strong> on the right edge to go forward, left edge to go back.
-                </div>
-            </div>
+    <div id="notes-container">
+        <button class="add-note-btn" onclick="openNoteModal()">
+            <i data-lucide="plus-circle" style="width:18px"></i> Add Note
+        </button>
+        <div id="active-notes"></div>
+    </div>
 
-            <div class="instruction-item">
-                <div class="instruction-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </div>
-                <div class="instruction-text">
-                    <strong>Swipe</strong> horizontally to flip pages smoothly like a real book.
-                </div>
+    <div id="note-modal">
+        <div class="modal-content">
+            <h3 style="margin: 0; font-size: 1.5rem;">Create Sticky Note</h3>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">Attaching to Page <span id="target-page-num" style="color:var(--accent-color)">1</span></p>
+            <textarea id="note-text" rows="4" placeholder="Write something important..."></textarea>
+            <div class="modal-btns">
+                <button class="cancel-btn" onclick="closeNoteModal()">Discard</button>
+                <button class="save-btn" onclick="saveNote()">Save Changes</button>
             </div>
-
-            <div class="instruction-item">
-                <div class="instruction-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                </div>
-                <div class="instruction-text">
-                    Track your progress using the <strong>Page Counter</strong> at the bottom.
-                </div>
-            </div>
-
-            <button class="start-btn" onclick="dismissGuide()">START READING</button>
         </div>
     </div>
 
-    <!-- Flipbook Container -->
+    <div id="loader">
+        <div class="spinner-outer"></div>
+        <p id="loading-text" style="font-weight: 400; color: #666; margin: 0;">PREPARING ASSETS</p>
+        <p id="loading-progress">0% COMPLETE</p>
+    </div>
+
     <div id="flipbook-wrapper">
         <div id="flipbook"></div>
     </div>
 
-    <!-- Floating Stylized Counter -->
     <div class="counter-container">
         <div class="page-count">
-            <span id="current-page">1</span><span class="separator">/</span><span id="total-pages">--</span>
+            <span id="current-page">1</span> 
+            <span class="total-slash">/</span> 
+            <span id="total-pages">--</span>
         </div>
     </div>
 
+    <audio id="page-sound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" type="audio/mpeg">
+    </audio>
+
 <script>
-    // Config
     const PDF_URL = 'https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf';
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
+    // Advanced Security
+    document.onkeydown = (e) => {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
+
+    let pageFlip;
+    let currentPageIndex = 0;
+    let allNotes = JSON.parse(localStorage.getItem('bookmintor_notes') || '{}');
+
     const flipbookEl = document.getElementById('flipbook');
     const loader = document.getElementById('loader');
-    const loadingText = document.getElementById('loading-text');
-    const guideOverlay = document.getElementById('guide-overlay');
-    const currentPageEl = document.getElementById('current-page');
-    const totalPagesEl = document.getElementById('total-pages');
-    
-    let pageFlip;
+    const progressText = document.getElementById('loading-progress');
+    const activeNotesContainer = document.getElementById('active-notes');
+    const pageSound = document.getElementById('page-sound');
 
-    // Dismiss Guide
-    function dismissGuide() {
-        guideOverlay.classList.remove('active');
-        localStorage.setItem('guideShown_v1', 'true');
+    function openNoteModal() {
+        document.getElementById('target-page-num').innerText = currentPageIndex + 1;
+        document.getElementById('note-modal').style.display = 'flex';
+        document.getElementById('note-text').focus();
+    }
+
+    function closeNoteModal() {
+        document.getElementById('note-modal').style.display = 'none';
+        document.getElementById('note-text').value = '';
+    }
+
+    function saveNote() {
+        const text = document.getElementById('note-text').value.trim();
+        if (!text) return;
+        const pageNum = currentPageIndex + 1;
+        if (!allNotes[pageNum]) allNotes[pageNum] = [];
+        allNotes[pageNum].push({ id: Date.now(), text: text });
+        localStorage.setItem('bookmintor_notes', JSON.stringify(allNotes));
+        renderNotes();
+        closeNoteModal();
+    }
+
+    function deleteNote(pageNum, noteId) {
+        allNotes[pageNum] = allNotes[pageNum].filter(n => n.id !== noteId);
+        if (allNotes[pageNum].length === 0) delete allNotes[pageNum];
+        localStorage.setItem('bookmintor_notes', JSON.stringify(allNotes));
+        renderNotes();
+    }
+
+    function renderNotes() {
+        const pageNum = currentPageIndex + 1;
+        activeNotesContainer.innerHTML = '';
+        if (allNotes[pageNum]) {
+            allNotes[pageNum].forEach(note => {
+                const noteEl = document.createElement('div');
+                noteEl.className = 'sticky-note';
+                noteEl.innerHTML = `
+                    <span class="delete-note" onclick="deleteNote(${pageNum}, ${note.id})"><i data-lucide="x" style="width:14px"></i></span>
+                    ${note.text}
+                `;
+                activeNotesContainer.appendChild(noteEl);
+            });
+            lucide.createIcons();
+        }
     }
 
     async function init() {
         try {
-            loadingText.innerText = "Downloading PDF...";
+            lucide.createIcons();
             const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
-            totalPagesEl.innerText = pdf.numPages;
+            const total = pdf.numPages;
+            document.getElementById('total-pages').innerText = total;
 
-            // Render pages
-            for (let i = 1; i <= pdf.numPages; i++) {
-                loadingText.innerText = `Loading pages (${i}/${pdf.numPages})...`;
-                const page = await pdf.getPage(i);
+            for (let i = 1; i <= total; i++) {
+                // Update Progress in Loader
+                const percent = Math.round((i / total) * 100);
+                progressText.innerText = `LOADING PAGE ${i} OF ${total} (${percent}%)`;
                 
+                const page = await pdf.getPage(i);
                 const viewport = page.getViewport({ scale: 1.5 });
-
                 const div = document.createElement('div');
                 div.className = 'page';
-
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
-
                 await page.render({ canvasContext: ctx, viewport }).promise;
                 div.appendChild(canvas);
                 flipbookEl.appendChild(div);
             }
 
-            loadingText.innerText = "Finishing up...";
-
-            // Initialize PageFlip
             if (typeof St !== 'undefined' && St.PageFlip) {
                 pageFlip = new St.PageFlip(flipbookEl, {
-                    width: 600,
-                    height: 800,
-                    size: 'stretch',
-                    minWidth: 300,
-                    maxWidth: 1000,
-                    minHeight: 400,
-                    maxHeight: 1200,
-                    maxShadowOpacity: 0.5,
-                    showCover: false,
-                    mobileScrollSupport: false,
-                    mode: 'portrait',
-                    clickEventForward: true,
-                    usePortrait: true,
-                    startPage: 0,
-                    flippingTime: 600
+                    width: 600, height: 800, size: 'stretch',
+                    showCover: false, mode: 'portrait', startPage: 0,
+                    flippingTime: 600, usePortrait: true
                 });
-
                 pageFlip.loadFromHTML(document.querySelectorAll('.page'));
                 
-                // Event: Page Change
                 pageFlip.on('flip', (e) => {
-                    currentPageEl.innerText = e.data + 1;
+                    currentPageIndex = e.data;
+                    document.getElementById('current-page').innerText = currentPageIndex + 1;
+                    const s = pageSound.cloneNode();
+                    s.volume = 0.4;
+                    s.play().catch(()=>{});
+                    renderNotes();
                 });
-            } else {
-                throw new Error("PageFlip library not loaded correctly.");
             }
 
-            // Hide loader
             loader.style.opacity = '0';
             setTimeout(() => {
                 loader.style.display = 'none';
                 flipbookEl.style.visibility = 'visible';
-                
-                // Show guide if not seen
-                if (!localStorage.getItem('guideShown_v1')) {
-                    guideOverlay.classList.add('active');
-                }
-            }, 500);
+                renderNotes();
+            }, 800);
 
         } catch (error) {
-            console.error("Error loading flipbook:", error);
-            loader.innerHTML = `<div style="padding: 20px; text-align: center;">
-                <p>⚠️ Error loading book</p>
-                <p style="font-size: 0.8rem; opacity: 0.7;">${error.message}</p>
-                <button onclick="location.reload()" class="start-btn">Try Again</button>
-            </div>`;
+            console.error(error);
+            progressText.innerText = "FAILED TO LOAD BOOK";
         }
     }
 
-    // Start everything
     window.addEventListener('load', init);
 </script>
 
