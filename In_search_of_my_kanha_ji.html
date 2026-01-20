@@ -63,7 +63,9 @@
             textSlideUp: 'textSlideUp 0.5s ease-out forwards',
             textGlow: 'textGlow 2s ease-in-out infinite',
             bounceIn: 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
-            pulseGlow: 'pulseGlow 2s ease-in-out infinite'
+            pulseGlow: 'pulseGlow 2s ease-in-out infinite',
+            menuSlideIn: 'menuSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            menuSlideOut: 'menuSlideOut 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -126,6 +128,14 @@
             pulseGlow: {
               '0%, 100%': { boxShadow: '0 0 5px rgba(168, 85, 247, 0.3)' },
               '50%': { boxShadow: '0 0 15px rgba(168, 85, 247, 0.6)' }
+            },
+            menuSlideIn: {
+              '0%': { opacity: 0, transform: 'translateY(10px) scale(0.95)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
+            },
+            menuSlideOut: {
+              '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+              '100%': { opacity: 0, transform: 'translateY(10px) scale(0.95)' }
             }
           }
         }
@@ -139,7 +149,13 @@
     @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     @keyframes snakeRotate { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    body { font-family:'Poppins',sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+    body { 
+      font-family:'Poppins',sans-serif; 
+      overflow-x: hidden; 
+      scroll-behavior: smooth; 
+      /* Original background color with glow effects */
+      background-color: #0b0e13;
+    }
     
     /* ROLLING TEXT */
     .rolling-text-list { padding: 0; margin: 0; list-style: none; animation: scrollText 16s infinite cubic-bezier(0.25, 1, 0.5, 1); }
@@ -485,64 +501,62 @@
 
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    /* NEW PREMIUM FEATURES - UPDATED */
-    /* Floating Quick Actions Menu - NOW AT BOTTOM RIGHT CORNER */
+    /* UPDATED FLOATING QUICK ACTIONS */
     .floating-quick-actions {
         position: absolute;
-        bottom: 15px; /* Changed from top to bottom */
-        right: 15px;
+        bottom: 8px;
+        right: 8px;
         z-index: 100;
     }
 
     .quick-actions-btn {
-        width: 44px;
-        height: 44px;
-        background: linear-gradient(135deg, #f59e0b, #d97706); /* Changed to orange gradient */
-        backdrop-filter: blur(10px);
-        border-radius: 50%; /* Made it circular */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid rgba(255, 255, 255, 0.5); /* Brighter border */
-        animation: pulseGlow 2s ease-in-out infinite;
-        position: relative;
-    }
+    width: 36px;
+    height: 36px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 
+                0 0 0 1px rgba(255, 255, 255, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
 
-    /* Tooltip for button */
-    .quick-actions-btn::before {
-        content: 'Quick Actions';
-        position: absolute;
-        bottom: 100%;
-        right: 50%;
-        transform: translateX(50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        margin-bottom: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        z-index: 101;
-    }
+.quick-actions-btn:hover {
+    background: rgba(15, 23, 42, 0.95);
+    transform: scale(1.08);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4), 
+                0 0 0 1px rgba(255, 255, 255, 0.25),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+    /* REMOVE or COMMENT this section */
+.quick-actions-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(99, 102, 241, 0.2));
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.quick-actions-btn:hover::before {
+    opacity: 1;
+}
 
     .quick-actions-btn:hover {
-        transform: scale(1.1);
-        background: linear-gradient(135deg, #fbbf24, #f59e0b);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.4);
-    }
-
-    .quick-actions-btn:hover::before {
-        opacity: 1;
+        transform: scale(1.08);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
+        color: white;
     }
 
     .quick-actions-btn.clicked {
@@ -551,48 +565,57 @@
 
     .quick-actions-menu {
         position: absolute;
-        bottom: 60px; /* Changed from top to bottom */
+        bottom: 55px;
         right: 0;
-        background: rgba(15, 23, 42, 0.98);
-        backdrop-filter: blur(16px);
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
         border-radius: 16px;
         padding: 12px;
-        min-width: 200px;
-        border: 1px solid rgba(168, 85, 247, 0.3);
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 
-                    0 0 0 1px rgba(255, 255, 255, 0.1),
-                    0 0 30px rgba(168, 85, 247, 0.4);
+        min-width: 180px;
+        border: 1px solid rgba(168, 85, 247, 0.25);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 
+                    0 0 0 1px rgba(255, 255, 255, 0.08),
+                    0 0 30px rgba(168, 85, 247, 0.2);
         opacity: 0;
-        transform: translateY(20px) scale(0.95);
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: translateY(10px) scale(0.95);
+        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         pointer-events: none;
         z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .quick-actions-menu.active {
         opacity: 1;
         transform: translateY(0) scale(1);
         pointer-events: all;
+        animation: menuSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .quick-actions-menu.hiding {
+        animation: menuSlideOut 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
     .quick-action-item {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 12px;
+        gap: 10px;
+        padding: 10px 12px;
         border-radius: 12px;
         cursor: pointer;
         transition: all 0.2s ease;
         color: #e2e8f0;
-        margin-bottom: 6px;
-        border: 1px solid transparent;
         background: rgba(255, 255, 255, 0.03);
+        border: 1px solid transparent;
+        position: relative;
+        overflow: hidden;
     }
 
     .quick-action-item:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(168, 85, 247, 0.3);
-        transform: translateX(-4px);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(168, 85, 247, 0.2);
+        transform: translateX(-2px);
     }
 
     .quick-action-item:last-child {
@@ -605,21 +628,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
     }
 
     .quick-action-text {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 500;
         flex: 1;
+        white-space: nowrap;
     }
 
     .demo-badge {
-        font-size: 0.7rem;
-        background: rgba(239, 68, 68, 0.2);
+        font-size: 0.65rem;
+        background: rgba(239, 68, 68, 0.15);
         color: #f87171;
         padding: 2px 6px;
         border-radius: 4px;
         font-weight: 600;
+        margin-left: 4px;
     }
 
     /* Premium Loading Overlay */
@@ -702,19 +728,49 @@
         height: calc(90vh - 60px);
     }
 
+    /* BACKGROUND GLOW EFFECTS - Restored from your code */
+    .background-glow {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: -10;
+    }
+    
+    .glow-circle {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(140px);
+    }
+    
+    .glow-top-left {
+        top: -56px;
+        left: -40px;
+        width: 680px;
+        height: 680px;
+        background-color: rgba(99, 102, 241, 0.2); /* Indigo with opacity */
+    }
+    
+    .glow-bottom-right {
+        bottom: -56px;
+        right: -40px;
+        width: 600px;
+        height: 600px;
+        background-color: rgba(168, 85, 247, 0.2); /* Fuchsia with opacity */
+    }
+
     @media (max-width: 768px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
         .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
         .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
         .floating-quick-actions {
-            bottom: 10px;
-            right: 10px;
+            bottom: 8px;
+            right: 8px;
         }
         .quick-actions-menu {
-            bottom: 55px;
+            bottom: 50px;
             right: 0;
-            min-width: 180px;
+            min-width: 160px;
         }
         #demoFlipbookModal .modal-content {
             max-width: 98%;
@@ -728,6 +784,12 @@
   </style>
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
+
+  <!-- BACKGROUND GLOW EFFECT - Restored -->
+  <div class="background-glow">
+      <div class="glow-circle glow-top-left"></div>
+      <div class="glow-circle glow-bottom-right"></div>
+  </div>
 
   <div id="toastNotification">
       <div id="toastIcon"><i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i></div>
@@ -858,7 +920,7 @@
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
             </div>
             
-            <!-- Floating Quick Actions Menu - NOW AT BOTTOM RIGHT CORNER -->
+            <!-- UPDATED Floating Quick Actions Menu - Bottom Right Corner -->
             <div class="floating-quick-actions">
                 <div id="quickActionsMenu" class="quick-actions-menu">
                     <div class="quick-action-item" onclick="openSupport()">
@@ -1394,40 +1456,62 @@
     function zoomMindmap(factor) { scale += factor; if(scale < 0.1) scale = 0.1; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
     function resetMindmap() { scale = 1; pointX = 0; pointY = 0; mmImg.style.transform = `translate(0px, 0px) scale(1)`; }
 
-    /* NEW FUNCTIONS FOR PREMIUM FEATURES */
+    /* UPDATED QUICK ACTIONS FUNCTIONS */
+    let isQuickActionsMenuOpen = false;
 
     function toggleQuickActions() {
         const btn = dom.quickActionsBtn;
         const menu = dom.quickActionsMenu;
         
-        // Add click animation
-        btn.classList.add('clicked');
-        setTimeout(() => btn.classList.remove('clicked'), 500);
-        
-        menu.classList.toggle('active');
+        if (isQuickActionsMenuOpen) {
+            // Close menu
+            menu.classList.add('hiding');
+            setTimeout(() => {
+                menu.classList.remove('active');
+                menu.classList.remove('hiding');
+                isQuickActionsMenuOpen = false;
+            }, 250);
+        } else {
+            // Open menu
+            btn.classList.add('clicked');
+            setTimeout(() => btn.classList.remove('clicked'), 500);
+            
+            menu.classList.add('active');
+            isQuickActionsMenuOpen = true;
+        }
     }
 
     function openSupport() {
         window.location.href = "mailto:bookmintor@gmail.com?subject=Product Support Request";
-        toggleQuickActions();
+        closeQuickActions();
     }
 
     function openDemoFlipbook() {
         const isUnlocked = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
         if (isUnlocked && isUnlocked !== 'false') {
             showToast("You already have full access!", true);
-            toggleQuickActions();
+            closeQuickActions();
             return;
         }
         triggerPremiumLoadingSequence('demo');
-        toggleQuickActions();
+        closeQuickActions();
+    }
+
+    function closeQuickActions() {
+        const menu = dom.quickActionsMenu;
+        if (menu && isQuickActionsMenuOpen) {
+            menu.classList.add('hiding');
+            setTimeout(() => {
+                menu.classList.remove('active');
+                menu.classList.remove('hiding');
+                isQuickActionsMenuOpen = false;
+            }, 250);
+        }
     }
 
     function triggerPremiumLoadingSequence(type) {
-        // Show loading overlay
         dom.premiumLoadingOverlay.classList.add('active');
         
-        // Reset all text elements
         const texts = ['loadingText1', 'loadingText2', 'loadingText3', 'loadingText4', 'loadingText5', 'loadingText6'];
         texts.forEach(id => {
             const el = document.getElementById(id);
@@ -1438,7 +1522,6 @@
             }
         });
         
-        // Animate texts one by one
         let currentIndex = 0;
         const textInterval = setInterval(() => {
             if (currentIndex > 0) {
@@ -1463,7 +1546,6 @@
                 clearInterval(textInterval);
                 setTimeout(() => {
                     dom.premiumLoadingOverlay.classList.remove('active');
-                    // Open demo flipbook in modal
                     if (type === 'demo') {
                         openDemoFlipbookModal();
                     }
@@ -1526,11 +1608,10 @@
         }
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
         
-        // Hide demo flipbook button when unlocked
         updateDemoButtonVisibility();
     }
 
-    /* EXISTING FUNCTIONS (MODIFIED WHERE NEEDED) */
+    /* EXISTING FUNCTIONS */
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
         const btn = document.getElementById('showMore');
@@ -1606,7 +1687,6 @@
         const section = document.getElementById(targetSectionId);
         if(section) section.classList.add('active');
         
-        // Load flipbook if needed
         if (tabId === 'flipbook') {
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH;
             if (content.FLIPBOOK) {
@@ -1662,7 +1742,6 @@
     function closeViewerModal() { 
         dom.productViewerModal.style.display = 'none'; 
         document.querySelectorAll('video, audio').forEach(v => v.pause());
-        // Clear flipbook iframe
         dom.flipbookFrame.src = '';
     }
 
@@ -1760,11 +1839,10 @@
       document.getElementById('year').textContent = new Date().getFullYear();
       updateDemoButtonVisibility();
       
-      // Close quick actions menu when clicking outside
       document.addEventListener('click', function(e) {
           if (dom.quickActionsMenu && dom.quickActionsBtn) {
               if (!dom.quickActionsMenu.contains(e.target) && !dom.quickActionsBtn.contains(e.target)) {
-                  dom.quickActionsMenu.classList.remove('active');
+                  closeQuickActions();
               }
           }
       });
