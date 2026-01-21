@@ -39,7 +39,7 @@
             flex-direction: column;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (LOGO REMOVED, ONLY NAME) --- */
         .brand-header {
             position: fixed;
             top: 20px;
@@ -54,20 +54,12 @@
         .brand-info {
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        .brand-logo {
-            height: 35px;
-            width: 35px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
         }
 
         .brand-name {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
+            letter-spacing: -0.5px;
             background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
@@ -80,8 +72,8 @@
             font-weight: 800;
             letter-spacing: 2px;
             color: #888;
-            margin-left: 47px; /* Align with text */
             text-transform: uppercase;
+            margin-top: 2px;
         }
 
         @keyframes royalShine {
@@ -133,7 +125,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            pointer-events: none; /* Disable clicking */
             opacity: 0.6;
         }
 
@@ -205,14 +196,12 @@
 
     <div class="brand-header">
         <div class="brand-info">
-            <img src="https://bookmintor.shop/images/logo.png" class="brand-logo" alt="Logo">
             <span class="brand-name">Bookmintor</span>
         </div>
         <span class="demo-badge">Demo Version</span>
     </div>
 
     <div id="notes-container">
-        <!-- Disabled button for Demo -->
         <button class="add-note-btn demo-disabled">
             <i data-lucide="lock" style="width:16px"></i> Add Note (Locked)
         </button>
@@ -238,27 +227,55 @@
         </div>
     </div>
 
-    <audio id="page-sound" preload="auto">
-        <source src="https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3" type="audio/mpeg">
-    </audio>
-
 <script>
-    // Replace this with your DEMO PDF link
-    const PDF_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf';
+    // Asset Links
+    const PDF_URL = 'https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf';
+    const SOUND_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3';
+    
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-    // Advanced Security
+    // Advanced Protection
     document.onkeydown = (e) => {
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
 
     let pageFlip;
     let currentPageIndex = 0;
+    
+    // Sound Pool for fast flipping
+    const soundPool = [];
+    for(let i=0; i<5; i++) {
+        const audio = new Audio(SOUND_URL);
+        audio.preload = 'auto';
+        soundPool.push(audio);
+    }
+    let currentSoundIndex = 0;
 
     const flipbookEl = document.getElementById('flipbook');
     const loader = document.getElementById('loader');
     const progressText = document.getElementById('loading-progress');
-    const pageSound = document.getElementById('page-sound');
+
+    // Unlock audio on interaction
+    const unlockAudio = () => {
+        soundPool.forEach(audio => {
+            audio.play().then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+            }).catch(() => {});
+        });
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('touchstart', unlockAudio);
+    };
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+
+    function playFlipSound() {
+        const sound = soundPool[currentSoundIndex];
+        sound.currentTime = 0;
+        sound.volume = 0.6;
+        sound.play().catch(() => {});
+        currentSoundIndex = (currentSoundIndex + 1) % soundPool.length;
+    }
 
     async function init() {
         try {
@@ -288,16 +305,15 @@
                 pageFlip = new St.PageFlip(flipbookEl, {
                     width: 600, height: 800, size: 'stretch',
                     showCover: false, mode: 'portrait', startPage: 0,
-                    flippingTime: 600, usePortrait: true
+                    flippingTime: 500, usePortrait: true,
+                    clickEventForward: true
                 });
                 pageFlip.loadFromHTML(document.querySelectorAll('.page'));
                 
                 pageFlip.on('flip', (e) => {
                     currentPageIndex = e.data;
                     document.getElementById('current-page').innerText = currentPageIndex + 1;
-                    const s = pageSound.cloneNode();
-                    s.volume = 0.4;
-                    s.play().catch(()=>{});
+                    playFlipSound();
                 });
             }
 
