@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Secure Bookmintor Flipbook</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-color: #020408; 
+            --accent-color: #a855f7;
+            --brand-indigo: #6366f1;
+            --text-main: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.95);
+        }
+
+        /* --- SECURITY: NO SELECTION --- */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg-color);
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HEADER --- */
+        .brand-header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            pointer-events: none;
+        }
+
+        .brand-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .brand-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: royalShine 4s linear infinite;
+        }
+
+        .demo-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #888;
+            margin-left: 47px; /* Align with text */
+            text-transform: uppercase;
+        }
+
+        @keyframes royalShine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* --- WRAPPER FIX --- */
+        #flipbook-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0 100px 0;
+            overflow: hidden;
+        }
+
+        #flipbook {
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+            background: #111;
+            visibility: hidden;
+        }
+
+        .page { background: #fff; overflow: hidden; }
+        canvas { width: 100% !important; height: 100% !important; display: block; }
+
+        /* --- DISABLED NOTES SYSTEM (DEMO MODE) --- */
+        #notes-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .add-note-btn.demo-disabled {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: grayscale(1) blur(10px);
+            -webkit-backdrop-filter: grayscale(1) blur(10px);
+            color: #666;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none; /* Disable clicking */
+            opacity: 0.6;
+        }
+
+        /* --- COUNTER --- */
+        .counter-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            padding: 12px 30px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #current-page { color: var(--accent-color); font-weight: 800; font-size: 1.3rem; }
+        .total-slash { opacity: 0.3; }
+
+        /* --- ADVANCED LOADER --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+        }
+
+        .spinner-outer {
+            width: 70px;
+            height: 70px;
+            border: 2px solid rgba(168, 85, 247, 0.1);
+            border-top: 2px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #loading-progress {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .demo-loader-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #888;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div class="brand-header">
+        <div class="brand-info">
+            <img src="https://bookmintor.shop/images/logo.png" class="brand-logo" alt="Logo">
+            <span class="brand-name">Bookmintor</span>
+        </div>
+        <span class="demo-badge">Demo Version</span>
+    </div>
+
+    <div id="notes-container">
+        <!-- Disabled button for Demo -->
+        <button class="add-note-btn demo-disabled">
+            <i data-lucide="lock" style="width:16px"></i> Add Note (Locked)
+        </button>
+        <div id="active-notes"></div>
+    </div>
+
+    <div id="loader">
+        <span class="demo-loader-tag">DEMO MODE ACTIVE</span>
+        <div class="spinner-outer"></div>
+        <p id="loading-text" style="font-weight: 600; color: #fff; margin: 0; letter-spacing: 1px;">INITIALIZING DEMO ASSETS</p>
+        <p id="loading-progress">0% COMPLETE</p>
+    </div>
+
+    <div id="flipbook-wrapper">
+        <div id="flipbook"></div>
+    </div>
+
+    <div class="counter-container">
+        <div class="page-count">
+            <span id="current-page">1</span> 
+            <span class="total-slash">/</span> 
+            <span id="total-pages">--</span>
+        </div>
+    </div>
+
+    <audio id="page-sound" preload="auto">
+        <source src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" type="audio/mpeg">
+    </audio>
+
+<script>
+    // Replace this with your DEMO PDF link
+    const PDF_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+    // Advanced Security
+    document.onkeydown = (e) => {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
+
+    let pageFlip;
+    let currentPageIndex = 0;
+
+    const flipbookEl = document.getElementById('flipbook');
+    const loader = document.getElementById('loader');
+    const progressText = document.getElementById('loading-progress');
+    const pageSound = document.getElementById('page-sound');
+
+    async function init() {
+        try {
+            lucide.createIcons();
+            const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+            const total = pdf.numPages;
+            document.getElementById('total-pages').innerText = total;
+
+            for (let i = 1; i <= total; i++) {
+                const percent = Math.round((i / total) * 100);
+                progressText.innerText = `LOADING DEMO PAGE ${i} OF ${total} (${percent}%)`;
+                
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+                const div = document.createElement('div');
+                div.className = 'page';
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: ctx, viewport }).promise;
+                div.appendChild(canvas);
+                flipbookEl.appendChild(div);
+            }
+
+            if (typeof St !== 'undefined' && St.PageFlip) {
+                pageFlip = new St.PageFlip(flipbookEl, {
+                    width: 600, height: 800, size: 'stretch',
+                    showCover: false, mode: 'portrait', startPage: 0,
+                    flippingTime: 600, usePortrait: true
+                });
+                pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+                
+                pageFlip.on('flip', (e) => {
+                    currentPageIndex = e.data;
+                    document.getElementById('current-page').innerText = currentPageIndex + 1;
+                    const s = pageSound.cloneNode();
+                    s.volume = 0.4;
+                    s.play().catch(()=>{});
+                });
+            }
+
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                flipbookEl.style.visibility = 'visible';
+            }, 800);
+
+        } catch (error) {
+            console.error(error);
+            progressText.innerText = "FAILED TO LOAD DEMO";
+        }
+    }
+
+    window.addEventListener('load', init);
+</script>
+
+</body>
+</html>
