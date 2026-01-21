@@ -49,7 +49,7 @@
             popFloat: 'popFloat 3s ease-in-out infinite',
             pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
             'gradient-shift': 'gradient-shift 8s ease infinite',
-            snakeRotate: 'snakeRotate 6s linear infinite',
+            snakeRotate: 'snakeRotate 3s linear infinite',
             priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
             coverFast: 'coverFast 0.45s linear infinite', 
             softPulse: 'softPulse 2s infinite ease-in-out', 
@@ -65,7 +65,15 @@
             bounceIn: 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
             pulseGlow: 'pulseGlow 2s ease-in-out infinite',
             menuSlideIn: 'menuSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-            menuSlideOut: 'menuSlideOut 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+            menuSlideOut: 'menuSlideOut 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            cuteItemIn: 'cuteItemIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
+            cuteItemOut: 'cuteItemOut 0.3s ease-in-out forwards',
+            iconTap: 'iconTap 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            popupSlideIn: 'popupSlideIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            popupFadeIn: 'popupFadeIn 0.4s ease-out forwards',
+            labelSlideIn: 'labelSlideIn 0.4s ease-out forwards 0.2s',
+            shimmer: 'shimmer 2.5s infinite',
+            cuteBounce: 'cuteBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -136,6 +144,43 @@
             menuSlideOut: {
               '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
               '100%': { opacity: 0, transform: 'translateY(10px) scale(0.95)' }
+            },
+            cuteItemIn: {
+              '0%': { opacity: 0, transform: 'translateY(15px) scale(0.8) rotate(-5deg)' },
+              '60%': { opacity: 1, transform: 'translateY(-5px) scale(1.05) rotate(2deg)' },
+              '80%': { transform: 'translateY(2px) scale(0.98) rotate(-1deg)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1) rotate(0deg)' }
+            },
+            cuteItemOut: {
+              '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+              '100%': { opacity: 0, transform: 'translateY(15px) scale(0.8)' }
+            },
+            iconTap: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(0.85)' }
+            },
+            popupSlideIn: {
+              '0%': { opacity: 0, transform: 'translateY(40px) scale(0.9)' },
+              '70%': { opacity: 1, transform: 'translateY(-10px) scale(1.02)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
+            },
+            popupFadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            labelSlideIn: {
+              '0%': { opacity: 0, transform: 'translateX(15px)' },
+              '100%': { opacity: 1, transform: 'translateX(0)' }
+            },
+            shimmer: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(100%)' }
+            },
+            cuteBounce: {
+              '0%': { opacity: 0, transform: 'scale(0.5) translateY(20px)' },
+              '60%': { opacity: 1, transform: 'scale(1.1) translateY(-8px)' },
+              '80%': { transform: 'scale(0.95) translateY(2px)' },
+              '100%': { opacity: 1, transform: 'scale(1) translateY(0)' }
             }
           }
         }
@@ -153,7 +198,6 @@
       font-family:'Poppins',sans-serif; 
       overflow-x: hidden; 
       scroll-behavior: smooth; 
-      /* Original background color with glow effects */
       background-color: #0b0e13;
     }
     
@@ -282,15 +326,93 @@
         opacity: 1;
     }
 
-    /* SNAKE CONTAINER */
-    .snake-container { position: relative; display: none; padding: 3px; border-radius: 12px; z-index: 100; margin-left: 0; background: transparent; overflow: hidden; box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-    .snake-border { position: absolute; top: 50%; left: 50%; width: 250%; height: 250%; background: conic-gradient(transparent 0deg, transparent 260deg, #10b981 300deg, #34d399 330deg, #6ee7b7 350deg, transparent 360deg); animation: snakeRotate 6s linear infinite; z-index: 0; pointer-events: none; }
-    .snake-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 110%; height: 110%; background: #10b981; filter: blur(25px); opacity: 0.5; z-index: -1; animation: softPulse 2s ease-in-out infinite; }
-    .unlock-btn { position: relative; z-index: 10; display: flex; align-items: center; gap: 6px; background-color: #10b981; color: white; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); cursor: pointer; border: none; transition: transform 0.2s, background-color 0.2s; margin: 0; overflow: hidden; }
-    .unlock-btn:hover { transform: scale(1.02); background-color: #059669; }
+    /* UPGRADED LASER GLOW BORDER - FIX 3: MODERN LASER GLOW BORDER */
+    .snake-container { 
+        position: relative; 
+        display: none; 
+        padding: 4px; 
+        border-radius: 14px; 
+        z-index: 100; 
+        margin-left: 0; 
+        background: transparent; 
+        overflow: hidden; 
+        box-shadow: 0 0 35px rgba(16, 185, 129, 0.4); 
+    }
+    .snake-border { 
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        width: 400%; 
+        height: 400%; 
+        background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 150deg,
+            #10b981 180deg,
+            #34d399 240deg,
+            #ffffff 280deg,
+            #10b981 320deg,
+            transparent 360deg
+        );
+        animation: snakeRotate 2.2s linear infinite; 
+        z-index: 0; 
+        pointer-events: none; 
+        filter: blur(1px);
+    }
+    .snake-mask { 
+        position: absolute; 
+        inset: 3px; 
+        background: #0b0e13; 
+        border-radius: 11px; 
+        z-index: 1; 
+    }
+    .snake-glow { 
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        width: 115%; 
+        height: 115%; 
+        background: #10b981; 
+        filter: blur(30px); 
+        opacity: 0.6; 
+        z-index: -1; 
+        animation: softPulse 2.5s ease-in-out infinite; 
+    }
+    .unlock-btn { 
+        position: relative; 
+        z-index: 10; 
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+        background-color: #10b981; 
+        color: white; 
+        padding: 11px 24px; 
+        border-radius: 10px; 
+        font-weight: 800; 
+        font-size: 0.95rem; 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+        cursor: pointer; 
+        border: none; 
+        transition: transform 0.2s, background-color 0.2s; 
+        margin: 0; 
+        overflow: hidden; 
+    }
+    .unlock-btn:hover { 
+        transform: scale(1.03); 
+        background-color: #059669; 
+    }
     
-    .unlock-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: blackShine 4s ease-in-out infinite; display: none; }
-    .snake-mask { position: absolute; inset: 2px; background: #0b0e13; border-radius: 11px; z-index: 1; }
+    .unlock-btn .btn-shine { 
+        position: absolute; 
+        inset: -6px; 
+        transform: translateX(-140%) skewX(-30deg); 
+        background: linear-gradient(90deg,rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); 
+        mix-blend-mode: overlay; 
+        pointer-events: none; 
+        animation: blackShine 4s ease-in-out infinite; 
+        display: none; 
+    }
 
     /* CTA BUTTONS */
     .cta-btn{ position:relative; overflow:hidden; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
@@ -501,154 +623,155 @@
 
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    /* UPDATED FLOATING QUICK ACTIONS */
-    .floating-quick-actions {
-        position: absolute;
-        bottom: 8px;
-        right: 8px;
-        z-index: 100;
+    /* FIX 2: SETTINGS MENU ICON & LABELS (ENHANCED) - FROM INDEXFILE.HTML */
+    .floating-quick-actions { 
+        position: absolute; 
+        bottom: 8px; 
+        right: 8px; 
+        z-index: 105; 
     }
-
     .quick-actions-btn {
-    width: 36px;
-    height: 36px;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(12px);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 
-                0 0 0 1px rgba(255, 255, 255, 0.15),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-.quick-actions-btn:hover {
-    background: rgba(15, 23, 42, 0.95);
-    transform: scale(1.08);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4), 
-                0 0 0 1px rgba(255, 255, 255, 0.25),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.15);
-    color: white;
-}
-
-    /* REMOVE or COMMENT this section */
-.quick-actions-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(99, 102, 241, 0.2));
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.quick-actions-btn:hover::before {
-    opacity: 1;
-}
-
-    .quick-actions-btn:hover {
-        transform: scale(1.08);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.2);
-        color: white;
-    }
-
-    .quick-actions-btn.clicked {
-        animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .quick-actions-menu {
-        position: absolute;
-        bottom: 55px;
-        right: 0;
-        background: rgba(15, 23, 42, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 16px;
-        padding: 12px;
-        min-width: 180px;
-        border: 1px solid rgba(168, 85, 247, 0.25);
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 
-                    0 0 0 1px rgba(255, 255, 255, 0.08),
-                    0 0 30px rgba(168, 85, 247, 0.2);
-        opacity: 0;
-        transform: translateY(10px) scale(0.95);
-        transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-        pointer-events: none;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .quick-actions-menu.active {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        pointer-events: all;
-        animation: menuSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    .quick-actions-menu.hiding {
-        animation: menuSlideOut 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    .quick-action-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        color: #e2e8f0;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid transparent;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .quick-action-item:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(168, 85, 247, 0.2);
-        transform: translateX(-2px);
-    }
-
-    .quick-action-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .quick-action-icon {
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
+        width: 44px; 
+        height: 44px; 
+        background: rgba(15, 23, 42, 0.92); 
+        backdrop-filter: blur(12px);
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
         justify-content: center;
-        flex-shrink: 0;
+        color: white; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); 
+        cursor: pointer; 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(255, 255, 255, 0.2); 
+        position: relative; 
+        z-index: 110;
+    }
+    .quick-actions-btn:hover { 
+        background: rgba(15, 23, 42, 0.98); 
+        transform: scale(1.1) rotate(15deg); 
+        color: #a855f7; 
+    }
+    .quick-actions-btn.active { 
+        background: #a855f7; 
+        color: white; 
+        transform: rotate(90deg); 
     }
 
-    .quick-action-text {
-        font-size: 0.85rem;
-        font-weight: 500;
-        flex: 1;
-        white-space: nowrap;
+    .cute-quick-menu {
+        position: absolute; 
+        bottom: 54px; 
+        right: 0; 
+        display: flex; 
+        flex-direction: column;
+        gap: 12px; 
+        opacity: 0; 
+        transform: translateY(10px) scale(0.9);
+        pointer-events: none; 
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        z-index: 104;
     }
-
-    .demo-badge {
-        font-size: 0.65rem;
-        background: rgba(239, 68, 68, 0.15);
-        color: #f87171;
-        padding: 2px 6px;
-        border-radius: 4px;
+    .cute-quick-menu.active { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+        pointer-events: auto; 
+    }
+    .cute-menu-item { 
+        display: flex; 
+        align-items: center; 
+        justify-content: flex-end; 
+        gap: 12px; 
+        cursor: pointer; 
+        position: relative; 
+    }
+    
+    /* LABELS ON LEFT WITH SEMI-TRANSPARENT BLACK BG (FIX 2) */
+    .cute-label {
+        background: rgba(0, 0, 0, 0.7); 
+        backdrop-filter: blur(10px); 
+        padding: 7px 15px;
+        border-radius: 12px; 
+        color: white; 
+        font-size: 0.78rem; 
         font-weight: 600;
-        margin-left: 4px;
+        white-space: nowrap; 
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        opacity: 0; 
+        transform: translateX(10px); 
+        transition: all 0.3s ease; 
+        pointer-events: none;
+    }
+    .cute-quick-menu.active .cute-label { 
+        opacity: 1; 
+        transform: translateX(0); 
+        transition-delay: 0.1s; 
+    }
+    .cute-icon-wrapper {
+        width: 38px; 
+        height: 38px; 
+        background: rgba(15, 23, 42, 0.95); 
+        backdrop-filter: blur(12px);
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        color: white; 
+        border: 1px solid rgba(255, 255, 255, 0.2); 
+        transition: all 0.2s ease;
+    }
+    .cute-menu-item:hover .cute-icon-wrapper { 
+        transform: scale(1.1); 
+        border-color: #a855f7; 
+        color: #a855f7; 
     }
 
-    /* Premium Loading Overlay */
+    /* COVER BLUR - REDUCED INTENSITY */
+    .cover-blur-overlay {
+        position: absolute; 
+        inset: 0; 
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3.2px); 
+        z-index: 99; 
+        opacity: 0;
+        pointer-events: none; 
+        transition: opacity 0.4s ease; 
+        border-radius: 8px;
+    }
+    .cover-blur-overlay.active { 
+        opacity: 1; 
+    }
+
+    /* BACKGROUND GLOW EFFECTS */
+    .background-glow {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: -10;
+    }
+    
+    .glow-circle {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(140px);
+    }
+    
+    .glow-top-left {
+        top: -56px;
+        left: -40px;
+        width: 680px;
+        height: 680px;
+        background-color: rgba(99, 102, 241, 0.2);
+    }
+    
+    .glow-bottom-right {
+        bottom: -56px;
+        right: -40px;
+        width: 600px;
+        height: 600px;
+        background-color: rgba(168, 85, 247, 0.2);
+    }
+
+    /* PREMIUM LOADING OVERLAY */
     .premium-loading-overlay {
         position: fixed;
         top: 0;
@@ -728,36 +851,6 @@
         height: calc(90vh - 60px);
     }
 
-    /* BACKGROUND GLOW EFFECTS - Restored from your code */
-    .background-glow {
-        pointer-events: none;
-        position: fixed;
-        inset: 0;
-        z-index: -10;
-    }
-    
-    .glow-circle {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(140px);
-    }
-    
-    .glow-top-left {
-        top: -56px;
-        left: -40px;
-        width: 680px;
-        height: 680px;
-        background-color: rgba(99, 102, 241, 0.2); /* Indigo with opacity */
-    }
-    
-    .glow-bottom-right {
-        bottom: -56px;
-        right: -40px;
-        width: 600px;
-        height: 600px;
-        background-color: rgba(168, 85, 247, 0.2); /* Fuchsia with opacity */
-    }
-
     @media (max-width: 768px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
@@ -767,10 +860,12 @@
             bottom: 8px;
             right: 8px;
         }
-        .quick-actions-menu {
-            bottom: 50px;
+        .cute-quick-menu {
+            bottom: 54px;
             right: 0;
-            min-width: 160px;
+        }
+        .cute-label {
+            display: none;
         }
         #demoFlipbookModal .modal-content {
             max-width: 98%;
@@ -785,7 +880,7 @@
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
 
-  <!-- BACKGROUND GLOW EFFECT - Restored -->
+  <!-- BACKGROUND GLOW EFFECT -->
   <div class="background-glow">
       <div class="glow-circle glow-top-left"></div>
       <div class="glow-circle glow-bottom-right"></div>
@@ -895,6 +990,7 @@
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
             <div class="cover-black-overlay" id="coverBlackOverlay"></div>
+            <div class="cover-blur-overlay" id="coverBlurOverlay"></div>
 
             <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true"><div class="loading-half-wheel animate-glowspin"></div></div>
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
@@ -920,24 +1016,23 @@
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
             </div>
             
-            <!-- UPDATED Floating Quick Actions Menu - Bottom Right Corner -->
+            <!-- FIXED PREMIUM SETTINGS MENU (FIXED PROPAGATION & LABELS) FROM INDEXFILE.HTML -->
             <div class="floating-quick-actions">
-                <div id="quickActionsMenu" class="quick-actions-menu">
-                    <div class="quick-action-item" onclick="openSupport()">
-                        <div class="quick-action-icon"><i data-lucide="help-circle" class="h-4 w-4 text-indigo-400"></i></div>
-                        <div class="quick-action-text">Support</div>
+                <div id="cuteQuickMenu" class="cute-quick-menu">
+                    <div class="cute-menu-item" onclick="handleCuteMenuItemClick('love', event)">
+                        <span class="cute-label">Share Love</span>
+                        <div class="cute-icon-wrapper"><i data-lucide="heart" class="h-4 w-4 text-red-400"></i></div>
                     </div>
-                    <div class="quick-action-item" onclick="toggleReactionMenu()">
-                        <div class="quick-action-icon"><i data-lucide="heart" class="h-4 w-4 text-red-400"></i></div>
-                        <div class="quick-action-text">Love This</div>
+                    <div class="cute-menu-item" onclick="handleCuteMenuItemClick('support', event)">
+                        <span class="cute-label">Get Support</span>
+                        <div class="cute-icon-wrapper"><i data-lucide="help-circle" class="h-4 w-4 text-indigo-400"></i></div>
                     </div>
-                    <div id="demoFlipbookItem" class="quick-action-item" onclick="openDemoFlipbook()">
-                        <div class="quick-action-icon"><i data-lucide="book-open" class="h-4 w-4 text-emerald-400"></i></div>
-                        <div class="quick-action-text">Flipbook</div>
-                        <div class="demo-badge">DEMO</div>
+                    <div class="cute-menu-item" onclick="handleCuteMenuItemClick('demo', event)">
+                        <span class="cute-label">Flipbook Demo</span>
+                        <div class="cute-icon-wrapper"><i data-lucide="book-open" class="h-4 w-4 text-emerald-400"></i></div>
                     </div>
                 </div>
-                <button id="quickActionsBtn" class="quick-actions-btn" onclick="toggleQuickActions()">
+                <button id="quickActionsBtn" class="quick-actions-btn" onclick="handleQuickActionsClick(event)">
                     <i data-lucide="settings" class="h-5 w-5"></i>
                 </button>
             </div>
@@ -1053,14 +1148,13 @@
               </div>
             </div>
 
-            <div id="unlockContainer" class="snake-container items-center gap-4">
+            <!-- UPGRADED LASER SNAKE BORDER - FIX 3 -->
+            <div id="unlockContainer" class="snake-container items-center" style="display: none;">
                 <div class="snake-border"></div>
-                <div class="snake-glow"></div>
                 <div class="snake-mask"></div>
+                <div class="snake-glow"></div>
                 <button id="unlockBtn" class="unlock-btn" data-unlocked="false" onclick="handleUnlockClick()">
-                    <i data-lucide="lock-open" class="h-4 w-4"></i> 
-                    <span>View Library</span>
-                    <span class="btn-shine"></span>
+                    <i data-lucide="lock-open" class="h-4 w-4"></i> <span>View Library</span>
                 </button>
             </div>
         </div>
@@ -1369,7 +1463,7 @@
     const IS_SALE_ACTIVE = true;
     const ENABLE_COUPON_SECTION = true; 
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
-    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-5407g98768cjdf';
+    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-540705gfds68cjdf';
     const PAYMENT_LINKS = {
         default: "https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds",  
         discounted: "https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d" 
@@ -1437,11 +1531,14 @@
         coverBlackOverlay: document.getElementById('coverBlackOverlay'),
         profileShineOverlay: document.getElementById('profileShineOverlay'),
         quickActionsBtn: document.getElementById('quickActionsBtn'),
-        quickActionsMenu: document.getElementById('quickActionsMenu'),
-        demoFlipbookItem: document.getElementById('demoFlipbookItem'),
+        cuteQuickMenu: document.getElementById('cuteQuickMenu'),
+        menuItemLove: document.getElementById('menuItemLove'),
+        menuItemSupport: document.getElementById('menuItemSupport'),
+        menuItemDemo: document.getElementById('menuItemDemo'),
         premiumLoadingOverlay: document.getElementById('premiumLoadingOverlay'),
         demoFlipbookModal: document.getElementById('demoFlipbookModal'),
-        demoFlipbookFrame: document.getElementById('demoFlipbookFrame')
+        demoFlipbookFrame: document.getElementById('demoFlipbookFrame'),
+        coverBlurOverlay: document.getElementById('coverBlurOverlay')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -1456,61 +1553,45 @@
     function zoomMindmap(factor) { scale += factor; if(scale < 0.1) scale = 0.1; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
     function resetMindmap() { scale = 1; pointX = 0; pointY = 0; mmImg.style.transform = `translate(0px, 0px) scale(1)`; }
 
-    /* UPDATED QUICK ACTIONS FUNCTIONS */
-    let isQuickActionsMenuOpen = false;
+    /* FIX 2: SETTINGS MENU - FROM INDEXFILE.HTML */
+    let isMenuOpen = false;
 
-    function toggleQuickActions() {
-        const btn = dom.quickActionsBtn;
-        const menu = dom.quickActionsMenu;
+    function handleQuickActionsClick(e) {
+        if (e) e.stopPropagation(); // CRITICAL: stops click from opening cover preview
+        isMenuOpen = !isMenuOpen;
+        const menu = document.getElementById('cuteQuickMenu');
+        const btn = document.getElementById('quickActionsBtn');
+        const blur = document.getElementById('coverBlurOverlay');
         
-        if (isQuickActionsMenuOpen) {
-            // Close menu
-            menu.classList.add('hiding');
-            setTimeout(() => {
-                menu.classList.remove('active');
-                menu.classList.remove('hiding');
-                isQuickActionsMenuOpen = false;
-            }, 250);
-        } else {
-            // Open menu
-            btn.classList.add('clicked');
-            setTimeout(() => btn.classList.remove('clicked'), 500);
-            
+        if (isMenuOpen) {
             menu.classList.add('active');
-            isQuickActionsMenuOpen = true;
+            btn.classList.add('active');
+            blur.classList.add('active');
+        } else {
+            closeCuteMenu();
         }
     }
 
-    function openSupport() {
-        window.location.href = "mailto:bookmintor@gmail.com?subject=Product Support Request";
-        closeQuickActions();
+    function closeCuteMenu() {
+        document.getElementById('cuteQuickMenu').classList.remove('active');
+        document.getElementById('quickActionsBtn').classList.remove('active');
+        document.getElementById('coverBlurOverlay').classList.remove('active');
+        isMenuOpen = false;
     }
 
-    function openDemoFlipbook() {
-        const isUnlocked = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
-        if (isUnlocked && isUnlocked !== 'false') {
-            showToast("You already have full access!", true);
-            closeQuickActions();
-            return;
-        }
-        triggerPremiumLoadingSequence('demo');
-        closeQuickActions();
+    function handleCuteMenuItemClick(type, e) {
+        if (e) e.stopPropagation();
+        closeCuteMenu();
+        if (type === 'love') confetti();
+        if (type === 'support') window.location.href = "mailto:support@bookmintor.shop";
+        if (type === 'demo') triggerPremiumLoadingSequence('demo');
     }
 
-    function closeQuickActions() {
-        const menu = dom.quickActionsMenu;
-        if (menu && isQuickActionsMenuOpen) {
-            menu.classList.add('hiding');
-            setTimeout(() => {
-                menu.classList.remove('active');
-                menu.classList.remove('hiding');
-                isQuickActionsMenuOpen = false;
-            }, 250);
-        }
-    }
-
+    /* PREMIUM LOADING SEQUENCE */
     function triggerPremiumLoadingSequence(type) {
-        dom.premiumLoadingOverlay.classList.add('active');
+        if (dom.premiumLoadingOverlay) {
+            dom.premiumLoadingOverlay.classList.add('active');
+        }
         
         const texts = ['loadingText1', 'loadingText2', 'loadingText3', 'loadingText4', 'loadingText5', 'loadingText6'];
         texts.forEach(id => {
@@ -1545,7 +1626,9 @@
             if (currentIndex >= texts.length) {
                 clearInterval(textInterval);
                 setTimeout(() => {
-                    dom.premiumLoadingOverlay.classList.remove('active');
+                    if (dom.premiumLoadingOverlay) {
+                        dom.premiumLoadingOverlay.classList.remove('active');
+                    }
                     if (type === 'demo') {
                         openDemoFlipbookModal();
                     }
@@ -1577,38 +1660,31 @@
         }
     }
 
-    function updateDemoButtonVisibility() {
-        const isUnlocked = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
-        if (isUnlocked && isUnlocked !== 'false') {
-            if (dom.demoFlipbookItem) {
-                dom.demoFlipbookItem.style.display = 'none';
-            }
-        } else {
-            if (dom.demoFlipbookItem) {
-                dom.demoFlipbookItem.style.display = 'flex';
-            }
-        }
-    }
-
     /* MODIFIED setUnlockedState FUNCTION */
     function setUnlockedState(status) {
-        dom.unlockContainer.style.display = 'inline-flex'; 
-        dom.unlockBtn.setAttribute('data-unlocked', status); 
-        dom.unlockContainer.classList.add('snake-active');
-        dom.actionContainer.classList.add('stacked'); 
-        const ctaShine = dom.buyBtn.querySelector('.cta-shine');
+        if (dom.unlockContainer) {
+            dom.unlockContainer.style.display = 'inline-flex'; 
+        }
+        if (dom.unlockBtn) {
+            dom.unlockBtn.setAttribute('data-unlocked', status); 
+        }
+        if (dom.unlockContainer) {
+            dom.unlockContainer.classList.add('snake-active');
+        }
+        if (dom.actionContainer) {
+            dom.actionContainer.classList.add('stacked'); 
+        }
+        const ctaShine = dom.buyBtn ? dom.buyBtn.querySelector('.cta-shine') : null;
         if (ctaShine) { 
             ctaShine.style.display = 'none'; 
             ctaShine.style.animation = 'none'; 
         }
-        const unlockShine = dom.unlockBtn.querySelector('.btn-shine');
+        const unlockShine = dom.unlockBtn ? dom.unlockBtn.querySelector('.btn-shine') : null;
         if(unlockShine) { 
             unlockShine.style.display = 'block'; 
             unlockShine.style.animation = 'blackShine 4s ease-in-out infinite'; 
         }
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
-        
-        updateDemoButtonVisibility();
     }
 
     /* EXISTING FUNCTIONS */
@@ -1837,13 +1913,11 @@
       if(IS_SALE_ACTIVE) document.getElementById('saleBanner').style.display = 'block';
       AOS.init({ duration: 800, once: true, offset: 120 }); lucide.createIcons(); preloadAllImages();
       document.getElementById('year').textContent = new Date().getFullYear();
-      updateDemoButtonVisibility();
       
+      // Close cute menu when clicking outside
       document.addEventListener('click', function(e) {
-          if (dom.quickActionsMenu && dom.quickActionsBtn) {
-              if (!dom.quickActionsMenu.contains(e.target) && !dom.quickActionsBtn.contains(e.target)) {
-                  closeQuickActions();
-              }
+          if (isMenuOpen && !document.querySelector('.floating-quick-actions').contains(e.target)) {
+              closeCuteMenu();
           }
       });
     });
