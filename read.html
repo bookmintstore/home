@@ -39,29 +39,27 @@
             flex-direction: column;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (LOGO REMOVED, ONLY NAME) --- */
         .brand-header {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 1000;
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 2px;
             pointer-events: none;
         }
 
-        .brand-logo {
-            height: 35px;
-            width: 35px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        .brand-info {
+            display: flex;
+            align-items: center;
         }
 
         .brand-name {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
+            letter-spacing: -0.5px;
             background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
@@ -74,13 +72,13 @@
             100% { background-position: 200% center; }
         }
 
-        /* --- WRAPPER FIX: CENTERED WITHOUT SHIFTING --- */
+        /* --- WRAPPER FIX --- */
         #flipbook-wrapper {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 0 100px 0; /* Space for counter */
+            padding: 40px 0 100px 0;
             overflow: hidden;
         }
 
@@ -90,18 +88,10 @@
             visibility: hidden;
         }
 
-        .page {
-            background: #fff;
-            overflow: hidden;
-        }
+        .page { background: #fff; overflow: hidden; }
+        canvas { width: 100% !important; height: 100% !important; display: block; }
 
-        canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
-        }
-
-        /* --- BLURRED NOTES SYSTEM --- */
+        /* --- FULLY FUNCTIONAL NOTES SYSTEM --- */
         #notes-container {
             position: fixed;
             top: 20px;
@@ -136,7 +126,7 @@
         }
 
         .sticky-note {
-            background: rgba(255, 255, 150, 0.15); /* Glassy yellow */
+            background: rgba(255, 255, 150, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             color: #fff;
@@ -183,7 +173,6 @@
             z-index: 50;
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             padding: 12px 30px;
             border-radius: 100px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -193,7 +182,7 @@
         }
 
         #current-page { color: var(--accent-color); font-weight: 800; font-size: 1.3rem; }
-        .total-slash { opacity: 0.3; font-weight: 300; }
+        .total-slash { opacity: 0.3; }
 
         /* --- ADVANCED LOADER --- */
         #loader {
@@ -216,7 +205,6 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 25px;
-            position: relative;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -264,33 +252,23 @@
             outline: none;
         }
 
-        .modal-content textarea:focus { border-color: var(--accent-color); }
-
         .modal-btns { display: flex; gap: 12px; }
-        .modal-btns button { 
-            flex: 1; 
-            padding: 14px; 
-            border-radius: 15px; 
-            border: none; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: 0.3s;
-        }
+        .modal-btns button { flex: 1; padding: 14px; border-radius: 15px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
         .save-btn { background: var(--accent-color); color: white; }
         .cancel-btn { background: rgba(255,255,255,0.05); color: #888; }
-        .save-btn:hover { filter: brightness(1.2); }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <div class="brand-header">
-        <img src="https://bookmintor.shop/images/logo.png" class="brand-logo" alt="Logo">
-        <span class="brand-name">Bookmintor</span>
+        <div class="brand-info">
+            <span class="brand-name">Bookmintor</span>
+        </div>
     </div>
 
     <div id="notes-container">
         <button class="add-note-btn" onclick="openNoteModal()">
-            <i data-lucide="plus-circle" style="width:18px"></i> Add Note
+            <i data-lucide="sticky-note" style="width:18px"></i> Add Note
         </button>
         <div id="active-notes"></div>
     </div>
@@ -309,7 +287,7 @@
 
     <div id="loader">
         <div class="spinner-outer"></div>
-        <p id="loading-text" style="font-weight: 400; color: #666; margin: 0;">PREPARING ASSETS</p>
+        <p id="loading-text" style="font-weight: 600; color: #fff; margin: 0; letter-spacing: 1px;">INITIALIZING CORE ASSETS</p>
         <p id="loading-progress">0% COMPLETE</p>
     </div>
 
@@ -325,15 +303,14 @@
         </div>
     </div>
 
-    <audio id="page-sound" preload="auto">
-        <source src="https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3" type="audio/mpeg">
-    </audio>
-
 <script>
+    // Asset Links
     const PDF_URL = 'https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf';
+    const SOUND_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3';
+    
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-    // Advanced Security
+    // Advanced Protection
     document.onkeydown = (e) => {
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
@@ -341,13 +318,44 @@
     let pageFlip;
     let currentPageIndex = 0;
     let allNotes = JSON.parse(localStorage.getItem('bookmintor_notes') || '{}');
+    
+    // Sound Pool
+    const soundPool = [];
+    for(let i=0; i<5; i++) {
+        const audio = new Audio(SOUND_URL);
+        audio.preload = 'auto';
+        soundPool.push(audio);
+    }
+    let currentSoundIndex = 0;
 
     const flipbookEl = document.getElementById('flipbook');
     const loader = document.getElementById('loader');
     const progressText = document.getElementById('loading-progress');
     const activeNotesContainer = document.getElementById('active-notes');
-    const pageSound = document.getElementById('page-sound');
 
+    // Unlock audio on interaction
+    const unlockAudio = () => {
+        soundPool.forEach(audio => {
+            audio.play().then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+            }).catch(() => {});
+        });
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('touchstart', unlockAudio);
+    };
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+
+    function playFlipSound() {
+        const sound = soundPool[currentSoundIndex];
+        sound.currentTime = 0;
+        sound.volume = 0.6;
+        sound.play().catch(() => {});
+        currentSoundIndex = (currentSoundIndex + 1) % soundPool.length;
+    }
+
+    // Notes Management
     function openNoteModal() {
         document.getElementById('target-page-num').innerText = currentPageIndex + 1;
         document.getElementById('note-modal').style.display = 'flex';
@@ -402,7 +410,6 @@
             document.getElementById('total-pages').innerText = total;
 
             for (let i = 1; i <= total; i++) {
-                // Update Progress in Loader
                 const percent = Math.round((i / total) * 100);
                 progressText.innerText = `LOADING PAGE ${i} OF ${total} (${percent}%)`;
                 
@@ -423,16 +430,15 @@
                 pageFlip = new St.PageFlip(flipbookEl, {
                     width: 600, height: 800, size: 'stretch',
                     showCover: false, mode: 'portrait', startPage: 0,
-                    flippingTime: 600, usePortrait: true
+                    flippingTime: 500, usePortrait: true,
+                    clickEventForward: true
                 });
                 pageFlip.loadFromHTML(document.querySelectorAll('.page'));
                 
                 pageFlip.on('flip', (e) => {
                     currentPageIndex = e.data;
                     document.getElementById('current-page').innerText = currentPageIndex + 1;
-                    const s = pageSound.cloneNode();
-                    s.volume = 0.4;
-                    s.play().catch(()=>{});
+                    playFlipSound();
                     renderNotes();
                 });
             }
@@ -446,7 +452,7 @@
 
         } catch (error) {
             console.error(error);
-            progressText.innerText = "FAILED TO LOAD BOOK";
+            progressText.innerText = "FAILED TO LOAD ASSETS";
         }
     }
 
