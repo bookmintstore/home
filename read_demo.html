@@ -2,335 +2,538 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo Secure Bookmintor Flipbook</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aethelgard V13 - Web Match & Smart Save</title>
+    
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #020408; 
-            --accent-color: #a855f7;
-            --brand-indigo: #6366f1;
-            --text-main: #ffffff;
-            --overlay-bg: rgba(0, 0, 0, 0.95);
+            --bg-color: #020408;
+            /* Changed from Gold to Purple to match your web style */
+            --accent: #a855f7; 
+            --glass: rgba(10, 10, 15, 0.95);
+            --border: rgba(168, 85, 247, 0.2); /* Purple tint border */
         }
 
-        /* --- SECURITY: NO SELECTION --- */
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-drag: none; }
 
         body {
-            margin: 0;
-            background: var(--bg-color);
-            font-family: 'Space Grotesk', sans-serif;
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, #151020 0%, #000 100%);
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif; /* Matched Font */
+            color: white;
             display: flex;
             flex-direction: column;
-        }
-
-        /* --- HEADER (LOGO REMOVED, ONLY NAME) --- */
-        .brand-header {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            pointer-events: none;
-        }
-
-        .brand-info {
-            display: flex;
             align-items: center;
-        }
-
-        .brand-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: royalShine 4s linear infinite;
-        }
-
-        .demo-badge {
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #888;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        @keyframes royalShine {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        /* --- WRAPPER FIX --- */
-        #flipbook-wrapper {
-            flex: 1;
-            display: flex;
             justify-content: center;
+        }
+
+        /* --- STAGE --- */
+        .book-stage {
+            width: 100%;
+            height: 100%;
+            display: flex;
             align-items: center;
-            padding: 40px 0 100px 0;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            perspective: 1500px; /* Enhanced Perspective */
+            overflow: hidden;
+            cursor: pointer; /* Indicates clickable */
+        }
+
+        /* Container for PageFlip */
+        #flipbook-container {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.05s linear; /* Faster response for 3D */
+        }
+
+        .stf__wrapper {
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            background: #fff;
             overflow: hidden;
         }
 
-        #flipbook {
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
-            background: #111;
-            visibility: hidden;
+        .page-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
-        .page { background: #fff; overflow: hidden; }
-        canvas { width: 100% !important; height: 100% !important; display: block; }
-
-        /* --- DISABLED NOTES SYSTEM (DEMO MODE) --- */
-        #notes-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: flex-end;
-        }
-
-        .add-note-btn.demo-disabled {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: grayscale(1) blur(10px);
-            -webkit-backdrop-filter: grayscale(1) blur(10px);
-            color: #666;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 14px;
-            font-weight: 600;
-            cursor: not-allowed;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.6;
-        }
-
-        /* --- COUNTER --- */
-        .counter-container {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 50;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            padding: 12px 30px;
-            border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #current-page { color: var(--accent-color); font-weight: 800; font-size: 1.3rem; }
-        .total-slash { opacity: 0.3; }
-
-        /* --- ADVANCED LOADER --- */
+        /* --- LOADER --- */
         #loader {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease;
+            position: fixed; inset: 0; background: #020408; z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-
-        .spinner-outer {
-            width: 70px;
-            height: 70px;
-            border: 2px solid rgba(168, 85, 247, 0.1);
-            border-top: 2px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 25px;
+        
+        .spinner {
+            width: 50px; height: 50px; border: 2px solid rgba(168, 85, 247, 0.2);
+            border-top: 2px solid var(--accent); border-radius: 50%;
+            animation: spin 1s infinite linear; margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
         }
-
         @keyframes spin { to { transform: rotate(360deg); } }
+        .load-text { font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 1px; font-size: 14px; font-weight: 600; }
 
-        #loading-progress {
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            margin-top: 10px;
-            letter-spacing: 2px;
-            font-weight: 700;
+        /* --- UI CONTROLS --- */
+        .toolbar {
+            position: fixed; bottom: 25px;
+            background: var(--glass); backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 10px 25px; border-radius: 16px;
+            display: flex; align-items: center; gap: 15px;
+            z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            max-width: 95vw;
+            overflow-x: auto;
         }
+        
+        .btn {
+            background: none; border: none; color: #888; cursor: pointer;
+            transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .btn:hover { color: var(--accent); transform: scale(1.1); }
+        .btn.active { color: var(--accent); }
 
-        .demo-loader-tag {
-            background: rgba(255,255,255,0.05);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #888;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+        .sep { width: 1px; height: 20px; background: rgba(255,255,255,0.1); }
+
+        /* Speed Buttons */
+        .speed-group { display: flex; gap: 5px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 12px; }
+        .s-btn {
+            border: none; background: transparent; color: #666; font-size: 11px; font-weight: 600;
+            padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
+        .s-btn:hover { color: #fff; }
+        .s-btn.selected { background: var(--accent); color: #fff; }
+
+        /* Notes Overlay */
+        #notes-layer { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+        .note-marker {
+            pointer-events: auto; position: absolute; width: 28px; height: 28px;
+            background: var(--accent); border-radius: 50%; border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center; color: #fff;
+            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4); cursor: pointer;
+            transition: 0.2s;
+        }
+        .note-marker:hover { transform: scale(1.15); box-shadow: 0 0 20px var(--accent); }
+
+        /* Modal */
+        #note-modal {
+            position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.85);
+            display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
+        }
+        .modal-card {
+            background: #0f1115; width: 90%; max-width: 380px; padding: 25px;
+            border-radius: 16px; border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        textarea { 
+            width: 100%; height: 120px; background: rgba(255,255,255,0.03); 
+            border: 1px solid rgba(255,255,255,0.1); color: #fff; 
+            padding: 15px; margin: 20px 0; border-radius: 12px; 
+            resize: none; outline: none; font-family: 'Inter'; font-size: 14px;
+        }
+        textarea:focus { border-color: var(--accent); }
+        
+        .m-btns { display: flex; justify-content: flex-end; gap: 12px; }
+        .m-btn { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .save { background: var(--accent); color: #fff; }
+        .del { background: rgba(255, 68, 68, 0.1); color: #ff4444; }
+        .close { background: transparent; color: #888; }
+
     </style>
 </head>
-<body oncontextmenu="return false;">
-
-    <div class="brand-header">
-        <div class="brand-info">
-            <span class="brand-name">Bookmintor</span>
-        </div>
-        <span class="demo-badge">Demo Version</span>
-    </div>
-
-    <div id="notes-container">
-        <button class="add-note-btn demo-disabled">
-            <i data-lucide="lock" style="width:16px"></i> Add Note
-        </button>
-        <div id="active-notes"></div>
-    </div>
+<body>
 
     <div id="loader">
-        <span class="demo-loader-tag">DEMO MODE ACTIVE</span>
-        <div class="spinner-outer"></div>
-        <p id="loading-text" style="font-weight: 600; color: #fff; margin: 0; letter-spacing: 1px;">INITIALIZING DEMO ASSETS</p>
-        <p id="loading-progress">0% COMPLETE</p>
+        <div class="spinner"></div>
+        <div class="load-text">INITIALIZING READER</div>
+        <div id="load-status" style="color:#666; font-size:11px; margin-top:10px;">0%</div>
     </div>
 
-    <div id="flipbook-wrapper">
-        <div id="flipbook"></div>
+    <div class="book-stage" id="book-stage">
+        <div id="flipbook-container"></div>
     </div>
 
-    <div class="counter-container">
-        <div class="page-count">
-            <span id="current-page">1</span> 
-            <span class="total-slash">/</span> 
-            <span id="total-pages">--</span>
+    <div id="notes-layer"></div>
+
+    <div class="toolbar">
+        <button class="btn" id="prev-btn"><i data-lucide="chevron-left"></i></button>
+        <!-- Updated Counter Format -->
+        <div id="page-counter" style="color:var(--accent); min-width:80px; text-align:center; font-size:13px; font-weight: 600;"></div>
+        <button class="btn" id="next-btn"><i data-lucide="chevron-right"></i></button>
+        
+        <div class="sep"></div>
+
+        <div class="speed-group">
+            <button class="s-btn" onclick="setSpeed(2000, this)">Slow</button>
+            <button class="s-btn selected" onclick="setSpeed(1000, this)">Med</button>
+            <button class="s-btn" onclick="setSpeed(600, this)">Fast</button>
+        </div>
+
+        <div class="sep"></div>
+        
+        <button class="btn" id="auto-btn"><i data-lucide="play"></i></button>
+        <button class="btn" id="add-note-btn"><i data-lucide="message-square-plus"></i></button>
+        <button class="btn" id="sound-btn"><i data-lucide="volume-2"></i></button>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="note-modal">
+        <div class="modal-card">
+            <h3 style="color:var(--accent); font-family:'Space Grotesk'">Your Note</h3>
+            <textarea id="modal-text" placeholder="Type your thoughts here to save..."></textarea>
+            <div class="m-btns">
+                <button class="m-btn del" id="m-del">Delete</button>
+                <button class="m-btn close" id="m-close">Cancel</button>
+                <button class="m-btn save" id="m-save">Save Note</button>
+            </div>
         </div>
     </div>
 
-<script>
-    // Asset Links
-    const PDF_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf';
-    const SOUND_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3';
-    
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+    <audio id="flip-sfx" src="https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3"></audio>
 
-    // Advanced Protection
-    document.onkeydown = (e) => {
-        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
-    };
+    <script>
+        const PDF_URL = "https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf";
+        const STORAGE_KEY = "aethelgard_v13_web";
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    let pageFlip;
-    let currentPageIndex = 0;
-    
-    // Sound Pool for fast flipping
-    const soundPool = [];
-    for(let i=0; i<5; i++) {
-        const audio = new Audio(SOUND_URL);
-        audio.preload = 'auto';
-        soundPool.push(audio);
-    }
-    let currentSoundIndex = 0;
+        // Global State
+        let pdfDoc = null;
+        let pageFlip = null;
+        let totalPages = 0;
+        let pdfRatio = 0.7; 
+        
+        // Settings
+        let flipSpeed = 1000;
+        let isSoundOn = true;
+        let isAuto = false;
+        let autoTimer;
+        let currentPageIndex = 0;
 
-    const flipbookEl = document.getElementById('flipbook');
-    const loader = document.getElementById('loader');
-    const progressText = document.getElementById('loading-progress');
+        // Permanent Canvas Cache
+        const canvasMap = new Map();
 
-    // Unlock audio on interaction
-    const unlockAudio = () => {
-        soundPool.forEach(audio => {
-            audio.play().then(() => {
-                audio.pause();
-                audio.currentTime = 0;
-            }).catch(() => {});
-        });
-        document.removeEventListener('click', unlockAudio);
-        document.removeEventListener('touchstart', unlockAudio);
-    };
-    document.addEventListener('click', unlockAudio);
-    document.addEventListener('touchstart', unlockAudio);
+        async function init() {
+            try {
+                const task = pdfjsLib.getDocument(PDF_URL);
+                task.onProgress = (p) => {
+                    const pct = Math.round((p.loaded / p.total) * 100);
+                    if(!isNaN(pct)) document.getElementById('load-status').innerText = `${pct}%`;
+                };
+                pdfDoc = await task.promise;
+                totalPages = pdfDoc.numPages;
 
-    function playFlipSound() {
-        const sound = soundPool[currentSoundIndex];
-        sound.currentTime = 0;
-        sound.volume = 0.6;
-        sound.play().catch(() => {});
-        currentSoundIndex = (currentSoundIndex + 1) % soundPool.length;
-    }
+                const firstPage = await pdfDoc.getPage(1);
+                const vp = firstPage.getViewport({ scale: 1 });
+                pdfRatio = vp.width / vp.height;
 
-    async function init() {
-        try {
-            lucide.createIcons();
-            const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
-            const total = pdf.numPages;
-            document.getElementById('total-pages').innerText = total;
-
-            for (let i = 1; i <= total; i++) {
-                const percent = Math.round((i / total) * 100);
-                progressText.innerText = `LOADING DEMO PAGE ${i} OF ${total} (${percent}%)`;
+                document.getElementById('load-status').innerText = "RENDERING PAGES...";
                 
-                const page = await pdf.getPage(i);
-                const viewport = page.getViewport({ scale: 1.5 });
+                for(let i=1; i<=totalPages; i++) {
+                    await cachePage(i);
+                    if(i % 5 === 0) document.getElementById('load-status').innerText = `Processing ${Math.round((i/totalPages)*100)}%`;
+                }
+
+                buildBook();
+
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').remove(), 600);
+                document.getElementById('book-stage').style.opacity = '1';
+
+                window.addEventListener('resize', debounce(() => {
+                    buildBook(); 
+                }, 200));
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('load-status').innerText = "ERROR LOADING PDF";
+                document.getElementById('load-status').style.color = "#ff4444";
+            }
+        }
+
+        async function cachePage(num) {
+            if(canvasMap.has(num)) return;
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale: 2.0 });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.className = 'page-canvas';
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            canvasMap.set(num, canvas);
+        }
+
+        function getDimensions() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            const maxWidth = w * 0.95;
+            const maxHeight = h * 0.82; 
+
+            let bookH = maxHeight;
+            let bookW = bookH * pdfRatio;
+
+            if (bookW > maxWidth) {
+                bookW = maxWidth;
+                bookH = bookW / pdfRatio;
+            }
+            return { width: Math.floor(bookW), height: Math.floor(bookH) };
+        }
+
+        function buildBook() {
+            const dim = getDimensions();
+            
+            if (pageFlip) {
+                try { pageFlip.destroy(); } catch(e) {}
+                pageFlip = null;
+            }
+
+            let container = document.getElementById('flipbook-container');
+            if (!container) {
+                const stage = document.getElementById('book-stage');
+                container = document.createElement('div');
+                container.id = 'flipbook-container';
+                stage.appendChild(container);
+            }
+
+            container.innerHTML = ""; 
+            container.style.width = ""; 
+            container.style.height = "";
+            
+            // Handle Click-to-Flip on the container
+            container.onclick = (e) => {
+                // If clicked on toolbar or notes, ignore (handled by propagation)
+                // We just need to check mouse position relative to window width
+                const x = e.clientX;
+                const half = window.innerWidth / 2;
+                if (x > half) {
+                    pageFlip?.flipNext();
+                } else {
+                    pageFlip?.flipPrev();
+                }
+            };
+
+            for(let i=1; i<=totalPages; i++) {
                 const div = document.createElement('div');
                 div.className = 'page';
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-                await page.render({ canvasContext: ctx, viewport }).promise;
-                div.appendChild(canvas);
-                flipbookEl.appendChild(div);
+                div.setAttribute('data-density', 'soft');
+                const content = document.createElement('div');
+                content.className = 'page-content';
+                if(canvasMap.has(i)) content.appendChild(canvasMap.get(i));
+                div.appendChild(content);
+                container.appendChild(div);
             }
 
-            if (typeof St !== 'undefined' && St.PageFlip) {
-                pageFlip = new St.PageFlip(flipbookEl, {
-                    width: 600, height: 800, size: 'stretch',
-                    showCover: false, mode: 'portrait', startPage: 0,
-                    flippingTime: 500, usePortrait: true,
-                    clickEventForward: true
-                });
-                pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-                
-                pageFlip.on('flip', (e) => {
-                    currentPageIndex = e.data;
-                    document.getElementById('current-page').innerText = currentPageIndex + 1;
-                    playFlipSound();
-                });
-            }
+            pageFlip = new St.PageFlip(container, {
+                width: dim.width,
+                height: dim.height,
+                size: 'fixed',
+                showCover: false, 
+                startPage: currentPageIndex,
+                flippingTime: flipSpeed,
+                maxShadowOpacity: 0.5,
+                usePortrait: false,
+                mobileFirst: false
+            });
 
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-                flipbookEl.style.visibility = 'visible';
-            }, 800);
+            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-        } catch (error) {
-            console.error(error);
-            progressText.innerText = "FAILED TO LOAD DEMO";
+            pageFlip.on('flip', (e) => {
+                currentPageIndex = e.data;
+                updateUI();
+                if(isSoundOn) {
+                    const sfx = document.getElementById('flip-sfx');
+                    sfx.currentTime = 0; sfx.play().catch(()=>{});
+                }
+            });
+
+            updateUI();
+            lucide.createIcons();
         }
-    }
 
-    window.addEventListener('load', init);
-</script>
+        function setSpeed(ms, btn) {
+            flipSpeed = ms;
+            document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            requestAnimationFrame(() => buildBook());
+        }
 
+        function updateUI() {
+            const el = document.getElementById('page-counter');
+            const idx = currentPageIndex;
+            let p1 = (idx * 2) + 1;
+            let p2 = p1 + 1;
+            if (p1 > totalPages) p1 = totalPages;
+            
+            // Show Total Pages
+            if(p2 > totalPages) el.innerText = `${p1} / ${totalPages}`;
+            else el.innerText = `${p1} - ${p2} / ${totalPages}`;
+
+            renderNotes();
+        }
+
+        // --- ENHANCED 3D MOVEMENT ---
+        document.addEventListener('mousemove', (e) => {
+            const container = document.getElementById('flipbook-container');
+            if(!container) return;
+            // Increased sensitivity (Divisor 100 instead of 400)
+            const x = (window.innerWidth/2 - e.pageX) / 100; 
+            const y = (window.innerHeight/2 - e.pageY) / 100;
+            container.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        // --- SMART NOTES LOGIC ---
+        let tempNoteId = null; // ID for new note being created
+
+        function getNotes() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+        function saveNotes(n) { localStorage.setItem(STORAGE_KEY, JSON.stringify(n)); renderNotes(); }
+
+        function startNewNote() {
+            // Just open modal, don't save to storage yet
+            tempNoteId = Date.now();
+            openModal(tempNoteId, true); // true = new mode
+        }
+
+        function renderNotes() {
+            const layer = document.getElementById('notes-layer');
+            if (!layer) return;
+            layer.innerHTML = "";
+            const p1 = (currentPageIndex * 2) + 1;
+            const p2 = p1 + 1;
+            const visible = [p1, p2];
+
+            getNotes().forEach(n => {
+                if(visible.includes(n.page)) {
+                    const m = document.createElement('div');
+                    m.className = 'note-marker';
+                    m.style.top = n.top;
+                    const isLeft = (n.page % 2 !== 0);
+                    if(isLeft) m.style.left = "25%"; else m.style.left = "75%";
+                    m.innerHTML = '<i data-lucide="message-square-text" style="width:14px"></i>';
+                    m.onclick = (e) => {
+                        e.stopPropagation(); // Prevent flip
+                        openModal(n.id, false);
+                    };
+                    layer.appendChild(m);
+                }
+            });
+            lucide.createIcons();
+        }
+
+        // --- MODAL ---
+        let activeNoteId = null;
+        const modal = document.getElementById('note-modal');
+        
+        function openModal(id, isNew) {
+            activeNoteId = id;
+            const ta = document.getElementById('modal-text');
+            
+            if (isNew) {
+                ta.value = ""; // Clear for new
+                document.getElementById('m-del').style.display = 'none'; // Can't delete what doesn't exist
+            } else {
+                const n = getNotes().find(x => x.id === id);
+                if(n) ta.value = n.text;
+                document.getElementById('m-del').style.display = 'block';
+            }
+            modal.style.display = 'flex';
+        }
+
+        document.getElementById('m-save').onclick = () => {
+            const text = document.getElementById('modal-text').value.trim();
+            if (!text) {
+                // If empty, do nothing or alert? User said "until text is written". 
+                // So if empty, we just close and don't save.
+                modal.style.display = 'none';
+                return;
+            }
+
+            const notes = getNotes();
+            const existingIndex = notes.findIndex(x => x.id === activeNoteId);
+
+            if (existingIndex > -1) {
+                // Update existing
+                notes[existingIndex].text = text;
+            } else {
+                // Create new
+                const p1 = (currentPageIndex * 2) + 1;
+                notes.push({ 
+                    id: activeNoteId, 
+                    page: p1, 
+                    text: text, 
+                    top: "30%", 
+                    left: "25%" 
+                });
+            }
+            saveNotes(notes);
+            modal.style.display = 'none';
+        }
+
+        document.getElementById('m-del').onclick = () => {
+            saveNotes(getNotes().filter(x => x.id !== activeNoteId));
+            modal.style.display = 'none';
+        }
+        document.getElementById('m-close').onclick = () => modal.style.display = 'none';
+
+        // --- CONTROLS ---
+        // Prevent click propagation from toolbar buttons
+        document.querySelector('.toolbar').onclick = (e) => e.stopPropagation();
+        document.getElementById('note-modal').onclick = (e) => e.stopPropagation();
+
+        document.getElementById('prev-btn').onclick = () => pageFlip?.flipPrev();
+        document.getElementById('next-btn').onclick = () => pageFlip?.flipNext();
+        document.getElementById('add-note-btn').onclick = startNewNote; // Use new logic
+        
+        document.getElementById('auto-btn').onclick = function() {
+            isAuto = !isAuto;
+            this.classList.toggle('active');
+            if(isAuto) {
+                this.innerHTML = '<i data-lucide="pause"></i>';
+                autoTimer = setInterval(() => {
+                    if(!pageFlip) return;
+                    const p1 = (currentPageIndex * 2) + 1;
+                    if(p1 >= totalPages) pageFlip.flip(0);
+                    else pageFlip.flipNext();
+                }, 4000);
+            } else {
+                this.innerHTML = '<i data-lucide="play"></i>';
+                clearInterval(autoTimer);
+            }
+            lucide.createIcons();
+        }
+
+        document.getElementById('sound-btn').onclick = function() {
+            isSoundOn = !isSoundOn;
+            this.classList.toggle('active');
+            this.innerHTML = isSoundOn ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
+            lucide.createIcons();
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, arguments), wait);
+            };
+        }
+
+        window.onload = init;
+
+    </script>
 </body>
 </html>
