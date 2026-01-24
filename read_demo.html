@@ -2,505 +2,335 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Bookmintor - Demo Preview</title>
-    
-    <!-- Dependencies -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Secure Bookmintor Flipbook</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #020408;
-            --accent: #a855f7; 
-            --glass: rgba(10, 10, 15, 0.95);
-            --border: rgba(168, 85, 247, 0.2);
-            --warn-color: #ff3333;
-            --disabled-color: #444;
+            --bg-color: #020408; 
+            --accent-color: #a855f7;
+            --brand-indigo: #6366f1;
+            --text-main: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.95);
         }
 
-        /* --- GLOBAL RESET --- */
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            user-select: none; -webkit-user-drag: none; -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            outline: none;
-            touch-action: none;
+        /* --- SECURITY: NO SELECTION --- */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: radial-gradient(circle at center, #151020 0%, #000 100%);
-            height: 100vh; width: 100vw; overflow: hidden;
-            font-family: 'Space Grotesk', sans-serif; color: white;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            margin: 0;
+            background: var(--bg-color);
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- BRAND HEADER --- */
+        /* --- HEADER (LOGO REMOVED, ONLY NAME) --- */
         .brand-header {
-            position: fixed; top: 25px; left: 25px; z-index: 1000; pointer-events: none;
-            display: flex; flex-direction: column;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            pointer-events: none;
         }
+
+        .brand-info {
+            display: flex;
+            align-items: center;
+        }
+
         .brand-name {
-            font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
             background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             animation: royalShine 4s linear infinite;
         }
+
         .demo-badge {
-            font-size: 0.7rem; font-weight: 800; letter-spacing: 3px;
-            color: #666; margin-top: 4px; text-transform: uppercase;
-        }
-        @keyframes royalShine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-
-        /* --- STAGE --- */
-        .book-stage {
-            width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.8s ease;
-            overflow: visible; 
-            cursor: grab;
-            /* Adjust padding for mobile to avoid overlap with header/footer */
-            padding-top: 60px;
-            padding-bottom: 80px;
-        }
-        .book-stage:active { cursor: grabbing; }
-
-        #flipbook-container {
-            position: relative; margin: auto;
-            visibility: hidden; 
-            min-width: 300px;
-            min-height: 200px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #888;
+            text-transform: uppercase;
+            margin-top: 2px;
         }
 
-        /* PAGE STYLING */
-        .page { background-color: #ffffff !important; overflow: hidden; box-shadow: 0 0 30px rgba(0,0,0,0.7); }
-        .page-content { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #ffffff; }
-        .page-canvas { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+        @keyframes royalShine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
 
-        /* --- LOADER --- */
+        /* --- WRAPPER FIX --- */
+        #flipbook-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0 100px 0;
+            overflow: hidden;
+        }
+
+        #flipbook {
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+            background: #111;
+            visibility: hidden;
+        }
+
+        .page { background: #fff; overflow: hidden; }
+        canvas { width: 100% !important; height: 100% !important; display: block; }
+
+        /* --- DISABLED NOTES SYSTEM (DEMO MODE) --- */
+        #notes-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .add-note-btn.demo-disabled {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: grayscale(1) blur(10px);
+            -webkit-backdrop-filter: grayscale(1) blur(10px);
+            color: #666;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.6;
+        }
+
+        /* --- COUNTER --- */
+        .counter-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            padding: 12px 30px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #current-page { color: var(--accent-color); font-weight: 800; font-size: 1.3rem; }
+        .total-slash { opacity: 0.3; }
+
+        /* --- ADVANCED LOADER --- */
         #loader {
-            position: fixed; inset: 0; background: #020408; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
         }
-        .spinner {
-            width: 60px; height: 60px; border: 2px solid rgba(168, 85, 247, 0.2);
-            border-top: 2px solid var(--accent); border-radius: 50%;
-            animation: spin 1s infinite linear; margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+
+        .spinner-outer {
+            width: 70px;
+            height: 70px;
+            border: 2px solid rgba(168, 85, 247, 0.1);
+            border-top: 2px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
         }
+
         @keyframes spin { to { transform: rotate(360deg); } }
-        .load-title { font-size: 14px; color: #fff; letter-spacing: 2px; font-weight: 600; margin-bottom: 8px; }
-        .load-detail { font-size: 11px; color: var(--accent); letter-spacing: 1px; font-weight: 700; }
 
-        /* --- TOAST SYSTEM --- */
-        #system-toast {
-            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
-            background: rgba(15, 15, 20, 0.95); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff; padding: 10px 24px; border-radius: 50px;
-            font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500;
-            pointer-events: none; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; align-items: center; gap: 10px; z-index: 5000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: max-content; max-width: 90%;
+        #loading-progress {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
-        #system-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-        #system-toast.warn { border-color: rgba(255, 68, 68, 0.3); color: #ffcccc; }
-        #system-toast.info { border-color: rgba(168, 85, 247, 0.3); color: #e9d5ff; }
-        .toast-icon { width: 16px; height: 16px; min-width: 16px; }
 
-        /* --- TOOLBAR (MOBILE OPTIMIZED) --- */
-        .toolbar {
-            position: fixed; 
-            bottom: 25px;
-            /* Safe area for iPhone X+ */
-            bottom: calc(25px + env(safe-area-inset-bottom));
-            background: var(--glass); backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            padding: 10px 20px; border-radius: 20px;
-            display: flex; align-items: center; gap: 15px;
-            z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            
-            /* Scrolling Logic */
-            max-width: 90vw; 
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-            
-            /* Ensure pointer events work */
-            pointer-events: auto;
-            touch-action: pan-x;
+        .demo-loader-tag {
+            background: rgba(255,255,255,0.05);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #888;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        
-        /* Hide scrollbar but allow scroll */
-        .toolbar::-webkit-scrollbar { display: none; }
-        .toolbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .btn {
-            background: none; border: none; color: #888; cursor: pointer;
-            transition: 0.2s; display: inline-flex; align-items: center; justify-content: center;
-            padding: 5px; min-width: 35px; flex-shrink: 0; /* Prevent shrinking */
-        }
-        .btn:hover { color: var(--accent); transform: scale(1.15); }
-        .btn.active { color: var(--accent); }
-        
-        .btn.locked { opacity: 0.3; cursor: not-allowed; position: relative; }
-        .btn.locked:hover { transform: none; color: #888; }
-
-        .sep { width: 1px; height: 20px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
-
-        #notes-layer { position: fixed; inset: 0; pointer-events: none; z-index: 50; display: none; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div class="brand-header">
-        <span class="brand-name">Bookmintor</span>
-        <span class="demo-badge">PREVIEW ONLY</span>
+        <div class="brand-info">
+            <span class="brand-name">Bookmintor</span>
+        </div>
+        <span class="demo-badge">Demo Version</span>
     </div>
 
-    <!-- UNIFIED TOAST -->
-    <div id="system-toast">
-        <i data-lucide="info" class="toast-icon" id="toast-icon"></i>
-        <span id="toast-msg">Message</span>
+    <div id="notes-container">
+        <button class="add-note-btn demo-disabled">
+            <i data-lucide="lock" style="width:16px"></i> Add Note (Locked)
+        </button>
+        <div id="active-notes"></div>
     </div>
 
     <div id="loader">
-        <div class="spinner"></div>
-        <div class="load-title">INITIALIZING DEMO</div>
-        <div class="load-detail" id="load-status">Connecting...</div>
+        <span class="demo-loader-tag">DEMO MODE ACTIVE</span>
+        <div class="spinner-outer"></div>
+        <p id="loading-text" style="font-weight: 600; color: #fff; margin: 0; letter-spacing: 1px;">INITIALIZING DEMO ASSETS</p>
+        <p id="loading-progress">0% COMPLETE</p>
     </div>
 
-    <div class="book-stage" id="book-stage">
-        <div id="flipbook-container"></div>
+    <div id="flipbook-wrapper">
+        <div id="flipbook"></div>
     </div>
 
-    <div class="toolbar">
-        <button class="btn" id="prev-btn"><i data-lucide="chevron-left"></i></button>
-        <div id="page-counter" style="color:var(--accent); min-width:80px; text-align:center; font-size:14px; font-weight: 700; white-space: nowrap;"></div>
-        <button class="btn" id="next-btn"><i data-lucide="chevron-right"></i></button>
-        
-        <div class="sep"></div>
-        <button class="btn" onclick="zoomBook(-0.1)" title="Zoom Out"><i data-lucide="minus"></i></button>
-        <button class="btn" onclick="zoomBook(0.1)" title="Zoom In"><i data-lucide="plus"></i></button>
-        <div class="sep"></div>
-        
-        <!-- LOCKED FEATURES -->
-        <button class="btn locked" id="auto-btn" onclick="showLockedMsg('Autoplay')"><i data-lucide="lock"></i></button>
-        <button class="btn locked" id="add-note-btn" onclick="showLockedMsg('Notes')"><i data-lucide="lock"></i></button>
-        
-        <button class="btn" id="sound-btn"><i data-lucide="volume-2"></i></button>
+    <div class="counter-container">
+        <div class="page-count">
+            <span id="current-page">1</span> 
+            <span class="total-slash">/</span> 
+            <span id="total-pages">--</span>
+        </div>
     </div>
 
-    <audio id="flip-sfx" src="https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3"></audio>
+<script>
+    // Asset Links
+    const PDF_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf';
+    const SOUND_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3';
+    
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-    <script>
-        const PDF_URL = "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf";
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    // Advanced Protection
+    document.onkeydown = (e) => {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
 
-        const Security = {
-            init() {
-                document.addEventListener('contextmenu', e => e.preventDefault());
-                document.addEventListener('keydown', e => {
-                    if(e.key === 'F12' || e.keyCode === 123) return false;
-                    if(e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'p')) return false;
-                });
-                document.addEventListener('dragstart', e => e.preventDefault());
-            }
-        };
+    let pageFlip;
+    let currentPageIndex = 0;
+    
+    // Sound Pool for fast flipping
+    const soundPool = [];
+    for(let i=0; i<5; i++) {
+        const audio = new Audio(SOUND_URL);
+        audio.preload = 'auto';
+        soundPool.push(audio);
+    }
+    let currentSoundIndex = 0;
 
-        // State
-        let pdfDoc = null;
-        let pageFlip = null;
-        let totalPages = 0;
-        let pdfRatio = 0.7; 
-        
-        let isSoundOn = true;
-        let currentPageIndex = 0;
-        let currentZoom = 1.0;
-        let isFlipping = false;
-        let spamCounter = 0;
-        let toastTimeout;
+    const flipbookEl = document.getElementById('flipbook');
+    const loader = document.getElementById('loader');
+    const progressText = document.getElementById('loading-progress');
 
-        const canvasMap = new Map();
+    // Unlock audio on interaction
+    const unlockAudio = () => {
+        soundPool.forEach(audio => {
+            audio.play().then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+            }).catch(() => {});
+        });
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('touchstart', unlockAudio);
+    };
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
 
-        async function init() {
-            Security.init();
-            try {
-                const task = pdfjsLib.getDocument(PDF_URL);
-                task.onProgress = (p) => {
-                    const pct = Math.round((p.loaded / p.total) * 100);
-                    if(!isNaN(pct)) {
-                        const statusEl = document.getElementById('load-status');
-                        if (statusEl) statusEl.innerText = `DOWNLOADING DEMO (${pct}%)`;
-                    }
-                };
-                pdfDoc = await task.promise;
-                totalPages = pdfDoc.numPages;
+    function playFlipSound() {
+        const sound = soundPool[currentSoundIndex];
+        sound.currentTime = 0;
+        sound.volume = 0.6;
+        sound.play().catch(() => {});
+        currentSoundIndex = (currentSoundIndex + 1) % soundPool.length;
+    }
 
-                const firstPage = await pdfDoc.getPage(1);
-                const vp = firstPage.getViewport({ scale: 1 });
-                pdfRatio = vp.width / vp.height;
+    async function init() {
+        try {
+            lucide.createIcons();
+            const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+            const total = pdf.numPages;
+            document.getElementById('total-pages').innerText = total;
 
-                const titleEl = document.querySelector('.load-title');
-                if (titleEl) titleEl.innerText = "PREPARING PREVIEW";
+            for (let i = 1; i <= total; i++) {
+                const percent = Math.round((i / total) * 100);
+                progressText.innerText = `LOADING DEMO PAGE ${i} OF ${total} (${percent}%)`;
                 
-                for(let i=1; i<=totalPages; i++) {
-                    await cachePage(i);
-                    const percent = Math.round((i / totalPages) * 100);
-                    const statusEl = document.getElementById('load-status');
-                    if (statusEl) statusEl.innerText = `LOADING PAGE ${i} OF ${totalPages} (${percent}%)`;
-                }
-
-                buildBook();
-                setupAntiSpam();
-
-                const loader = document.getElementById('loader');
-                if (loader) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.remove(), 600);
-                }
-                const stage = document.getElementById('book-stage');
-                if (stage) stage.style.opacity = '1';
-
-                window.addEventListener('resize', debounce(() => { buildBook(); }, 250));
-
-            } catch (err) {
-                console.error(err);
-                const statusEl = document.getElementById('load-status');
-                if (statusEl) {
-                    statusEl.innerText = "LOAD ERROR";
-                    statusEl.style.color = "#ff4444";
-                }
-            }
-        }
-
-        async function cachePage(num) {
-            if(canvasMap.has(num)) return;
-            const page = await pdfDoc.getPage(num);
-            const viewport = page.getViewport({ scale: 2.5 }); 
-            const canvas = document.createElement('canvas');
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            canvas.className = 'page-canvas';
-            const ctx = canvas.getContext('2d');
-            await page.render({ canvasContext: ctx, viewport }).promise;
-            canvasMap.set(num, canvas);
-        }
-
-        function getDimensions() {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            
-            // Adjust margins for header/toolbar space
-            const maxWidth = w * 0.95;
-            const maxHeight = h * 0.75; 
-            
-            let pageH = maxHeight;
-            let pageW = pageH * pdfRatio; 
-            
-            if (pageW > maxWidth) {
-                pageW = maxWidth;
-                pageH = pageW / pdfRatio;
-            }
-
-            // Ensure it doesn't get too small on mobile spread view
-            const minW = 200; 
-            if (pageW < minW) {
-                pageW = minW;
-                pageH = pageW / pdfRatio;
-            }
-
-            return { width: Math.floor(pageW), height: Math.floor(pageH) };
-        }
-
-        function buildBook() {
-            const dim = getDimensions();
-            let container = document.getElementById('flipbook-container');
-
-            if (!container) {
-                const stage = document.getElementById('book-stage');
-                if (!stage) return;
-                container = document.createElement('div');
-                container.id = 'flipbook-container';
-                stage.appendChild(container);
-            }
-
-            if (pageFlip) {
-                try { pageFlip.destroy(); } catch(e) { console.warn("Destroy error", e); }
-                pageFlip = null;
-            }
-
-            container.style.width = "";
-            container.style.height = "";
-            container.style.transform = `scale(${currentZoom})`;
-            container.innerHTML = ""; 
-            
-            for(let i=1; i<=totalPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
                 const div = document.createElement('div');
                 div.className = 'page';
-                const content = document.createElement('div');
-                content.className = 'page-content';
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: ctx, viewport }).promise;
+                div.appendChild(canvas);
+                flipbookEl.appendChild(div);
+            }
+
+            if (typeof St !== 'undefined' && St.PageFlip) {
+                pageFlip = new St.PageFlip(flipbookEl, {
+                    width: 600, height: 800, size: 'stretch',
+                    showCover: false, mode: 'portrait', startPage: 0,
+                    flippingTime: 500, usePortrait: true,
+                    clickEventForward: true
+                });
+                pageFlip.loadFromHTML(document.querySelectorAll('.page'));
                 
-                if(canvasMap.has(i)) {
-                    content.appendChild(canvasMap.get(i));
-                }
-                
-                div.appendChild(content);
-                container.appendChild(div);
+                pageFlip.on('flip', (e) => {
+                    currentPageIndex = e.data;
+                    document.getElementById('current-page').innerText = currentPageIndex + 1;
+                    playFlipSound();
+                });
             }
 
-            // --- MOBILE CONFIG UPDATE ---
-            // usePortrait: false ensures it stays in spread (2-page) mode even on mobile
-            pageFlip = new St.PageFlip(container, {
-                width: dim.width,
-                height: dim.height,
-                size: 'fixed',
-                showCover: false, 
-                startPage: currentPageIndex,
-                flippingTime: 900, 
-                maxShadowOpacity: 0.5,
-                usePortrait: false,  // DISABLED PORTRAIT MODE (FORCES PC-LIKE SPREAD)
-                mobileFirst: true,
-                drawShadow: true,
-                clickEventForward: true,
-                useMouseEvents: true,
-                swipeDistance: 30
-            });
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                flipbookEl.style.visibility = 'visible';
+            }, 800);
 
-            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-
-            pageFlip.on('changeState', (e) => {
-                const state = e.data;
-                isFlipping = (state === 'flipping' || state === 'fold_corner');
-                if (state === 'read') {
-                    spamCounter = 0;
-                }
-            });
-
-            pageFlip.on('flip', (e) => {
-                currentPageIndex = e.data;
-                updateUI();
-                if(isSoundOn) {
-                    const sfx = document.getElementById('flip-sfx');
-                    if (sfx) {
-                        sfx.currentTime = 0; sfx.play().catch(()=>{});
-                    }
-                }
-            });
-
-            container.style.visibility = 'visible';
-            updateUI();
-            lucide.createIcons();
+        } catch (error) {
+            console.error(error);
+            progressText.innerText = "FAILED TO LOAD DEMO";
         }
+    }
 
-        function showToast(msg, type = 'warn') {
-            const el = document.getElementById('system-toast');
-            const txt = document.getElementById('toast-msg');
-            const icon = document.getElementById('toast-icon');
-            if(!el || !txt) return;
+    window.addEventListener('load', init);
+</script>
 
-            el.className = ''; 
-            el.classList.add(type);
-            
-            if(type === 'warn') {
-                icon.setAttribute('data-lucide', 'triangle-alert');
-            } else {
-                icon.setAttribute('data-lucide', 'lock');
-            }
-            lucide.createIcons();
-
-            txt.innerText = msg;
-            el.classList.add('visible');
-            
-            if(toastTimeout) clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                el.classList.remove('visible');
-            }, 2000);
-        }
-
-        function showLockedMsg(featureName) {
-            showToast(`${featureName} is disabled in Demo`, 'info');
-        }
-
-        function setupAntiSpam() {
-            const stage = document.getElementById('book-stage');
-            if(!stage) return;
-
-            const interceptor = (e) => {
-                if(isFlipping) {
-                    e.stopImmediatePropagation(); 
-                    e.preventDefault();
-                    spamCounter++;
-                    if (spamCounter > 1) {
-                        showToast('Slow down, let the page flip', 'warn');
-                    }
-                    return false;
-                }
-            };
-
-            stage.addEventListener('mousedown', interceptor, true);
-            stage.addEventListener('touchstart', interceptor, { capture: true, passive: false });
-            stage.addEventListener('click', interceptor, true);
-        }
-
-        function zoomBook(delta) {
-            const container = document.getElementById('flipbook-container');
-            if(!container) return;
-            currentZoom += delta;
-            currentZoom = Math.min(Math.max(currentZoom, 0.5), 2.5);
-            container.style.transform = `scale(${currentZoom})`;
-        }
-
-        function updateUI() {
-            const el = document.getElementById('page-counter');
-            if (el) el.innerText = `${currentPageIndex + 1} / ${totalPages}`;
-        }
-
-        const safeNext = () => { 
-            if(isFlipping) { 
-                spamCounter++;
-                if (spamCounter > 1) showToast('Slow down, let the page flip', 'warn');
-                return; 
-            }
-            pageFlip?.flipNext(); 
-        };
-        const safePrev = () => { 
-            if(isFlipping) { 
-                spamCounter++;
-                if (spamCounter > 1) showToast('Slow down, let the page flip', 'warn');
-                return; 
-            }
-            pageFlip?.flipPrev(); 
-        };
-
-        const prevBtn = document.getElementById('prev-btn');
-        if (prevBtn) prevBtn.onclick = safePrev;
-
-        const nextBtn = document.getElementById('next-btn');
-        if (nextBtn) nextBtn.onclick = safeNext;
-
-        const soundBtn = document.getElementById('sound-btn');
-        if (soundBtn) {
-            soundBtn.onclick = function() {
-                isSoundOn = !isSoundOn;
-                this.classList.toggle('active');
-                this.innerHTML = isSoundOn ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
-                lucide.createIcons();
-            }
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, arguments), wait);
-            };
-        }
-
-        window.onload = init;
-    </script>
 </body>
 </html>
