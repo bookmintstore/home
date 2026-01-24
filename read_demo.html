@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aethelgard V13 - Web Match & Smart Save</title>
+    <title>Aethelgard V16 - Physics Perfected</title>
     
     <!-- Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -14,10 +14,9 @@
     <style>
         :root {
             --bg-color: #020408;
-            /* Changed from Gold to Purple to match your web style */
             --accent: #a855f7; 
             --glass: rgba(10, 10, 15, 0.95);
-            --border: rgba(168, 85, 247, 0.2); /* Purple tint border */
+            --border: rgba(168, 85, 247, 0.2);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-drag: none; }
@@ -28,7 +27,7 @@
             height: 100vh;
             width: 100vw;
             overflow: hidden;
-            font-family: 'Space Grotesk', sans-serif; /* Matched Font */
+            font-family: 'Space Grotesk', sans-serif;
             color: white;
             display: flex;
             flex-direction: column;
@@ -45,20 +44,22 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.5s ease;
-            perspective: 1500px; /* Enhanced Perspective */
-            overflow: hidden;
-            cursor: pointer; /* Indicates clickable */
+            perspective: 2000px; /* Deep perspective for better physics */
+            overflow: auto;
+            cursor: pointer;
         }
 
         /* Container for PageFlip */
         #flipbook-container {
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.05s linear; /* Faster response for 3D */
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin: auto;
         }
 
         .stf__wrapper {
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            /* Heavier shadow for realism */
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
         }
 
         .page-content {
@@ -66,6 +67,9 @@
             height: 100%;
             background: #fff;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .page-canvas {
@@ -92,33 +96,28 @@
 
         /* --- UI CONTROLS --- */
         .toolbar {
-            position: fixed; bottom: 25px;
+            position: fixed; bottom: 20px;
             background: var(--glass); backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            padding: 10px 25px; border-radius: 16px;
-            display: flex; align-items: center; gap: 15px;
+            padding: 8px 15px; border-radius: 16px;
+            display: flex; align-items: center; gap: 10px;
             z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            max-width: 95vw;
+            max-width: 98vw;
+            flex-wrap: nowrap;
             overflow-x: auto;
+            -ms-overflow-style: none; scrollbar-width: none;
         }
+        .toolbar::-webkit-scrollbar { display: none; }
         
         .btn {
             background: none; border: none; color: #888; cursor: pointer;
             transition: 0.2s; display: flex; align-items: center; justify-content: center;
+            padding: 5px; min-width: 30px;
         }
         .btn:hover { color: var(--accent); transform: scale(1.1); }
         .btn.active { color: var(--accent); }
 
-        .sep { width: 1px; height: 20px; background: rgba(255,255,255,0.1); }
-
-        /* Speed Buttons */
-        .speed-group { display: flex; gap: 5px; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 12px; }
-        .s-btn {
-            border: none; background: transparent; color: #666; font-size: 11px; font-weight: 600;
-            padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: 0.2s;
-        }
-        .s-btn:hover { color: #fff; }
-        .s-btn.selected { background: var(--accent); color: #fff; }
+        .sep { width: 1px; height: 18px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
 
         /* Notes Overlay */
         #notes-layer { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
@@ -161,7 +160,7 @@
 
     <div id="loader">
         <div class="spinner"></div>
-        <div class="load-text">INITIALIZING READER</div>
+        <div class="load-text">INITIALIZING PHYSICS ENGINE</div>
         <div id="load-status" style="color:#666; font-size:11px; margin-top:10px;">0%</div>
     </div>
 
@@ -173,17 +172,13 @@
 
     <div class="toolbar">
         <button class="btn" id="prev-btn"><i data-lucide="chevron-left"></i></button>
-        <!-- Updated Counter Format -->
-        <div id="page-counter" style="color:var(--accent); min-width:80px; text-align:center; font-size:13px; font-weight: 600;"></div>
+        <div id="page-counter" style="color:var(--accent); min-width:60px; text-align:center; font-size:13px; font-weight: 600; white-space: nowrap;"></div>
         <button class="btn" id="next-btn"><i data-lucide="chevron-right"></i></button>
         
         <div class="sep"></div>
 
-        <div class="speed-group">
-            <button class="s-btn" onclick="setSpeed(2000, this)">Slow</button>
-            <button class="s-btn selected" onclick="setSpeed(1000, this)">Med</button>
-            <button class="s-btn" onclick="setSpeed(600, this)">Fast</button>
-        </div>
+        <button class="btn" onclick="zoomBook(-0.1)" title="Zoom Out"><i data-lucide="minus"></i></button>
+        <button class="btn" onclick="zoomBook(0.1)" title="Zoom In"><i data-lucide="plus"></i></button>
 
         <div class="sep"></div>
         
@@ -208,8 +203,8 @@
     <audio id="flip-sfx" src="https://r8cnodelibrary.github.io/resource-library/aarohibook/Flip_sound.mp3"></audio>
 
     <script>
-        const PDF_URL = "https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf";
-        const STORAGE_KEY = "aethelgard_v13_web";
+        const PDF_URL = "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf";
+        const STORAGE_KEY = "aethelgard_v16_phys";
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         // Global State
@@ -219,11 +214,13 @@
         let pdfRatio = 0.7; 
         
         // Settings
-        let flipSpeed = 1000;
+        const FLIP_DURATION = 1200; // Slower for heavier physics feel
         let isSoundOn = true;
         let isAuto = false;
         let autoTimer;
         let currentPageIndex = 0;
+        let currentZoom = 1.0;
+        let isFlipping = false; // PHYSICS LOCK FLAG
 
         // Permanent Canvas Cache
         const canvasMap = new Map();
@@ -242,8 +239,9 @@
                 const vp = firstPage.getViewport({ scale: 1 });
                 pdfRatio = vp.width / vp.height;
 
-                document.getElementById('load-status').innerText = "RENDERING PAGES...";
+                document.getElementById('load-status').innerText = "RENDERING PHYSICS ASSETS...";
                 
+                // Cache sequentially
                 for(let i=1; i<=totalPages; i++) {
                     await cachePage(i);
                     if(i % 5 === 0) document.getElementById('load-status').innerText = `Processing ${Math.round((i/totalPages)*100)}%`;
@@ -269,7 +267,8 @@
         async function cachePage(num) {
             if(canvasMap.has(num)) return;
             const page = await pdfDoc.getPage(num);
-            const viewport = page.getViewport({ scale: 2.0 });
+            // High res for zooming
+            const viewport = page.getViewport({ scale: 3.0 });
             const canvas = document.createElement('canvas');
             canvas.width = viewport.width;
             canvas.height = viewport.height;
@@ -283,16 +282,17 @@
             const w = window.innerWidth;
             const h = window.innerHeight;
             const maxWidth = w * 0.95;
-            const maxHeight = h * 0.82; 
+            const maxHeight = h * 0.85; 
 
-            let bookH = maxHeight;
-            let bookW = bookH * pdfRatio;
-
-            if (bookW > maxWidth) {
-                bookW = maxWidth;
-                bookH = bookW / pdfRatio;
+            let pageH = maxHeight;
+            let pageW = pageH * pdfRatio; 
+            
+            if ((pageW * 2) > maxWidth) {
+                pageW = maxWidth / 2;
+                pageH = pageW / pdfRatio;
             }
-            return { width: Math.floor(bookW), height: Math.floor(bookH) };
+
+            return { width: Math.floor(pageW), height: Math.floor(pageH) };
         }
 
         function buildBook() {
@@ -311,26 +311,26 @@
                 stage.appendChild(container);
             }
 
+            // Reset zoom on rebuild
+            currentZoom = 1.0;
+            container.style.transform = `scale(1)`;
             container.innerHTML = ""; 
-            container.style.width = ""; 
-            container.style.height = "";
             
-            // Handle Click-to-Flip on the container
+            // Handle Click-to-Flip with PHYSICS LOCK
             container.onclick = (e) => {
-                // If clicked on toolbar or notes, ignore (handled by propagation)
-                // We just need to check mouse position relative to window width
+                // If animation is running, IGNORE click to prevent jumping/glitches
+                if (isFlipping) return;
+
                 const x = e.clientX;
                 const half = window.innerWidth / 2;
-                if (x > half) {
-                    pageFlip?.flipNext();
-                } else {
-                    pageFlip?.flipPrev();
-                }
+                if (x > half) pageFlip?.flipNext();
+                else pageFlip?.flipPrev();
             };
 
             for(let i=1; i<=totalPages; i++) {
                 const div = document.createElement('div');
                 div.className = 'page';
+                // 'soft' allows bending.
                 div.setAttribute('data-density', 'soft');
                 const content = document.createElement('div');
                 content.className = 'page-content';
@@ -345,13 +345,25 @@
                 size: 'fixed',
                 showCover: false, 
                 startPage: currentPageIndex,
-                flippingTime: flipSpeed,
-                maxShadowOpacity: 0.5,
-                usePortrait: false,
-                mobileFirst: false
+                flippingTime: FLIP_DURATION, // Slower, heavier flip
+                maxShadowOpacity: 0.6, // Darker shadows for depth
+                usePortrait: false, 
+                mobileFirst: false,
+                drawShadow: true
             });
 
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+            // Event: Change State
+            // We use this to Lock/Unlock interactions
+            pageFlip.on('changeState', (e) => {
+                // e.data could be: "user_fold", "fold_corner", "flipping", "read"
+                if (e.data === 'flipping' || e.data === 'fold_corner') {
+                    isFlipping = true;
+                } else if (e.data === 'read') {
+                    isFlipping = false;
+                }
+            });
 
             pageFlip.on('flip', (e) => {
                 currentPageIndex = e.data;
@@ -366,11 +378,16 @@
             lucide.createIcons();
         }
 
-        function setSpeed(ms, btn) {
-            flipSpeed = ms;
-            document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            requestAnimationFrame(() => buildBook());
+        // --- ZOOM LOGIC ---
+        function zoomBook(delta) {
+            const container = document.getElementById('flipbook-container');
+            if(!container) return;
+            
+            currentZoom += delta;
+            if(currentZoom < 0.5) currentZoom = 0.5;
+            if(currentZoom > 3.0) currentZoom = 3.0;
+
+            container.style.transform = `scale(${currentZoom})`;
         }
 
         function updateUI() {
@@ -380,9 +397,8 @@
             let p2 = p1 + 1;
             if (p1 > totalPages) p1 = totalPages;
             
-            // Show Total Pages
-            if(p2 > totalPages) el.innerText = `${p1} / ${totalPages}`;
-            else el.innerText = `${p1} - ${p2} / ${totalPages}`;
+            if(p2 > totalPages) el.innerText = `${p1}/${totalPages}`;
+            else el.innerText = `${p1}-${p2}/${totalPages}`;
 
             renderNotes();
         }
@@ -391,22 +407,20 @@
         document.addEventListener('mousemove', (e) => {
             const container = document.getElementById('flipbook-container');
             if(!container) return;
-            // Increased sensitivity (Divisor 100 instead of 400)
             const x = (window.innerWidth/2 - e.pageX) / 100; 
             const y = (window.innerHeight/2 - e.pageY) / 100;
-            container.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            container.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(${currentZoom})`;
         });
 
-        // --- SMART NOTES LOGIC ---
-        let tempNoteId = null; // ID for new note being created
+        // --- NOTES LOGIC ---
+        let tempNoteId = null;
 
         function getNotes() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
         function saveNotes(n) { localStorage.setItem(STORAGE_KEY, JSON.stringify(n)); renderNotes(); }
 
         function startNewNote() {
-            // Just open modal, don't save to storage yet
             tempNoteId = Date.now();
-            openModal(tempNoteId, true); // true = new mode
+            openModal(tempNoteId, true);
         }
 
         function renderNotes() {
@@ -426,7 +440,7 @@
                     if(isLeft) m.style.left = "25%"; else m.style.left = "75%";
                     m.innerHTML = '<i data-lucide="message-square-text" style="width:14px"></i>';
                     m.onclick = (e) => {
-                        e.stopPropagation(); // Prevent flip
+                        e.stopPropagation();
                         openModal(n.id, false);
                     };
                     layer.appendChild(m);
@@ -444,8 +458,8 @@
             const ta = document.getElementById('modal-text');
             
             if (isNew) {
-                ta.value = ""; // Clear for new
-                document.getElementById('m-del').style.display = 'none'; // Can't delete what doesn't exist
+                ta.value = "";
+                document.getElementById('m-del').style.display = 'none';
             } else {
                 const n = getNotes().find(x => x.id === id);
                 if(n) ta.value = n.text;
@@ -457,8 +471,6 @@
         document.getElementById('m-save').onclick = () => {
             const text = document.getElementById('modal-text').value.trim();
             if (!text) {
-                // If empty, do nothing or alert? User said "until text is written". 
-                // So if empty, we just close and don't save.
                 modal.style.display = 'none';
                 return;
             }
@@ -467,10 +479,8 @@
             const existingIndex = notes.findIndex(x => x.id === activeNoteId);
 
             if (existingIndex > -1) {
-                // Update existing
                 notes[existingIndex].text = text;
             } else {
-                // Create new
                 const p1 = (currentPageIndex * 2) + 1;
                 notes.push({ 
                     id: activeNoteId, 
@@ -491,13 +501,16 @@
         document.getElementById('m-close').onclick = () => modal.style.display = 'none';
 
         // --- CONTROLS ---
-        // Prevent click propagation from toolbar buttons
         document.querySelector('.toolbar').onclick = (e) => e.stopPropagation();
         document.getElementById('note-modal').onclick = (e) => e.stopPropagation();
 
-        document.getElementById('prev-btn').onclick = () => pageFlip?.flipPrev();
-        document.getElementById('next-btn').onclick = () => pageFlip?.flipNext();
-        document.getElementById('add-note-btn').onclick = startNewNote; // Use new logic
+        // Safe Flip Functions with Lock
+        const safeNext = () => { if(!isFlipping) pageFlip?.flipNext(); };
+        const safePrev = () => { if(!isFlipping) pageFlip?.flipPrev(); };
+
+        document.getElementById('prev-btn').onclick = safePrev;
+        document.getElementById('next-btn').onclick = safeNext;
+        document.getElementById('add-note-btn').onclick = startNewNote;
         
         document.getElementById('auto-btn').onclick = function() {
             isAuto = !isAuto;
@@ -506,6 +519,8 @@
                 this.innerHTML = '<i data-lucide="pause"></i>';
                 autoTimer = setInterval(() => {
                     if(!pageFlip) return;
+                    if (isFlipping) return; // Don't queue flips if busy
+                    
                     const p1 = (currentPageIndex * 2) + 1;
                     if(p1 >= totalPages) pageFlip.flip(0);
                     else pageFlip.flipNext();
