@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Aethelgard V16 - Physics Perfected</title>
+    <title>Bookmintor - Cinematic Reader</title>
     
     <!-- Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -17,139 +17,136 @@
             --accent: #a855f7; 
             --glass: rgba(10, 10, 15, 0.95);
             --border: rgba(168, 85, 247, 0.2);
+            --warn-color: #ff3333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-drag: none; }
+        /* --- GLOBAL RESET --- */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            user-select: none; -webkit-user-drag: none; -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            touch-action: none;
+        }
 
         body {
             background-color: var(--bg-color);
             background-image: radial-gradient(circle at center, #151020 0%, #000 100%);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            font-family: 'Space Grotesk', sans-serif;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            height: 100vh; width: 100vw; overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif; color: white;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
+
+        /* --- BRAND HEADER --- */
+        .brand-header {
+            position: fixed; top: 25px; left: 25px; z-index: 1000; pointer-events: none;
+        }
+        .brand-name {
+            font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #555 0%, #fff 50%, #555 100%);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: royalShine 4s linear infinite;
+        }
+        @keyframes royalShine { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
 
         /* --- STAGE --- */
         .book-stage {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            perspective: 2000px; /* Deep perspective for better physics */
-            overflow: auto;
-            cursor: pointer;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.8s ease;
+            overflow: visible; 
+            cursor: grab;
         }
+        .book-stage:active { cursor: grabbing; }
 
-        /* Container for PageFlip */
         #flipbook-container {
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            margin: auto;
+            position: relative; margin: auto;
+            visibility: hidden; 
+            min-width: 300px;
+            min-height: 400px;
         }
 
-        .stf__wrapper {
-            /* Heavier shadow for realism */
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-        }
-
-        .page-content {
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .page-canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        /* PAGE STYLING */
+        .page { background-color: #ffffff !important; overflow: hidden; box-shadow: 0 0 30px rgba(0,0,0,0.7); }
+        .page-content { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #ffffff; }
+        .page-canvas { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 
         /* --- LOADER --- */
         #loader {
             position: fixed; inset: 0; background: #020408; z-index: 10000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        
         .spinner {
-            width: 50px; height: 50px; border: 2px solid rgba(168, 85, 247, 0.2);
+            width: 60px; height: 60px; border: 2px solid rgba(168, 85, 247, 0.2);
             border-top: 2px solid var(--accent); border-radius: 50%;
-            animation: spin 1s infinite linear; margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+            animation: spin 1s infinite linear; margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .load-text { font-family: 'Space Grotesk'; color: var(--accent); letter-spacing: 1px; font-size: 14px; font-weight: 600; }
+        .load-title { font-size: 14px; color: #fff; letter-spacing: 2px; font-weight: 600; margin-bottom: 8px; }
+        .load-detail { font-size: 11px; color: var(--accent); letter-spacing: 1px; font-weight: 700; }
 
-        /* --- UI CONTROLS --- */
+        /* --- SPAM TOAST (Professional & Subtle) --- */
+        #spam-toast {
+            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: rgba(15, 15, 20, 0.9); border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ffcccc; padding: 10px 24px; border-radius: 50px;
+            font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500;
+            pointer-events: none; opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; gap: 10px; z-index: 5000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        #spam-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast-icon { width: 16px; height: 16px; color: #ff5555; }
+
+        /* --- TOOLBAR --- */
         .toolbar {
-            position: fixed; bottom: 20px;
+            position: fixed; bottom: 25px;
             background: var(--glass); backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            padding: 8px 15px; border-radius: 16px;
-            display: flex; align-items: center; gap: 10px;
+            padding: 10px 20px; border-radius: 20px;
+            display: flex; align-items: center; gap: 15px;
             z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            max-width: 98vw;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            -ms-overflow-style: none; scrollbar-width: none;
+            max-width: 95vw; overflow-x: auto;
         }
         .toolbar::-webkit-scrollbar { display: none; }
         
         .btn {
             background: none; border: none; color: #888; cursor: pointer;
             transition: 0.2s; display: flex; align-items: center; justify-content: center;
-            padding: 5px; min-width: 30px;
+            padding: 5px; min-width: 35px;
         }
-        .btn:hover { color: var(--accent); transform: scale(1.1); }
+        .btn:hover { color: var(--accent); transform: scale(1.15); }
         .btn.active { color: var(--accent); }
+        .sep { width: 1px; height: 20px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
 
-        .sep { width: 1px; height: 18px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
-
-        /* Notes Overlay */
+        /* NOTES LAYER */
         #notes-layer { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
         .note-marker {
-            pointer-events: auto; position: absolute; width: 28px; height: 28px;
+            pointer-events: auto; position: absolute; width: 30px; height: 30px;
             background: var(--accent); border-radius: 50%; border: 2px solid #fff;
             display: flex; align-items: center; justify-content: center; color: #fff;
-            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4); cursor: pointer;
-            transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(168, 85, 247, 0.5); cursor: pointer; transition: 0.2s;
         }
-        .note-marker:hover { transform: scale(1.15); box-shadow: 0 0 20px var(--accent); }
+        .note-marker:hover { transform: scale(1.2); box-shadow: 0 0 25px var(--accent); }
 
-        /* Modal */
         #note-modal {
             position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.85);
             display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);
         }
         .modal-card {
-            background: #0f1115; width: 90%; max-width: 380px; padding: 25px;
-            border-radius: 16px; border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: #0f1115; width: 90%; max-width: 400px; padding: 30px;
+            border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 25px 60px rgba(0,0,0,0.6);
         }
         textarea { 
-            width: 100%; height: 120px; background: rgba(255,255,255,0.03); 
+            width: 100%; height: 130px; background: rgba(255,255,255,0.03); 
             border: 1px solid rgba(255,255,255,0.1); color: #fff; 
-            padding: 15px; margin: 20px 0; border-radius: 12px; 
-            resize: none; outline: none; font-family: 'Inter'; font-size: 14px;
+            padding: 15px; margin: 20px 0; border-radius: 14px; 
+            resize: none; outline: none; font-family: 'Inter'; font-size: 15px; line-height: 1.5;
         }
         textarea:focus { border-color: var(--accent); }
-        
         .m-btns { display: flex; justify-content: flex-end; gap: 12px; }
-        .m-btn { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .m-btn { padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; }
         .save { background: var(--accent); color: #fff; }
         .del { background: rgba(255, 68, 68, 0.1); color: #ff4444; }
         .close { background: transparent; color: #888; }
@@ -158,13 +155,22 @@
 </head>
 <body>
 
+    <div class="brand-header"><span class="brand-name">Bookmintor</span></div>
+
+    <!-- SPAM TOAST (Subtle) -->
+    <div id="spam-toast">
+        <i data-lucide="triangle-alert" class="toast-icon"></i>
+        <span>Slow down, let the page flip</span>
+    </div>
+
     <div id="loader">
         <div class="spinner"></div>
-        <div class="load-text">INITIALIZING PHYSICS ENGINE</div>
-        <div id="load-status" style="color:#666; font-size:11px; margin-top:10px;">0%</div>
+        <div class="load-title">INITIALIZING LIBRARY</div>
+        <div class="load-detail" id="load-status">Connecting...</div>
     </div>
 
     <div class="book-stage" id="book-stage">
+        <!-- Container is here, ensuring buildBook can find it -->
         <div id="flipbook-container"></div>
     </div>
 
@@ -172,14 +178,12 @@
 
     <div class="toolbar">
         <button class="btn" id="prev-btn"><i data-lucide="chevron-left"></i></button>
-        <div id="page-counter" style="color:var(--accent); min-width:60px; text-align:center; font-size:13px; font-weight: 600; white-space: nowrap;"></div>
+        <div id="page-counter" style="color:var(--accent); min-width:80px; text-align:center; font-size:14px; font-weight: 700; white-space: nowrap;"></div>
         <button class="btn" id="next-btn"><i data-lucide="chevron-right"></i></button>
         
         <div class="sep"></div>
-
         <button class="btn" onclick="zoomBook(-0.1)" title="Zoom Out"><i data-lucide="minus"></i></button>
         <button class="btn" onclick="zoomBook(0.1)" title="Zoom In"><i data-lucide="plus"></i></button>
-
         <div class="sep"></div>
         
         <button class="btn" id="auto-btn"><i data-lucide="play"></i></button>
@@ -187,15 +191,15 @@
         <button class="btn" id="sound-btn"><i data-lucide="volume-2"></i></button>
     </div>
 
-    <!-- Note Modal -->
     <div id="note-modal">
         <div class="modal-card">
-            <h3 style="color:var(--accent); font-family:'Space Grotesk'">Your Note</h3>
-            <textarea id="modal-text" placeholder="Type your thoughts here to save..."></textarea>
+            <h3 style="color:var(--accent); font-family:'Space Grotesk'; font-size: 1.4rem;">Note</h3>
+            <p id="target-info" style="font-size: 11px; color: #666; margin-top: 5px;">Attaching to Page <span id="target-page-num" style="color:var(--accent)">1</span></p>
+            <textarea id="modal-text" placeholder="Start typing..."></textarea>
             <div class="m-btns">
                 <button class="m-btn del" id="m-del">Delete</button>
                 <button class="m-btn close" id="m-close">Cancel</button>
-                <button class="m-btn save" id="m-save">Save Note</button>
+                <button class="m-btn save" id="m-save">Save</button>
             </div>
         </div>
     </div>
@@ -204,33 +208,50 @@
 
     <script>
         const PDF_URL = "https://bookmintor.shop/aarohibook/Mera_Kanha_Ek_Antaryatra-compressed.pdf";
-        const STORAGE_KEY = "aethelgard_v16_phys";
+        const STORAGE_KEY = "aethelgard_v24_final";
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // Global State
+        // --- SECURITY ---
+        const Security = {
+            init() {
+                document.addEventListener('contextmenu', e => e.preventDefault());
+                document.addEventListener('keydown', e => {
+                    if(e.key === 'F12' || e.keyCode === 123) return false;
+                    if(e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'p')) return false;
+                });
+                document.addEventListener('dragstart', e => e.preventDefault());
+            }
+        };
+
+        // State
         let pdfDoc = null;
         let pageFlip = null;
         let totalPages = 0;
         let pdfRatio = 0.7; 
         
-        // Settings
-        const FLIP_DURATION = 1200; // Slower for heavier physics feel
         let isSoundOn = true;
         let isAuto = false;
         let autoTimer;
         let currentPageIndex = 0;
         let currentZoom = 1.0;
-        let isFlipping = false; // PHYSICS LOCK FLAG
+        
+        // Anti-Spam / Flip State
+        let isFlipping = false;
+        let spamCounter = 0;
+        let warningTimeout;
 
-        // Permanent Canvas Cache
         const canvasMap = new Map();
 
         async function init() {
+            Security.init();
             try {
                 const task = pdfjsLib.getDocument(PDF_URL);
                 task.onProgress = (p) => {
                     const pct = Math.round((p.loaded / p.total) * 100);
-                    if(!isNaN(pct)) document.getElementById('load-status').innerText = `${pct}%`;
+                    if(!isNaN(pct)) {
+                        const statusEl = document.getElementById('load-status');
+                        if (statusEl) statusEl.innerText = `DOWNLOADING (${pct}%)`;
+                    }
                 };
                 pdfDoc = await task.promise;
                 totalPages = pdfDoc.numPages;
@@ -239,36 +260,43 @@
                 const vp = firstPage.getViewport({ scale: 1 });
                 pdfRatio = vp.width / vp.height;
 
-                document.getElementById('load-status').innerText = "RENDERING PHYSICS ASSETS...";
+                const titleEl = document.querySelector('.load-title');
+                if (titleEl) titleEl.innerText = "PREPARING PAGES";
                 
-                // Cache sequentially
                 for(let i=1; i<=totalPages; i++) {
                     await cachePage(i);
-                    if(i % 5 === 0) document.getElementById('load-status').innerText = `Processing ${Math.round((i/totalPages)*100)}%`;
+                    const percent = Math.round((i / totalPages) * 100);
+                    const statusEl = document.getElementById('load-status');
+                    if (statusEl) statusEl.innerText = `LOADING PAGE ${i} OF ${totalPages} (${percent}%)`;
                 }
 
                 buildBook();
+                setupAntiSpam();
 
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').remove(), 600);
-                document.getElementById('book-stage').style.opacity = '1';
+                const loader = document.getElementById('loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 600);
+                }
+                const stage = document.getElementById('book-stage');
+                if (stage) stage.style.opacity = '1';
 
-                window.addEventListener('resize', debounce(() => {
-                    buildBook(); 
-                }, 200));
+                window.addEventListener('resize', debounce(() => { buildBook(); }, 250));
 
             } catch (err) {
                 console.error(err);
-                document.getElementById('load-status').innerText = "ERROR LOADING PDF";
-                document.getElementById('load-status').style.color = "#ff4444";
+                const statusEl = document.getElementById('load-status');
+                if (statusEl) {
+                    statusEl.innerText = "LOAD ERROR";
+                    statusEl.style.color = "#ff4444";
+                }
             }
         }
 
         async function cachePage(num) {
             if(canvasMap.has(num)) return;
             const page = await pdfDoc.getPage(num);
-            // High res for zooming
-            const viewport = page.getViewport({ scale: 3.0 });
+            const viewport = page.getViewport({ scale: 2.5 }); 
             const canvas = document.createElement('canvas');
             canvas.width = viewport.width;
             canvas.height = viewport.height;
@@ -281,14 +309,20 @@
         function getDimensions() {
             const w = window.innerWidth;
             const h = window.innerHeight;
-            const maxWidth = w * 0.95;
-            const maxHeight = h * 0.85; 
-
+            const maxWidth = w * 0.90;
+            const maxHeight = h * 0.82; 
+            
             let pageH = maxHeight;
             let pageW = pageH * pdfRatio; 
             
-            if ((pageW * 2) > maxWidth) {
-                pageW = maxWidth / 2;
+            if (pageW > maxWidth) {
+                pageW = maxWidth;
+                pageH = pageW / pdfRatio;
+            }
+
+            const minW = 300; 
+            if (pageW < minW) {
+                pageW = minW;
                 pageH = pageW / pdfRatio;
             }
 
@@ -297,44 +331,36 @@
 
         function buildBook() {
             const dim = getDimensions();
-            
-            if (pageFlip) {
-                try { pageFlip.destroy(); } catch(e) {}
-                pageFlip = null;
-            }
-
             let container = document.getElementById('flipbook-container');
+
             if (!container) {
                 const stage = document.getElementById('book-stage');
+                if (!stage) return;
                 container = document.createElement('div');
                 container.id = 'flipbook-container';
                 stage.appendChild(container);
             }
 
-            // Reset zoom on rebuild
-            currentZoom = 1.0;
-            container.style.transform = `scale(1)`;
+            if (pageFlip) {
+                try { pageFlip.destroy(); } catch(e) { console.warn("Destroy error", e); }
+                pageFlip = null;
+            }
+
+            container.style.width = "";
+            container.style.height = "";
+            container.style.transform = `scale(${currentZoom})`;
             container.innerHTML = ""; 
             
-            // Handle Click-to-Flip with PHYSICS LOCK
-            container.onclick = (e) => {
-                // If animation is running, IGNORE click to prevent jumping/glitches
-                if (isFlipping) return;
-
-                const x = e.clientX;
-                const half = window.innerWidth / 2;
-                if (x > half) pageFlip?.flipNext();
-                else pageFlip?.flipPrev();
-            };
-
             for(let i=1; i<=totalPages; i++) {
                 const div = document.createElement('div');
                 div.className = 'page';
-                // 'soft' allows bending.
-                div.setAttribute('data-density', 'soft');
                 const content = document.createElement('div');
                 content.className = 'page-content';
-                if(canvasMap.has(i)) content.appendChild(canvasMap.get(i));
+                
+                if(canvasMap.has(i)) {
+                    content.appendChild(canvasMap.get(i));
+                }
+                
                 div.appendChild(content);
                 container.appendChild(div);
             }
@@ -345,23 +371,26 @@
                 size: 'fixed',
                 showCover: false, 
                 startPage: currentPageIndex,
-                flippingTime: FLIP_DURATION, // Slower, heavier flip
-                maxShadowOpacity: 0.6, // Darker shadows for depth
-                usePortrait: false, 
-                mobileFirst: false,
-                drawShadow: true
+                flippingTime: 900, 
+                maxShadowOpacity: 0.5,
+                usePortrait: true, 
+                mode: 'portrait',
+                mobileFirst: true,
+                drawShadow: true,
+                clickEventForward: true,
+                useMouseEvents: true,
+                swipeDistance: 30
             });
 
             pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-            // Event: Change State
-            // We use this to Lock/Unlock interactions
             pageFlip.on('changeState', (e) => {
-                // e.data could be: "user_fold", "fold_corner", "flipping", "read"
-                if (e.data === 'flipping' || e.data === 'fold_corner') {
-                    isFlipping = true;
-                } else if (e.data === 'read') {
-                    isFlipping = false;
+                const state = e.data;
+                isFlipping = (state === 'flipping' || state === 'fold_corner');
+                
+                // Reset spam counter when flip finishes
+                if (state === 'read') {
+                    spamCounter = 0;
                 }
             });
 
@@ -370,51 +399,76 @@
                 updateUI();
                 if(isSoundOn) {
                     const sfx = document.getElementById('flip-sfx');
-                    sfx.currentTime = 0; sfx.play().catch(()=>{});
+                    if (sfx) {
+                        sfx.currentTime = 0; sfx.play().catch(()=>{});
+                    }
                 }
             });
 
+            container.style.visibility = 'visible';
             updateUI();
             lucide.createIcons();
         }
 
-        // --- ZOOM LOGIC ---
+        // --- SPAM PREVENTION LOGIC ---
+        function showWarning() {
+            const el = document.getElementById('spam-toast');
+            if(!el) return;
+            
+            el.classList.add('visible');
+            
+            // Reset timer
+            if(warningTimeout) clearTimeout(warningTimeout);
+            
+            warningTimeout = setTimeout(() => {
+                el.classList.remove('visible');
+            }, 2000);
+        }
+
+        function setupAntiSpam() {
+            const stage = document.getElementById('book-stage');
+            if(!stage) return;
+
+            const interceptor = (e) => {
+                if(isFlipping) {
+                    // Block the click
+                    e.stopImmediatePropagation(); 
+                    e.preventDefault();
+                    
+                    // Increment counter
+                    spamCounter++;
+                    
+                    // ONLY show warning if user clicks MORE than once (spamming)
+                    // The first blocked click is silent (accidental protection)
+                    // The second blocked click triggers the toast
+                    if (spamCounter > 1) {
+                        showWarning();
+                    }
+                    return false;
+                }
+            };
+
+            stage.addEventListener('mousedown', interceptor, true);
+            stage.addEventListener('touchstart', interceptor, { capture: true, passive: false });
+            stage.addEventListener('click', interceptor, true);
+        }
+
         function zoomBook(delta) {
             const container = document.getElementById('flipbook-container');
             if(!container) return;
-            
             currentZoom += delta;
-            if(currentZoom < 0.5) currentZoom = 0.5;
-            if(currentZoom > 3.0) currentZoom = 3.0;
-
+            currentZoom = Math.min(Math.max(currentZoom, 0.5), 2.5);
             container.style.transform = `scale(${currentZoom})`;
         }
 
         function updateUI() {
             const el = document.getElementById('page-counter');
-            const idx = currentPageIndex;
-            let p1 = (idx * 2) + 1;
-            let p2 = p1 + 1;
-            if (p1 > totalPages) p1 = totalPages;
-            
-            if(p2 > totalPages) el.innerText = `${p1}/${totalPages}`;
-            else el.innerText = `${p1}-${p2}/${totalPages}`;
-
+            if (el) el.innerText = `${currentPageIndex + 1} / ${totalPages}`;
             renderNotes();
         }
 
-        // --- ENHANCED 3D MOVEMENT ---
-        document.addEventListener('mousemove', (e) => {
-            const container = document.getElementById('flipbook-container');
-            if(!container) return;
-            const x = (window.innerWidth/2 - e.pageX) / 100; 
-            const y = (window.innerHeight/2 - e.pageY) / 100;
-            container.style.transform = `rotateY(${x}deg) rotateX(${y}deg) scale(${currentZoom})`;
-        });
-
-        // --- NOTES LOGIC ---
+        // --- NOTES ---
         let tempNoteId = null;
-
         function getNotes() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
         function saveNotes(n) { localStorage.setItem(STORAGE_KEY, JSON.stringify(n)); renderNotes(); }
 
@@ -427,17 +481,14 @@
             const layer = document.getElementById('notes-layer');
             if (!layer) return;
             layer.innerHTML = "";
-            const p1 = (currentPageIndex * 2) + 1;
-            const p2 = p1 + 1;
-            const visible = [p1, p2];
+            const currentP = currentPageIndex + 1;
 
             getNotes().forEach(n => {
-                if(visible.includes(n.page)) {
+                if(n.page === currentP) {
                     const m = document.createElement('div');
                     m.className = 'note-marker';
-                    m.style.top = n.top;
-                    const isLeft = (n.page % 2 !== 0);
-                    if(isLeft) m.style.left = "25%"; else m.style.left = "75%";
+                    m.style.top = "20%"; 
+                    m.style.right = "10%";
                     m.innerHTML = '<i data-lucide="message-square-text" style="width:14px"></i>';
                     m.onclick = (e) => {
                         e.stopPropagation();
@@ -455,88 +506,114 @@
         
         function openModal(id, isNew) {
             activeNoteId = id;
+            if (!modal) return;
             const ta = document.getElementById('modal-text');
+            const targetNum = document.getElementById('target-page-num');
+            if (targetNum) targetNum.innerText = currentPageIndex + 1;
             
             if (isNew) {
-                ta.value = "";
-                document.getElementById('m-del').style.display = 'none';
+                if (ta) ta.value = "";
+                const delBtn = document.getElementById('m-del');
+                if (delBtn) delBtn.style.display = 'none';
             } else {
                 const n = getNotes().find(x => x.id === id);
-                if(n) ta.value = n.text;
-                document.getElementById('m-del').style.display = 'block';
+                if(n && ta) ta.value = n.text;
+                const delBtn = document.getElementById('m-del');
+                if (delBtn) delBtn.style.display = 'block';
             }
             modal.style.display = 'flex';
         }
 
-        document.getElementById('m-save').onclick = () => {
-            const text = document.getElementById('modal-text').value.trim();
-            if (!text) {
-                modal.style.display = 'none';
-                return;
-            }
+        const saveBtn = document.getElementById('m-save');
+        if (saveBtn) {
+            saveBtn.onclick = () => {
+                const ta = document.getElementById('modal-text');
+                const text = ta ? ta.value.trim() : "";
+                if (!text) { if(modal) modal.style.display = 'none'; return; }
+                const notes = getNotes();
+                const existingIndex = notes.findIndex(x => x.id === activeNoteId);
+                const targetPage = currentPageIndex + 1;
 
-            const notes = getNotes();
-            const existingIndex = notes.findIndex(x => x.id === activeNoteId);
-
-            if (existingIndex > -1) {
-                notes[existingIndex].text = text;
-            } else {
-                const p1 = (currentPageIndex * 2) + 1;
-                notes.push({ 
-                    id: activeNoteId, 
-                    page: p1, 
-                    text: text, 
-                    top: "30%", 
-                    left: "25%" 
-                });
+                if (existingIndex > -1) {
+                    notes[existingIndex].text = text;
+                } else {
+                    notes.push({ id: activeNoteId, page: targetPage, text: text });
+                }
+                saveNotes(notes);
+                if(modal) modal.style.display = 'none';
             }
-            saveNotes(notes);
-            modal.style.display = 'none';
         }
 
-        document.getElementById('m-del').onclick = () => {
-            saveNotes(getNotes().filter(x => x.id !== activeNoteId));
-            modal.style.display = 'none';
+        const delBtn = document.getElementById('m-del');
+        if (delBtn) {
+            delBtn.onclick = () => {
+                saveNotes(getNotes().filter(x => x.id !== activeNoteId));
+                if(modal) modal.style.display = 'none';
+            }
         }
-        document.getElementById('m-close').onclick = () => modal.style.display = 'none';
+
+        const closeBtn = document.getElementById('m-close');
+        if (closeBtn) {
+            closeBtn.onclick = () => { if(modal) modal.style.display = 'none'; };
+        }
 
         // --- CONTROLS ---
-        document.querySelector('.toolbar').onclick = (e) => e.stopPropagation();
-        document.getElementById('note-modal').onclick = (e) => e.stopPropagation();
-
-        // Safe Flip Functions with Lock
-        const safeNext = () => { if(!isFlipping) pageFlip?.flipNext(); };
-        const safePrev = () => { if(!isFlipping) pageFlip?.flipPrev(); };
-
-        document.getElementById('prev-btn').onclick = safePrev;
-        document.getElementById('next-btn').onclick = safeNext;
-        document.getElementById('add-note-btn').onclick = startNewNote;
-        
-        document.getElementById('auto-btn').onclick = function() {
-            isAuto = !isAuto;
-            this.classList.toggle('active');
-            if(isAuto) {
-                this.innerHTML = '<i data-lucide="pause"></i>';
-                autoTimer = setInterval(() => {
-                    if(!pageFlip) return;
-                    if (isFlipping) return; // Don't queue flips if busy
-                    
-                    const p1 = (currentPageIndex * 2) + 1;
-                    if(p1 >= totalPages) pageFlip.flip(0);
-                    else pageFlip.flipNext();
-                }, 4000);
-            } else {
-                this.innerHTML = '<i data-lucide="play"></i>';
-                clearInterval(autoTimer);
+        const safeNext = () => { 
+            // Anti-Spam Check for Button
+            if(isFlipping) { 
+                spamCounter++;
+                if (spamCounter > 1) showWarning(); 
+                return; 
             }
-            lucide.createIcons();
+            pageFlip?.flipNext(); 
+        };
+        const safePrev = () => { 
+            if(isFlipping) { 
+                spamCounter++;
+                if (spamCounter > 1) showWarning(); 
+                return; 
+            }
+            pageFlip?.flipPrev(); 
+        };
+
+        const prevBtn = document.getElementById('prev-btn');
+        if (prevBtn) prevBtn.onclick = safePrev;
+
+        const nextBtn = document.getElementById('next-btn');
+        if (nextBtn) nextBtn.onclick = safeNext;
+
+        const addNoteBtn = document.getElementById('add-note-btn');
+        if (addNoteBtn) addNoteBtn.onclick = startNewNote;
+        
+        const autoBtn = document.getElementById('auto-btn');
+        if (autoBtn) {
+            autoBtn.onclick = function() {
+                isAuto = !isAuto;
+                this.classList.toggle('active');
+                if(isAuto) {
+                    this.innerHTML = '<i data-lucide="pause"></i>';
+                    autoTimer = setInterval(() => {
+                        // Internal check for Auto play
+                        if(!pageFlip || isFlipping) return;
+                        if(currentPageIndex >= totalPages - 1) pageFlip.flip(0);
+                        else pageFlip.flipNext();
+                    }, 4000);
+                } else {
+                    this.innerHTML = '<i data-lucide="play"></i>';
+                    clearInterval(autoTimer);
+                }
+                lucide.createIcons();
+            }
         }
 
-        document.getElementById('sound-btn').onclick = function() {
-            isSoundOn = !isSoundOn;
-            this.classList.toggle('active');
-            this.innerHTML = isSoundOn ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
-            lucide.createIcons();
+        const soundBtn = document.getElementById('sound-btn');
+        if (soundBtn) {
+            soundBtn.onclick = function() {
+                isSoundOn = !isSoundOn;
+                this.classList.toggle('active');
+                this.innerHTML = isSoundOn ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
+                lucide.createIcons();
+            }
         }
 
         function debounce(func, wait) {
@@ -548,7 +625,6 @@
         }
 
         window.onload = init;
-
     </script>
 </body>
 </html>
