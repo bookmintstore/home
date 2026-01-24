@@ -1139,7 +1139,7 @@
   <!-- Mobile Sticky Bar -->
   <div id="mobileStickyBar" class="mobile-sticky-bar">
       <div class="sticky-bar-price">
-          <span class="sticky-bar-current">₹119</span>
+          <span class="sticky-bar-current">₹249</span>
           <span class="sticky-bar-original">₹999</span>
       </div>
       <button onclick="openPaymentModal()" class="sticky-bar-button">
@@ -1165,7 +1165,7 @@
       </div>
   </div>
 
-  <div id="saleBanner">🔥FLASH SALE IS LIVE! Actual Price ₹311, Launch Offer ₹119 for the next few hours. </div>
+  <div id="saleBanner">🔥FLASH SALE IS LIVE! Actual Price ₹411, Launch Offer ₹249 for the next few hours. </div>
   <div id="paymentTimer"><span id="timerCount"></span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -1426,7 +1426,7 @@
 
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
-                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹119</span>
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹249</span>
                 <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹999</span>
                 <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED</span>
             </div>
@@ -2258,12 +2258,12 @@
             dom.displayPrice.classList.add('animate-popFloat'); 
             
             setTimeout(() => { 
-                dom.originalPrice.innerHTML = '₹119'; 
-                dom.displayPrice.innerHTML = '₹89'; 
+                dom.originalPrice.innerHTML = '₹249'; 
+                dom.displayPrice.innerHTML = '₹119'; 
                 dom.originalPrice.classList.remove('animate-priceSlash'); 
                 // Update mobile sticky bar price
                 const stickyPrice = document.querySelector('.sticky-bar-current');
-                if (stickyPrice) stickyPrice.textContent = '₹89';
+                if (stickyPrice) stickyPrice.textContent = '₹119';
             }, 600);
             
             currentPaymentUrl = PAYMENT_LINKS.discounted; 
