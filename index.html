@@ -209,6 +209,28 @@
         transform: skewX(-20deg);
         /* Animation is applied via Tailwind utility class */
     }
+
+    /* GLASSMORPHISM (Added for Search Box) */
+    .glass {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        position: relative;
+        overflow: hidden;
+    }
+    .glass::after {
+        content: "";
+        position: absolute;
+        top: 0; left: -150%; width: 60%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+        transform: skewX(-20deg);
+        transition: 0.8s;
+    }
+    .glass:hover::after {
+        left: 150%;
+        transition: 1.2s;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30">
@@ -305,13 +327,18 @@
           </div>
         </div>
 
-        <form class="mt-6 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 shadow-glow backdrop-blur" action="search.html">
-          <div id="search-icon" class="grid h-10 w-10 place-items-center rounded-xl bg-white/5 text-zinc-300">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          </div>
-          <input name="q" placeholder="Search ebooks: Gita, Startup, Python…" class="h-12 w-full flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-400" />
-          <button type="submit" class="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-glow transition active:scale-[0.98]">Find eBooks <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
-        </form>
+        <!-- VISIBLE BUT DISABLED SEARCH BOX (Copied from Reference) -->
+        <div class="mt-6 w-full max-w-3xl" data-aos="zoom-in" data-aos-delay="400">
+              <div class="glass group relative flex items-center rounded-[2.5rem] p-2.5 opacity-60">
+                <div class="flex h-14 w-14 items-center justify-center rounded-3xl bg-white/5 text-zinc-400">
+                    <i data-lucide="search" class="h-7 w-7"></i>
+                </div>
+                <input type="text" disabled placeholder="Global search is currently encrypted..." class="h-14 flex-1 bg-transparent px-6 text-xl text-white outline-none placeholder:text-zinc-600 cursor-not-allowed">
+                <button disabled class="flex items-center gap-3 rounded-3xl bg-white/5 px-10 py-5 text-xs font-black text-zinc-500 cursor-not-allowed uppercase tracking-widest">
+                    <i data-lucide="lock" class="h-4 w-4"></i> Locked
+                </button>
+              </div>
+        </div>
 
         <div class="mt-8 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
           <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> Ad‑free UX</span>
