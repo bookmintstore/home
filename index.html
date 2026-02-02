@@ -48,6 +48,9 @@
     }
   </script>
 
+  <!-- LORDICON SCRIPT ADDED -->
+  <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
   <!-- SECURITY SCRIPT: Disables Right Click, F12, Ctrl+U -->
   <script>
     // Disable Right Click
@@ -617,6 +620,90 @@
       </div>
     </footer>
   </main>
+
+  <!-- POPUP MODAL -->
+  <div id="construction-modal" class="fixed inset-0 z-[1000] hidden place-items-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true">
+    <div class="relative w-full max-w-lg scale-95 transform rounded-3xl border border-white/10 bg-[#161b22]/90 p-6 shadow-2xl backdrop-blur-2xl transition-all duration-300 sm:p-10" id="modal-panel">
+        
+        <!-- Close Button -->
+        <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <!-- Step 1: Message -->
+        <div id="modal-step-1" class="text-center">
+            <!-- REPLACED: Glass icon with Animated Lordicon (Pencil & Document) -->
+            <div class="mx-auto mb-6 flex items-center justify-center">
+                <lord-icon
+                    src="https://cdn.lordicon.com/puvaffet.json"
+                    trigger="loop"
+                    delay="1000"
+                    colors="primary:#6366f1,secondary:#d946ef"
+                    style="width:120px;height:120px">
+                </lord-icon>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-3">We're Crafting Something <span class="bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">Extraordinary</span></h3>
+            <p class="text-zinc-400 leading-relaxed mb-8">Our team is actively enhancing this platform to deliver the ultimate reading experience. Currently, a select few premium sections are live.</p>
+            
+            <p class="text-white font-medium mb-4">Would you like to see our available sections?</p>
+            
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                <!-- UPDATED BUTTON: Pure White Background -->
+                <button onclick="showAvailableSections()" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-3 text-sm font-bold text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all hover:scale-105 hover:bg-zinc-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] active:scale-95">
+                    Yes, Show Me 
+                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+                
+                <button onclick="closeModal()" class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-zinc-300 transition hover:bg-white/10 hover:text-white">
+                    Maybe Later
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Cards -->
+        <div id="modal-step-2" class="hidden">
+            <h3 class="text-center text-xl font-bold text-white mb-6">Available Premium Sections</h3>
+            <div class="grid gap-3">
+                <!-- Spirituality -->
+                <a href="./spirituality.html" class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 hover:border-indigo-500/30 group">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Spirituality</h4>
+                        <p class="text-xs text-zinc-400">Explore ancient wisdom and modern mindfulness</p>
+                    </div>
+                    <svg class="ml-auto h-5 w-5 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </a>
+                
+                <!-- Academics -->
+                <a href="./Top-Academics.html" class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 hover:border-sky-500/30 group">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-500/20 text-sky-400 group-hover:scale-110 transition-transform">
+                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-white group-hover:text-sky-300 transition-colors">Academics</h4>
+                        <p class="text-xs text-zinc-400">Quality educational resources for growth</p>
+                    </div>
+                    <svg class="ml-auto h-5 w-5 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </a>
+
+                <!-- Kanha Ji -->
+                <a href="./In_search_of_my_kanha_ji" class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 hover:border-fuchsia-500/30 group">
+                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-fuchsia-500/20 text-fuchsia-400 group-hover:scale-110 transition-transform">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-white group-hover:text-fuchsia-300 transition-colors">In Search of My Kanha Ji</h4>
+                        <p class="text-xs text-zinc-400">A spiritual journey of devotion and discovery</p>
+                    </div>
+                    <svg class="ml-auto h-5 w-5 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+  </div>
   
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
@@ -627,6 +714,78 @@
     
     const loadingOverlay = document.getElementById('loading-overlay');
     
+    // Popup Variables
+    const modal = document.getElementById('construction-modal');
+    const modalPanel = document.getElementById('modal-panel');
+    const step1 = document.getElementById('modal-step-1');
+    const step2 = document.getElementById('modal-step-2');
+
+    // Popup Functions
+    function openModal() {
+        modal.classList.remove('hidden');
+        // Force reflow for transition
+        void modal.offsetWidth; 
+        modal.classList.remove('opacity-0');
+        modalPanel.classList.remove('scale-95');
+        modalPanel.classList.add('scale-100');
+        
+        // Reset to step 1
+        step1.classList.remove('hidden');
+        step2.classList.add('hidden');
+    }
+
+    function closeModal() {
+        modal.classList.add('opacity-0');
+        modalPanel.classList.remove('scale-100');
+        modalPanel.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            // Reset transforms/opacity for step 1/2
+            step1.style.opacity = '';
+            step1.style.transform = '';
+            step2.style.opacity = '';
+            step2.style.transform = '';
+        }, 300);
+    }
+
+    function showAvailableSections() {
+        // Fade out step 1
+        step1.style.opacity = '0';
+        step1.style.transform = 'translateY(-10px)';
+        step1.style.transition = 'all 0.5s ease-in-out';
+        
+        setTimeout(() => {
+            step1.classList.add('hidden');
+            step1.style.opacity = '1';
+            step1.style.transform = 'translateY(0)';
+            
+            step2.classList.remove('hidden');
+            step2.style.opacity = '0';
+            step2.style.transform = 'translateY(10px)';
+            step2.style.transition = 'all 0.5s ease-in-out';
+            
+            // Force reflow
+            void step2.offsetWidth;
+            
+            step2.style.opacity = '1';
+            step2.style.transform = 'translateY(0)';
+        }, 500); // Increased duration slightly for smoothness
+    }
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+
     function resetLoadingOverlay() {
         loadingOverlay.classList.add('hidden', 'opacity-0');
         loadingOverlay.classList.remove('grid');
@@ -650,7 +809,7 @@
             }
         }
         
-        const links = document.querySelectorAll('a.nav-link, a[href^="./"]'); 
+        const links = document.querySelectorAll('a.nav-link, a[href^="./"], a[href^="/#"]'); 
 
         links.forEach(link => {
             if (link.closest('form') && link.getAttribute('type') === 'submit') {
@@ -659,8 +818,15 @@
 
             link.addEventListener('click', function(e) {
                 e.preventDefault(); 
-                const targetUrl = this.href;
+                const rawHref = this.getAttribute('href');
 
+                // CHECK IF LINK IS DISABLED (Popup Logic)
+                if (!rawHref || rawHref === '#' || rawHref === './#' || rawHref === '/#' || rawHref.endsWith('#')) {
+                    openModal();
+                    return;
+                }
+
+                // Normal loading behavior for valid links
                 loadingOverlay.classList.remove('hidden');
                 setTimeout(() => {
                     loadingOverlay.classList.add('grid'); 
@@ -669,7 +835,7 @@
                 
                 // SPEED UP: Reduced delay from 800ms to 300ms
                 setTimeout(() => {
-                    window.location.href = targetUrl;
+                    window.location.href = this.href;
                 }, 300); 
             });
         });
