@@ -85,12 +85,7 @@
             notificationSlideOut: 'notificationSlideOut 0.5s ease-in forwards',
             stickyBarSlideUp: 'stickyBarSlideUp 0.4s ease-out forwards',
             stickyBarSlideDown: 'stickyBarSlideDown 0.4s ease-in forwards',
-            // New animations for pricing cards
-            cardEntrance: 'cardEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-            premiumShine: 'premiumShine 3s ease-in-out infinite',
-            planPulse: 'planPulse 2s ease-in-out infinite',
-            priceSlideUp: 'priceSlideUp 0.5s ease-out forwards',
-            rippleEffect: 'rippleEffect 0.6s linear'
+            premiumShine: 'premiumShine 3s ease-in-out infinite'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -219,26 +214,9 @@
               '0%': { transform: 'translateY(0)' },
               '100%': { transform: 'translateY(100%)' }
             },
-            // New keyframes for pricing cards
-            cardEntrance: {
-              '0%': { opacity: 0, transform: 'translateY(30px) scale(0.9)' },
-              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
-            },
             premiumShine: {
-              '0%': { transform: 'translateX(-150%) skewX(-30deg)' },
-              '100%': { transform: 'translateX(250%) skewX(-30deg)' }
-            },
-            planPulse: {
-              '0%, 100%': { boxShadow: '0 8px 25px rgba(16, 185, 129, 0.2)' },
-              '50%': { boxShadow: '0 8px 35px rgba(16, 185, 129, 0.5)' }
-            },
-            priceSlideUp: {
-              '0%': { opacity: 0, transform: 'translateY(10px)' },
-              '100%': { opacity: 1, transform: 'translateY(0)' }
-            },
-            rippleEffect: {
-              '0%': { transform: 'scale(0)', opacity: '1' },
-              '100%': { transform: 'scale(1)', opacity: '0' }
+              '0%, 100%': { boxShadow: '0 0 25px rgba(168, 85, 247, 0.5), 0 0 50px rgba(168, 85, 247, 0.3), 0 0 75px rgba(168, 85, 247, 0.1)' },
+              '50%': { boxShadow: '0 0 40px rgba(168, 85, 247, 0.8), 0 0 80px rgba(168, 85, 247, 0.5), 0 0 120px rgba(168, 85, 247, 0.2)' }
             }
           }
         }
@@ -532,8 +510,8 @@
     .star-glow .half { fill: transparent; color: #fbbf24; }
     .star-glow .empty { color: #475569; opacity: 0.45; }
 
-    /* REMOVED COUPON SECTION */
-    
+    /* REMOVED: Coupon Section Styles */
+
     /* MODALS */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 85%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -647,7 +625,7 @@
     line-height: 1; 
 }
     .premium-list-item strong { color: #e0f2f1; }
-    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; font-weight: 900; transform: translateY(-2px); }
+    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
 
     .action-card {
         background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
@@ -928,7 +906,7 @@
         justify-content: space-between;
         z-index: 9998;
         transform: translateY(100%);
-        transition: transform 0.4s ease-out;
+        transition: transform 0.4s ease-out, z-index 0.4s ease-out;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
     }
     
@@ -936,10 +914,9 @@
         transform: translateY(0);
     }
     
-    .mobile-sticky-bar.hidden {
-        transform: translateY(100%);
-        opacity: 0;
-        pointer-events: none;
+    .mobile-sticky-bar.modal-open {
+        z-index: 9980;
+        opacity: 0.5;
     }
     
     .sticky-bar-price {
@@ -1098,139 +1075,165 @@
         line-height: 1.4;
     }
 
-    /* PRICING PLANS MODAL STYLES */
-    .pricing-plan-card {
-        background: rgba(255, 255, 255, 0.05);
+    /* PLAN SELECTION MODAL STYLES */
+    #planSelectionModal .modal-content {
+        background: #0f172a;
+        max-width: 500px;
+        padding: 30px;
+    }
+    
+    .plan-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin: 24px 0;
+    }
+    
+    @media (min-width: 640px) {
+        .plan-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    
+    .plan-card {
+        background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
         padding: 24px;
-        transition: all 0.3s ease;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         position: relative;
         overflow: hidden;
-        margin-bottom: 20px;
     }
     
-    .pricing-plan-card:hover {
+    .plan-card:hover {
         transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(168, 85, 247, 0.3);
+    }
+    
+    .plan-card.basic:hover {
+        border-color: rgba(59, 130, 246, 0.5);
+    }
+    
+    .plan-card.standard:hover {
+        border-color: rgba(34, 197, 94, 0.5);
+    }
+    
+    .plan-card.premium:hover {
+        border-color: rgba(168, 85, 247, 0.8);
     }
     
     .plan-badge {
         position: absolute;
-        top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 4px 16px;
-        border-radius: 20px;
+        top: 12px;
+        right: 12px;
         font-size: 0.7rem;
         font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 20px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        z-index: 2;
     }
     
-    .plan-popular-badge {
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    .plan-badge.popular {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+        border: 1px solid rgba(34, 197, 94, 0.3);
     }
     
-    .plan-premium-badge {
-        background: linear-gradient(135deg, #f59e0b, #d97706);
-        color: white;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    .plan-badge.premium {
+        background: rgba(168, 85, 247, 0.2);
+        color: #a855f7;
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        animation: pulseGlow 2s ease-in-out infinite;
     }
     
-    .plan-price {
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin: 20px 0 10px;
-        text-align: center;
-    }
-    
-    .plan-features {
-        list-style: none;
-        padding: 0;
-        margin: 20px 0;
-    }
-    
-    .plan-features li {
+    .plan-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 12px;
-        font-size: 0.9rem;
-        color: #cbd5e1;
+        justify-content: center;
+        font-size: 1.8rem;
     }
     
-    .plan-features li i {
-        color: #10b981;
+    .plan-icon.basic {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
     }
     
-    .select-plan-btn {
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 12px;
-        font-weight: 700;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+    .plan-icon.standard {
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
     }
     
-    .plan-popular-card {
-        border-color: rgba(16, 185, 129, 0.4);
-        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-        animation: planPulse 2s ease-in-out infinite;
-    }
-    
-    .plan-premium-card {
-        border-color: rgba(245, 158, 11, 0.4);
-        box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
-        position: relative;
-    }
-    
-    .premium-shine-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 1;
-        overflow: hidden;
-        border-radius: 16px;
-    }
-    
-    .premium-shine {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 300%;
-        background: linear-gradient(
-            45deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0) 25%,
-            rgba(255, 255, 255, 0.6) 50%,
-            rgba(255, 255, 255, 0) 75%,
-            transparent 100%
-        );
-        transform: translateX(-150%) translateY(-150%) rotate(45deg);
-        filter: blur(20px);
+    .plan-icon.premium {
+        background: rgba(168, 85, 247, 0.15);
+        color: #a855f7;
         animation: premiumShine 3s ease-in-out infinite;
     }
     
-    /* Ripple effect for buttons */
-    .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(0);
-        animation: rippleEffect 0.6s linear;
-        pointer-events: none;
+    .plan-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: white;
+    }
+    
+    .plan-price {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 16px;
+        line-height: 1;
+    }
+    
+    .plan-price.basic {
+        color: #3b82f6;
+    }
+    
+    .plan-price.standard {
+        color: #22c55e;
+    }
+    
+    .plan-price.premium {
+        color: #a855f7;
+        text-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    }
+    
+    .plan-features {
+        text-align: left;
+        margin-top: 16px;
+    }
+    
+    .plan-feature {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        font-size: 0.85rem;
+        color: #94a3b8;
+    }
+    
+    .plan-feature.included {
+        color: #cbd5e1;
+    }
+    
+    .plan-feature.not-included {
+        opacity: 0.4;
+    }
+    
+    .feature-check {
+        color: #10b981;
+        min-width: 18px;
+    }
+    
+    .feature-x {
+        color: #ef4444;
+        min-width: 18px;
     }
 
     @media (max-width: 640px) { 
@@ -1263,13 +1266,6 @@
         .trust-badge {
             max-width: 70px;
         }
-        /* Responsive pricing cards */
-        .pricing-plan-card {
-            margin-bottom: 16px;
-        }
-        .plan-price {
-            font-size: 2rem;
-        }
     }
     
     @media (max-width: 640px) {
@@ -1284,11 +1280,6 @@
     @media (min-width: 641px) {
         .mobile-sticky-bar {
             display: none;
-        }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
         }
     }
   </style>
@@ -1310,8 +1301,9 @@
   <div id="mobileStickyBar" class="mobile-sticky-bar">
       <div class="sticky-bar-price">
           <span class="sticky-bar-current">Get Access</span>
+          <span class="sticky-bar-original">Choose your plan</span>
       </div>
-      <button onclick="openPricingPlansModal()" class="sticky-bar-button">
+      <button onclick="openPlanSelectionModal()" class="sticky-bar-button">
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
           Buy Now
       </button>
@@ -1331,77 +1323,6 @@
           <div id="loadingText4" class="loading-text"><span class="text-shine">Rendering Pages...</span></div>
           <div id="loadingText5" class="loading-text"><span class="text-shine">Optimizing Experience...</span></div>
           <div id="loadingText6" class="loading-text"><span class="text-shine">Almost There...</span></div>
-      </div>
-  </div>
-
-  <!-- Pricing Plans Modal -->
-  <div id="pricingPlansModal" class="modal">
-      <div class="modal-content animate-modalFadeIn" style="max-width: 900px; background: #0f172a; padding: 30px; border: 1px solid rgba(255,255,255,0.1);">
-          <button onclick="closePricingPlansModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white"><i data-lucide="x" class="h-5 w-5"></i></button>
-          
-          <div class="text-center mb-8">
-              <div class="w-16 h-16 bg-indigo-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i data-lucide="crown" class="h-8 w-8 text-indigo-400"></i>
-              </div>
-              <h2 class="text-2xl font-bold text-white mb-2">Choose Your Plan</h2>
-              <p class="text-zinc-400">Select the plan that best fits your spiritual journey</p>
-          </div>
-          
-          <div class="pricing-grid">
-              <!-- Basic Plan -->
-              <div class="pricing-plan-card animate-cardEntrance" style="animation-delay: 0.1s;">
-                  <h3 class="text-xl font-bold text-white text-center">Basic</h3>
-                  <div class="plan-price text-white">₹119</div>
-                  <ul class="plan-features">
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> eBook PDF</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Lifetime Access</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Mobile Friendly</li>
-                  </ul>
-                  <button onclick="selectPlan('BASIC')" class="select-plan-btn bg-white/10 text-white hover:bg-white/20">
-                      Select Basic Plan
-                  </button>
-              </div>
-              
-              <!-- Popular Plan -->
-              <div class="pricing-plan-card plan-popular-card animate-cardEntrance" style="animation-delay: 0.2s;">
-                  <div class="plan-badge plan-popular-badge"></div>
-                  <h3 class="text-xl font-bold text-white text-center">Popular</h3>
-                  <div class="plan-price text-brandGreen">₹209</div>
-                  <ul class="plan-features">
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> eBook PDF</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Audio Book</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Lifetime Access</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Mobile & Desktop</li>
-                  </ul>
-                  <button onclick="selectPlan('POPULAR')" class="select-plan-btn bg-gradient-to-r from-brandGreen to-emerald-500 text-white hover:opacity-90">
-                      Select Popular Plan
-                  </button>
-              </div>
-              
-              <!-- Premium Plan -->
-              <div class="pricing-plan-card plan-premium-card animate-cardEntrance" style="animation-delay: 0.3s;">
-                  <div class="premium-shine-overlay">
-                      <div class="premium-shine"></div>
-                  </div>
-                  <div class="plan-badge plan-premium-badge"></div>
-                  <h3 class="text-xl font-bold text-white text-center">Premium</h3>
-                  <div class="plan-price text-amber-400">₹499</div>
-                  <ul class="plan-features">
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> eBook PDF</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Audio Book</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Video Course</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> Flip Book</li>
-                      <li><i data-lucide="check-circle" class="h-4 w-4"></i> ZIP Download</li>
-                  </ul>
-                  <button onclick="selectPlan('PREMIUM')" class="select-plan-btn bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:opacity-90">
-                      Select Premium Plan
-                  </button>
-              </div>
-          </div>
-          
-          <div class="text-center mt-8 pt-6 border-t border-white/10">
-              <p class="text-sm text-zinc-400">All plans include lifetime access and free updates</p>
-          </div>
       </div>
   </div>
 
@@ -1534,9 +1455,130 @@
               </div>
           </div>
           
-          <button onclick="closeWhyBookModal(); openPricingPlansModal();" class="mt-6 w-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all">
+          <button onclick="closeWhyBookModal(); openPlanSelectionModal();" class="mt-6 w-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all">
               Start Your Journey Now
           </button>
+      </div>
+  </div>
+
+  <!-- Plan Selection Modal -->
+  <div id="planSelectionModal" class="modal">
+      <div class="modal-content animate-modalFadeIn">
+          <button onclick="closePlanSelectionModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white"><i data-lucide="x" class="h-5 w-5"></i></button>
+          <div class="text-center mb-6">
+              <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i data-lucide="crown" class="h-8 w-8 text-white"></i>
+              </div>
+              <h2 class="text-2xl font-bold text-white">Choose Your Plan</h2>
+              <p class="text-zinc-400 text-sm mt-2">Select the perfect plan for your spiritual journey</p>
+          </div>
+          
+          <div class="plan-grid">
+              <!-- Basic Plan -->
+              <div class="plan-card basic" onclick="selectPlan('basic')">
+                  <div class="plan-icon basic">
+                      <i data-lucide="book" class="h-6 w-6"></i>
+                  </div>
+                  <h3 class="plan-name">Basic</h3>
+                  <div class="plan-price basic">₹119</div>
+                  
+                  <div class="plan-features">
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>E-Book PDF</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>Audio Podcast</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>HD Video</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>Flipbook</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>Mind Map</span>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Standard Plan -->
+              <div class="plan-card standard" onclick="selectPlan('standard')">
+                  <div class="plan-badge popular">Most Popular</div>
+                  <div class="plan-icon standard">
+                      <i data-lucide="headphones" class="h-6 w-6"></i>
+                  </div>
+                  <h3 class="plan-name">Standard</h3>
+                  <div class="plan-price standard">₹209</div>
+                  
+                  <div class="plan-features">
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>E-Book PDF</span>
+                      </div>
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>Audio Podcast</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>HD Video</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>Flipbook</span>
+                      </div>
+                      <div class="plan-feature not-included">
+                          <i data-lucide="x" class="h-4 w-4 feature-x"></i>
+                          <span>Mind Map</span>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Premium Plan -->
+              <div class="plan-card premium" onclick="selectPlan('premium')">
+                  <div class="plan-badge premium">Premium</div>
+                  <div class="plan-icon premium">
+                      <i data-lucide="crown" class="h-6 w-6"></i>
+                  </div>
+                  <h3 class="plan-name">Premium</h3>
+                  <div class="plan-price premium">₹499</div>
+                  
+                  <div class="plan-features">
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>E-Book PDF</span>
+                      </div>
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>Audio Podcast</span>
+                      </div>
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>HD Video</span>
+                      </div>
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>Flipbook</span>
+                      </div>
+                      <div class="plan-feature included">
+                          <i data-lucide="check" class="h-4 w-4 feature-check"></i>
+                          <span>Mind Map</span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="mt-8 text-center">
+              <p class="text-xs text-zinc-500 mb-4">All plans include lifetime access</p>
+              <button id="continueToPaymentBtn" class="w-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all" disabled onclick="continueToPayment()">
+                  Select a plan to continue
+              </button>
+          </div>
       </div>
   </div>
 
@@ -1660,15 +1702,15 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="70+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">feedback</div></div>
         </div>
 
-        <!-- Pricing removed from homepage -->
+        <!-- REMOVED: Pricing and Coupon Section -->
 
         <div id="actionContainer" class="action-container">
-            <button id="buyBtn" onclick="openPricingPlansModal()" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
+            <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
               <span>Get Access</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
               <span class="cta-shine animate-btnshine"></span>
               <span class="corner-bling"></span>
-            </button>
+            </a>
 
             <div id="mysteryBoxWrap" class="relative cursor-pointer flex items-center justify-center transition hover:scale-110 active:scale-90" onclick="toggleMysteryTooltip(event)">
               <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" style="border: 0; width: 45px; height: 45px; pointer-events: none; background: transparent;"></iframe>
@@ -1906,7 +1948,7 @@
           <div class="viewer-header">
               <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
               <div class="flex items-center gap-2">
-                  <button id="zipDownloadBtn" onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5" style="display: none;">
+                  <button id="downloadZipBtn" onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5" style="display: none;">
                       <i data-lucide="download" class="h-4 w-4"></i>
                       <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
                   </button>
@@ -1917,11 +1959,11 @@
           </div>
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <div id="tab-video" class="viewer-tab" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
-                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
+                  <div id="tab-video" class="viewer-tab tab-disabled" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
+                  <div id="tab-audio" class="viewer-tab tab-disabled" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
-                  <div id="tab-flipbook" class="viewer-tab" onclick="switchViewerTab('flipbook')"><i data-lucide="book-open" class="h-4 w-4"></i> Flipbook</div>
-                  <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
+                  <div id="tab-flipbook" class="viewer-tab tab-disabled" onclick="switchViewerTab('flipbook')"><i data-lucide="book-open" class="h-4 w-4"></i> Flipbook</div>
+                  <div id="tab-image" class="viewer-tab tab-disabled" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section">
@@ -1937,7 +1979,7 @@
                           <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
-                  <div id="view-pdf" class="viewer-section">
+                  <div id="view-pdf" class="viewer-section active">
                       <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="pdf-container">
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
@@ -2041,51 +2083,22 @@
   </script>
 
   <script>
-    // ============= PRICING PLANS CONFIGURATION =============
-    const PRICING_PLANS = {
-      BASIC: {
-        id: 'basic',
-        price: 119,
-        name: 'Basic Plan',
-        features: ['eBook PDF'],
-        paymentLink: '{{https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d}}',
-        badge: null,
-        items: ['ebook']
-      },
-      POPULAR: {
-        id: 'popular',
-        price: 209,
-        name: 'Popular Plan',
-        features: ['eBook PDF', 'Audio Book'],
-        paymentLink: '{{https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds}}',
-        badge: 'MOST POPULAR',
-        items: ['ebook', 'audio']
-      },
-      PREMIUM: {
-        id: 'premium',
-        price: 499,
-        name: 'Premium Plan',
-        features: ['eBook PDF', 'Audio Book', 'Video Course', 'Flip Book'],
-        paymentLink: '{{CASHFREE_PAYMENT_LINK_499}}',
-        badge: 'PREMIUM',
-        items: ['ebook', 'audio', 'video', 'flipbook'],
-        enableZipDownload: true,
-        showActionPopup: true
-      }
-    };
-
-    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: false, showFlipbook: true };
+    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showFlipbook: true };
     const IS_DUAL_LANGUAGE = false; 
     const IS_SALE_ACTIVE = false;
-    const ENABLE_COUPON_SECTION = false; // Disabled coupon section
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
-    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-540707hkdds686jdf';
+    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-540705gfds68cjdf';
     
-    // Payment links will be loaded from PRICING_PLANS based on selected plan
-    let currentPaymentUrl = ''; 
+    // Updated Payment Links for Tiered Pricing
+    const PAYMENT_LINKS = {
+        basic: "https://payments.cashfree.com/forms/basic_plan_in_search_of_my_kanha_ji",  
+        standard: "https://payments.cashfree.com/forms/standard_plan_in_search_of_my_kanha_ji",
+        premium: "https://payments.cashfree.com/forms/premium_plan_in_search_of_my_kanha_ji"
+    };
     
+    let currentPaymentUrl = PAYMENT_LINKS.basic;
+    let selectedPlan = null;
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_AAROHSD368NDSVF';
-    const VALID_COUPON = "KANHA119"; 
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
     const CONTENT_URLS = {
         HINDI: { 
@@ -2108,8 +2121,6 @@
     const SCREENSHOT_URLS = ['https://bookmintor.shop/aarohibook/ss1.png', 'https://bookmintor.shop/aarohibook/ss2.png', 'https://bookmintor.shop/aarohibook/ss3.png'];
     const DEMO_FLIPBOOK_URL = "https://bookmintor.shop/read_demo";
     
-    let selectedPlan = null; // Store the currently selected plan
-
     const dom = {
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
@@ -2152,7 +2163,9 @@
         demoFlipbookFrame: document.getElementById('demoFlipbookFrame'),
         coverBlurOverlay: document.getElementById('coverBlurOverlay'),
         mobileStickyBar: document.getElementById('mobileStickyBar'),
-        zipDownloadBtn: document.getElementById('zipDownloadBtn')
+        planSelectionModal: document.getElementById('planSelectionModal'),
+        continueToPaymentBtn: document.getElementById('continueToPaymentBtn'),
+        downloadZipBtn: document.getElementById('downloadZipBtn')
     };
 
     let currentContentLanguage = 'HINDI';
@@ -2261,14 +2274,14 @@
         }
     }
 
-    // ============= PRICING PLANS FUNCTIONS =============
-    function openPricingPlansModal() {
+    /* PLAN SELECTION MODAL FUNCTIONS */
+    function openPlanSelectionModal() {
         // Hide mobile sticky bar when modal opens
         if (dom.mobileStickyBar) {
-            dom.mobileStickyBar.classList.add('hidden');
+            dom.mobileStickyBar.classList.add('modal-open');
         }
         
-        const modal = document.getElementById('pricingPlansModal');
+        const modal = document.getElementById('planSelectionModal');
         if (modal) {
             modal.style.display = 'flex';
             const modalContent = modal.querySelector('.modal-content');
@@ -2279,67 +2292,58 @@
         }
     }
 
-    function closePricingPlansModal() {
-        // Show mobile sticky bar when modal closes
+    function closePlanSelectionModal() {
+        // Show mobile sticky bar again
         if (dom.mobileStickyBar) {
-            dom.mobileStickyBar.classList.remove('hidden');
+            dom.mobileStickyBar.classList.remove('modal-open');
         }
         
-        const modal = document.getElementById('pricingPlansModal');
+        const modal = document.getElementById('planSelectionModal');
         if (modal) {
             modal.style.display = 'none';
         }
     }
 
-    function selectPlan(planType) {
-        selectedPlan = PRICING_PLANS[planType];
+    function selectPlan(plan) {
+        selectedPlan = plan;
+        
+        // Update selected plan UI
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        document.querySelector(`.plan-card.${plan}`).classList.add('selected');
+        
+        // Enable continue button
+        if (dom.continueToPaymentBtn) {
+            dom.continueToPaymentBtn.disabled = false;
+            dom.continueToPaymentBtn.textContent = `Continue with ${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`;
+        }
+        
+        // Set payment URL based on plan
+        switch(plan) {
+            case 'basic':
+                currentPaymentUrl = PAYMENT_LINKS.basic;
+                break;
+            case 'standard':
+                currentPaymentUrl = PAYMENT_LINKS.standard;
+                break;
+            case 'premium':
+                currentPaymentUrl = PAYMENT_LINKS.premium;
+                break;
+        }
+    }
+
+    function continueToPayment() {
         if (!selectedPlan) {
-            showToast("Error selecting plan. Please try again.", false);
+            showToast("Please select a plan first", false);
             return;
         }
         
-        // Store selected plan in sessionStorage
-        sessionStorage.setItem('selected_plan', JSON.stringify(selectedPlan));
-        
-        // Add ripple effect to button
-        createRippleEffect(event);
-        
-        // Close pricing modal
-        closePricingPlansModal();
-        
-        // Show success message
-        showToast(`Selected ${selectedPlan.name}`, true);
-        
-        // Set payment link based on selected plan
-        currentPaymentUrl = selectedPlan.paymentLink;
-        
-        // Open payment modal after a short delay
-        setTimeout(() => {
-            openPaymentModal();
-        }, 500);
+        closePlanSelectionModal();
+        openPaymentModal();
     }
 
-    function createRippleEffect(event) {
-        const button = event.currentTarget;
-        const ripple = document.createElement('span');
-        const rect = button.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = event.clientX - rect.left - size / 2;
-        const y = event.clientY - rect.top - size / 2;
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple');
-        
-        button.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    }
-
-    // Why This Book Modal functions
+    /* Why This Book Modal functions */
     function openWhyBookModal() {
         const modal = document.getElementById('whyBookModal');
         if (modal) {
@@ -2444,7 +2448,7 @@
         
         if (currentScroll > scrollThreshold && currentScroll > lastScrollPosition) {
             // Scrolling down past threshold
-            if (!stickyBarVisible && !dom.mobileStickyBar.classList.contains('hidden')) {
+            if (!stickyBarVisible) {
                 dom.mobileStickyBar.classList.add('show');
                 stickyBarVisible = true;
             }
@@ -2583,24 +2587,21 @@
 
     function switchViewerTab(tabId) {
         // Check if user has access to this tab based on their plan
-        if (selectedPlan) {
-            const tabMap = {
-                'video': 'video',
-                'audio': 'audio',
-                'pdf': 'ebook',
-                'flipbook': 'flipbook',
-                'image': 'image'
-            };
-            
-            const requiredItem = tabMap[tabId];
-            if (requiredItem && !selectedPlan.items.includes(requiredItem)) {
-                showToast("This feature is not available in your plan.", false);
-                return;
-            }
-        }
+        const userPlan = localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID);
         
-        const cfgKey = 'show' + tabId.charAt(0).toUpperCase() + tabId.slice(1);
-        if (productConfig.hasOwnProperty(cfgKey) && !productConfig[cfgKey]) return;
+        // Define which tabs are accessible for each plan
+        const planAccess = {
+            'basic': ['pdf'],
+            'standard': ['pdf', 'audio'],
+            'premium': ['pdf', 'audio', 'video', 'flipbook', 'image']
+        };
+        
+        const accessibleTabs = planAccess[userPlan] || [];
+        
+        if (!accessibleTabs.includes(tabId)) {
+            showToast("This feature is not included in your current plan", false);
+            return;
+        }
         
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
@@ -2647,6 +2648,48 @@
         }
     }
 
+    function setupDashboardForPlan(plan) {
+        const tabs = {
+            'video': document.getElementById('tab-video'),
+            'audio': document.getElementById('tab-audio'),
+            'pdf': document.getElementById('tab-pdf'),
+            'flipbook': document.getElementById('tab-flipbook'),
+            'image': document.getElementById('tab-image')
+        };
+        
+        // Reset all tabs to disabled first
+        Object.values(tabs).forEach(tab => {
+            if (tab) {
+                tab.classList.add('tab-disabled');
+            }
+        });
+        
+        // Enable tabs based on plan
+        switch(plan) {
+            case 'basic':
+                if (tabs.pdf) tabs.pdf.classList.remove('tab-disabled');
+                break;
+            case 'standard':
+                if (tabs.pdf) tabs.pdf.classList.remove('tab-disabled');
+                if (tabs.audio) tabs.audio.classList.remove('tab-disabled');
+                break;
+            case 'premium':
+                Object.values(tabs).forEach(tab => {
+                    if (tab) tab.classList.remove('tab-disabled');
+                });
+                break;
+        }
+        
+        // Show/hide ZIP download button
+        if (dom.downloadZipBtn) {
+            if (plan === 'premium') {
+                dom.downloadZipBtn.style.display = 'flex';
+            } else {
+                dom.downloadZipBtn.style.display = 'none';
+            }
+        }
+    }
+
     function openViewerModal(lang) {
         if (lang) { 
             currentContentLanguage = lang; 
@@ -2663,49 +2706,17 @@
             }
             
             // Get user's purchased plan
-            const purchasedPlan = JSON.parse(sessionStorage.getItem('selected_plan') || localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID) || '{}');
-            selectedPlan = purchasedPlan.id ? PRICING_PLANS[purchasedPlan.id.toUpperCase()] || null : null;
+            const userPlan = localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID);
             
-            // Show/hide ZIP download button based on plan
-            if (dom.zipDownloadBtn) {
-                if (selectedPlan && selectedPlan.enableZipDownload) {
-                    dom.zipDownloadBtn.style.display = 'flex';
-                } else {
-                    dom.zipDownloadBtn.style.display = 'none';
-                }
-            }
-            
-            const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', flipbook: 'tab-flipbook', image: 'tab-image' };
-            let firstEnabled = null;
-            
-            Object.keys(tabs).forEach(key => {
-                const el = document.getElementById(tabs[key]); 
-                const tabMap = {
-                    'video': 'video',
-                    'audio': 'audio',
-                    'pdf': 'ebook',
-                    'flipbook': 'flipbook',
-                    'image': 'image'
-                };
-                
-                const requiredItem = tabMap[key];
-                const hasAccess = !selectedPlan || (requiredItem && selectedPlan.items.includes(requiredItem));
-                
-                if (hasAccess) { 
-                    el.classList.remove('tab-disabled'); 
-                    if (!firstEnabled) firstEnabled = key; 
-                } else { 
-                    el.classList.add('tab-disabled'); 
-                }
-            });
+            // Setup dashboard tabs based on plan
+            setupDashboardForPlan(userPlan);
             
             const videoEl = document.getElementById('videoSource'); 
             const audioEl = document.getElementById('audioSource');
             const imgEl = document.getElementById('imageSource'); 
             const pdfFr = document.getElementById('pdfFrame');
             
-            // Only load content if user has access
-            if(selectedPlan && selectedPlan.items.includes('video') && content.VIDEO && videoEl) { 
+            if(content.VIDEO && videoEl) { 
                 const source = videoEl.querySelector('source'); 
                 if(source) { 
                     source.src = content.VIDEO; 
@@ -2715,7 +2726,7 @@
                 if (videoBtn) videoBtn.onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); 
             }
             
-            if(selectedPlan && selectedPlan.items.includes('audio') && content.AUDIO && audioEl) { 
+            if(content.AUDIO && audioEl) { 
                 const source = audioEl.querySelector('source'); 
                 if(source) { 
                     source.src = content.AUDIO; 
@@ -2731,7 +2742,7 @@
                 if (imageBtn) imageBtn.onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); 
             }
             
-            if(selectedPlan && selectedPlan.items.includes('ebook') && content.PDF && pdfFr) { 
+            if(content.PDF && pdfFr) { 
                 let pdfLink = content.PDF; 
                 const pdfBtn = document.getElementById('btn-dl-pdf');
                 if (pdfBtn) pdfBtn.onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
@@ -2745,7 +2756,7 @@
                 }
             }
             
-            if(selectedPlan && selectedPlan.items.includes('flipbook') && content.FLIPBOOK) {
+            if(content.FLIPBOOK) {
                 const flipbookBtn = document.getElementById('btn-dl-flipbook');
                 if (flipbookBtn) flipbookBtn.onclick = () => handleDirectDownload(content.FLIPBOOK, 'flipbook.html');
             }
@@ -2755,7 +2766,15 @@
                 dom.productViewerContent.classList.add('animate-modalFadeIn'); 
             }
             
-            if (firstEnabled) switchViewerTab(firstEnabled); 
+            // Set initial active tab based on plan
+            if (userPlan === 'basic' || !userPlan) {
+                switchViewerTab('pdf');
+            } else if (userPlan === 'standard') {
+                switchViewerTab('pdf');
+            } else if (userPlan === 'premium') {
+                switchViewerTab('pdf');
+            }
+            
             lucide.createIcons(); 
         } catch(e) { 
             console.error('Viewer modal error:', e); 
@@ -2775,29 +2794,11 @@
         
         let status = dom.unlockBtn.getAttribute('data-unlocked');
         if (status === 'BOTH') { 
-            // Get user's purchased plan
-            const purchasedPlan = JSON.parse(sessionStorage.getItem('selected_plan') || localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID) || '{}');
-            selectedPlan = purchasedPlan.id ? PRICING_PLANS[purchasedPlan.id.toUpperCase()] || null : null;
-            
-            // Check if user purchased PREMIUM plan
-            if (selectedPlan && selectedPlan.id === 'premium' && selectedPlan.showActionPopup) {
-                // Show ZIP confirmation modal for premium users
-                if (dom.zipConfirmationModal) {
-                    dom.zipConfirmationModal.style.display = 'flex'; 
-                    const checkStep = document.getElementById('zipCheckStep');
-                    const choiceStep = document.getElementById('zipChoiceStep');
-                    if (checkStep) checkStep.style.display = 'flex';
-                    if (choiceStep) choiceStep.style.display = 'none';
-                    lucide.createIcons(); 
-                }
-            } else {
-                // For BASIC and POPULAR plans, directly open dashboard
-                if (dom.downloadModal && dom.languageSelectionModal) {
-                    dom.downloadModal.style.display = 'flex'; 
-                    dom.languageSelectionModal.style.display = 'block'; 
-                    dom.languageSelectionModal.classList.add('animate-modalFadeIn'); 
-                    lucide.createIcons(); 
-                }
+            if (dom.downloadModal && dom.languageSelectionModal) {
+                dom.downloadModal.style.display = 'flex'; 
+                dom.languageSelectionModal.style.display = 'block'; 
+                dom.languageSelectionModal.classList.add('animate-modalFadeIn'); 
+                lucide.createIcons(); 
             }
         } else if (status === 'HINDI') { 
             openViewerModal('HINDI'); 
@@ -2819,6 +2820,13 @@
     }
     
     function handleDownloadBundleClick() { 
+        // Check if user has premium plan
+        const userPlan = localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID);
+        if (userPlan !== 'premium') {
+            showToast("ZIP download is only available for Premium plan", false);
+            return;
+        }
+        
         const lang = currentContentLanguage; 
         const url = CONTENT_URLS[lang] ? CONTENT_URLS[lang].ZIP : null; 
         if(url) window.location.href = url; 
@@ -2828,40 +2836,13 @@
     function startUnlockProcess(lang) { 
         postPaymentLanguage = lang; 
         triggerCelebration(); 
-        
-        // Get user's purchased plan
-        const purchasedPlan = JSON.parse(sessionStorage.getItem('selected_plan') || '{}');
-        selectedPlan = purchasedPlan.id ? PRICING_PLANS[purchasedPlan.id.toUpperCase()] || null : null;
-        
-        // Store purchased plan in localStorage for future use
-        if (selectedPlan) {
-            localStorage.setItem('purchased_plan_' + PRODUCT_UNIQUE_ID, JSON.stringify(selectedPlan));
-        }
-        
-        // Check if user purchased PREMIUM plan
-        if (selectedPlan && selectedPlan.id === 'premium' && selectedPlan.showActionPopup) {
-            // Show "Select an Action" popup for premium users
-            if (dom.zipConfirmationModal) {
-                dom.zipConfirmationModal.style.display = 'flex'; 
-                const checkStep = document.getElementById('zipCheckStep');
-                const choiceStep = document.getElementById('zipChoiceStep');
-                if (checkStep) checkStep.style.display = 'flex';
-                if (choiceStep) choiceStep.style.display = 'none';
-                lucide.createIcons(); 
-            }
-        } else {
-            // For BASIC and POPULAR plans, directly open dashboard
-            const status = getUpdatedUnlockStatus(lang);
-            setUnlockedState(status); 
-            showToast("Product Unlocked!", true);
-            
-            setTimeout(() => { 
-                if (dom.unlockContainer) dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
-            }, 500);
-            
-            setTimeout(() => { 
-                openCommunityModal(); 
-            }, 1500);
+        if (dom.zipConfirmationModal) {
+            dom.zipConfirmationModal.style.display = 'flex'; 
+            const checkStep = document.getElementById('zipCheckStep');
+            const choiceStep = document.getElementById('zipChoiceStep');
+            if (checkStep) checkStep.style.display = 'flex';
+            if (choiceStep) choiceStep.style.display = 'none';
+            lucide.createIcons(); 
         }
     }
 
@@ -3041,10 +3022,6 @@
               loveIcon.classList.add('fill-current');
           }
       }
-
-      // Remove coupon section from DOM since it's disabled
-      const couponSection = document.getElementById('couponSection');
-      if (couponSection) couponSection.style.display = 'none'; 
       
       const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
       if (unlockedLangs && unlockedLangs !== 'false') { 
@@ -3055,6 +3032,14 @@
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
         history.replaceState(null, '', window.location.pathname); 
         sessionStorage.removeItem('payment_initiated');
+        
+        // Get the selected plan from session storage
+        const purchasedPlan = sessionStorage.getItem('selected_plan');
+        if (purchasedPlan) {
+            localStorage.setItem('purchased_plan_' + PRODUCT_UNIQUE_ID, purchasedPlan);
+            sessionStorage.removeItem('selected_plan');
+        }
+        
         const preSelectedLang = sessionStorage.getItem('selected_language'); 
         const finalStatus = getUpdatedUnlockStatus(preSelectedLang || 'HINDI');
         if (dom.unlockBtn) dom.unlockBtn.setAttribute('data-unlocked', finalStatus); 
@@ -3102,7 +3087,15 @@
       // Mobile sticky bar buy button
       const stickyBarButton = document.querySelector('.sticky-bar-button');
       if (stickyBarButton) {
-          stickyBarButton.addEventListener('click', openPricingPlansModal);
+          stickyBarButton.addEventListener('click', openPlanSelectionModal);
+      }
+      
+      // Main Get Access button
+      if (dom.buyBtn) {
+          dom.buyBtn.addEventListener('click', function(e) {
+              e.preventDefault();
+              openPlanSelectionModal();
+          });
       }
     });
 
@@ -3157,9 +3150,9 @@
     let countdownInterval;
 
     function openPaymentModal() { 
-        // Hide mobile sticky bar when payment modal opens
-        if (dom.mobileStickyBar) {
-            dom.mobileStickyBar.classList.add('hidden');
+        // Save selected plan to session storage
+        if (selectedPlan) {
+            sessionStorage.setItem('selected_plan', selectedPlan);
         }
         
         document.body.style.overflow = 'hidden'; 
@@ -3185,11 +3178,6 @@
     }
     
     function closePaymentModal() { 
-        // Show mobile sticky bar when payment modal closes
-        if (dom.mobileStickyBar) {
-            dom.mobileStickyBar.classList.remove('hidden');
-        }
-        
         document.body.style.overflow = ''; 
         const paymentModal = document.getElementById('paymentModal');
         if (paymentModal) paymentModal.style.display = 'none'; 
@@ -3211,7 +3199,6 @@
         sessionStorage.setItem('payment_initiated', 'true'); 
         sessionStorage.setItem('selected_language', lang);
         
-        // Use the payment link from selected plan
         if (cashfreeIframe) cashfreeIframe.src = currentPaymentUrl;
         
         setTimeout(() => { 
@@ -3237,13 +3224,6 @@
             if (timerCount) timerCount.textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; 
             if(tl<0) closePaymentModal(); 
         }, 1000);
-    }
-    
-    if (dom.buyBtn) {
-        dom.buyBtn.addEventListener('click', (e) => { 
-            e.preventDefault(); 
-            openPricingPlansModal(); 
-        });
     }
     
     function openConfirmationModal() { 
