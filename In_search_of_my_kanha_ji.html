@@ -33,16 +33,16 @@
             brandGreen: '#10b981', 
             brandDark: '#0b0e13',
             brandIndigo: '#6366f1',
-            brandFuchsia: '#a855f7',
-            brandGold: '#f59e0b'
+            brandFuchsia: '#a855f7'
           },
           boxShadow: {
             glow: '0 12px 36px -12px rgba(99,102,241,0.7)',
             ctaglow: '0 12px 40px -12px rgba(168,85,247,.7)',
             book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
-            premiumGlow: '0 0 30px rgba(245, 158, 11, 0.4)',
+            saleGlow: '0 0 15px rgba(34, 197, 94, 0.4)',
             profileGlow: '0 0 30px rgba(168, 85, 247, 0.3)',
-            notification: '0 8px 25px rgba(0,0,0,0.4)'
+            notification: '0 8px 25px rgba(0,0,0,0.4)',
+            premiumGlow: '0 0 25px rgba(251, 191, 36, 0.4)'
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -51,15 +51,41 @@
             glowspin: 'glowspin 1.2s linear infinite',
             modalFadeIn: 'modalFadeIn 0.35s ease-out forwards',
             tagShine: 'tagShine 1.0s ease-in-out infinite',
+            shakeInput: 'shakeInput 0.4s ease-in-out 1', 
+            redGlow: 'redGlow 2.5s infinite ease-in-out',
             popFloat: 'popFloat 3s ease-in-out infinite',
+            pulseArrow: 'pulseArrow 1.2s ease-in-out infinite 0.5s',
+            'gradient-shift': 'gradient-shift 8s ease infinite',
+            snakeRotate: 'snakeRotate 3s linear infinite',
+            priceSlash: 'priceSlash 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            coverFast: 'coverFast 0.45s linear infinite', 
             softPulse: 'softPulse 2s infinite ease-in-out', 
             subtleZoomIn: 'subtleZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             blackShine: 'blackShine 4s ease-in-out infinite',
             tapRipple: 'tapRipple 1.6s cubic-bezier(0, 0, 0.2, 1) infinite',
+            blinkSupport: 'blinkSupport 2s ease-in-out infinite',
+            slideUpFade: 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             profileShine: 'profileShine 1.2s ease-out forwards',
+            fadeInOut: 'fadeInOut 0.3s ease forwards',
+            textSlideUp: 'textSlideUp 0.5s ease-out forwards',
             textGlow: 'textGlow 2s ease-in-out infinite',
+            bounceIn: 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
             pulseGlow: 'pulseGlow 2s ease-in-out infinite',
-            premiumBorder: 'premiumBorder 4s linear infinite',
+            menuSlideIn: 'menuSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            menuSlideOut: 'menuSlideOut 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+            cuteItemIn: 'cuteItemIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
+            cuteItemOut: 'cuteItemOut 0.3s ease-in-out forwards',
+            iconTap: 'iconTap 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            popupSlideIn: 'popupSlideIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            popupFadeIn: 'popupFadeIn 0.4s ease-out forwards',
+            labelSlideIn: 'labelSlideIn 0.4s ease-out forwards 0.2s',
+            shimmer: 'shimmer 2.5s infinite',
+            cuteBounce: 'cuteBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+            progressPulse: 'progressPulse 2.5s infinite',
+            notificationSlideIn: 'notificationSlideIn 0.5s ease-out forwards',
+            notificationSlideOut: 'notificationSlideOut 0.5s ease-in forwards',
+            stickyBarSlideUp: 'stickyBarSlideUp 0.4s ease-out forwards',
+            stickyBarSlideDown: 'stickyBarSlideDown 0.4s ease-in forwards'
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -69,28 +95,124 @@
             glowspin: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
             modalFadeIn: { '0%': { opacity: 0, transform: 'translateY(20px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
             tagShine: { '0%': { transform: 'translateX(-140%) skewX(-30deg)' }, '100%': { transform: 'translateX(220%) skewX(-30deg)' } },
+            shakeInput: { '0%, 100%': { transform: 'translateX(0)' }, '20%, 60%': { transform: 'translateX(-5px)' }, '40%, 80%': { transform: 'translateX(5px)' } },
+            redGlow: { '0%, 100%': { boxShadow: '0 0 8px rgba(239, 68, 68, 0.6)' }, '50%': { boxShadow: '0 0 16px rgba(239, 68, 68, 1)' } },
             popFloat: { '0%, 100%': { transform: 'scale(1) translateY(0px)', opacity: 0.9 }, '50%': { transform: 'scale(1.05) translateY(-2px)', opacity: 1 } },
+            pulseArrow: { '0%': { transform: 'translateX(0px)', opacity: 0.5 }, '50%': { transform: 'translateX(6px)', opacity: 1 }, '100%': { transform: 'translateX(0px)', opacity: 0.5 } },
+            'gradient-shift': { '0%': { 'background-position': '0% 50%' }, '50%': { 'background-position': '100% 50%' }, '100%': { 'background-position': '0% 50%' } },
+            snakeRotate: { '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' }, '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' } },
+            priceSlash: { '0%': { transform: 'scale(1)', opacity: 1 }, '50%': { transform: 'scale(1.2) rotate(-10deg)', opacity: 0.8 }, '100%': { transform: 'scale(0) rotate(20deg)', opacity: 0 } },
+            coverFast: { '0%': { transform: 'translateX(-160%) skewX(-10deg)' }, '100%': { transform: 'translateX(160%) skewX(-10deg)' } },
             softPulse: { '0%, 100%': { opacity: 1 }, '50%': { opacity: 0.8 } },
             subtleZoomIn: { '0%': { opacity: 0, transform: 'scale(0.96) translateY(5px)' }, '100%': { opacity: 1, transform: 'scale(1) translateY(0)' } },
             tapRipple: { '0%': { transform: 'scale(0.8)', opacity: '0.6' }, '100%': { transform: 'scale(2.2)', opacity: '0' } },
+            blinkSupport: { '0%, 100%': { opacity: '1', transform: 'scale(1)' }, '50%': { opacity: '0.7', transform: 'scale(0.95)' } },
+            slideUpFade: { '0%': { opacity: 0, transform: 'translateY(50px) scale(0.95)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
             profileShine: { 
-              '0%': { transform: 'translateX(-150%) translateY(-150%) rotate(45deg)', opacity: '0' }, 
-              '15%': { opacity: '0.8' },
-              '50%': { opacity: '0.9' },
-              '85%': { opacity: '0.8' },
-              '100%': { transform: 'translateX(150%) translateY(150%) rotate(45deg)', opacity: '0' } 
+              '0%': { 
+                transform: 'translateX(-150%) translateY(-150%) rotate(45deg)',
+                opacity: '0' 
+              }, 
+              '15%': { 
+                opacity: '0.8' 
+              },
+              '50%': { 
+                opacity: '0.9' 
+              },
+              '85%': { 
+                opacity: '0.8' 
+              },
+              '100%': { 
+                transform: 'translateX(150%) translateY(150%) rotate(45deg)',
+                opacity: '0' 
+              } 
+            },
+            fadeInOut: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            textSlideUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
             },
             textGlow: {
               '0%, 100%': { textShadow: '0 0 8px rgba(168, 85, 247, 0.5)' },
               '50%': { textShadow: '0 0 15px rgba(168, 85, 247, 0.8), 0 0 20px rgba(168, 85, 247, 0.4)' }
             },
+            bounceIn: {
+              '0%': { opacity: 0, transform: 'scale(0.3)' },
+              '50%': { opacity: 1, transform: 'scale(1.05)' },
+              '70%': { transform: 'scale(0.9)' },
+              '100%': { opacity: 1, transform: 'scale(1)' }
+            },
             pulseGlow: {
               '0%, 100%': { boxShadow: '0 0 5px rgba(168, 85, 247, 0.3)' },
               '50%': { boxShadow: '0 0 15px rgba(168, 85, 247, 0.6)' }
             },
-            premiumBorder: {
-                '0%': { backgroundPosition: '0% 50%' },
-                '100%': { backgroundPosition: '100% 50%' }
+            menuSlideIn: {
+              '0%': { opacity: 0, transform: 'translateY(10px) scale(0.95)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
+            },
+            menuSlideOut: {
+              '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+              '100%': { opacity: 0, transform: 'translateY(10px) scale(0.95)' }
+            },
+            cuteItemIn: {
+              '0%': { opacity: 0, transform: 'translateY(15px) scale(0.8) rotate(-5deg)' },
+              '60%': { opacity: 1, transform: 'translateY(-5px) scale(1.05) rotate(2deg)' },
+              '80%': { transform: 'translateY(2px) scale(0.98) rotate(-1deg)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1) rotate(0deg)' }
+            },
+            cuteItemOut: {
+              '0%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+              '100%': { opacity: 0, transform: 'translateY(15px) scale(0.8)' }
+            },
+            iconTap: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(0.85)' }
+            },
+            popupSlideIn: {
+              '0%': { opacity: 0, transform: 'translateY(40px) scale(0.9)' },
+              '70%': { opacity: 1, transform: 'translateY(-10px) scale(1.02)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
+            },
+            popupFadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            labelSlideIn: {
+              '0%': { opacity: 0, transform: 'translateX(15px)' },
+              '100%': { opacity: 1, transform: 'translateX(0)' }
+            },
+            shimmer: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(100%)' }
+            },
+            cuteBounce: {
+              '0%': { opacity: 0, transform: 'scale(0.5) translateY(20px)' },
+              '60%': { opacity: 1, transform: 'scale(1.1) translateY(-8px)' },
+              '80%': { transform: 'scale(0.95) translateY(2px)' },
+              '100%': { opacity: 1, transform: 'scale(1) translateY(0)' }
+            },
+            progressPulse: {
+              '0%, 100%': { 'border-color': 'rgba(34, 197, 94, 0.4)' },
+              '50%': { 'border-color': 'rgba(34, 197, 94, 0.8)' }
+            },
+            notificationSlideIn: {
+              '0%': { opacity: 0, transform: 'translateX(-20px)' },
+              '100%': { opacity: 1, transform: 'translateX(0)' }
+            },
+            notificationSlideOut: {
+              '0%': { opacity: 1, transform: 'translateX(0)' },
+              '100%': { opacity: 0, transform: 'translateX(-20px)' }
+            },
+            stickyBarSlideUp: {
+              '0%': { transform: 'translateY(100%)' },
+              '100%': { transform: 'translateY(0)' }
+            },
+            stickyBarSlideDown: {
+              '0%': { transform: 'translateY(0)' },
+              '100%': { transform: 'translateY(100%)' }
             }
           }
         }
@@ -110,12 +232,6 @@
       scroll-behavior: smooth; 
       background-color: #0b0e13;
       padding-bottom: 0;
-    }
-
-    body.modal-active #mobileStickyBar {
-        z-index: 10 !important; /* Lower than modal backdrop (1000) */
-        opacity: 0.2;
-        pointer-events: none;
     }
     
     /* ROLLING TEXT */
@@ -192,8 +308,19 @@
     }
     .social-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
 
+    .reaction-trigger-btn {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+    }
+    .reaction-trigger-btn:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(239, 68, 68, 0.4);
+    }
+
     /* BUTTON STACKING LOGIC */
-    .action-container { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; align-items: center; }
+    .action-container { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; align-items: center; }
     .action-container.stacked { flex-direction: column; align-items: flex-start; }
     .action-container.stacked .cta-btn { width: 100%; max-width: 320px; justify-content: center; }
     .action-container.stacked .snake-container { width: 100%; max-width: 320px; }
@@ -227,9 +354,12 @@
         transition: opacity 0.5s ease;
         border-radius: 8px;
     }
-    .cover-black-overlay.active { opacity: 1; }
+    
+    .cover-black-overlay.active {
+        opacity: 1;
+    }
 
-    /* SNAKE BORDER */
+    /* UPGRADED LASER GLOW BORDER */
     .snake-container { 
         position: relative; 
         display: none; 
@@ -247,31 +377,74 @@
         left: 50%; 
         width: 400%; 
         height: 400%; 
-        background: conic-gradient(from 0deg, transparent 0deg, transparent 150deg, #10b981 180deg, #34d399 240deg, #ffffff 280deg, #10b981 320deg, transparent 360deg);
+        background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            transparent 150deg,
+            #10b981 180deg,
+            #34d399 240deg,
+            #ffffff 280deg,
+            #10b981 320deg,
+            transparent 360deg
+        );
         animation: snakeRotate 2.2s linear infinite; 
         z-index: 0; 
         pointer-events: none; 
         filter: blur(1px);
     }
-    .snake-mask { position: absolute; inset: 3px; background: #0b0e13; border-radius: 11px; z-index: 1; }
+    .snake-mask { 
+        position: absolute; 
+        inset: 3px; 
+        background: #0b0e13; 
+        border-radius: 11px; 
+        z-index: 1; 
+    }
     .snake-glow { 
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        width: 115%; height: 115%; background: #10b981; filter: blur(30px); opacity: 0.6; z-index: -1; 
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        width: 115%; 
+        height: 115%; 
+        background: #10b981; 
+        filter: blur(30px); 
+        opacity: 0.6; 
+        z-index: -1; 
         animation: softPulse 2.5s ease-in-out infinite; 
     }
     .unlock-btn { 
-        position: relative; z-index: 10; display: flex; align-items: center; gap: 8px; 
-        background-color: #10b981; color: white; padding: 11px 24px; border-radius: 10px; 
-        font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
-        cursor: pointer; border: none; transition: transform 0.2s, background-color 0.2s; 
-        margin: 0; overflow: hidden; 
+        position: relative; 
+        z-index: 10; 
+        display: flex; 
+        align-items: center; 
+        gap: 8px; 
+        background-color: #10b981; 
+        color: white; 
+        padding: 11px 24px; 
+        border-radius: 10px; 
+        font-weight: 800; 
+        font-size: 0.95rem; 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+        cursor: pointer; 
+        border: none; 
+        transition: transform 0.2s, background-color 0.2s; 
+        margin: 0; 
+        overflow: hidden; 
     }
-    .unlock-btn:hover { transform: scale(1.03); background-color: #059669; }
+    .unlock-btn:hover { 
+        transform: scale(1.03); 
+        background-color: #059669; 
+    }
     
     .unlock-btn .btn-shine { 
-        position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); 
+        position: absolute; 
+        inset: -6px; 
+        transform: translateX(-140%) skewX(-30deg); 
         background: linear-gradient(90deg,rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); 
-        mix-blend-mode: overlay; pointer-events: none; animation: blackShine 4s ease-in-out infinite; display: none; 
+        mix-blend-mode: overlay; 
+        pointer-events: none; 
+        animation: blackShine 4s ease-in-out infinite; 
+        display: none; 
     }
 
     /* CTA BUTTONS */
@@ -293,6 +466,30 @@
     .bottom-edge { position:absolute; bottom: -10px; left: 10px; width: calc(100% - 20px); height: 16px; transform: rotateX(-90deg) translateY(10px); background: linear-gradient(180deg,#fbfbfb,#f0efef); border-radius: 0 0 8px 8px; }
     .book-ghost { position:absolute; bottom: -28px; left: 20px; width: 70%; height: 28px; background: rgba(0,0,0,0.45); border-radius: 50%; filter: blur(16px); transform: rotateX(90deg); }
     @media (max-width:700px){ .book-3d { width: 170px; height: 245px; } }
+
+    .cover-support-btn {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
+        width: 32px;
+        height: 32px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .cover-support-btn:hover {
+        background: rgba(99, 102, 241, 0.6);
+        transform: scale(1.1);
+        border-color: rgba(255, 255, 255, 0.4);
+    }
 
     /* TAG & STATS */
     .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
@@ -318,14 +515,24 @@
     #communityModal { align-items: flex-end; justify-content: center; padding-bottom: 20px; }
     @media (min-width: 640px) { #communityModal { align-items: center; padding-bottom: 0; } }
 
-    /* TOAST */
+    /* PREMIUM TOAST */
     #toastNotification { 
-        position: fixed; top: 24px; right: 24px; transform: translateX(120%); 
-        background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px);
-        color: white; padding: 14px 20px; border-radius: 16px; 
+        position: fixed; 
+        top: 24px; 
+        right: 24px; 
+        transform: translateX(120%); 
+        background: rgba(15, 23, 42, 0.85); 
+        backdrop-filter: blur(12px);
+        color: white; 
+        padding: 14px 20px; 
+        border-radius: 16px; 
         box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); 
-        z-index: 5000; display: flex; align-items: center; gap: 12px; 
-        font-weight: 600; font-size: 0.9rem;
+        z-index: 5000; 
+        display: flex; 
+        align-items: center; 
+        gap: 12px; 
+        font-weight: 600; 
+        font-size: 0.9rem;
         transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); 
         border-left: 4px solid #10b981;
     }
@@ -402,7 +609,15 @@
     .language-modal-close { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #94a3b8; z-index: 10; transition: color 0.2s; }
     .language-modal-close:hover { color: white; }
     .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
-    .premium-list-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 1.0rem; color: #cbd5e1; line-height: 1; }
+    .premium-list-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    margin-bottom: 20px; 
+    font-size: 1.0rem; 
+    color: #cbd5e1; 
+    line-height: 1; 
+}
     .premium-list-item strong { color: #e0f2f1; }
     .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
 
@@ -425,186 +640,489 @@
         border-color: rgba(168,85,247,0.4);
         transform: translateY(-2px);
     }
-    .action-icon { width: 48px; height: 48px; background: rgba(168,85,247,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .action-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(168,85,247,0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
     .action-text h4 { color: #f1f5f9; font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
     .action-text p { color: #94a3b8; font-size: 0.8rem; }
 
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    /* FLOATING ACTIONS */
-    .floating-quick-actions { position: absolute; bottom: 8px; right: 8px; z-index: 105; }
-    .quick-actions-btn {
-        width: 38px; height: 38px; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(12px);
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        color: white; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); cursor: pointer; 
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        border: 1px solid rgba(255, 255, 255, 0.15); position: relative; z-index: 110;
+    .floating-quick-actions { 
+        position: absolute; 
+        bottom: 8px; 
+        right: 8px; 
+        z-index: 105; 
     }
-    .quick-actions-btn:hover { background: rgba(15, 23, 42, 0.98); transform: scale(1.1) rotate(15deg); color: #a855f7; }
-    .quick-actions-btn.active { background: #a855f7; color: white; transform: rotate(90deg); }
+    .quick-actions-btn {
+        width: 38px; 
+        height: 38px; 
+        background: rgba(15, 23, 42, 0.92); 
+        backdrop-filter: blur(12px);
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        color: white; 
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); 
+        cursor: pointer; 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(255, 255, 255, 0.15); 
+        position: relative; 
+        z-index: 110;
+    }
+    .quick-actions-btn:hover { 
+        background: rgba(15, 23, 42, 0.98); 
+        transform: scale(1.1) rotate(15deg); 
+        color: #a855f7; 
+    }
+    .quick-actions-btn.active { 
+        background: #a855f7; 
+        color: white; 
+        transform: rotate(90deg); 
+    }
 
     .cute-quick-menu {
-        position: absolute; bottom: 54px; right: 0; display: flex; flex-direction: column;
-        gap: 12px; opacity: 0; transform: translateY(10px) scale(0.9); pointer-events: none; 
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 104;
+        position: absolute; 
+        bottom: 54px; 
+        right: 0; 
+        display: flex; 
+        flex-direction: column;
+        gap: 12px; 
+        opacity: 0; 
+        transform: translateY(10px) scale(0.9);
+        pointer-events: none; 
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+        z-index: 104;
     }
-    .cute-quick-menu.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-    .cute-menu-item { display: flex; align-items: center; justify-content: flex-end; gap: 12px; cursor: pointer; position: relative; }
+    .cute-quick-menu.active { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+        pointer-events: auto; 
+    }
+    .cute-menu-item { 
+        display: flex; 
+        align-items: center; 
+        justify-content: flex-end; 
+        gap: 12px; 
+        cursor: pointer; 
+        position: relative; 
+    }
+    
     .cute-label {
-        background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); padding: 7px 15px;
-        border-radius: 12px; color: white; font-size: 0.78rem; font-weight: 600;
-        white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.15);
-        opacity: 0; transform: translateX(10px); transition: all 0.3s ease; pointer-events: none;
+        background: rgba(0, 0, 0, 0.7); 
+        backdrop-filter: blur(10px); 
+        padding: 7px 15px;
+        border-radius: 12px; 
+        color: white; 
+        font-size: 0.78rem; 
+        font-weight: 600;
+        white-space: nowrap; 
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        opacity: 0; 
+        transform: translateX(10px); 
+        transition: all 0.3s ease; 
+        pointer-events: none;
     }
-    .cute-quick-menu.active .cute-label { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+    .cute-quick-menu.active .cute-label { 
+        opacity: 1; 
+        transform: translateX(0); 
+        transition-delay: 0.1s; 
+    }
     .cute-icon-wrapper {
-        width: 34px; height: 34px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px);
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        color: white; border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.2s ease;
+        width: 34px; 
+        height: 34px; 
+        background: rgba(15, 23, 42, 0.95); 
+        backdrop-filter: blur(12px);
+        border-radius: 50%; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        color: white; 
+        border: 1px solid rgba(255, 255, 255, 0.2); 
+        transition: all 0.2s ease;
     }
-    .cute-menu-item:hover .cute-icon-wrapper { transform: scale(1.1); border-color: #a855f7; color: #a855f7; }
+    .cute-menu-item:hover .cute-icon-wrapper { 
+        transform: scale(1.1); 
+        border-color: #a855f7; 
+        color: #a855f7; 
+    }
 
+    /* COVER BLUR - REDUCED INTENSITY */
     .cover-blur-overlay {
-        position: absolute; inset: 0; background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(3.2px); z-index: 99; opacity: 0;
-        pointer-events: none; transition: opacity 0.4s ease; border-radius: 8px;
+        position: absolute; 
+        inset: 0; 
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(3.2px); 
+        z-index: 99; 
+        opacity: 0;
+        pointer-events: none; 
+        transition: opacity 0.4s ease; 
+        border-radius: 8px;
     }
-    .cover-blur-overlay.active { opacity: 1; }
+    .cover-blur-overlay.active { 
+        opacity: 1; 
+    }
 
-    /* BACKGROUND GLOW */
-    .background-glow { pointer-events: none; position: fixed; inset: 0; z-index: -10; }
-    .glow-circle { position: absolute; border-radius: 50%; filter: blur(140px); }
-    .glow-top-left { top: -56px; left: -40px; width: 680px; height: 680px; background-color: rgba(99, 102, 241, 0.2); }
-    .glow-bottom-right { bottom: -56px; right: -40px; width: 600px; height: 600px; background-color: rgba(168, 85, 247, 0.2); }
+    /* BACKGROUND GLOW EFFECTS */
+    .background-glow {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: -10;
+    }
+    
+    .glow-circle {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(140px);
+    }
+    
+    .glow-top-left {
+        top: -56px;
+        left: -40px;
+        width: 680px;
+        height: 680px;
+        background-color: rgba(99, 102, 241, 0.2);
+    }
+    
+    .glow-bottom-right {
+        bottom: -56px;
+        right: -40px;
+        width: 600px;
+        height: 600px;
+        background-color: rgba(168, 85, 247, 0.2);
+    }
 
     /* PREMIUM LOADING OVERLAY */
     .premium-loading-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(11, 14, 19, 0.95); backdrop-filter: blur(8px);
-        z-index: 9999; display: flex; flex-direction: column;
-        align-items: center; justify-content: center;
-        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(11, 14, 19, 0.95);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
     }
-    .premium-loading-overlay.active { opacity: 1; pointer-events: all; }
-    .rolling-text-animation { height: 40px; margin-top: 30px; position: relative; width: 300px; overflow: hidden; }
+
+    .premium-loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .rolling-text-animation {
+        height: 40px;
+        margin-top: 30px;
+        position: relative;
+        width: 300px;
+        overflow: hidden;
+    }
+
     .loading-text {
-        position: absolute; width: 100%; text-align: center;
-        font-size: 1.1rem; font-weight: 600; opacity: 0;
-        transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .loading-text.active { opacity: 1; transform: translateY(0); animation: textGlow 2s ease-in-out infinite; }
+
+    .loading-text.active {
+        opacity: 1;
+        transform: translateY(0);
+        animation: textGlow 2s ease-in-out infinite;
+    }
+
     .loading-text .text-shine {
         background: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        background-clip: text; background-size: 200% auto; animation: gradient-shift 8s ease infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        background-size: 200% auto;
+        animation: gradient-shift 8s ease infinite;
     }
 
-    /* DEMO FLIPBOOK */
-    #demoFlipbookModal .modal-content { max-width: 95%; max-height: 90vh; padding: 0; background: #0f172a; width: 95%; }
-    #demoFlipbookModal .viewer-header { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.95); }
-    #demoFlipbookModal .flipbook-container { height: calc(90vh - 60px); }
+    /* Demo Flipbook Modal */
+    #demoFlipbookModal .modal-content {
+        max-width: 95%;
+        max-height: 90vh;
+        padding: 0;
+        background: #0f172a;
+        width: 95%;
+    }
 
-    /* MOBILE STICKY BAR */
+    #demoFlipbookModal .viewer-header {
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.95);
+    }
+
+    #demoFlipbookModal .flipbook-container {
+        height: calc(90vh - 60px);
+    }
+
+    /* STICKY MOBILE BAR */
     .mobile-sticky-bar {
-        position: fixed; bottom: 0; left: 0; width: 100%;
-        background: rgba(11, 14, 19, 0.95); backdrop-filter: blur(12px);
-        border-top: 1px solid rgba(168, 85, 247, 0.2); padding: 12px 16px;
-        display: flex; align-items: center; justify-content: flex-end;
-        z-index: 9998; transform: translateY(100%); transition: transform 0.4s ease-out;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(11, 14, 19, 0.95);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(168, 85, 247, 0.2);
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9998;
+        transform: translateY(100%);
+        transition: transform 0.4s ease-out;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
     }
-    .mobile-sticky-bar.show { transform: translateY(0); }
+    
+    .mobile-sticky-bar.show {
+        transform: translateY(0);
+    }
     
     .sticky-bar-button {
-        background: linear-gradient(135deg, #6366f1, #a855f7); color: white;
-        border: none; padding: 12px 24px; border-radius: 10px;
-        font-weight: 700; font-size: 0.95rem; cursor: pointer;
-        transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-        display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center;
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        justify-content: center;
     }
-    .sticky-bar-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); }
-
+    
+    .sticky-bar-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+    }
+    
     /* WHY THIS BOOK MODAL */
     #whyBookModal .modal-content {
-        background: #0f172a; max-width: 450px; width: 90%; padding: 20px;
-        max-height: 85vh; overflow-y: auto; position: relative; margin: 20px auto; scrollbar-width: thin;
-    }
-    #whyBookModal .modal-content .absolute.top-4.right-4 { position: sticky; top: -10px; right: -10px; float: right; z-index: 50; background: rgba(15, 23, 42, 0.8); border-radius: 50%; padding: 5px; }
-    .why-book-list { margin-top: 20px; display: flex; flex-direction: column; gap: 16px; }
-    .why-book-item { display: flex; align-items: flex-start; gap: 8px; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
-    .why-book-item:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(168, 85, 247, 0.2); transform: translateY(-2px); }
-    .why-book-icon { width: 36px; height: 36px; background: rgba(168, 85, 247, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #a855f7; flex-shrink: 0; }
-    .why-book-content h4 { font-size: 0.85rem; font-weight: 600; color: #f1f5f9; margin-bottom: 4px; }
-    .why-book-content p { font-size: 0.85rem; color: #94a3b8; line-height: 1.4; }
+    background: #0f172a;
+    max-width: 450px;
+    width: 90%; 
+    padding: 20px;
+    max-height: 85vh; 
+    overflow-y: auto; 
+    position: relative;
+    margin: 20px auto; 
+    scrollbar-width: thin; 
+}
 
-    /* NEW PLAN SELECTION MODAL STYLES */
+#whyBookModal .modal-content .absolute.top-4.right-4 {
+    position: sticky; 
+    top: -10px;
+    right: -10px;
+    float: right;
+    z-index: 50;
+    background: rgba(15, 23, 42, 0.8);
+    border-radius: 50%;
+    padding: 5px;
+   }
+    
+    .why-book-list {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .why-book-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .why-book-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(168, 85, 247, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .why-book-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(168, 85, 247, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #a855f7;
+        flex-shrink: 0;
+    }
+    
+    .why-book-content h4 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #f1f5f9;
+        margin-bottom: 4px;
+    }
+    
+    .why-book-content p {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        line-height: 1.4;
+    }
+
+    /* PLAN SELECTION MODAL */
     #planSelectionModal .modal-content {
-        max-width: 900px; width: 95%; background: #0f172a; padding: 30px;
-        display: flex; flex-direction: column; align-items: center;
+        background-color: #0b0e13;
+        width: 95%;
+        max-width: 1000px;
+        padding: 24px;
+        border: 1px solid rgba(255,255,255,0.1);
+        max-height: 90vh;
+        overflow-y: auto;
     }
+    
     .plan-grid {
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px; width: 100%; margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 24px;
     }
+    
+    @media (min-width: 768px) {
+        .plan-grid {
+            grid-template-columns: repeat(3, 1fr);
+            align-items: stretch;
+        }
+    }
+    
     .plan-card {
-        background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px; padding: 24px; display: flex; flex-direction: column;
-        position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        overflow: hidden; cursor: pointer;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        transition: all 0.3s ease;
+        overflow: hidden; /* Added to contain the shine effect inside the card */
     }
+    
     .plan-card:hover {
-        transform: translateY(-8px); border-color: rgba(168, 85, 247, 0.3);
-        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
     }
+    
     .plan-card.premium {
-        border-color: rgba(245, 158, 11, 0.5);
-        background: linear-gradient(145deg, rgba(245, 158, 11, 0.05), rgba(0,0,0,0));
-        box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+        border-color: rgba(251, 191, 36, 0.4);
+        background: linear-gradient(145deg, rgba(251, 191, 36, 0.05), rgba(0,0,0,0));
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
     }
-    .plan-card.premium::before {
-        content: ''; position: absolute; inset: 0;
-        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.2), transparent);
-        transform: translateX(-100%); transition: 0.5s;
+    
+    .plan-card.standard {
+        border-color: rgba(168, 85, 247, 0.4);
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
     }
-    .plan-card.premium:hover::before { transform: translateX(100%); transition: 0.7s; }
-    .plan-card.premium:hover { box-shadow: 0 10px 30px -5px rgba(245, 158, 11, 0.3); }
+    
+    .plan-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: white;
+        z-index: 10;
+    }
+    
+    .badge-standard { background: #a855f7; box-shadow: 0 4px 10px rgba(168, 85, 247, 0.4); }
+    .badge-premium { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4); animation: pulseGlow 2s infinite; }
+    
+    .plan-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .plan-name { font-size: 1.1rem; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; }
+    .plan-price { font-size: 2rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .plan-currency { font-size: 1rem; font-weight: 600; color: #94a3b8; }
+    
+    .plan-features { list-style: none; padding: 0; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .plan-feature-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #cbd5e1; }
+    .plan-feature-item.excluded { color: #64748b; text-decoration: line-through; opacity: 0.6; }
+    .feature-icon { width: 18px; height: 18px; flex-shrink: 0; }
+    .icon-check { color: #10b981; }
+    .icon-cross { color: #64748b; }
 
-    .plan-header { text-align: center; margin-bottom: 16px; position: relative; z-index: 2; }
-    .plan-name { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .plan-price { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1; }
-    .plan-price span { font-size: 1rem; color: #94a3b8; font-weight: 500; }
-    
-    .plan-features { list-style: none; padding: 0; margin: 16px 0; flex-grow: 1; position: relative; z-index: 2; }
-    .feature-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.9rem; color: #cbd5e1; }
-    .feature-check { color: #10b981; flex-shrink: 0; }
-    .feature-x { color: #64748b; flex-shrink: 0; opacity: 0.5; }
-    
     .plan-btn {
-        width: 100%; padding: 12px; border-radius: 10px; font-weight: 700;
-        text-align: center; cursor: pointer; border: none; transition: all 0.2s;
-        margin-top: auto; position: relative; z-index: 2;
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        color: white;
+        margin-top: auto;
     }
-    .btn-basic { background: rgba(255,255,255,0.1); color: #fff; }
-    .btn-basic:hover { background: rgba(255,255,255,0.2); }
-    .btn-standard { background: #6366f1; color: white; }
-    .btn-standard:hover { background: #4f46e5; }
-    .btn-premium {
-        background: linear-gradient(135deg, #f59e0b, #d97706); color: white;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-    }
-    .btn-premium:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6); }
+    
+    .btn-basic { background: rgba(255,255,255,0.1); color: #cbd5e1; }
+    .btn-basic:hover { background: rgba(255,255,255,0.15); color: white; }
+    
+    .btn-standard { background: #a855f7; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
+    .btn-standard:hover { background: #9333ea; transform: translateY(-2px); }
+    
+    .btn-premium { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); position: relative; overflow: hidden; }
+    .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
 
-    .popular-badge {
-        position: absolute; top: 12px; right: 12px; background: #6366f1; color: white;
-        font-size: 0.7rem; font-weight: 700; padding: 4px 8px; border-radius: 6px;
-        text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+    /* Custom Shine Animation Definition */
+    @keyframes shineEffect {
+        0% { transform: skewX(-20deg) translateX(-150%); }
+        100% { transform: skewX(-20deg) translateX(150%); }
     }
-    .premium-badge {
-        position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-        background: linear-gradient(90deg, #f59e0b, #fbbf24); color: #000;
-        font-size: 0.7rem; font-weight: 800; padding: 4px 12px; border-radius: 0 0 8px 8px;
-        text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 2px 15px rgba(245, 158, 11, 0.5);
-        z-index: 5;
+
+    .premium-shine-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+        transform: skewX(-20deg) translateX(-150%);
+        /* Run once smoothly for 1.5s after a 0.2s delay */
+        animation: shineEffect 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+        pointer-events: none;
+        z-index: 1;
     }
 
     @media (max-width: 640px) { 
@@ -612,19 +1130,37 @@
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
         .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
         .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
-        .floating-quick-actions { bottom: 8px; right: 8px; }
-        .cute-quick-menu { bottom: 54px; right: 0; }
-        .cute-label { display: none; }
-        #demoFlipbookModal .modal-content { max-width: 98%; max-height: 85vh; width: 98%; }
-        #demoFlipbookModal .flipbook-container { height: calc(85vh - 60px); }
-        .mobile-sticky-bar { display: flex; }
-        .bundle-grid { gap: 16px; }
-        #planSelectionModal .modal-content { padding: 20px 16px; width: 95%; max-height: 85vh; overflow-y: auto; }
-        .plan-grid { grid-template-columns: 1fr; }
+        .floating-quick-actions {
+            bottom: 8px;
+            right: 8px;
+        }
+        .cute-quick-menu {
+            bottom: 54px;
+            right: 0;
+        }
+        .cute-label {
+            display: none;
+        }
+        #demoFlipbookModal .modal-content {
+            max-width: 98%;
+            max-height: 85vh;
+            width: 98%;
+        }
+        #demoFlipbookModal .flipbook-container {
+            height: calc(85vh - 60px);
+        }
+        .mobile-sticky-bar {
+            display: flex;
+        }
+        .bundle-grid {
+            gap: 16px;
+        }
     }
     
     @media (min-width: 641px) {
-        .mobile-sticky-bar { display: none; }
+        .mobile-sticky-bar {
+            display: none;
+        }
     }
   </style>
 </head>
@@ -645,7 +1181,7 @@
   <div id="mobileStickyBar" class="mobile-sticky-bar">
       <button onclick="openPlanSelectionModal()" class="sticky-bar-button">
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
-          Get Access Now
+          Get Access
       </button>
   </div>
 
@@ -666,7 +1202,6 @@
       </div>
   </div>
 
-  <div id="saleBanner">🔥FLASH SALE IS LIVE! Originally ₹999, now starting at just ₹119.</div>
   <div id="paymentTimer"><span id="timerCount"></span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -755,20 +1290,43 @@
           
           <div class="why-book-list">
               <div class="why-book-item">
-                  <div class="why-book-icon"><i data-lucide="heart" class="h-4 w-4"></i></div>
-                  <div class="why-book-content"><h4>Heartfelt Authenticity</h4><p>Written from genuine emotions, not just words. Every page feels like a personal conversation.</p></div>
+                  <div class="why-book-icon">
+                      <i data-lucide="heart" class="h-4 w-4"></i>
+                  </div>
+                  <div class="why-book-content">
+                      <h4>Heartfelt Authenticity</h4>
+                      <p>Written from genuine emotions, not just words. Every page feels like a personal conversation.</p>
+                  </div>
               </div>
+              
               <div class="why-book-item">
-                  <div class="why-book-icon"><i data-lucide="headphones" class="h-4 w-4"></i></div>
-                  <div class="why-book-content"><h4>Multi-Sensory Experience</h4><p>Not just an eBook - includes audio podcast and video for complete immersion.</p></div>
+                  <div class="why-book-icon">
+                      <i data-lucide="headphones" class="h-4 w-4"></i>
+                  </div>
+                  <div class="why-book-content">
+                      <h4>Multi-Sensory Experience</h4>
+                      <p>Not just an eBook - includes audio podcast and video for complete immersion.</p>
+                  </div>
               </div>
+              
               <div class="why-book-item">
-                  <div class="why-book-icon"><i data-lucide="shield" class="h-4 w-4"></i></div>
-                  <div class="why-book-content"><h4>Timeless Wisdom</h4><p>Spiritual insights that stay with you long after reading. A companion for life's journey.</p></div>
+                  <div class="why-book-icon">
+                      <i data-lucide="shield" class="h-4 w-4"></i>
+                  </div>
+                  <div class="why-book-content">
+                      <h4>Timeless Wisdom</h4>
+                      <p>Spiritual insights that stay with you long after reading. A companion for life's journey.</p>
+                  </div>
               </div>
+              
               <div class="why-book-item">
-                  <div class="why-book-icon"><i data-lucide="users" class="h-4 w-4"></i></div>
-                  <div class="why-book-content"><h4>Community Support</h4><p>Join hundreds of readers on the same spiritual path. You're not alone in this journey.</p></div>
+                  <div class="why-book-icon">
+                      <i data-lucide="users" class="h-4 w-4"></i>
+                  </div>
+                  <div class="why-book-content">
+                      <h4>Community Support</h4>
+                      <p>Join hundreds of readers on the same spiritual path. You're not alone in this journey.</p>
+                  </div>
               </div>
           </div>
           
@@ -778,76 +1336,15 @@
       </div>
   </div>
 
-  <!-- Plan Selection Modal -->
-  <div id="planSelectionModal" class="modal">
-      <div class="modal-content animate-modalFadeIn">
-          <button onclick="closePlanSelectionModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white z-50"><i data-lucide="x" class="h-6 w-6"></i></button>
-          
-          <h2 class="text-2xl font-bold text-white text-center mb-1">Choose Your Plan</h2>
-          <p class="text-zinc-400 text-sm text-center mb-4">Select the best way to experience this journey.</p>
-
-          <div class="plan-grid">
-              <!-- Basic Plan -->
-              <div class="plan-card" onclick="selectPlan('BASIC')">
-                  <div class="plan-header">
-                      <h3 class="plan-name">Basic</h3>
-                      <div class="plan-price">₹119</div>
-                  </div>
-                  <ul class="plan-features">
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> eBook PDF</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Audio Podcast</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Explainer Video</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Flipbook & Mindmap</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Offline Download (ZIP)</li>
-                  </ul>
-                  <button class="plan-btn btn-basic">Select Basic</button>
-              </div>
-
-              <!-- Standard Plan -->
-              <div class="plan-card" onclick="selectPlan('STANDARD')">
-                  <div class="popular-badge">Most Popular</div>
-                  <div class="plan-header">
-                      <h3 class="plan-name text-indigo-400">Standard</h3>
-                      <div class="plan-price">₹209</div>
-                  </div>
-                  <ul class="plan-features">
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> eBook PDF</li>
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> Audio Podcast</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Explainer Video</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Flipbook & Mindmap</li>
-                      <li class="feature-item"><i data-lucide="x" class="h-4 w-4 feature-x"></i> Offline Download (ZIP)</li>
-                  </ul>
-                  <button class="plan-btn btn-standard">Select Standard</button>
-              </div>
-
-              <!-- Premium Plan -->
-              <div class="plan-card premium" onclick="selectPlan('PREMIUM')">
-                  <div class="premium-badge"><i data-lucide="crown" class="h-3 w-3 inline mr-1"></i> Premium</div>
-                  <div class="plan-header">
-                      <h3 class="plan-name text-amber-400">Full Access</h3>
-                      <div class="plan-price">₹499</div>
-                  </div>
-                  <ul class="plan-features">
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> eBook PDF</li>
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> Audio Podcast</li>
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> Explainer Video</li>
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> Interactive Flipbook</li>
-                      <li class="feature-item"><i data-lucide="check" class="h-4 w-4 feature-check"></i> Mind Map</li>
-                      <li class="feature-item"><strong class="text-amber-400 flex items-center gap-2"><i data-lucide="download" class="h-3 w-3"></i> Download ZIP</strong></li>
-                  </ul>
-                  <button class="plan-btn btn-premium">Get Full Access</button>
-              </div>
-          </div>
-      </div>
-  </div>
-
   <section class="max-w-5xl mx-auto px-6 py-12 space-y-8">
       <div class="flex flex-col md:flex-row items-center gap-8">
       <div class="book-wrap relative" data-aos="fade-right">
+        
         <div class="book-3d" id="book3d">
           <div class="cover" id="coverFace" aria-busy="true">
             <div class="cover-black-overlay" id="coverBlackOverlay"></div>
             <div class="cover-blur-overlay" id="coverBlurOverlay"></div>
+
             <div class="cover-loading-spin" id="loadingSpin" aria-hidden="true"><div class="loading-half-wheel animate-glowspin"></div></div>
             <div class="cover-shine animate-coverFast" id="coverShine" aria-hidden="true"></div>
             <img id="coverImg" alt="ebook cover" src="" loading="eager" />
@@ -877,7 +1374,9 @@
                 <div id="cuteQuickMenu" class="cute-quick-menu">
                     <div class="cute-menu-item" onclick="handleCuteMenuItemClick('love', event)">
                         <span class="cute-label">Share Love</span>
-                        <div class="cute-icon-wrapper" id="loveIconWrapper"><i data-lucide="heart" class="h-4 w-4 text-red-400" id="loveIcon"></i></div>
+                        <div class="cute-icon-wrapper" id="loveIconWrapper">
+                            <i data-lucide="heart" class="h-4 w-4 text-red-400" id="loveIcon"></i>
+                        </div>
                     </div>
                     <div class="cute-menu-item" onclick="handleCuteMenuItemClick('why', event)">
                         <span class="cute-label">Why This Book?</span>
@@ -957,10 +1456,8 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="70+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">feedback</div></div>
         </div>
 
-        <!-- PRICING & COUPON SECTION REMOVED -->
-
         <div id="actionContainer" class="action-container">
-            <button id="buyBtn" onclick="openPlanSelectionModal()" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-6 py-3.5 text-base font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95 text-white border-0 cursor-pointer">
+            <button onclick="openPlanSelectionModal()" id="buyBtn" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95 text-white border-0 cursor-pointer">
               <span>Get Access</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
               <span class="cta-shine animate-btnshine"></span>
@@ -977,7 +1474,7 @@
               </div>
             </div>
 
-            <!-- UNLOCK BORDER -->
+            <!-- UPGRADED LASER SNAKE BORDER -->
             <div id="unlockContainer" class="snake-container items-center" style="display: none;">
                 <div class="snake-border"></div>
                 <div class="snake-mask"></div>
@@ -996,26 +1493,40 @@
     </div>
 
     <div data-aos="fade-up" class="py-2 premium-list-container">
-    <h3 class="text-lg font-bold text-white mb-6">Everything Included in Premium:</h3>
+    <h3 class="text-lg font-bold text-white mb-6">Everything Included:</h3>
     
     <div class="premium-list-item">
-        <div class="bundle-icon-wrap"><i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i></div>
+        <div class="bundle-icon-wrap">
+            <i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>
+        </div>
         <span class="feature-text"><strong>E-BOOK (pdf)</strong></span>
     </div>
+
     <div class="premium-list-item">
-        <div class="bundle-icon-wrap"><i data-lucide="book-open" class="h-5 w-5 text-blue-400"></i></div>
+        <div class="bundle-icon-wrap">
+            <i data-lucide="book-open" class="h-5 w-5 text-blue-400"></i>
+        </div>
         <span class="feature-text"><strong>INTERACTIVE 3D FLIPBOOK</strong></span>
     </div>
+
     <div class="premium-list-item">
-        <div class="bundle-icon-wrap"><i data-lucide="video" class="h-5 w-5 text-emerald-400"></i></div>
+        <div class="bundle-icon-wrap">
+            <i data-lucide="video" class="h-5 w-5 text-emerald-400"></i>
+        </div>
         <span class="feature-text"><strong>HD EXPLAINER VIDEO</strong></span>
     </div>
+
     <div class="premium-list-item">
-        <div class="bundle-icon-wrap"><i data-lucide="headphones" class="h-5 w-5 text-indigo-400"></i></div>
+        <div class="bundle-icon-wrap">
+            <i data-lucide="headphones" class="h-5 w-5 text-indigo-400"></i>
+        </div>
         <span class="feature-text"><strong>HIGH-QUALITY PODCAST AUDIO</strong></span>
     </div>
+
     <div class="premium-list-item">
-        <div class="bundle-icon-wrap"><i data-lucide="languages" class="h-5 w-5 text-amber-400"></i></div>
+        <div class="bundle-icon-wrap">
+            <i data-lucide="languages" class="h-5 w-5 text-amber-400"></i>
+        </div>
         <span class="feature-text"><strong>ENGLISH HINDI MIX LANGUAGE</strong></span>
     </div>             
 </div>
@@ -1029,32 +1540,82 @@
       </div>
     </div>
 
+
     <div id="feedbacks" data-aos="fade-up" class="py-8"> <h2 class="text-2xl font-bold mb-1">What our readers say</h2>
       <p class="mb-4 text-sm text-zinc-400">These are the most repeated points readers mentioned.</p>
       <div class="space-y-3" id="feedback-list">
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #f97316);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Amit singh</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Aarohi Pandey, the way you've written this feels pure and honest. You should definitely write more books🎉🔥</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rohit Dubey</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">This didn't feel like reading it felt like listening to someone's heart. Waiting for Part 2 already</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
-        <!-- More feedbacks omitted for brevity but preserved in functionality -->
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tiwari</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Very calm and emotional arohi you have a beautiful way of expressing devotion🙌❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ankit Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Simple words deep feelings you'll go very far with writing like this</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">V</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Vivek S.</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">It takes courage to write from within aarohi pandey please keep writing💖</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
       </div>
       <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition" onclick="toggleFeedbacks()">Show More</button>
     </div>
   </section>
 
-  <div id="downloadModal" class="modal">
-    <div id="languageSelectionModal" class="modal-content" style="max-width: 450px; display: none; background-color: #1e293b; color: white;">
-      <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Content Language</h2>
-      <p class="text-sm text-zinc-300 text-center mb-6">Which version would you like to view?</p>
-      
-      <button onclick="closeDownloadModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
-
-      <div id="languageSelectionContainer" class="space-y-4 transition-opacity duration-300">
-          <button onclick="saveAndOpenDashboard('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
-              <i data-lucide="book" class="h-4 w-4"></i> HINDI
-          </button>
-          <button onclick="saveAndOpenDashboard('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
-              <i data-lucide="globe" class="h-4 w-4"></i> ENGLISH
-          </button>
-      </div>
+  <!-- Plan Selection Modal -->
+  <div id="planSelectionModal" class="modal">
+    <div class="modal-content animate-modalFadeIn">
+        <button onclick="closePlanSelectionModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white z-50 p-2 bg-black/40 rounded-full"><i data-lucide="x" class="h-5 w-5"></i></button>
+        
+        <div class="plan-header">
+            <h2 class="text-2xl font-bold text-white">Choose Your Journey</h2>
+            <p class="text-zinc-400 text-sm mt-1">Select the best plan for your spiritual needs.</p>
+        </div>
+        
+        <div class="plan-grid">
+            <!-- Basic Plan -->
+            <div class="plan-card">
+                <span class="plan-name">Basic</span>
+                <div class="plan-price"><span class="plan-currency">₹</span>119</div>
+                
+                <ul class="plan-features">
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> eBook PDF</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Audio Podcast</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Explainer Video</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> 3D Flipbook</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Mind Map</li>
+                </ul>
+                
+                <button onclick="initiatePlanPayment('BASIC')" class="plan-btn btn-basic">Select Basic</button>
+            </div>
+            
+            <!-- Standard Plan -->
+            <div class="plan-card standard">
+                <span class="plan-badge badge-standard">Most Popular</span>
+                <span class="plan-name text-fuchsia-400">Standard</span>
+                <div class="plan-price"><span class="plan-currency">₹</span>209</div>
+                
+                <ul class="plan-features">
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> eBook PDF</li>
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Audio Podcast</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Explainer Video</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> 3D Flipbook</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Mind Map</li>
+                </ul>
+                
+                <button onclick="initiatePlanPayment('STANDARD')" class="plan-btn btn-standard">Select Standard</button>
+            </div>
+            
+            <!-- Premium Plan -->
+            <div class="plan-card premium">
+                <div class="premium-shine-effect"></div>
+                <span class="plan-badge badge-premium">Premium Value</span>
+                <span class="plan-name text-amber-400">Premium</span>
+                <div class="plan-price"><span class="plan-currency">₹</span>499</div>
+                
+                <ul class="plan-features">
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> eBook PDF</li>
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Audio Podcast</li>
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Explainer Video</li>
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> 3D Flipbook</li>
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Mind Map</li>
+                </ul>
+                
+                <button onclick="initiatePlanPayment('PREMIUM')" class="plan-btn btn-premium">Get Full Access</button>
+            </div>
+        </div>
     </div>
   </div>
 
@@ -1151,14 +1712,7 @@
             <div id="bottomShield" class="invisible-shield inactive" style="bottom: 0; height: 120px;"></div>
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111817; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader"><span class="ball"></span><span class="ball"></span><span class="ball"></span></div>
-                <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
-            </div>
-            
-            <!-- Language Selection is only shown if plan requires it, otherwise this step is skipped in new logic -->
-            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111817; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
-                <h3 class="text-xl font-bold text-white mb-6 text-center">Choose content language</h3>
-                <button onclick="handlePaymentLanguageSelection('HINDI')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>Hindi<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
-                <button onclick="handlePaymentLanguageSelection('ENGLISH')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="globe" class="h-5 w-5 text-indigo-400"></i>English<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Processing Secure Payment...</p>
             </div>
             <iframe id="cashfreeIframe" src="" frameborder="0" width="100%" height="100%" style="border-radius: 12px; display: none;" sandbox="allow-forms allow-scripts allow-modals allow-popups allow-same-origin allow-top-navigation"></iframe>
         </div>
@@ -1180,9 +1734,13 @@
   <div id="productViewerModal" class="modal">
       <div id="productViewerContent" class="modal-content animate-modalFadeIn">
           <div class="viewer-header">
-              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> 
+                <span id="dashboardTitle">Library</span>
+                <span id="planBadge" class="hidden text-xs px-2 py-1 rounded bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30 uppercase tracking-wider ml-2"></span>
+              </h3>
               <div class="flex items-center gap-2">
-                  <button id="dashboardZipBtn" onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5" style="display: none;">
+                  <button id="zipDownloadBtn" onclick="handleDownloadBundleClick()" class="hidden flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
                       <i data-lucide="download" class="h-4 w-4"></i>
                       <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
                   </button>
@@ -1193,9 +1751,9 @@
           </div>
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
-                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
                   <div id="tab-video" class="viewer-tab" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
+                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
+                  <div id="tab-pdf" class="viewer-tab active" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
                   <div id="tab-flipbook" class="viewer-tab" onclick="switchViewerTab('flipbook')"><i data-lucide="book-open" class="h-4 w-4"></i> Flipbook</div>
                   <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
@@ -1296,8 +1854,11 @@
                 }
                 
                 confetti({ 
-                    particleCount: 50, spread: 40, origin: { y: 0.8 }, 
-                    colors: ['#ef4444', '#ffffff'], zIndex: 1000
+                    particleCount: 50, 
+                    spread: 40, 
+                    origin: { y: 0.8 }, 
+                    colors: ['#ef4444', '#ffffff'],
+                    zIndex: 1000
                 });
                 showToast(`Shared ${emoji}! Thanks for the love.`, true);
                 window.toggleReactionMenu();
@@ -1310,32 +1871,18 @@
   </script>
 
   <script>
-    /* PLAN CONFIGURATION */
-    const PLANS = {
-        BASIC: {
-            id: 'BASIC',
-            price: 119,
-            link: "https://payments.cashfree.com/forms/placeholder_basic", // Placeholder link
-            permissions: { pdf: true, audio: false, video: false, flipbook: false, mindmap: false, zip: false }
-        },
-        STANDARD: {
-            id: 'STANDARD',
-            price: 209,
-            link: "https://payments.cashfree.com/forms/placeholder_standard", // Placeholder link
-            permissions: { pdf: true, audio: true, video: false, flipbook: false, mindmap: false, zip: false }
-        },
-        PREMIUM: {
-            id: 'PREMIUM',
-            price: 499,
-            link: "https://payments.cashfree.com/forms/placeholder_premium", // Placeholder link
-            permissions: { pdf: true, audio: true, video: true, flipbook: true, mindmap: true, zip: true }
-        }
-    };
-
-    const IS_DUAL_LANGUAGE = true; 
+    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showFlipbook: true };
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
     const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-540705gfds68cjdf';
-    let currentPaymentUrl = ""; 
+    
+    /* 3 TIER PRICING LINKS */
+    const link119 = "https://payments.cashfree.com/forms/basic_plan_119";
+    const link209 = "https://payments.cashfree.com/forms/standard_plan_209";
+    const link499 = "https://payments.cashfree.com/forms/premium_plan_499";
+    
+    let currentPaymentUrl = link209; 
+    let selectedPlanForPayment = 'STANDARD';
+
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_AAROHSD368NDSVF';
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
     const CONTENT_URLS = {
@@ -1368,8 +1915,6 @@
         previewScreenshot: document.getElementById('previewScreenshot'),
         previewShine: document.getElementById('previewShine'),
         imageCounter: document.getElementById('imageCounter'),
-        downloadModal: document.getElementById('downloadModal'),
-        languageSelectionModal: document.getElementById('languageSelectionModal'),
         zipConfirmationModal: document.getElementById('zipConfirmationModal'),
         toastNotification: document.getElementById('toastNotification'),
         toastMessage: document.getElementById('toastMessage'),
@@ -1402,10 +1947,11 @@
         coverBlurOverlay: document.getElementById('coverBlurOverlay'),
         mobileStickyBar: document.getElementById('mobileStickyBar'),
         planSelectionModal: document.getElementById('planSelectionModal'),
-        dashboardZipBtn: document.getElementById('dashboardZipBtn')
+        planBadge: document.getElementById('planBadge'),
+        zipDownloadBtn: document.getElementById('zipDownloadBtn')
     };
 
-    let currentContentLanguage = 'HINDI';
+    let currentContentLanguage = 'ENGLISH'; // Default
     let scale = 1, panning = false, pointX = 0, pointY = 0, startX = 0, startY = 0;
     const mmContainer = document.getElementById('mindmapContainer');
     const mmImg = document.getElementById('imageSource');
@@ -1416,6 +1962,7 @@
         mmContainer.onmouseup = function (e) { panning = false; }
         mmContainer.onmousemove = function (e) { e.preventDefault(); if (!panning) return; pointX = e.clientX - startX; pointY = e.clientY - startY; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
         
+        // Touch support for mobile
         mmContainer.ontouchstart = function (e) { 
             e.preventDefault(); 
             const touch = e.touches[0];
@@ -1441,14 +1988,19 @@
     }
     
     function resetMindmap() { 
-        scale = 1; pointX = 0; pointY = 0; 
+        scale = 1; 
+        pointX = 0; 
+        pointY = 0; 
         if (mmImg) mmImg.style.transform = `translate(0px, 0px) scale(1)`; 
     }
 
     let isMenuOpen = false;
 
     function handleQuickActionsClick(e) {
-        if (e) { e.stopPropagation(); e.preventDefault(); }
+        if (e) {
+            e.stopPropagation(); 
+            e.preventDefault();
+        }
         isMenuOpen = !isMenuOpen;
         const menu = document.getElementById('cuteQuickMenu');
         const btn = document.getElementById('quickActionsBtn');
@@ -1475,7 +2027,10 @@
     }
 
     function handleCuteMenuItemClick(type, e) {
-        if (e) { e.stopPropagation(); e.preventDefault(); }
+        if (e) {
+            e.stopPropagation(); 
+            e.preventDefault();
+        }
         closeCuteMenu();
         
         switch(type) {
@@ -1487,24 +2042,26 @@
                     toggleReactionMenu();
                 }
                 break;
-            case 'why': openWhyBookModal(); break;
-            case 'support': window.location.href = "mailto:support@bookmintor.shop"; break;
-            case 'demo': triggerPremiumLoadingSequence('demo'); break;
+            case 'why':
+                openWhyBookModal();
+                break;
+            case 'support':
+                window.location.href = "mailto:support@bookmintor.shop";
+                break;
+            case 'demo':
+                triggerPremiumLoadingSequence('demo');
+                break;
         }
-    }
-
-    // Modal functions
-    function toggleBodyModalClass(active) {
-        if (active) document.body.classList.add('modal-active');
-        else document.body.classList.remove('modal-active');
     }
 
     function openWhyBookModal() {
         const modal = document.getElementById('whyBookModal');
         if (modal) {
             modal.style.display = 'flex';
-            modal.querySelector('.modal-content').classList.add('animate-modalFadeIn');
-            toggleBodyModalClass(true);
+            const modalContent = modal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.classList.add('animate-modalFadeIn');
+            }
             lucide.createIcons();
         }
     }
@@ -1513,11 +2070,9 @@
         const modal = document.getElementById('whyBookModal');
         if (modal) {
             modal.style.display = 'none';
-            toggleBodyModalClass(false);
         }
     }
 
-    /* PREMIUM LOADING SEQUENCE */
     function triggerPremiumLoadingSequence(type) {
         if (dom.premiumLoadingOverlay) {
             dom.premiumLoadingOverlay.classList.add('active');
@@ -1568,11 +2123,15 @@
     }
 
     function openDemoFlipbookModal() {
-        if (dom.demoFlipbookFrame) { dom.demoFlipbookFrame.src = DEMO_FLIPBOOK_URL; }
+        if (dom.demoFlipbookFrame) {
+            dom.demoFlipbookFrame.src = DEMO_FLIPBOOK_URL;
+        }
         if (dom.demoFlipbookModal) {
             dom.demoFlipbookModal.style.display = 'flex';
-            dom.demoFlipbookModal.querySelector('.modal-content').classList.add('animate-modalFadeIn');
-            toggleBodyModalClass(true);
+            const modalContent = dom.demoFlipbookModal.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.classList.add('animate-modalFadeIn');
+            }
             lucide.createIcons();
         }
     }
@@ -1580,50 +2139,59 @@
     function closeDemoFlipbookModal() {
         if (dom.demoFlipbookModal) {
             dom.demoFlipbookModal.style.display = 'none';
-            toggleBodyModalClass(false);
-            if (dom.demoFlipbookFrame) dom.demoFlipbookFrame.src = '';
+            if (dom.demoFlipbookFrame) {
+                dom.demoFlipbookFrame.src = '';
+            }
         }
     }
 
-    /* PLAN SELECTION MODAL LOGIC */
-    function openPlanSelectionModal() {
-        if (dom.planSelectionModal) {
-            dom.planSelectionModal.style.display = 'flex';
-            dom.planSelectionModal.querySelector('.modal-content').classList.add('animate-modalFadeIn');
-            toggleBodyModalClass(true);
-            lucide.createIcons();
-        }
-    }
+    /* MOBILE STICKY BAR */
+    let stickyBarVisible = false;
+    let lastScrollPosition = 0;
 
-    function closePlanSelectionModal() {
-        if (dom.planSelectionModal) {
-            dom.planSelectionModal.style.display = 'none';
-            toggleBodyModalClass(false);
-        }
-    }
-
-    function selectPlan(planId) {
-        closePlanSelectionModal();
-        const selectedPlan = PLANS[planId];
-        if (!selectedPlan) return;
-
-        // Set pending plan for post-payment
-        sessionStorage.setItem('pending_plan', planId);
+    function handleScrollForStickyBar() {
+        if (window.innerWidth > 640) return; 
         
-        // Open payment modal with correct link
-        currentPaymentUrl = selectedPlan.link;
-        openPaymentModal();
+        const currentScroll = window.pageYOffset;
+        const scrollThreshold = 300;
+        
+        if (currentScroll > scrollThreshold && currentScroll > lastScrollPosition) {
+            if (!stickyBarVisible) {
+                dom.mobileStickyBar.classList.add('show');
+                stickyBarVisible = true;
+            }
+        } else if (currentScroll < scrollThreshold || currentScroll < lastScrollPosition) {
+            if (stickyBarVisible) {
+                dom.mobileStickyBar.classList.remove('show');
+                stickyBarVisible = false;
+            }
+        }
+        lastScrollPosition = currentScroll;
     }
 
     function setUnlockedState(status) {
-        if (dom.unlockContainer) { dom.unlockContainer.style.display = 'inline-flex'; }
-        if (dom.unlockBtn) { dom.unlockBtn.setAttribute('data-unlocked', status); }
-        if (dom.unlockContainer) { dom.unlockContainer.classList.add('snake-active'); }
-        if (dom.actionContainer) { dom.actionContainer.classList.add('stacked'); }
+        if (dom.unlockContainer) {
+            dom.unlockContainer.style.display = 'inline-flex'; 
+        }
+        if (dom.unlockBtn) {
+            dom.unlockBtn.setAttribute('data-unlocked', status); 
+        }
+        if (dom.unlockContainer) {
+            dom.unlockContainer.classList.add('snake-active');
+        }
+        if (dom.actionContainer) {
+            dom.actionContainer.classList.add('stacked'); 
+        }
         const ctaShine = dom.buyBtn ? dom.buyBtn.querySelector('.cta-shine') : null;
-        if (ctaShine) { ctaShine.style.display = 'none'; ctaShine.style.animation = 'none'; }
+        if (ctaShine) { 
+            ctaShine.style.display = 'none'; 
+            ctaShine.style.animation = 'none'; 
+        }
         const unlockShine = dom.unlockBtn ? dom.unlockBtn.querySelector('.btn-shine') : null;
-        if(unlockShine) { unlockShine.style.display = 'block'; unlockShine.style.animation = 'blackShine 4s ease-in-out infinite'; }
+        if(unlockShine) { 
+            unlockShine.style.display = 'block'; 
+            unlockShine.style.animation = 'blackShine 4s ease-in-out infinite'; 
+        }
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
     }
 
@@ -1633,10 +2201,16 @@
         if(!hiddenItems.length || !btn) return;
         const isHidden = window.getComputedStyle(hiddenItems[0]).display === 'none';
         if (isHidden) { 
-            hiddenItems.forEach(item => { item.style.display = 'flex'; item.classList.add('animate-slideUp'); }); 
+            hiddenItems.forEach(item => { 
+                item.style.display = 'flex'; 
+                item.classList.add('animate-slideUp'); 
+            }); 
             btn.textContent = 'Show Less'; 
         } else { 
-            hiddenItems.forEach(item => { item.style.display = 'none'; item.classList.remove('animate-slideUp'); }); 
+            hiddenItems.forEach(item => { 
+                item.style.display = 'none'; 
+                item.classList.remove('animate-slideUp'); 
+            }); 
             btn.textContent = 'Show More'; 
             document.getElementById('feedbacks').scrollIntoView({behavior: 'smooth', block: 'start'}); 
         }
@@ -1657,14 +2231,13 @@
         if (modal) {
             modal.style.display = 'flex'; 
             modal.querySelector('.modal-content').classList.add('animate-modalFadeIn'); 
-            toggleBodyModalClass(true);
             lucide.createIcons(); 
         }
     }
     
     function closeCreatorProfile() { 
         const modal = document.getElementById('creatorProfileModal');
-        if (modal) { modal.style.display = 'none'; toggleBodyModalClass(false); }
+        if (modal) modal.style.display = 'none'; 
     }
     
     function openCommunityModal() { 
@@ -1672,14 +2245,13 @@
         if (modal) {
             modal.style.display = 'flex'; 
             modal.querySelector('.modal-content').classList.add('animate-modalFadeIn'); 
-            toggleBodyModalClass(true);
             lucide.createIcons(); 
         }
     }
     
     function closeCommunityModal() { 
         const modal = document.getElementById('communityModal');
-        if (modal) { modal.style.display = 'none'; toggleBodyModalClass(false); }
+        if (modal) modal.style.display = 'none'; 
     }
 
     function triggerProfileShine() {
@@ -1697,8 +2269,10 @@
 
     function showToast(msg, isSuccess = true) {
         if (!dom.toastMessage || !dom.toastNotification) return;
+        
         dom.toastMessage.textContent = msg;
         const iconDiv = document.getElementById('toastIcon');
+        
         if (isSuccess) { 
             dom.toastNotification.classList.remove('error'); 
             if (iconDiv) iconDiv.innerHTML = '<i data-lucide="check-circle" class="h-5 w-5 text-emerald-400"></i>'; 
@@ -1706,21 +2280,16 @@
             dom.toastNotification.classList.add('error'); 
             if (iconDiv) iconDiv.innerHTML = '<i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>'; 
         }
+        
         dom.toastNotification.classList.add('show'); 
         lucide.createIcons();
-        setTimeout(() => { dom.toastNotification.classList.remove('show'); }, 3000);
+        
+        setTimeout(() => {
+            dom.toastNotification.classList.remove('show');
+        }, 3000);
     }
 
     function switchViewerTab(tabId) {
-        // Enforce permissions for tab switching visual active state
-        const plan = localStorage.getItem('user_plan_' + PRODUCT_UNIQUE_ID) || 'BASIC';
-        const permissions = PLANS[plan]?.permissions || PLANS.BASIC.permissions;
-        
-        if (!permissions[tabId] && tabId !== 'image' && tabId !== 'flipbook') {
-            // Basic fallback check, ideally disable click entirely
-            return;
-        }
-
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
@@ -1750,108 +2319,110 @@
             const a = document.createElement('a'); 
             a.href = blobUrl; 
             a.download = filename || url.split('/').pop();
-            document.body.appendChild(a); a.click(); 
-            window.URL.revokeObjectURL(blobUrl); document.body.removeChild(a);
+            document.body.appendChild(a); 
+            a.click(); 
+            window.URL.revokeObjectURL(blobUrl); 
+            document.body.removeChild(a);
             showToast("Download Complete!", true);
         } catch (error) {
             console.error('Download error:', error);
-            const a = document.createElement('a'); a.href = url; a.target = "_self"; 
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            const a = document.createElement('a'); 
+            a.href = url; 
+            a.target = "_self"; 
+            document.body.appendChild(a); 
+            a.click(); 
+            document.body.removeChild(a);
         }
     }
 
-    function openViewerModal(lang) {
-        if (lang) { 
-            currentContentLanguage = lang; 
-            localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); 
-        } else { 
-            currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI'; 
+    function openViewerModal() {
+        const purchasedPlan = localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID) || 'BASIC';
+        
+        // Dynamic UI Filtering based on Plan
+        const tabVideo = document.getElementById('tab-video');
+        const tabAudio = document.getElementById('tab-audio');
+        const tabPdf = document.getElementById('tab-pdf');
+        const tabFlipbook = document.getElementById('tab-flipbook');
+        const tabImage = document.getElementById('tab-image');
+        
+        // Reset tabs
+        [tabVideo, tabAudio, tabPdf, tabFlipbook, tabImage].forEach(tab => {
+            if(tab) {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            }
+        });
+        
+        // Show Tabs Logic
+        if(tabPdf) tabPdf.style.display = 'flex'; // Everyone gets PDF
+        
+        if (purchasedPlan === 'STANDARD' || purchasedPlan === 'PREMIUM') {
+            if(tabAudio) tabAudio.style.display = 'flex';
         }
         
-        const planId = localStorage.getItem('user_plan_' + PRODUCT_UNIQUE_ID) || 'BASIC';
-        const permissions = PLANS[planId]?.permissions || PLANS.BASIC.permissions;
+        if (purchasedPlan === 'PREMIUM') {
+            if(tabVideo) tabVideo.style.display = 'flex';
+            if(tabFlipbook) tabFlipbook.style.display = 'flex';
+            if(tabImage) tabImage.style.display = 'flex';
+            if(dom.zipDownloadBtn) dom.zipDownloadBtn.classList.remove('hidden');
+        } else {
+            if(dom.zipDownloadBtn) dom.zipDownloadBtn.classList.add('hidden');
+        }
+        
+        // Badge
+        if (dom.planBadge) {
+            dom.planBadge.textContent = 'PLAN: ' + purchasedPlan;
+            dom.planBadge.classList.remove('hidden');
+        }
+        
+        // Default Active Tab
+        switchViewerTab('pdf');
 
-        try {
-            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
-            const titleEl = document.getElementById('dashboardTitle');
-            if (titleEl) {
-                titleEl.innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} | ${planId}</span>`;
-            }
-            
-            // Tab Visibility Logic based on Permissions
-            const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', flipbook: 'tab-flipbook', image: 'tab-image' };
-            let firstEnabled = null;
-            
-            Object.keys(tabs).forEach(key => {
-                const el = document.getElementById(tabs[key]);
-                if (permissions[key] || (key === 'image' && permissions.mindmap) || (key === 'flipbook' && permissions.flipbook)) {
-                    el.classList.remove('tab-disabled');
-                    el.style.display = 'flex';
-                    if (!firstEnabled) firstEnabled = key;
-                } else {
-                    el.classList.add('tab-disabled');
-                    el.style.display = 'none';
-                }
-            });
-
-            // ZIP Download Visibility
-            if (dom.dashboardZipBtn) {
-                dom.dashboardZipBtn.style.display = permissions.zip ? 'flex' : 'none';
-            }
-            
-            const videoEl = document.getElementById('videoSource'); 
-            const audioEl = document.getElementById('audioSource');
-            const imgEl = document.getElementById('imageSource'); 
-            const pdfFr = document.getElementById('pdfFrame');
-            
-            if(permissions.video && content.VIDEO && videoEl) { 
-                const source = videoEl.querySelector('source'); 
-                if(source) { source.src = content.VIDEO; videoEl.load(); } 
-                const videoBtn = document.getElementById('btn-dl-video');
-                if (videoBtn) videoBtn.onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); 
-            }
-            
-            if(permissions.audio && content.AUDIO && audioEl) { 
-                const source = audioEl.querySelector('source'); 
-                if(source) { source.src = content.AUDIO; audioEl.load(); } 
-                const audioBtn = document.getElementById('btn-dl-audio');
-                if (audioBtn) audioBtn.onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3'); 
-            }
-            
-            if(permissions.mindmap && content.MINDMAP && imgEl) { 
-                imgEl.src = content.MINDMAP; 
-                const imageBtn = document.getElementById('btn-dl-image');
-                if (imageBtn) imageBtn.onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); 
-            }
-            
-            if(permissions.pdf && content.PDF && pdfFr) { 
-                let pdfLink = content.PDF; 
-                const pdfBtn = document.getElementById('btn-dl-pdf');
-                if (pdfBtn) pdfBtn.onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
-                if(pdfLink.includes('drive.google.com')) { pdfLink = pdfLink.replace('/view', '/preview'); pdfFr.src = pdfLink; } 
-                else { const encodedUrl = encodeURIComponent(pdfLink); pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; }
-            }
-            
-            if(permissions.flipbook && content.FLIPBOOK) {
-                const flipbookBtn = document.getElementById('btn-dl-flipbook');
-                if (flipbookBtn) flipbookBtn.onclick = () => handleDirectDownload(content.FLIPBOOK, 'flipbook.html');
-            }
-            
-            if (dom.productViewerModal) {
-                dom.productViewerModal.style.display = 'flex'; 
-                dom.productViewerContent.classList.add('animate-modalFadeIn'); 
-                toggleBodyModalClass(true);
-            }
-            
-            if (firstEnabled) switchViewerTab(firstEnabled); 
-            lucide.createIcons(); 
-        } catch(e) { console.error('Viewer modal error:', e); }
+        const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
+        
+        const videoEl = document.getElementById('videoSource'); 
+        const audioEl = document.getElementById('audioSource');
+        const imgEl = document.getElementById('imageSource'); 
+        const pdfFr = document.getElementById('pdfFrame');
+        
+        if(content.VIDEO && videoEl && purchasedPlan === 'PREMIUM') { 
+            const source = videoEl.querySelector('source'); 
+            if(source) { source.src = content.VIDEO; videoEl.load(); } 
+            const videoBtn = document.getElementById('btn-dl-video');
+            if (videoBtn) videoBtn.onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); 
+        }
+        
+        if(content.AUDIO && audioEl && (purchasedPlan === 'STANDARD' || purchasedPlan === 'PREMIUM')) { 
+            const source = audioEl.querySelector('source'); 
+            if(source) { source.src = content.AUDIO; audioEl.load(); } 
+            const audioBtn = document.getElementById('btn-dl-audio');
+            if (audioBtn) audioBtn.onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3'); 
+        }
+        
+        if(content.MINDMAP && imgEl && purchasedPlan === 'PREMIUM') { 
+            imgEl.src = content.MINDMAP; 
+            const imageBtn = document.getElementById('btn-dl-image');
+            if (imageBtn) imageBtn.onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); 
+        }
+        
+        if(content.PDF && pdfFr) { 
+            let pdfLink = content.PDF; 
+            const pdfBtn = document.getElementById('btn-dl-pdf');
+            if (pdfBtn) pdfBtn.onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
+            if(pdfLink.includes('drive.google.com')) { pdfLink = pdfLink.replace('/view', '/preview'); pdfFr.src = pdfLink; } 
+            else { const encodedUrl = encodeURIComponent(pdfLink); pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; }
+        }
+        
+        if(dom.productViewerModal) {
+            dom.productViewerModal.style.display = 'flex'; 
+            dom.productViewerContent.classList.add('animate-modalFadeIn'); 
+        }
+        lucide.createIcons(); 
     }
 
     function closeViewerModal() { 
         if (dom.productViewerModal) {
             dom.productViewerModal.style.display = 'none'; 
-            toggleBodyModalClass(false);
         }
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         if (dom.flipbookFrame) dom.flipbookFrame.src = '';
@@ -1859,30 +2430,12 @@
 
     function handleUnlockClick() {
         if (!dom.unlockBtn) return;
-        const plan = localStorage.getItem('user_plan_' + PRODUCT_UNIQUE_ID);
-        
-        if (plan) { 
-            if (dom.downloadModal && dom.languageSelectionModal) {
-                dom.downloadModal.style.display = 'flex'; 
-                dom.languageSelectionModal.style.display = 'block'; 
-                dom.languageSelectionModal.classList.add('animate-modalFadeIn'); 
-                toggleBodyModalClass(true);
-                lucide.createIcons(); 
-            }
+        const status = dom.unlockBtn.getAttribute('data-unlocked');
+        if (status === 'true') { 
+            openViewerModal(); 
         } else { 
-            openPlanSelectionModal();
+            showToast("Please purchase the product first.", false); 
         }
-    }
-
-    function saveAndOpenDashboard(lang) { 
-        if (dom.languageSelectionModal) dom.languageSelectionModal.style.display = 'none'; 
-        if (dom.downloadModal) dom.downloadModal.style.display = 'none'; 
-        toggleBodyModalClass(false);
-        openViewerModal(lang); 
-    }
-    
-    function closeDownloadModal() { 
-        if (dom.downloadModal) { dom.downloadModal.style.display = 'none'; toggleBodyModalClass(false); }
     }
     
     function handleDownloadBundleClick() { 
@@ -1891,23 +2444,26 @@
         if(url) window.location.href = url; 
     }
 
-    let postPaymentLanguage = '';
-    function startUnlockProcess(lang) { 
-        postPaymentLanguage = lang; 
+    function startUnlockProcess(planName) { 
+        // Save plan
+        localStorage.setItem('purchased_plan_' + PRODUCT_UNIQUE_ID, planName);
+        localStorage.setItem('unlocked_' + PRODUCT_UNIQUE_ID, 'true');
+        
         triggerCelebration(); 
         
-        // Only show ZIP modal for PREMIUM users
-        const plan = localStorage.getItem('user_plan_' + PRODUCT_UNIQUE_ID);
-        if (plan === 'PREMIUM' && dom.zipConfirmationModal) {
-            dom.zipConfirmationModal.style.display = 'flex'; 
-            const checkStep = document.getElementById('zipCheckStep');
-            const choiceStep = document.getElementById('zipChoiceStep');
-            if (checkStep) checkStep.style.display = 'flex';
-            if (choiceStep) choiceStep.style.display = 'none';
-            toggleBodyModalClass(true);
-            lucide.createIcons(); 
+        if (planName === 'PREMIUM') {
+             // Only show ZIP modal for premium
+            if (dom.zipConfirmationModal) {
+                dom.zipConfirmationModal.style.display = 'flex'; 
+                const checkStep = document.getElementById('zipCheckStep');
+                const choiceStep = document.getElementById('zipChoiceStep');
+                if (checkStep) checkStep.style.display = 'flex';
+                if (choiceStep) choiceStep.style.display = 'none';
+                lucide.createIcons(); 
+            }
         } else {
-            handleZipCompletion(); // Skip zip check for basic/standard
+            // Direct unlock for Basic/Standard
+            handleZipCompletion();
         }
     }
 
@@ -1920,54 +2476,79 @@
     
     function handleZipDownloadNow() { 
         handleZipCompletion(); 
-        const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null; 
+        const url = CONTENT_URLS[currentContentLanguage] ? CONTENT_URLS[currentContentLanguage].ZIP : null; 
         if(url) window.location.href = url; 
     }
     
     function handleZipDownloadLater() { 
         handleZipCompletion(); 
-        openViewerModal(postPaymentLanguage); 
+        openViewerModal(); 
     }
 
     function handleZipCompletion() {
-        if (dom.zipConfirmationModal) { dom.zipConfirmationModal.style.display = 'none'; toggleBodyModalClass(false); }
-        setUnlockedState(localStorage.getItem('user_plan_' + PRODUCT_UNIQUE_ID)); 
+        if (dom.zipConfirmationModal) dom.zipConfirmationModal.style.display = 'none'; 
+        setUnlockedState('true'); 
         showToast("Product Unlocked!", true);
-        setTimeout(() => { if (dom.unlockContainer) dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 500);
-        setTimeout(() => { openCommunityModal(); }, 1500);
+        
+        setTimeout(() => { 
+            if (dom.unlockContainer) dom.unlockContainer.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+        }, 500);
+        
+        setTimeout(() => { 
+            openCommunityModal(); 
+        }, 1500);
     }
 
     function preloadAllImages() {
         if (!dom.cover) return;
+        
         dom.cover.setAttribute('aria-busy', 'true'); 
         const imageUrls = [SOURCE_IMAGE, ...SCREENSHOT_URLS];
         const promises = imageUrls.map(url => new Promise((resolve) => { 
-            const img = new Image(); img.src = url; img.onload = resolve; img.onerror = resolve; 
+            const img = new Image(); 
+            img.src = url; 
+            img.onload = resolve; 
+            img.onerror = resolve; 
         }));
         
         Promise.all(promises).then(() => {
             if (!dom.coverImg) return;
+            
             dom.coverImg.src = SOURCE_IMAGE; 
-            requestAnimationFrame(()=> { dom.coverImg.style.opacity = '0.6'; dom.coverImg.style.transform = 'scale(1)'; });
+            requestAnimationFrame(()=> { 
+                dom.coverImg.style.opacity = '0.6'; 
+                dom.coverImg.style.transform = 'scale(1)'; 
+            });
             
             setTimeout(() => {
                 dom.coverImg.style.opacity = '1'; 
-                if (dom.coverShine) { dom.coverShine.style.transition = 'opacity 0.32s ease'; dom.coverShine.style.opacity = '0'; }
-                if (dom.loadingSpin) { dom.loadingSpin.style.opacity = '0'; dom.loadingSpin.style.display = 'none'; }
+                if (dom.coverShine) {
+                    dom.coverShine.style.transition = 'opacity 0.32s ease'; 
+                    dom.coverShine.style.opacity = '0';
+                }
+                
+                if (dom.loadingSpin) {
+                    dom.loadingSpin.style.opacity = '0'; 
+                    dom.loadingSpin.style.display = 'none';
+                }
                 
                 setTimeout(()=> {
                     if (dom.coverShine) dom.coverShine.style.display = 'none'; 
-                    dom.cover.classList.add('loaded'); dom.cover.setAttribute('aria-busy','false');
+                    dom.cover.classList.add('loaded'); 
+                    dom.cover.setAttribute('aria-busy','false');
                     
                     setTimeout(() => {
                         const tapPrompt = document.getElementById('tapPrompt');
                         if(tapPrompt) {
                             tapPrompt.style.opacity = '1'; 
                             if (dom.coverBlackOverlay) dom.coverBlackOverlay.classList.add('active');
+                            
                             setTimeout(() => { 
                                 tapPrompt.style.opacity = '0'; 
                                 if (dom.coverBlackOverlay) dom.coverBlackOverlay.classList.remove('active'); 
-                                setTimeout(() => { tapPrompt.style.display = 'none'; }, 700); 
+                                setTimeout(() => { 
+                                    tapPrompt.style.display = 'none'; 
+                                }, 700); 
                             }, 5000); 
                         }
                     }, 1000);
@@ -1978,31 +2559,52 @@
 
     let currentImageIndex = 0;
     function showPreviewImage(index) {
-        if (index >= SCREENSHOT_URLS.length) index = 0; else if (index < 0) index = SCREENSHOT_URLS.length - 1;
+        if (index >= SCREENSHOT_URLS.length) index = 0; 
+        else if (index < 0) index = SCREENSHOT_URLS.length - 1;
+        
         currentImageIndex = index; 
         if (dom.previewShine) dom.previewShine.style.display = 'block'; 
         if (dom.previewScreenshot) dom.previewScreenshot.style.opacity = '0.5';
         
-        const tempImg = new Image(); tempImg.src = SCREENSHOT_URLS[currentImageIndex];
+        const tempImg = new Image(); 
+        tempImg.src = SCREENSHOT_URLS[currentImageIndex];
         tempImg.onload = () => {
             if (!dom.previewScreenshot || !dom.previewShine || !dom.imageCounter) return;
-            dom.previewShine.style.display = 'none'; dom.previewScreenshot.src = tempImg.src;
+            
+            dom.previewShine.style.display = 'none'; 
+            dom.previewScreenshot.src = tempImg.src;
             dom.imageCounter.textContent = `${currentImageIndex + 1}/${SCREENSHOT_URLS.length}`;
-            dom.previewScreenshot.style.opacity = '1'; dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
-            void dom.previewScreenshot.offsetWidth; dom.previewScreenshot.classList.add('animate-subtleZoomIn');
+            dom.previewScreenshot.style.opacity = '1'; 
+            dom.previewScreenshot.classList.remove('animate-subtleZoomIn');
+            void dom.previewScreenshot.offsetWidth; 
+            dom.previewScreenshot.classList.add('animate-subtleZoomIn');
         };
     }
 
     if (dom.cover) {
         dom.cover.addEventListener('click', e => { 
             if (!dom.cover.classList.contains('loaded')) return;
-            const tapPrompt = document.getElementById('tapPrompt'); 
-            if(tapPrompt) { tapPrompt.style.display = 'none'; if (dom.coverBlackOverlay) dom.coverBlackOverlay.classList.remove('active'); }
             
-            if(dom.previewOverlay && dom.previewOverlay.style.opacity === '1') { e.stopPropagation(); showPreviewImage(currentImageIndex + 1); } 
-            else { e.preventDefault(); if (dom.coverImg) dom.coverImg.style.opacity = '0'; 
-            if (dom.previewOverlay) { dom.previewOverlay.style.opacity = '1'; dom.previewOverlay.style.pointerEvents = 'auto'; }
-            currentImageIndex = -1; showPreviewImage(0); lucide.createIcons(); }
+            const tapPrompt = document.getElementById('tapPrompt'); 
+            if(tapPrompt) { 
+                tapPrompt.style.display = 'none'; 
+                if (dom.coverBlackOverlay) dom.coverBlackOverlay.classList.remove('active'); 
+            }
+            
+            if(dom.previewOverlay && dom.previewOverlay.style.opacity === '1') { 
+                e.stopPropagation(); 
+                showPreviewImage(currentImageIndex + 1); 
+            } else { 
+                e.preventDefault(); 
+                if (dom.coverImg) dom.coverImg.style.opacity = '0'; 
+                if (dom.previewOverlay) {
+                    dom.previewOverlay.style.opacity = '1'; 
+                    dom.previewOverlay.style.pointerEvents = 'auto'; 
+                }
+                currentImageIndex = -1; 
+                showPreviewImage(0); 
+                lucide.createIcons(); 
+            }
         });
     }
 
@@ -2010,40 +2612,36 @@
         if(e) e.stopPropagation(); 
         if (dom.previewScreenshot) dom.previewScreenshot.classList.remove('animate-subtleZoomIn'); 
         setTimeout(() => { 
-            if (dom.previewOverlay) { dom.previewOverlay.style.opacity = '0'; dom.previewOverlay.style.pointerEvents = 'none'; }
+            if (dom.previewOverlay) {
+                dom.previewOverlay.style.opacity = '0'; 
+                dom.previewOverlay.style.pointerEvents = 'none'; 
+            }
             if (dom.previewScreenshot) dom.previewScreenshot.style.opacity = '0'; 
             if (dom.coverImg) dom.coverImg.style.opacity = '1'; 
         }, 300); 
     }
 
-    // INITIALIZATION
     document.addEventListener('DOMContentLoaded', function() {
       const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
       if (localStorage.getItem(storageKey)) {
           const loveIcon = document.getElementById('loveIcon');
-          if (loveIcon) loveIcon.classList.add('fill-current');
+          if (loveIcon) {
+              loveIcon.classList.add('fill-current');
+          }
       }
 
-      const unlockedPlan = localStorage.getItem('user_plan_' + PRODUCT_UNIQUE_ID);
-      if (unlockedPlan) { 
-          setUnlockedState(unlockedPlan); 
+      const unlocked = localStorage.getItem('unlocked_' + PRODUCT_UNIQUE_ID);
+      if (unlocked === 'true') { 
+          setUnlockedState('true'); 
       }
       
       const urlParams = new URLSearchParams(window.location.search);
-      // Verify payment success
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
         history.replaceState(null, '', window.location.pathname); 
         sessionStorage.removeItem('payment_initiated');
-        
-        // Upgrade plan from pending to actual
-        const pendingPlan = sessionStorage.getItem('pending_plan') || 'BASIC';
-        localStorage.setItem('user_plan_' + PRODUCT_UNIQUE_ID, pendingPlan);
-        
-        if (dom.unlockBtn) dom.unlockBtn.setAttribute('data-unlocked', pendingPlan); 
-        
-        // Start unlock, default to Hindi (can change)
-        const preSelectedLang = sessionStorage.getItem('selected_language') || 'HINDI'; 
-        startUnlockProcess(preSelectedLang);
+        const plan = sessionStorage.getItem('selected_plan_type') || 'BASIC';
+        if (dom.unlockBtn) dom.unlockBtn.setAttribute('data-unlocked', 'true'); 
+        startUnlockProcess(plan);
       }
       
       AOS.init({ duration: 800, once: true, offset: 120 }); 
@@ -2061,108 +2659,135 @@
       });
       
       const book3d = document.getElementById('book3d');
-      if (book3d && 'ontouchstart' in window) {
-          book3d.style.transform = 'rotateY(-12deg) rotateX(4deg)';
-          book3d.addEventListener('touchstart', function() { this.style.transform = 'rotateY(-8deg) rotateX(6deg) translateY(-8px)'; });
-          book3d.addEventListener('touchend', function() { this.style.transform = 'rotateY(-12deg) rotateX(4deg)'; });
+      if (book3d) {
+          if ('ontouchstart' in window) {
+              book3d.style.transform = 'rotateY(-12deg) rotateX(4deg)';
+              book3d.addEventListener('touchstart', function() {
+                  this.style.transform = 'rotateY(-8deg) rotateX(6deg) translateY(-8px)';
+              });
+              book3d.addEventListener('touchend', function() {
+                  this.style.transform = 'rotateY(-12deg) rotateX(4deg)';
+              });
+          }
       }
       
       window.addEventListener('scroll', handleScrollForStickyBar);
-  });
-
-    let stickyBarVisible = false;
-    let lastScrollPosition = 0;
-    function handleScrollForStickyBar() {
-        if (window.innerWidth > 640) return; 
-        const currentScroll = window.pageYOffset;
-        const scrollThreshold = 300;
-        
-        if (currentScroll > scrollThreshold && currentScroll > lastScrollPosition) {
-            if (!stickyBarVisible) { dom.mobileStickyBar.classList.add('show'); stickyBarVisible = true; }
-        } else if (currentScroll < scrollThreshold || currentScroll < lastScrollPosition) {
-            if (stickyBarVisible) { dom.mobileStickyBar.classList.remove('show'); stickyBarVisible = false; }
-        }
-        lastScrollPosition = currentScroll;
-    }
+    });
 
     let scrollTriggered = false;
     window.addEventListener('scroll', function() {
         if (!scrollTriggered && window.scrollY > 100) {
-            triggerProfileShine(); scrollTriggered = true;
+            triggerProfileShine();
+            scrollTriggered = true;
         }
     });
 
     function animateCount(el, start, end, duration) {
-        let startTime = null; let isFloat = end % 1 !== 0;
+        let startTime = null; 
+        let isFloat = end % 1 !== 0;
+        
         function step(timestamp) {
             if (!startTime) startTime = timestamp; 
-            const progress = timestamp - startTime; const pct = Math.min(progress / duration, 1);
+            const progress = timestamp - startTime; 
+            const pct = Math.min(progress / duration, 1);
             let val = start + (end - start) * pct; 
             el.textContent = isFloat ? val.toFixed(1) : Math.floor(val).toLocaleString('en-IN');
             if (pct < 1) window.requestAnimationFrame(step); 
             else el.textContent = isFloat ? end.toFixed(1) : end.toLocaleString('en-IN');
-        } window.requestAnimationFrame(step);
+        } 
+        window.requestAnimationFrame(step);
     }
     
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             document.querySelectorAll('.stat-value span[data-target]').forEach(span => {
-                if (span.id !== 'live-heart-count') { animateCount(span, 0, parseFloat(span.getAttribute('data-target')), 2000); }
-            }); observer.disconnect();
+                if (span.id !== 'live-heart-count') { 
+                    animateCount(span, 0, parseFloat(span.getAttribute('data-target')), 2000); 
+                }
+            });
+            observer.disconnect();
         }
     }, { threshold: 0.5 }); 
+    
     const statsSection = document.getElementById('stats-section');
     if (statsSection) observer.observe(statsSection);
 
     function triggerCelebration() { 
-        confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 }, colors: ['#6366f1', '#a855f7', '#10b981'], zIndex: 2000 }); 
+        confetti({ 
+            particleCount: 180, 
+            spread: 100, 
+            origin: { y: 0.6 }, 
+            colors: ['#6366f1', '#a855f7', '#10b981'], 
+            zIndex: 2000 
+        }); 
     }
     
+    /* NEW PLAN SELECTION MODAL LOGIC */
+    window.openPlanSelectionModal = function() {
+        if(dom.planSelectionModal) {
+            dom.planSelectionModal.style.display = 'flex';
+            dom.mobileStickyBar.classList.remove('show'); 
+            // Hide sticky bar to prevent overlap
+            dom.mobileStickyBar.style.display = 'none';
+        }
+        lucide.createIcons();
+    }
+    
+    window.closePlanSelectionModal = function() {
+        if(dom.planSelectionModal) {
+            dom.planSelectionModal.style.display = 'none';
+            // Restore sticky bar
+            dom.mobileStickyBar.style.display = 'flex';
+            handleScrollForStickyBar();
+        }
+    }
+    
+    window.initiatePlanPayment = function(planType) {
+        closePlanSelectionModal();
+        selectedPlanForPayment = planType;
+        
+        if (planType === 'BASIC') currentPaymentUrl = link119;
+        else if (planType === 'STANDARD') currentPaymentUrl = link209;
+        else if (planType === 'PREMIUM') currentPaymentUrl = link499;
+        
+        openPaymentModal();
+    }
+    
+    /* UPDATED PAYMENT MODAL LOGIC */
     let countdownInterval;
+
     function openPaymentModal() { 
         document.body.style.overflow = 'hidden'; 
         const paymentModal = document.getElementById('paymentModal');
         if (paymentModal) {
             paymentModal.style.display = 'flex'; 
             paymentModal.querySelector('.modal-content').classList.add('animate-modalFadeIn'); 
-            toggleBodyModalClass(true);
         }
         
-        // Skip language selection in modal, go straight to iframe loading for Plan
-        handlePaymentLanguageSelection('HINDI'); // Defaulting, or use 'ENGLISH' if needed
+        // Hide Sticky bar
+        dom.mobileStickyBar.style.display = 'none';
         
-        if (dom.bottomShield) { dom.bottomShield.classList.add('inactive'); }
-        lucide.createIcons(); 
-    }
-    
-    function closePaymentModal() { 
-        document.body.style.overflow = ''; 
-        const paymentModal = document.getElementById('paymentModal');
-        if (paymentModal) { paymentModal.style.display = 'none'; toggleBodyModalClass(false); }
-        const paymentTimer = document.getElementById('paymentTimer');
-        if (paymentTimer) paymentTimer.style.display = 'none'; 
-        if(countdownInterval) clearInterval(countdownInterval); 
-    }
-    
-    function handlePaymentLanguageSelection(lang) {
-        // We hide the language selection UI since we are auto-selecting or plan-based
-        const paymentLangSelection = document.getElementById('paymentLangSelection');
+        // Start payment directly with selected link
         const paymentLoader = document.getElementById('paymentLoader');
         const cashfreeIframe = document.getElementById('cashfreeIframe');
         
-        if (paymentLangSelection) paymentLangSelection.style.display = 'none'; 
         if (paymentLoader) paymentLoader.style.display = 'flex';
         
         sessionStorage.setItem('payment_initiated', 'true'); 
-        sessionStorage.setItem('selected_language', lang);
+        sessionStorage.setItem('selected_plan_type', selectedPlanForPayment); // Store PLAN
         
         if (cashfreeIframe) cashfreeIframe.src = currentPaymentUrl;
         
         setTimeout(() => { 
             if (paymentLoader) paymentLoader.style.display = 'none'; 
-            if (cashfreeIframe) { cashfreeIframe.style.display = 'block'; }
+            if (cashfreeIframe) {
+                cashfreeIframe.style.display = 'block'; 
+            }
             setTimeout(() => { 
-                if (dom.bottomShield) { dom.bottomShield.classList.remove('inactive'); dom.bottomShield.style.zIndex = '25'; }
+                if (dom.bottomShield) {
+                    dom.bottomShield.classList.remove('inactive'); 
+                    dom.bottomShield.style.zIndex = '25'; 
+                }
             }, 36000); 
         }, 2000); 
         
@@ -2176,25 +2801,53 @@
             if (timerCount) timerCount.textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; 
             if(tl<0) closePaymentModal(); 
         }, 1000);
+        
+        if (dom.bottomShield) {
+            dom.bottomShield.classList.add('inactive'); 
+        }
+        lucide.createIcons(); 
+    }
+    
+    function closePaymentModal() { 
+        document.body.style.overflow = ''; 
+        const paymentModal = document.getElementById('paymentModal');
+        if (paymentModal) paymentModal.style.display = 'none'; 
+        
+        // Restore Sticky Bar
+        dom.mobileStickyBar.style.display = 'flex';
+        handleScrollForStickyBar();
+        
+        const paymentTimer = document.getElementById('paymentTimer');
+        if (paymentTimer) paymentTimer.style.display = 'none'; 
+        
+        if(countdownInterval) clearInterval(countdownInterval); 
     }
     
     function openConfirmationModal() { 
         const confirmationModal = document.getElementById('confirmationModal');
-        if (confirmationModal) { confirmationModal.classList.add('active'); confirmationModal.style.display='flex'; toggleBodyModalClass(true); }
+        if (confirmationModal) {
+            confirmationModal.classList.add('active'); 
+            confirmationModal.style.display='flex'; 
+        }
     }
     
     function confirmExitPayment(y) { 
         const confirmationModal = document.getElementById('confirmationModal');
         if (confirmationModal) {
             confirmationModal.classList.remove('active'); 
-            setTimeout(()=> { confirmationModal.style.display='none'; toggleBodyModalClass(false); }, 300); 
+            setTimeout(()=> {
+                confirmationModal.style.display='none';
+            }, 300); 
         }
         if(y) closePaymentModal(); 
     }
     
     function submitFeedback() {
         const txt = document.getElementById('feedbackTextarea'); 
-        if(!txt || !txt.value.trim()) { txt.classList.add('border-red-500'); return; }
+        if(!txt || !txt.value.trim()) { 
+            txt.classList.add('border-red-500'); 
+            return; 
+        }
         
         const feedbackForm = document.getElementById('feedbackForm');
         const feedbackSuccess = document.getElementById('feedbackSuccess');
@@ -2203,24 +2856,32 @@
         
         setTimeout(() => { 
             const feedbackModal = document.getElementById('feedbackModal');
-            if (feedbackModal) { feedbackModal.style.display='none'; toggleBodyModalClass(false); }
+            if (feedbackModal) feedbackModal.style.display='none'; 
         }, 2000);
     }
     
     function closeFeedbackModal(backToLibrary) { 
         const feedbackModal = document.getElementById('feedbackModal');
-        if (feedbackModal) { feedbackModal.style.display = 'none'; toggleBodyModalClass(false); }
+        if (feedbackModal) feedbackModal.style.display = 'none'; 
     }
     
+    // Details/summary toggle functionality
     document.querySelectorAll('summary').forEach(s => s.addEventListener('click', function(e) {
         e.preventDefault(); 
         const c = this.parentElement.querySelector('.details-content');
         if(!c) return;
+        
         if(this.parentElement.hasAttribute('open')) { 
-            c.style.height='0'; setTimeout(()=>this.parentElement.removeAttribute('open'),300); 
+            c.style.height='0'; 
+            setTimeout(()=>this.parentElement.removeAttribute('open'),300); 
         } else { 
-            this.parentElement.setAttribute('open',''); c.style.height='auto'; 
-            const h=c.offsetHeight; c.style.height='0'; void c.offsetWidth; c.style.height=h+'px'; c.style.opacity='1'; 
+            this.parentElement.setAttribute('open',''); 
+            c.style.height='auto'; 
+            const h=c.offsetHeight; 
+            c.style.height='0'; 
+            void c.offsetWidth; 
+            c.style.height=h+'px'; 
+            c.style.opacity='1'; 
         }
     }));
   </script>
