@@ -549,7 +549,8 @@
     .viewer-sidebar { width: 240px; background: rgba(17, 24, 39, 0.6); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
     .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
     .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
-    .viewer-tab.tab-disabled { opacity: 0.3; filter: grayscale(1); pointer-events: none; cursor: default; display: none; }
+    /* FIXED: Changed to display flex to keep visible */
+    .viewer-tab.tab-disabled { opacity: 0.4; filter: grayscale(1); pointer-events: none; cursor: not-allowed; display: flex; background: rgba(255,255,255,0.02); }
     .viewer-main { flex: 1; padding: 0; overflow: hidden; background: #020617; position: relative; }
     .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; }
     .viewer-section.active { display: flex; }
@@ -1111,16 +1112,17 @@
         100% { transform: skewX(-20deg) translateX(150%); }
     }
 
+    /* FIXED: Shine effect loop continuously */
     .premium-shine-effect {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
         transform: skewX(-20deg) translateX(-150%);
-        /* Run once smoothly for 1.5s after a 0.2s delay */
-        animation: shineEffect 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+        /* Changed animation to infinite and increased duration for smoothness */
+        animation: shineEffect 1.5s linear infinite;
         pointer-events: none;
         z-index: 1;
     }
@@ -1166,7 +1168,6 @@
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
 
-  <!-- BACKGROUND GLOW EFFECT -->
   <div class="background-glow">
       <div class="glow-circle glow-top-left"></div>
       <div class="glow-circle glow-bottom-right"></div>
@@ -1177,7 +1178,6 @@
       <span id="toastMessage">Product Unlocked! Access Granted.</span>
   </div>
 
-  <!-- Mobile Sticky Bar -->
   <div id="mobileStickyBar" class="mobile-sticky-bar">
       <button onclick="openPlanSelectionModal()" class="sticky-bar-button">
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
@@ -1185,7 +1185,6 @@
       </button>
   </div>
 
-  <!-- Premium Loading Overlay -->
   <div id="premiumLoadingOverlay" class="premium-loading-overlay">
       <div class="jumping-loader">
           <span class="ball"></span>
@@ -1276,7 +1275,6 @@
       </div>
   </div>
 
-  <!-- Why This Book Modal -->
   <div id="whyBookModal" class="modal">
       <div class="modal-content animate-modalFadeIn">
           <button onclick="closeWhyBookModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white"><i data-lucide="x" class="h-5 w-5"></i></button>
@@ -1369,7 +1367,6 @@
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
             </div>
             
-            <!-- ENHANCED PREMIUM SETTINGS MENU -->
             <div class="floating-quick-actions">
                 <div id="cuteQuickMenu" class="cute-quick-menu">
                     <div class="cute-menu-item" onclick="handleCuteMenuItemClick('love', event)">
@@ -1474,7 +1471,6 @@
               </div>
             </div>
 
-            <!-- UPGRADED LASER SNAKE BORDER -->
             <div id="unlockContainer" class="snake-container items-center" style="display: none;">
                 <div class="snake-border"></div>
                 <div class="snake-mask"></div>
@@ -1554,7 +1550,6 @@
     </div>
   </section>
 
-  <!-- Plan Selection Modal -->
   <div id="planSelectionModal" class="modal">
     <div class="modal-content animate-modalFadeIn">
         <button onclick="closePlanSelectionModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white z-50 p-2 bg-black/40 rounded-full"><i data-lucide="x" class="h-5 w-5"></i></button>
@@ -1565,7 +1560,6 @@
         </div>
         
         <div class="plan-grid">
-            <!-- Basic Plan -->
             <div class="plan-card">
                 <span class="plan-name">Basic</span>
                 <div class="plan-price"><span class="plan-currency">₹</span>119</div>
@@ -1575,15 +1569,14 @@
                     <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Audio Podcast</li>
                     <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Explainer Video</li>
                     <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> 3D Flipbook</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Mind Map</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Zip File</li>
                 </ul>
                 
                 <button onclick="initiatePlanPayment('BASIC')" class="plan-btn btn-basic">Select Basic</button>
             </div>
             
-            <!-- Standard Plan -->
             <div class="plan-card standard">
-                <span class="plan-badge badge-standard">Most Popular</span>
+                <span class="plan-badge badge-standard"></span>
                 <span class="plan-name text-fuchsia-400">Standard</span>
                 <div class="plan-price"><span class="plan-currency">₹</span>209</div>
                 
@@ -1592,16 +1585,15 @@
                     <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Audio Podcast</li>
                     <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Explainer Video</li>
                     <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> 3D Flipbook</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Mind Map</li>
+                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Zip File</li>
                 </ul>
                 
                 <button onclick="initiatePlanPayment('STANDARD')" class="plan-btn btn-standard">Select Standard</button>
             </div>
             
-            <!-- Premium Plan -->
             <div class="plan-card premium">
                 <div class="premium-shine-effect"></div>
-                <span class="plan-badge badge-premium">Premium Value</span>
+                <span class="plan-badge badge-premium"></span>
                 <span class="plan-name text-amber-400">Premium</span>
                 <div class="plan-price"><span class="plan-currency">₹</span>499</div>
                 
@@ -1610,7 +1602,7 @@
                     <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Audio Podcast</li>
                     <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Explainer Video</li>
                     <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> 3D Flipbook</li>
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Mind Map</li>
+                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Zip File</li>
                 </ul>
                 
                 <button onclick="initiatePlanPayment('PREMIUM')" class="plan-btn btn-premium">Get Full Access</button>
@@ -1670,7 +1662,6 @@
       </div>
   </div>
 
-  <!-- Demo Flipbook Modal -->
   <div id="demoFlipbookModal" class="modal">
       <div class="modal-content animate-modalFadeIn" style="max-width: 95%; max-height: 90vh; padding: 0; background: #0f172a; width: 95%;">
           <div class="viewer-header">
@@ -1871,9 +1862,9 @@
   </script>
 
   <script>
-    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showFlipbook: true };
+    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: false, showFlipbook: true };
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
-    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-540705gfds68cjdf';
+    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-54070568fs3cjdf';
     
     /* 3 TIER PRICING LINKS */
     const link119 = "https://payments.cashfree.com/forms/basic_plan_119";
@@ -2295,17 +2286,20 @@
         document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
         
         const clickedTab = document.getElementById(`tab-${tabId}`);
-        if(clickedTab) clickedTab.classList.add('active');
-        
-        let targetSectionId = `view-${tabId}`;
-        const section = document.getElementById(targetSectionId);
-        if(section) section.classList.add('active');
-        
-        if (tabId === 'flipbook') {
-            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH;
-            if (content.FLIPBOOK && dom.flipbookFrame) {
-                dom.flipbookFrame.src = content.FLIPBOOK;
-            }
+        // FIXED: Only switch if tab exists and is not disabled
+        if(clickedTab && !clickedTab.classList.contains('tab-disabled')) {
+             clickedTab.classList.add('active');
+             
+             let targetSectionId = `view-${tabId}`;
+             const section = document.getElementById(targetSectionId);
+             if(section) section.classList.add('active');
+             
+             if (tabId === 'flipbook') {
+                 const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH;
+                 if (content.FLIPBOOK && dom.flipbookFrame) {
+                     dom.flipbookFrame.src = content.FLIPBOOK;
+                 }
+             }
         }
     }
 
@@ -2335,76 +2329,114 @@
         }
     }
 
+    // FIXED: Updated openViewerModal logic
     function openViewerModal() {
         const purchasedPlan = localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID) || 'BASIC';
+        const sidebar = document.querySelector('.viewer-sidebar');
         
-        // Dynamic UI Filtering based on Plan
-        const tabVideo = document.getElementById('tab-video');
-        const tabAudio = document.getElementById('tab-audio');
-        const tabPdf = document.getElementById('tab-pdf');
-        const tabFlipbook = document.getElementById('tab-flipbook');
-        const tabImage = document.getElementById('tab-image');
+        // Define allowed features per plan
+        const features = {
+            'BASIC': ['pdf'],
+            'STANDARD': ['pdf', 'audio'],
+            'PREMIUM': ['pdf', 'audio', 'video', 'flipbook', 'image']
+        };
+        const allowed = features[purchasedPlan] || features['BASIC'];
         
-        // Reset tabs
-        [tabVideo, tabAudio, tabPdf, tabFlipbook, tabImage].forEach(tab => {
-            if(tab) {
-                tab.style.display = 'none';
+        // Helper to check permission
+        const isAllowed = (type) => allowed.includes(type);
+
+        // Map tabs for sorting and logic
+        const tabMap = {
+            'tab-pdf': 'pdf',
+            'tab-audio': 'audio',
+            'tab-video': 'video',
+            'tab-flipbook': 'flipbook',
+            'tab-image': 'image'
+        };
+        const tabOrderPriority = ['pdf', 'audio', 'video', 'flipbook', 'image'];
+
+        // 1. Process visual state (Enabled vs Disabled)
+        const tabs = Array.from(sidebar.children);
+        tabs.forEach(tab => {
+            const type = tabMap[tab.id];
+            if(type) {
                 tab.classList.remove('active');
+                tab.style.display = 'flex'; // Ensure visible
+                
+                if(isAllowed(type)) {
+                    tab.classList.remove('tab-disabled');
+                } else {
+                    tab.classList.add('tab-disabled');
+                }
             }
         });
-        
-        // Show Tabs Logic
-        if(tabPdf) tabPdf.style.display = 'flex'; // Everyone gets PDF
-        
-        if (purchasedPlan === 'STANDARD' || purchasedPlan === 'PREMIUM') {
-            if(tabAudio) tabAudio.style.display = 'flex';
+
+        // 2. Sort tabs: Enabled first, then by priority
+        tabs.sort((a, b) => {
+            const aDis = a.classList.contains('tab-disabled');
+            const bDis = b.classList.contains('tab-disabled');
+            
+            // If one is disabled and other enabled, enabled comes first
+            if(aDis !== bDis) return aDis ? 1 : -1;
+            
+            // If both same state, sort by priority
+            const typeA = tabMap[a.id];
+            const typeB = tabMap[b.id];
+            return tabOrderPriority.indexOf(typeA) - tabOrderPriority.indexOf(typeB);
+        });
+
+        // Re-append to sidebar
+        tabs.forEach(tab => sidebar.appendChild(tab));
+
+        // 3. Switch to first enabled tab
+        const firstEnabled = tabs.find(t => !t.classList.contains('tab-disabled'));
+        if(firstEnabled) {
+            const type = tabMap[firstEnabled.id];
+            switchViewerTab(type);
         }
-        
-        if (purchasedPlan === 'PREMIUM') {
-            if(tabVideo) tabVideo.style.display = 'flex';
-            if(tabFlipbook) tabFlipbook.style.display = 'flex';
-            if(tabImage) tabImage.style.display = 'flex';
-            if(dom.zipDownloadBtn) dom.zipDownloadBtn.classList.remove('hidden');
-        } else {
-            if(dom.zipDownloadBtn) dom.zipDownloadBtn.classList.add('hidden');
-        }
-        
-        // Badge
+
+        // 4. Update Badge
         if (dom.planBadge) {
             dom.planBadge.textContent = 'PLAN: ' + purchasedPlan;
             dom.planBadge.classList.remove('hidden');
         }
-        
-        // Default Active Tab
-        switchViewerTab('pdf');
 
+        // 5. ZIP Button Visibility (Premium Only)
+        if(dom.zipDownloadBtn) {
+             dom.zipDownloadBtn.classList.toggle('hidden', purchasedPlan !== 'PREMIUM');
+        }
+
+        // 6. Load Sources (Load all, but access restricted by UI)
         const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
         
+        // Video
         const videoEl = document.getElementById('videoSource'); 
-        const audioEl = document.getElementById('audioSource');
-        const imgEl = document.getElementById('imageSource'); 
-        const pdfFr = document.getElementById('pdfFrame');
-        
-        if(content.VIDEO && videoEl && purchasedPlan === 'PREMIUM') { 
+        if(content.VIDEO && videoEl) { 
             const source = videoEl.querySelector('source'); 
             if(source) { source.src = content.VIDEO; videoEl.load(); } 
             const videoBtn = document.getElementById('btn-dl-video');
             if (videoBtn) videoBtn.onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); 
         }
         
-        if(content.AUDIO && audioEl && (purchasedPlan === 'STANDARD' || purchasedPlan === 'PREMIUM')) { 
+        // Audio
+        const audioEl = document.getElementById('audioSource');
+        if(content.AUDIO && audioEl) { 
             const source = audioEl.querySelector('source'); 
             if(source) { source.src = content.AUDIO; audioEl.load(); } 
             const audioBtn = document.getElementById('btn-dl-audio');
             if (audioBtn) audioBtn.onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3'); 
         }
         
-        if(content.MINDMAP && imgEl && purchasedPlan === 'PREMIUM') { 
+        // Mindmap
+        const imgEl = document.getElementById('imageSource'); 
+        if(content.MINDMAP && imgEl) { 
             imgEl.src = content.MINDMAP; 
             const imageBtn = document.getElementById('btn-dl-image');
             if (imageBtn) imageBtn.onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); 
         }
         
+        // PDF
+        const pdfFr = document.getElementById('pdfFrame');
         if(content.PDF && pdfFr) { 
             let pdfLink = content.PDF; 
             const pdfBtn = document.getElementById('btn-dl-pdf');
@@ -2413,6 +2445,7 @@
             else { const encodedUrl = encodeURIComponent(pdfLink); pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; }
         }
         
+        // Show Modal
         if(dom.productViewerModal) {
             dom.productViewerModal.style.display = 'flex'; 
             dom.productViewerContent.classList.add('animate-modalFadeIn'); 
