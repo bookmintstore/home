@@ -41,7 +41,9 @@
             book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
             saleGlow: '0 0 15px rgba(34, 197, 94, 0.4)',
             profileGlow: '0 0 30px rgba(168, 85, 247, 0.3)',
-            notification: '0 8px 25px rgba(0,0,0,0.4)'
+            notification: '0 8px 25px rgba(0,0,0,0.4)',
+            'glass-inset': 'inset 0 0 20px rgba(255, 255, 255, 0.05)',
+            'neon-border': '0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(99, 102, 241, 0.3)'
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -85,7 +87,7 @@
             notificationSlideOut: 'notificationSlideOut 0.5s ease-in forwards',
             stickyBarSlideUp: 'stickyBarSlideUp 0.4s ease-out forwards',
             stickyBarSlideDown: 'stickyBarSlideDown 0.4s ease-in forwards',
-            themeToggleRotate: 'themeToggleRotate 0.6s ease-out'
+            dashSlideUp: 'dashSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
           },
           keyframes: {
             shine: { '0%': { transform: 'translateX(-140%)' }, '100%': { transform: 'translateX(140%)' } },
@@ -214,9 +216,9 @@
               '0%': { transform: 'translateY(0)' },
               '100%': { transform: 'translateY(100%)' }
             },
-            themeToggleRotate: {
-              '0%': { transform: 'rotate(0deg)' },
-              '100%': { transform: 'rotate(360deg)' }
+            dashSlideUp: {
+              '0%': { opacity: 0, transform: 'translateY(50px) scale(0.96)' },
+              '100%': { opacity: 1, transform: 'translateY(0) scale(1)' }
             }
           }
         }
@@ -225,29 +227,6 @@
   </script>
 
   <style>
-    /* CSS VARIABLES FOR THEME */
-    :root {
-      --bg-primary: #0b0e13;
-      --bg-secondary: rgba(255, 255, 255, 0.05);
-      --text-primary: #ffffff;
-      --text-secondary: #cbd5e1;
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --shadow-color: rgba(0, 0, 0, 0.3);
-      --glow-intensity: 0.7;
-    }
-    
-    [data-theme="light"] {
-      --bg-primary: #f8fafc;
-      --bg-secondary: rgba(0, 0, 0, 0.05);
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --card-border: rgba(0, 0, 0, 0.1);
-      --shadow-color: rgba(0, 0, 0, 0.1);
-      --glow-intensity: 0.3;
-    }
-    
     /* BASIC SETUP */
     @keyframes waveJump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -257,46 +236,8 @@
       font-family:'Poppins',sans-serif; 
       overflow-x: hidden; 
       scroll-behavior: smooth; 
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
+      background-color: #0b0e13;
       padding-bottom: 0;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    /* THEME TOGGLE BUTTON */
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 999;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(168, 85, 247, 0.1);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(168, 85, 247, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(168, 85, 247, calc(var(--glow-intensity) * 0.5));
-    }
-    
-    .theme-toggle:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 25px rgba(168, 85, 247, var(--glow-intensity));
-      border-color: rgba(168, 85, 247, 0.5);
-    }
-    
-    .theme-toggle.rotating {
-      animation: themeToggleRotate 0.6s ease-out;
-    }
-    
-    .theme-toggle i {
-      font-size: 1.4rem;
-      color: var(--text-primary);
-      transition: all 0.3s ease;
     }
     
     /* ROLLING TEXT */
@@ -307,10 +248,6 @@
     .brand-col { display: flex; flex-direction: column; line-height: 1; justify-content: center; }
     .creator-text { font-size: 0.55rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-top: 3px; margin-left: 1px; }
     
-    [data-theme="light"] .creator-text {
-      color: rgba(0, 0, 0, 0.7);
-    }
-    
     .aarohi-profile-trigger {
         display: flex; 
         align-items: center; 
@@ -318,8 +255,8 @@
         cursor: pointer;
         padding: 12px 16px; 
         border-radius: 16px;
-        background: var(--bg-secondary); 
-        border: 1px solid var(--card-border);
+        background: rgba(255,255,255,0.03); 
+        border: 1px solid rgba(255,255,255,0.08);
         transition: all 0.3s ease;
         width: fit-content;
         position: relative;
@@ -330,11 +267,6 @@
         background: rgba(255,255,255,0.08); 
         transform: translateY(-2px); 
         border-color: rgba(168, 85, 247, 0.4);
-    }
-    
-    [data-theme="light"] .aarohi-profile-trigger {
-      background: rgba(0, 0, 0, 0.03);
-      border-color: rgba(0, 0, 0, 0.1);
     }
     
     .profile-shine-overlay {
@@ -376,25 +308,15 @@
     .dp-blur-bg { position: absolute; inset: 0; background-size: cover; filter: blur(12px); border-radius: 50%; z-index: 1; opacity: 0.6; }
 
     .social-btn {
-        background: var(--bg-secondary); border: 1px solid var(--card-border);
+        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
         padding: 10px; border-radius: 10px; display: flex; align-items: center; gap: 8px;
         font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: 0.3s;
-        color: var(--text-primary);
     }
     .social-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.02); }
-    
-    [data-theme="light"] .social-btn {
-      background: rgba(0, 0, 0, 0.05);
-      border-color: rgba(0, 0, 0, 0.1);
-    }
-    
-    [data-theme="light"] .social-btn:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
 
     .reaction-trigger-btn {
-        background: var(--bg-secondary);
-        border: 1px solid var(--card-border);
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
         backdrop-filter: blur(4px);
         transition: all 0.3s ease;
     }
@@ -410,20 +332,20 @@
     .action-container.stacked .snake-container { width: 100%; max-width: 320px; }
     .action-container.stacked .unlock-btn { width: 100%; justify-content: center; }
 
-    /* BUNDLE SHOWCASE - MODIFIED: Removed box styling */
+    /* BUNDLE SHOWCASE */
     .bundle-grid { display: flex; gap: 24px; margin: 12px 0; flex-wrap: wrap; }
     .bundle-card { text-align: left; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
     .bundle-card:hover { transform: translateY(-2px); }
-    .bundle-icon-wrap { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0px; background: var(--bg-secondary); }
-    .bundle-label { font-size: 0.75rem; font-weight: 500; color: var(--text-secondary); line-height: 1.1; }
+    .bundle-icon-wrap { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0px; background: rgba(255, 255, 255, 0.05); }
+    .bundle-label { font-size: 0.75rem; font-weight: 500; color: #cbd5e1; line-height: 1.1; }
 
     /* COVER SHINE & SPINNER */
-    .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px var(--shadow-color); background: linear-gradient(180deg,#111217,#0f1216); }
+    .cover { position:absolute; width: 100%; height: 100%; left: 0; top: 0; transform: translateZ(12px) rotateY(0deg); border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.45); background: linear-gradient(180deg,#111217,#0f1216); }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.28s ease, transform 0.28s ease; opacity:0; transform: scale(1.02); will-change: opacity, transform; }
     #coverFace { cursor: pointer; }
     
     .cover-loading-spin { position: absolute; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 1; transition: opacity 0.4s ease-out; }
-    .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, calc(var(--glow-intensity) * 0.7)), inset 0 0 6px rgba(99, 102, 241, 0.5); }
+    .loading-half-wheel { width: 40px; height: 40px; border: 4px solid transparent; border-radius: 50%; border-top-color: #6366f1; border-left-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.7), inset 0 0 6px rgba(99, 102, 241, 0.5); }
     .cover.loaded .cover-loading-spin { opacity: 0; }
     
     .cover-shine { position:absolute; inset:0; z-index:20; pointer-events:none; background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 28%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0.7) 72%, rgba(0,0,0,0) 100%); transform: translateX(-160%) skewX(-10deg); mix-blend-mode: multiply; opacity:0.95; animation: coverFast 0.45s linear infinite; transition: none; filter: blur(8px); }
@@ -443,7 +365,7 @@
         opacity: 1;
     }
 
-    /* UPGRADED LASER GLOW BORDER - FIX 3: MODERN LASER GLOW BORDER */
+    /* SNAKE GLOW BORDER */
     .snake-container { 
         position: relative; 
         display: none; 
@@ -453,7 +375,7 @@
         margin-left: 0; 
         background: transparent; 
         overflow: hidden; 
-        box-shadow: 0 0 35px rgba(16, 185, 129, calc(var(--glow-intensity) * 0.4)); 
+        box-shadow: 0 0 35px rgba(16, 185, 129, 0.4); 
     }
     .snake-border { 
         position: absolute; 
@@ -479,7 +401,7 @@
     .snake-mask { 
         position: absolute; 
         inset: 3px; 
-        background: var(--bg-primary); 
+        background: #0b0e13; 
         border-radius: 11px; 
         z-index: 1; 
     }
@@ -508,7 +430,7 @@
         border-radius: 10px; 
         font-weight: 800; 
         font-size: 0.95rem; 
-        box-shadow: 0 4px 15px var(--shadow-color); 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
         cursor: pointer; 
         border: none; 
         transition: transform 0.2s, background-color 0.2s; 
@@ -532,11 +454,11 @@
     }
 
     /* CTA BUTTONS */
-    .cta-btn{ position:relative; overflow:hidden; box-shadow: 0 8px 30px rgba(124,58,237,calc(var(--glow-intensity) * 0.25)); }
+    .cta-btn{ position:relative; overflow:hidden; box-shadow: 0 8px 30px rgba(124,58,237,0.25); }
     .cta-btn .cta-shine{ position:absolute; inset:-6px; transform:translateX(-140%) skewX(-30deg); background:linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.43) 45%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0) 100%); transition: opacity 0.2s; opacity: 0.90; mix-blend-mode: screen; pointer-events:none; }
     .cta-btn:hover .cta-shine { opacity: 1; }
     .cta-btn.no-shine .cta-shine { display: none !important; animation: none !important; }
-    .cta-btn.no-shine { box-shadow: none; background: var(--bg-secondary); color: var(--text-secondary); }
+    .cta-btn.no-shine { box-shadow: none; background: rgba(255,255,255,0.1); color: #94a3b8; }
     .cta-btn .corner-bling{ pointer-events:none; position:absolute; inset:-6px; border-radius:12px; background:radial-gradient(160px 160px at 0 0, rgba(255,255,255,.65), transparent 60%), radial-gradient(160px 160px at 100% 0, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 0 100%, rgba(255,255,255,.5), transparent 60%), radial-gradient(160px 160px at 100% 100%, rgba(255,255,255,.5), transparent 60%); opacity:0; filter: blur(6px); }
     .cta-btn:hover .corner-bling { opacity: .95; }
 
@@ -567,7 +489,7 @@
         justify-content: center;
         color: white;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px var(--shadow-color);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .cover-support-btn:hover {
         background: rgba(99, 102, 241, 0.6);
@@ -576,32 +498,32 @@
     }
 
     /* TAG & STATS */
-    .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: var(--bg-secondary); backdrop-filter: blur(2px); border: 1px solid var(--card-border); font-size: 0.75rem; font-weight: 700; padding: 0 10px; border-radius: 6px; box-shadow: 0 1px 4px var(--shadow-color); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
+    .subtle-tag { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 255, 255, 0.08); backdrop-filter: blur(2px); border: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.75rem; font-weight: 700; padding: 0 10px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); text-transform: uppercase; letter-spacing: 0.5px; cursor: default; margin-bottom: 8px; height: 26px; min-width: 120px; }
     .tag-text-wrapper { position: relative; height: 100%; display: flex; align-items: flex-start; overflow: hidden; flex-grow: 1; }
     .tag-text { position: relative; white-space: nowrap; background-image: linear-gradient(90deg, #a855f7, #6366f1, #e0f2f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; line-height: 1; background-size: 200% auto; animation: gradient-shift 8s ease infinite; }
     .subtle-tag .tag-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; opacity: 0.8; animation: tagShine 3.0s ease-in-out infinite; }
     .stats-section { display: flex; justify-content: space-around; align-items: center; padding: 0; border-top: none; border-bottom: none; margin-top: 16px; }
     .stat-item { text-align: center; flex-grow: 1; padding: 0 8px; }
     .stat-value { font-size: 1.35rem; font-weight: 700; line-height: 1.1; color: #e0f2f1; margin-bottom: 4px; text-shadow: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .stat-value svg { color: #a855f7; filter: drop-shadow(0 0 4px rgba(168, 85, 247, calc(var(--glow-intensity) * 0.7))); }
-    .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
-    .star-glow svg { filter: drop-shadow(0 0 4px rgba(251, 191, 36, calc(var(--glow-intensity) * 0.6))); }
+    .stat-value svg { color: #a855f7; filter: drop-shadow(0 0 4px rgba(168, 85, 247, 0.7)); }
+    .stat-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; }
+    .star-glow svg { filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.6)); }
     .star-glow .filled { fill: #fbbf24; color: #fbbf24; }
     .star-glow .half { fill: transparent; color: #fbbf24; }
     .star-glow .empty { color: #475569; opacity: 0.45; }
 
     /* COUPON */
     .coupon-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 14px; margin-bottom: 8px; }
-    .coupon-input { background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-primary); padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; width: 140px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+    .coupon-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; width: 140px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
     .coupon-input:focus { border-color: #a855f7; outline: none; box-shadow: 0 0 0 2px rgba(168,85,247,0.2); }
-    .coupon-btn { background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-secondary); padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; font-weight: 600; }
-    .coupon-btn:hover { background: rgba(168,85,247,0.2); color: var(--text-primary); border-color: rgba(168,85,247,0.4); }
+    .coupon-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+    .coupon-btn:hover { background: rgba(168,85,247,0.2); color: white; border-color: rgba(168,85,247,0.4); }
     .coupon-applied { border-color: #22c55e !important; color: #22c55e !important; background: rgba(34,197,94,0.1) !important; pointer-events: none; }
     .price-original { position: relative; display: inline-block; color: #9ca3af; text-decoration: line-through; }
     
     /* MODALS */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-    .modal-content { position: relative; background-color: var(--card-bg); color: var(--text-primary); padding: 30px; border-radius: 12px; width: 85%; max-width: 400px; border: 1px solid var(--card-border); box-shadow: 0 5px 20px var(--shadow-color), 0 0 20px rgba(99,102,241,calc(var(--glow-intensity) * 0.25)); opacity: 0; transform: translateY(20px) scale(0.95); }
+    .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 85%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
     #previewOverlay { position: absolute; inset: 0; z-index: 8; background: #111; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; pointer-events: none; }
     #previewScreenshot { width: 100%; height: 100%; object-fit: cover; opacity: 0; border-radius: 8px; }
 
@@ -619,7 +541,7 @@
         color: white; 
         padding: 14px 20px; 
         border-radius: 16px; 
-        box-shadow: 0 10px 40px -10px var(--shadow-color), 0 0 0 1px rgba(255,255,255,0.1); 
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1); 
         z-index: 5000; 
         display: flex; 
         align-items: center; 
@@ -632,160 +554,101 @@
     #toastNotification.show { transform: translateX(0); }
     #toastNotification.error { border-left-color: #ef4444; }
 
-    #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: transparent; color: #fff; text-shadow: 0 2px 4px var(--shadow-color); font-size: 1.1rem; font-weight: 800; font-family: monospace; z-index: 2010; padding: 4px 10px; border-radius: 8px; }
+    #paymentTimer { display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: transparent; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); font-size: 1.1rem; font-weight: 800; font-family: monospace; z-index: 2010; padding: 4px 10px; border-radius: 8px; }
 
-    /* MODERN LIBRARY DASHBOARD */
-    #productViewerModal { z-index: 4000; }
+    /* DASHBOARD - REDESIGNED MODERN */
+    #productViewerModal { z-index: 4000; backdrop-filter: blur(8px); background-color: rgba(0,0,0,0.8); }
     #productViewerContent { 
-        width: 95%; 
-        max-width: 900px; 
-        height: 80vh; 
-        padding: 0; 
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display: flex; 
-        flex-direction: column; 
-        overflow: hidden; 
-        border: 1px solid rgba(255,255,255,0.2); 
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.8); 
-        border-radius: 24px;
-        animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    }
-    
-    [data-theme="light"] #productViewerContent {
-      background: linear-gradient(135deg, #a5b4fc 0%, #c4b5fd 100%);
-    }
-    
-    .viewer-header { 
-        padding: 20px 30px; 
-        border-bottom: 1px solid rgba(255,255,255,0.15); 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
+        width: 95%; max-width: 1000px; height: 85vh; padding: 0; 
         background: rgba(15, 23, 42, 0.8); 
-        backdrop-filter: blur(12px);
-        border-radius: 24px 24px 0 0;
-    }
-    
-    [data-theme="light"] .viewer-header {
-      background: rgba(255, 255, 255, 0.8);
-    }
-    
-    .viewer-body { 
-        flex: 1; 
-        display: flex; 
-        height: 100%; 
-        overflow: hidden; 
-        background: rgba(15, 23, 42, 0.6);
         backdrop-filter: blur(20px);
-        border-radius: 0 0 24px 24px;
+        display: flex; flex-direction: column; overflow: hidden; 
+        border: 1px solid rgba(255,255,255,0.1); 
+        box-shadow: 0 0 50px rgba(99, 102, 241, 0.25), inset 0 0 20px rgba(255,255,255,0.05);
+        border-radius: 24px;
+        transform-origin: center;
+        animation: dashSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
-    
-    [data-theme="light"] .viewer-body {
-      background: rgba(255, 255, 255, 0.6);
+    .viewer-header { 
+        padding: 20px 24px; 
+        border-bottom: 1px solid rgba(255,255,255,0.08); 
+        display: flex; justify-content: space-between; align-items: center; 
+        background: linear-gradient(90deg, rgba(99,102,241,0.1) 0%, rgba(168,85,247,0.1) 100%);
     }
+    .viewer-body { flex: 1; display: flex; height: 100%; overflow: hidden; }
     
     .viewer-sidebar { 
-        width: 240px; 
-        background: rgba(17, 24, 39, 0.7); 
-        backdrop-filter: blur(15px);
-        border-right: 1px solid rgba(255,255,255,0.15); 
-        padding: 25px 15px; 
-        display: flex; 
-        flex-direction: column; 
-        gap: 12px; 
-        border-radius: 0 0 0 24px;
-    }
-    
-    [data-theme="light"] .viewer-sidebar {
-      background: rgba(255, 255, 255, 0.7);
+        width: 260px; 
+        background: rgba(17, 24, 39, 0.4); 
+        border-right: 1px solid rgba(255,255,255,0.08); 
+        padding: 24px 16px; 
+        display: flex; flex-direction: column; gap: 12px; 
+        backdrop-filter: blur(10px);
     }
     
     .viewer-tab { 
-        padding: 15px 20px; 
+        padding: 14px 18px; 
         border-radius: 16px; 
         cursor: pointer; 
-        color: var(--text-secondary); 
-        transition: all 0.3s ease; 
+        color: #94a3b8; 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
         font-size: 0.95rem; 
-        display: flex; 
-        align-items: center; 
-        gap: 15px; 
-        font-weight: 600;
-        background: rgba(255, 255, 255, 0.05);
+        display: flex; align-items: center; gap: 12px; font-weight: 600; 
         border: 1px solid transparent;
+        background: rgba(255,255,255,0.02);
     }
     
     .viewer-tab:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateX(5px);
+        background: rgba(255,255,255,0.08);
+        transform: translateY(-2px) scale(1.02);
+        color: #f1f5f9;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
     
     .viewer-tab.active { 
-        background: linear-gradient(90deg, rgba(99,102,241,0.3) 0%, rgba(99,102,241,0.1) 100%); 
-        color: #818cf8; 
-        border-left: 4px solid #6366f1;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+        background: linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(168,85,247,0.2) 100%); 
+        color: #e0e7ff; 
+        border: 1px solid rgba(168,85,247,0.3);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
     }
     
     .viewer-tab.tab-disabled { opacity: 0.3; filter: grayscale(1); pointer-events: none; cursor: default; }
-    .viewer-main { flex: 1; padding: 25px; overflow: hidden; background: rgba(2, 6, 23, 0.7); backdrop-filter: blur(10px); position: relative; border-radius: 0 0 24px 0; }
     
-    [data-theme="light"] .viewer-main {
-      background: rgba(255, 255, 255, 0.7);
-    }
+    .viewer-main { flex: 1; padding: 0; overflow: hidden; background: rgba(2, 6, 23, 0.5); position: relative; }
+    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; opacity: 0; transition: opacity 0.4s ease; }
+    .viewer-section.active { display: flex; opacity: 1; }
     
-    .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-    .viewer-section.active { display: flex; }
     .pdf-container { width: 100%; height: 100%; }
     .flipbook-container { width: 100%; height: 100%; }
     .flipbook-iframe { width: 100%; height: 100%; border: none; }
     .mindmap-container { width: 100%; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: grab; position: relative; }
     .mindmap-container:active { cursor: grabbing; }
-    .mindmap-img { max-width: 90%; max-height: 90%; transition: transform 0.1s ease; transform-origin: 0 0; }
-    .audio-player-card { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.2); text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-    
-    [data-theme="light"] .audio-player-card {
-      background: rgba(255, 255, 255, 0.8);
+    .mindmap-img { max-width: 90%; max-height: 90%; transition: transform 0.1s ease; transform-origin: 0 0; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .audio-player-card { 
+        width: 100%; max-width: 500px; padding: 40px; 
+        background: rgba(255,255,255,0.03); 
+        border-radius: 24px; 
+        border: 1px solid rgba(255,255,255,0.1); 
+        text-align: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     }
     
-    .viewer-download-btn { 
-        position: absolute; 
-        top: 15px; 
-        right: 15px; 
-        z-index: 50; 
-        display: flex; 
-        align-items: center; 
-        gap: 8px; 
-        padding: 10px 16px; 
-        background: rgba(255, 255, 255, 0.15); 
-        backdrop-filter: blur(10px); 
-        border: 1px solid rgba(255, 255, 255, 0.25); 
-        border-radius: 12px; 
-        color: white; 
-        font-size: 0.9rem; 
-        font-weight: 600; 
-        cursor: pointer; 
-        transition: all 0.3s; 
-        text-decoration: none; 
-    }
-    .viewer-download-btn:hover { 
-        background: rgba(255, 255, 255, 0.25); 
-        transform: translateY(-3px); 
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-    }
+    .viewer-download-btn { position: absolute; top: 16px; right: 16px; z-index: 50; display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; color: white; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .viewer-download-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
 
     /* FEEDBACKS */
     .user-avatar { width: 40px; height: 40px; min-width: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; color: white; margin-right: 12px; flex-shrink: 0; }
-    .feedback-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 16px; background: var(--card-bg); margin-bottom: 12px; transition: all 0.3s ease; border: 1px solid var(--card-border); }
-    .feedback-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); box-shadow: 0 5px 15px var(--shadow-color); }
+    .feedback-item { display: flex; align-items: flex-start; padding: 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); margin-bottom: 12px; transition: all 0.3s ease; }
+    .feedback-item:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
     .feedback-content { flex: 1; }
     .feedback-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
     .user-info { display: flex; align-items: center; }
     .user-details { display: flex; flex-direction: column; }
-    .user-name { font-weight: 600; font-size: 0.9rem; color: var(--text-primary); }
-    .user-location { font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px; }
+    .user-name { font-weight: 600; font-size: 0.9rem; color: #e2e8f0; }
+    .user-location { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
     .feedback-date { font-size: 0.75rem; color: #64748b; text-align: right; }
-    .feedback-text { font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 8px; }
+    .feedback-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 8px; }
     .extra-feedback { display: none; }
 
     /* LOADER BALLS */
@@ -798,42 +661,42 @@
     /* PAYMENT & CONFIRMATION */
     #confirmationModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000; align-items: center; justify-content: center; opacity: 0; backdrop-filter: blur(0px); transition: opacity 0.3s ease, backdrop-filter 0.3s ease; }
     #confirmationModal.active { display: flex; opacity: 1; backdrop-filter: blur(4px); }
-    #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 var(--shadow-color); transition: box-shadow 0.3s ease; }
+    #confirmationContent { background: #1e293b; backdrop-filter: none; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; width: 80%; max-width: 380px; text-align: center; color: white; box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); transition: box-shadow 0.3s ease; }
     .conf-text-glow { color: #f87171; font-weight: 700; font-size: 1.25rem; text-shadow: 0 0 12px rgba(239, 68, 68, 0.8); animation: redGlow 2.5s infinite ease-in-out; }
     .invisible-shield { position: absolute; left: 0; width: 100%; background: transparent; z-index: 25; pointer-events: auto; }
     #bottomShield { height: 120px; }
     .invisible-shield.inactive { pointer-events: none; z-index: 1; }
 
-    .payment-lang-btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; margin-bottom: 12px; background: var(--bg-secondary); border: 1px solid var(--card-border); border-radius: 12px; color: var(--text-primary); font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
-    .payment-lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(168, 85, 247, 0.5); transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(168, 85, 247, calc(var(--glow-intensity) * 0.4)); }
+    .payment-lang-btn { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; margin-bottom: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; }
+    .payment-lang-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(168, 85, 247, 0.5); transform: translateY(-2px); box-shadow: 0 8px 20px -6px rgba(168, 85, 247, 0.4); }
     .payment-lang-btn .btn-shine { position: absolute; inset: -6px; transform: translateX(-140%) skewX(-30deg); background: linear-gradient(90deg,rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 45%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%); mix-blend-mode: overlay; pointer-events: none; animation: btnshine 3.0s ease-in-out infinite; }
-    #saleBanner { display: none; background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 8px; text-align: center; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 20px rgba(239, 68, 68, calc(var(--glow-intensity) * 0.4)); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    #saleBanner { display: none; background: linear-gradient(90deg, #ef4444, #b91c1c); padding: 8px; text-align: center; font-weight: 700; font-size: 0.9rem; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); border-bottom: 1px solid rgba(255,255,255,0.1); }
     
-    .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,calc(var(--glow-intensity) * 0.4)); }
-    .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,calc(var(--glow-intensity) * 0.4)); }
+    .download-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: #4CAF50; background-image: linear-gradient(135deg, #4CAF50, #10B981); color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+    .no-shine-button { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; padding: 12px 25px; margin-top: 0px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; border: none; transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.3s; background-image: linear-gradient(135deg, #6366f1, #a855f7); box-shadow: 0 4px 15px rgba(168,85,247,0.4); }
     .details-content { overflow: hidden; height: 0; opacity: 0; transition: height 0.3s ease-out, opacity 0.3s ease-out; }
     details[open] summary svg { transform: rotate(180deg); }
     summary { list-style: none; outline: none; }
     summary::-webkit-details-marker { display: none; }
     
-    .language-modal-close { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: var(--text-secondary); z-index: 10; transition: color 0.2s; }
-    .language-modal-close:hover { color: var(--text-primary); }
+    .language-modal-close { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; color: #94a3b8; z-index: 10; transition: color 0.2s; }
+    .language-modal-close:hover { color: white; }
     .premium-list-container { margin-top: 10px; padding: 10px; padding-bottom: 0; }
     .premium-list-item { 
     display: flex; 
     align-items: center; 
-    gap: 15px; /* <--- यह सबसे ज़रूरी है, इसे बढ़ा कर आप दूरी कंट्रोल कर सकते हैं */
+    gap: 15px;
     margin-bottom: 20px; 
     font-size: 1.0rem; 
-    color: var(--text-secondary); 
+    color: #cbd5e1; 
     line-height: 1; 
 }
     .premium-list-item strong { color: #e0f2f1; }
-    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, calc(var(--glow-intensity) * 0.5))); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
+    .simple-tick { color: #34d399; filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.5)); font-size: 1.4rem; line-height: 1; margin-right: 10px; min-width: 20px; font-weight: 900; transform: translateY(-2px); }
 
     .action-card {
         background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-        border: 1px solid var(--card-border);
+        border: 1px solid rgba(255,255,255,0.1);
         border-radius: 16px;
         padding: 16px;
         margin-bottom: 12px;
@@ -849,7 +712,6 @@
         background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
         border-color: rgba(168,85,247,0.4);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px var(--shadow-color);
     }
     .action-icon {
         width: 48px;
@@ -861,12 +723,12 @@
         justify-content: center;
         flex-shrink: 0;
     }
-    .action-text h4 { color: var(--text-primary); font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
-    .action-text p { color: var(--text-secondary); font-size: 0.8rem; }
+    .action-text h4 { color: #f1f5f9; font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+    .action-text p { color: #94a3b8; font-size: 0.8rem; }
 
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    /* FIX 2: SETTINGS MENU ICON & LABELS (ENHANCED) - FROM INDEXFILE.HTML */
+    /* FIX: SETTINGS MENU ICON & LABELS */
     .floating-quick-actions { 
         position: absolute; 
         bottom: 8px; 
@@ -883,7 +745,7 @@
         align-items: center; 
         justify-content: center;
         color: white; 
-        box-shadow: 0 4px 16px var(--shadow-color); 
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); 
         cursor: pointer; 
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border: 1px solid rgba(255, 255, 255, 0.15); 
@@ -928,7 +790,6 @@
         position: relative; 
     }
     
-    /* LABELS ON LEFT WITH SEMI-TRANSPARENT BLACK BG (FIX 2) */
     .cute-label {
         background: rgba(0, 0, 0, 0.7); 
         backdrop-filter: blur(10px); 
@@ -968,7 +829,7 @@
         color: #a855f7; 
     }
 
-    /* COVER BLUR - REDUCED INTENSITY */
+    /* COVER BLUR */
     .cover-blur-overlay {
         position: absolute; 
         inset: 0; 
@@ -1003,7 +864,7 @@
         left: -40px;
         width: 680px;
         height: 680px;
-        background-color: rgba(99, 102, 241, calc(var(--glow-intensity) * 0.2));
+        background-color: rgba(99, 102, 241, 0.2);
     }
     
     .glow-bottom-right {
@@ -1011,7 +872,7 @@
         right: -40px;
         width: 600px;
         height: 600px;
-        background-color: rgba(168, 85, 247, calc(var(--glow-intensity) * 0.2));
+        background-color: rgba(168, 85, 247, 0.2);
     }
 
     /* PREMIUM LOADING OVERLAY */
@@ -1094,8 +955,6 @@
         height: calc(90vh - 60px);
     }
 
-    /* REMOVED: LIMITED STOCK PROGRESS BAR - COMPLETELY DELETED */
-
     /* STICKY MOBILE BAR */
     .mobile-sticky-bar {
         position: fixed;
@@ -1112,7 +971,7 @@
         z-index: 9998;
         transform: translateY(100%);
         transition: transform 0.4s ease-out;
-        box-shadow: 0 -4px 20px var(--shadow-color);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
     }
     
     .mobile-sticky-bar.show {
@@ -1128,13 +987,13 @@
         font-size: 1.4rem;
         font-weight: 800;
         color: #10b981;
-        text-shadow: 0 0 10px rgba(16, 185, 129, calc(var(--glow-intensity) * 0.3));
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
         line-height: 1;
     }
     
     .sticky-bar-original {
         font-size: 0.85rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         text-decoration: line-through;
     }
     
@@ -1148,7 +1007,7 @@
         font-size: 0.95rem;
         cursor: pointer;
         transition: all 0.2s ease;
-        box-shadow: 0 4px 15px rgba(168, 85, 247, calc(var(--glow-intensity) * 0.4));
+        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
         display: flex;
         align-items: center;
         gap: 8px;
@@ -1156,15 +1015,15 @@
     
     .sticky-bar-button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(168, 85, 247, calc(var(--glow-intensity) * 0.5));
+        box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
     }
     
-    /* TRUST BADGES - MODIFIED: Left-aligned */
+    /* TRUST BADGES */
     .trust-badges {
         display: flex;
-        justify-content: flex-start; /* Changed from center to flex-start */
+        justify-content: flex-start;
         gap: 24px;
-        margin-top: 10px; /* Reduced margin for tighter spacing */
+        margin-top: 10px;
         margin-bottom: 16px;
         flex-wrap: wrap;
     }
@@ -1172,50 +1031,46 @@
     .trust-badge {
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Left-aligned content */
+        align-items: flex-start;
         gap: 4px;
-        text-align: left; /* Left-aligned text */
+        text-align: left;
         max-width: 80px;
     }
     
     .trust-badge-icon {
         width: 40px;
         height: 40px;
-        background: var(--bg-secondary);
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 4px;
-        border: 1px solid var(--card-border);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .trust-badge-label {
         font-size: 0.7rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         font-weight: 500;
         line-height: 1.1;
     }
     
     /* WHY THIS BOOK MODAL */
     #whyBookModal .modal-content {
-    background: var(--card-bg);
+    background: #0f172a;
     max-width: 450px;
-    width: 90%; /* छोटी स्क्रीन पर 90% चौड़ाई लेगा */
+    width: 90%; 
     padding: 20px;
-    
-    /* मोबाइल स्क्रीन के हिसाब से एडजस्टमेंट */
-    max-height: 85vh; /* स्क्रीन की कुल ऊंचाई का 85% से ज़्यादा बड़ा नहीं होगा */
-    overflow-y: auto; /* अगर कंटेंट बड़ा हुआ, तो अंदर ही स्क्रॉल आ जाएगा */
-    
+    max-height: 85vh;
+    overflow-y: auto;
     position: relative;
-    margin: 20px auto; /* ऊपर-नीचे से गैप रखेगा ताकि बटन न कटे */
-    scrollbar-width: thin; /* स्क्रॉल बार को पतला रखने के लिए */
-}
+    margin: 20px auto;
+    scrollbar-width: thin;
+    }
 
-/* Close बटन की पोजीशन को सुरक्षित करने के लिए */
-#whyBookModal .modal-content .absolute.top-4.right-4 {
-    position: sticky; /* स्क्रॉल करने पर भी Close बटन ऊपर ही रहे */
+   #whyBookModal .modal-content .absolute.top-4.right-4 {
+    position: sticky;
     top: -10px;
     right: -10px;
     float: right;
@@ -1223,7 +1078,6 @@
     background: rgba(15, 23, 42, 0.8);
     border-radius: 50%;
     padding: 5px;
- 
    }
     
     .why-book-list {
@@ -1238,9 +1092,9 @@
         align-items: flex-start;
         gap: 8px;
         padding: 10px;
-        background: var(--bg-secondary);
+        background: rgba(255, 255, 255, 0.03);
         border-radius: 10px;
-        border: 1px solid var(--card-border);
+        border: 1px solid rgba(255, 255, 255, 0.05);
         transition: all 0.3s ease;
     }
     
@@ -1265,21 +1119,20 @@
     .why-book-content h4 {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #f1f5f9;
         margin-bottom: 4px;
     }
     
     .why-book-content p {
         font-size: 0.85rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         line-height: 1.4;
     }
 
     @media (max-width: 640px) { 
         .viewer-body { flex-direction: column; } 
-        .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
-        .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-bottom: 3px solid transparent; border-radius: 4px; }
-        .viewer-tab.active { background: transparent; border-left: none; border-bottom-color: #6366f1; color: #818cf8; }
+        .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(17, 24, 39, 0.9); } 
+        .viewer-tab { flex: 0 0 auto; justify-content: center; white-space: nowrap; padding: 10px 14px; font-size: 0.85rem; border-left: none; border-radius: 10px; margin-right: 8px; }
         .floating-quick-actions {
             bottom: 8px;
             right: 8px;
@@ -1305,7 +1158,7 @@
         .trust-badge {
             max-width: 70px;
         }
-        /* REMOVED: Live sales notification responsive styles */
+        /* Mobile Sticky bar display handled via JS now */
     }
     
     @media (max-width: 640px) {
@@ -1314,12 +1167,6 @@
         }
         .bundle-grid {
             gap: 16px;
-        }
-        .theme-toggle {
-            top: 15px;
-            right: 15px;
-            width: 45px;
-            height: 45px;
         }
     }
     
@@ -1330,12 +1177,7 @@
     }
   </style>
 </head>
-<body class="text-white selection:bg-indigo-500/30" data-theme="dark">
-
-  <!-- THEME TOGGLE BUTTON -->
-  <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-    <i data-lucide="moon" id="themeIcon"></i>
-  </div>
+<body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
 
   <!-- BACKGROUND GLOW EFFECT -->
   <div class="background-glow">
@@ -1348,12 +1190,10 @@
       <span id="toastMessage">Product Unlocked! Access Granted.</span>
   </div>
 
-  <!-- REMOVED: Live Sales Notification -->
-
   <!-- Mobile Sticky Bar -->
   <div id="mobileStickyBar" class="mobile-sticky-bar">
       <div class="sticky-bar-price">
-          <span class="sticky-bar-current">₹249</span>
+          <span class="sticky-bar-current">₹209</span>
           <span class="sticky-bar-original">₹999</span>
       </div>
       <button onclick="openPaymentModal()" class="sticky-bar-button">
@@ -1634,13 +1474,9 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="70+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">feedback</div></div>
         </div>
 
-        <!-- REMOVED: Old "Everything Included" horizontal grid section -->
-
-        <!-- REMOVED: Limited stock progress bar -->
-
         <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
             <div class="flex items-center gap-3">
-                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, calc(var(--glow-intensity) * 0.3));">₹249</span>
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹209</span>
                 <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹999</span>
                 <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED</span>
             </div>
@@ -1651,8 +1487,6 @@
                 <button onclick="handleCoupon()" id="applyCouponBtn" class="coupon-btn">Apply</button>
             </div>
         </div>
-
-        <!-- REMOVED: Trust badges from here (moved to below feature list) -->
 
         <div id="actionContainer" class="action-container">
             <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
@@ -1893,61 +1727,86 @@
     </div>
   </div>
 
+  <!-- UPGRADED MODERN LIBRARY DASHBOARD -->
   <div id="productViewerModal" class="modal">
-      <div id="productViewerContent" class="modal-content animate-modalFadeIn">
+      <div id="productViewerContent" class="modal-content animate-dashSlideUp">
           <div class="viewer-header">
-              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                  <div class="p-2 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20">
+                      <i data-lucide="layout-grid" class="h-5 w-5 text-fuchsia-400"></i>
+                  </div>
+                  <span id="dashboardTitle" class="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Library Access</span>
+              </h3>
               <div class="flex items-center gap-2">
-                  <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
-                      <i data-lucide="download" class="h-4 w-4"></i>
-                      <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
+                  <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-300 hover:text-white transition p-2 px-3 rounded-xl border border-white/10 hover:border-fuchsia-500/50 bg-white/5 hover:bg-fuchsia-500/10 hover:shadow-glow">
+                      <i data-lucide="download-cloud" class="h-4 w-4"></i>
+                      <span class="text-xs font-bold uppercase tracking-wider hidden sm:inline">Offline Access</span>
                   </button>
-                  <button onclick="closeViewerModal()" class="text-zinc-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition">
+                  <button onclick="closeViewerModal()" class="text-zinc-400 hover:text-white hover:bg-red-500/20 hover:text-red-400 p-2 rounded-full transition border border-transparent hover:border-red-500/30">
                       <i data-lucide="x" class="h-5 w-5"></i>
                   </button>
               </div>
           </div>
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
-                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
-                  <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
-                  <div id="tab-flipbook" class="viewer-tab" onclick="switchViewerTab('flipbook')"><i data-lucide="book-open" class="h-4 w-4"></i> Flipbook</div>
-                  <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
+                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')">
+                      <i data-lucide="play-circle" class="h-5 w-5 text-emerald-400"></i> 
+                      <span>Video Course</span>
+                  </div>
+                  <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')">
+                      <i data-lucide="headphones" class="h-5 w-5 text-indigo-400"></i> 
+                      <span>Audio Podcast</span>
+                  </div>
+                  <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')">
+                      <i data-lucide="file-text" class="h-5 w-5 text-amber-400"></i> 
+                      <span>eBook PDF</span>
+                  </div>
+                  <div id="tab-flipbook" class="viewer-tab" onclick="switchViewerTab('flipbook')">
+                      <i data-lucide="book-open" class="h-5 w-5 text-blue-400"></i> 
+                      <span>3D Flipbook</span>
+                  </div>
+                  <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')">
+                      <i data-lucide="brain-circuit" class="h-5 w-5 text-pink-400"></i> 
+                      <span>Mind Map</span>
+                  </div>
               </div>
               <div class="viewer-main">
                   <div id="view-video" class="viewer-section active">
-                      <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
-                      <div class="w-full h-full flex flex-col items-center justify-content: center; p-4">
-                          <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
+                      <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Video</button>
+                      <div class="w-full h-full flex flex-col items-center justify-content: center; p-6">
+                          <video id="videoSource" controls class="w-full h-auto max-h-[70vh] rounded-2xl shadow-2xl border border-white/10 ring-1 ring-white/5"><source src="" type="video/mp4"></video>
                       </div>
                   </div>
                   <div id="view-audio" class="viewer-section">
-                      <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
+                      <button id="btn-dl-audio" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Audio</button>
                       <div class="audio-player-card">
-                          <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-glow"><i data-lucide="mic" class="h-10 w-10 text-white"></i></div>
-                          <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
+                          <div class="w-32 h-32 bg-gradient-to-br from-indigo-500 to-fuchsia-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl animate-pulseGlow border-4 border-white/10">
+                              <i data-lucide="music" class="h-14 w-14 text-white"></i>
+                          </div>
+                          <h3 class="text-xl font-bold text-white mb-2">Spiritual Podcast</h3>
+                          <p class="text-zinc-400 text-sm mb-6">Listen to the inner journey</p>
+                          <audio id="audioSource" controls class="w-full mb-4 accent-indigo-500"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
                   <div id="view-pdf" class="viewer-section">
-                      <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
+                      <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save PDF</button>
                       <div class="pdf-container">
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
                       </div>
                   </div>
                   <div id="view-flipbook" class="viewer-section">
-                      <button id="btn-dl-flipbook" class=""><i data-lucide="" class="h-4 w-4"></i></button>
+                      <button id="btn-dl-flipbook" class="viewer-download-btn hidden"><i data-lucide="external-link" class="h-4 w-4"></i> Open Full</button>
                       <div class="flipbook-container">
                           <iframe id="flipbookFrame" class="flipbook-iframe" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                       </div>
                   </div>
                   <div id="view-image" class="viewer-section" style="overflow: hidden;">
-                      <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
+                      <button id="btn-dl-image" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i> Save Image</button>
                       <div id="mindmapContainer" class="mindmap-container"><img id="imageSource" src="" class="mindmap-img" alt="Mind Map"></div>
-                      <div class="absolute bottom-4 right-4 flex gap-2 bg-black/50 p-2 rounded-lg backdrop-blur-sm">
-                          <button onclick="zoomMindmap(0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="plus" class="h-4 w-4"></i></button>
-                          <button onclick="zoomMindmap(-0.1)" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="minus" class="h-4 w-4"></i></button>
-                          <button onclick="resetMindmap()" class="p-2 bg-white/10 hover:bg-white/20 rounded text-white"><i data-lucide="refresh-ccw" class="h-4 w-4"></i></button>
+                      <div class="absolute bottom-6 right-6 flex gap-2 bg-black/60 p-2 rounded-xl backdrop-blur-md border border-white/10 shadow-xl">
+                          <button onclick="zoomMindmap(0.1)" class="p-3 bg-white/5 hover:bg-white/15 rounded-lg text-white transition"><i data-lucide="plus" class="h-5 w-5"></i></button>
+                          <button onclick="zoomMindmap(-0.1)" class="p-3 bg-white/5 hover:bg-white/15 rounded-lg text-white transition"><i data-lucide="minus" class="h-5 w-5"></i></button>
+                          <button onclick="resetMindmap()" class="p-3 bg-white/5 hover:bg-white/15 rounded-lg text-white transition"><i data-lucide="refresh-ccw" class="h-5 w-5"></i></button>
                       </div>
                   </div>
               </div>
@@ -1978,7 +1837,6 @@
 
     const BASE_HEART_COUNT = 400; 
 
-    // Fix: Improved Firebase transaction logic with error handling
     onValue(heartRef, (snapshot) => {
         const dbValue = snapshot.val() || 0;
         const totalCount = BASE_HEART_COUNT + dbValue;
@@ -1994,7 +1852,6 @@
     window.sendReaction = async function(emoji) {
         const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
         
-        // Check if user already reacted
         if (localStorage.getItem(storageKey)) {
             showToast("You've already shared your love ❤️", true);
             window.toggleReactionMenu();
@@ -2002,14 +1859,12 @@
         }
 
         try {
-            // Fix: Use robust transaction with retry logic
             const result = await runTransaction(heartRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
             
             if (result.committed) {
                 localStorage.setItem(storageKey, 'true');
-                // Update heart icon to filled state
                 const loveIcon = document.getElementById('loveIcon');
                 if (loveIcon) {
                     loveIcon.classList.add('fill-current');
@@ -2033,56 +1888,6 @@
   </script>
 
   <script>
-    // THEME TOGGLE FUNCTION
-    function toggleTheme() {
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const currentTheme = document.body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        // Add rotating animation
-        themeToggle.classList.add('rotating');
-        
-        // Switch theme
-        document.body.setAttribute('data-theme', newTheme);
-        
-        // Update icon
-        if (newTheme === 'light') {
-            themeIcon.setAttribute('data-lucide', 'sun');
-        } else {
-            themeIcon.setAttribute('data-lucide', 'moon');
-        }
-        
-        // Save to localStorage
-        localStorage.setItem('theme', newTheme);
-        
-        // Recreate icons
-        setTimeout(() => {
-            lucide.createIcons();
-            themeToggle.classList.remove('rotating');
-        }, 300);
-    }
-    
-    // Check saved theme on load
-    function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.body.setAttribute('data-theme', savedTheme);
-        
-        const themeIcon = document.getElementById('themeIcon');
-        if (savedTheme === 'light') {
-            themeIcon.setAttribute('data-lucide', 'sun');
-        } else {
-            themeIcon.setAttribute('data-lucide', 'moon');
-        }
-        
-        // Apply theme to modals that might already be open
-        document.querySelectorAll('.modal-content').forEach(modal => {
-            modal.style.backgroundColor = getComputedStyle(document.body).getPropertyValue('--card-bg').trim();
-            modal.style.color = getComputedStyle(document.body).getPropertyValue('--text-primary').trim();
-            modal.style.borderColor = getComputedStyle(document.body).getPropertyValue('--card-border').trim();
-        });
-    }
-
     const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showFlipbook: true };
     const IS_DUAL_LANGUAGE = false; 
     const IS_SALE_ACTIVE = false;
@@ -2118,8 +1923,6 @@
     const SCREENSHOT_URLS = ['https://bookmintor.shop/aarohibook/ss1.png', 'https://bookmintor.shop/aarohibook/ss2.png', 'https://bookmintor.shop/aarohibook/ss3.png'];
     const DEMO_FLIPBOOK_URL = "https://bookmintor.shop/read_demo";
     
-    // REMOVED: Live sales notification data
-
     const dom = {
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
@@ -2166,7 +1969,6 @@
         demoFlipbookFrame: document.getElementById('demoFlipbookFrame'),
         coverBlurOverlay: document.getElementById('coverBlurOverlay'),
         mobileStickyBar: document.getElementById('mobileStickyBar'),
-        // REMOVED: liveSalesNotification, salesCity, salesTime
     };
 
     let currentContentLanguage = 'HINDI';
@@ -2180,7 +1982,6 @@
         mmContainer.onmouseup = function (e) { panning = false; }
         mmContainer.onmousemove = function (e) { e.preventDefault(); if (!panning) return; pointX = e.clientX - startX; pointY = e.clientY - startY; mmImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; }
         
-        // Touch support for mobile
         mmContainer.ontouchstart = function (e) { 
             e.preventDefault(); 
             const touch = e.touches[0];
@@ -2212,12 +2013,11 @@
         if (mmImg) mmImg.style.transform = `translate(0px, 0px) scale(1)`; 
     }
 
-    /* FIX: SETTINGS MENU - Event propagation fixed */
     let isMenuOpen = false;
 
     function handleQuickActionsClick(e) {
         if (e) {
-            e.stopPropagation(); // CRITICAL: stops click from opening cover preview
+            e.stopPropagation(); 
             e.preventDefault();
         }
         isMenuOpen = !isMenuOpen;
@@ -2247,19 +2047,17 @@
 
     function handleCuteMenuItemClick(type, e) {
         if (e) {
-            e.stopPropagation(); // Fix: Prevent event bubbling to cover
+            e.stopPropagation(); 
             e.preventDefault();
         }
         closeCuteMenu();
         
         switch(type) {
             case 'love':
-                // Check if already reacted
                 const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
                 if (localStorage.getItem(storageKey)) {
                     showToast("You've already shared your love! ❤️", true);
                 } else {
-                    // Trigger reaction emoji menu
                     toggleReactionMenu();
                 }
                 break;
@@ -2275,7 +2073,6 @@
         }
     }
 
-    // Why This Book Modal functions
     function openWhyBookModal() {
         const modal = document.getElementById('whyBookModal');
         if (modal) {
@@ -2295,7 +2092,6 @@
         }
     }
 
-    /* PREMIUM LOADING SEQUENCE - Enhanced */
     function triggerPremiumLoadingSequence(type) {
         if (dom.premiumLoadingOverlay) {
             dom.premiumLoadingOverlay.classList.add('active');
@@ -2368,18 +2164,22 @@
         }
     }
 
-    /* REMOVED: LIVE SALES NOTIFICATION SYSTEM */
+    /* HELPER: CHECK IF ANY MODAL IS OPEN */
+    function isAnyModalOpen() {
+        const pm = document.getElementById('paymentModal');
+        const vm = document.getElementById('productViewerModal');
+        return (pm && pm.style.display === 'flex') || (vm && vm.style.display === 'flex');
+    }
 
-    /* MOBILE STICKY BAR - FIXED POPUP CONFLICTS */
+    /* MOBILE STICKY BAR */
     let stickyBarVisible = false;
     let lastScrollPosition = 0;
-    let isViewerOpen = false;
-    let isPaymentModalOpen = false;
 
     function handleScrollForStickyBar() {
         if (window.innerWidth > 640) return; // Only for mobile
-        if (isViewerOpen || isPaymentModalOpen) {
-            // Hide sticky bar when viewer or payment modal is open
+        
+        // FIX: HIDE IF MODALS OPEN
+        if (isAnyModalOpen()) {
             if (stickyBarVisible) {
                 dom.mobileStickyBar.classList.remove('show');
                 stickyBarVisible = false;
@@ -2391,13 +2191,11 @@
         const scrollThreshold = 300;
         
         if (currentScroll > scrollThreshold && currentScroll > lastScrollPosition) {
-            // Scrolling down past threshold
             if (!stickyBarVisible) {
                 dom.mobileStickyBar.classList.add('show');
                 stickyBarVisible = true;
             }
         } else if (currentScroll < scrollThreshold || currentScroll < lastScrollPosition) {
-            // Scrolling up or above threshold
             if (stickyBarVisible) {
                 dom.mobileStickyBar.classList.remove('show');
                 stickyBarVisible = false;
@@ -2407,43 +2205,6 @@
         lastScrollPosition = currentScroll;
     }
 
-    // Override openViewerModal to handle scroll disabling
-    const originalOpenViewerModal = openViewerModal;
-    openViewerModal = function(lang) {
-        isViewerOpen = true;
-        document.body.style.overflow = 'hidden';
-        if (dom.mobileStickyBar) {
-            dom.mobileStickyBar.classList.remove('show');
-        }
-        return originalOpenViewerModal(lang);
-    };
-
-    // Override closeViewerModal to restore scroll
-    const originalCloseViewerModal = closeViewerModal;
-    closeViewerModal = function() {
-        isViewerOpen = false;
-        document.body.style.overflow = '';
-        return originalCloseViewerModal();
-    };
-
-    // Override openPaymentModal to handle sticky bar
-    const originalOpenPaymentModal = openPaymentModal;
-    openPaymentModal = function() {
-        isPaymentModalOpen = true;
-        if (dom.mobileStickyBar) {
-            dom.mobileStickyBar.classList.remove('show');
-        }
-        return originalOpenPaymentModal();
-    };
-
-    // Override closePaymentModal to restore sticky bar logic
-    const originalClosePaymentModal = closePaymentModal;
-    closePaymentModal = function() {
-        isPaymentModalOpen = false;
-        return originalClosePaymentModal();
-    };
-
-    /* MODIFIED setUnlockedState FUNCTION */
     function setUnlockedState(status) {
         if (dom.unlockContainer) {
             dom.unlockContainer.style.display = 'inline-flex'; 
@@ -2470,7 +2231,6 @@
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
     }
 
-    /* EXISTING FUNCTIONS */
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
         const btn = document.getElementById('showMore');
@@ -2568,10 +2328,9 @@
             dom.displayPrice.classList.add('animate-popFloat'); 
             
             setTimeout(() => { 
-                dom.originalPrice.innerHTML = '₹249'; 
+                dom.originalPrice.innerHTML = '₹209'; 
                 dom.displayPrice.innerHTML = '₹119'; 
                 dom.originalPrice.classList.remove('animate-priceSlash'); 
-                // Update mobile sticky bar price
                 const stickyPrice = document.querySelector('.sticky-bar-current');
                 if (stickyPrice) stickyPrice.textContent = '₹119';
             }, 600);
@@ -2657,6 +2416,11 @@
     }
 
     function openViewerModal(lang) {
+        // FIX: HIDE STICKY BAR & DISABLE SCROLL
+        document.body.style.overflow = 'hidden';
+        if (dom.mobileStickyBar) dom.mobileStickyBar.classList.remove('show');
+        stickyBarVisible = false;
+
         if (lang) { 
             currentContentLanguage = lang; 
             localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); 
@@ -2668,7 +2432,7 @@
             const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
             const titleEl = document.getElementById('dashboardTitle');
             if (titleEl) {
-                titleEl.innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
+                titleEl.innerHTML = `Library Access <span class="text-[0.6rem] bg-indigo-500/20 px-2 py-0.5 rounded-full ml-2 text-indigo-300 border border-indigo-500/30 uppercase tracking-widest">${currentContentLanguage}</span>`;
             }
             
             const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', flipbook: 'tab-flipbook', image: 'tab-image' };
@@ -2737,7 +2501,10 @@
             
             if (dom.productViewerModal) {
                 dom.productViewerModal.style.display = 'flex'; 
-                dom.productViewerContent.classList.add('animate-modalFadeIn'); 
+                // Wait for display:flex before adding class for animation
+                setTimeout(() => {
+                    if (dom.productViewerContent) dom.productViewerContent.classList.add('animate-dashSlideUp');
+                }, 10);
             }
             
             if (firstEnabled) switchViewerTab(firstEnabled); 
@@ -2748,8 +2515,11 @@
     }
 
     function closeViewerModal() { 
+        // FIX: RESTORE SCROLL
+        document.body.style.overflow = '';
         if (dom.productViewerModal) {
             dom.productViewerModal.style.display = 'none'; 
+            if (dom.productViewerContent) dom.productViewerContent.classList.remove('animate-dashSlideUp');
         }
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         if (dom.flipbookFrame) dom.flipbookFrame.src = '';
@@ -2930,7 +2700,6 @@
         };
     }
 
-    // Fix: Cover click handler with proper event handling
     if (dom.cover) {
         dom.cover.addEventListener('click', e => { 
             if (!dom.cover.classList.contains('loaded')) return;
@@ -2971,12 +2740,7 @@
         }, 300); 
     }
 
-    // Initialize on DOM loaded
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize theme
-      initTheme();
-      
-      // Fix: Check if user already reacted and update heart icon
       const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
       if (localStorage.getItem(storageKey)) {
           const loveIcon = document.getElementById('loveIcon');
@@ -3017,7 +2781,6 @@
       const yearElement = document.getElementById('year');
       if (yearElement) yearElement.textContent = new Date().getFullYear();
       
-      // Fix: Close cute menu when clicking outside
       document.addEventListener('click', function(e) {
           const quickActions = document.querySelector('.floating-quick-actions');
           if (isMenuOpen && quickActions && !quickActions.contains(e.target)) {
@@ -3025,10 +2788,8 @@
           }
       });
       
-      // Fix: Mobile touch handling for 3D book
       const book3d = document.getElementById('book3d');
       if (book3d) {
-          // Remove hover effects on mobile, replace with tap
           if ('ontouchstart' in window) {
               book3d.style.transform = 'rotateY(-12deg) rotateX(4deg)';
               book3d.addEventListener('touchstart', function() {
@@ -3040,12 +2801,8 @@
           }
       }
       
-      // REMOVED: Start live sales notifications
-      
-      // Initialize sticky bar scroll handler
       window.addEventListener('scroll', handleScrollForStickyBar);
       
-      // Mobile sticky bar buy button
       const stickyBarButton = document.querySelector('.sticky-bar-button');
       if (stickyBarButton) {
           stickyBarButton.addEventListener('click', openPaymentModal);
@@ -3103,7 +2860,11 @@
     let countdownInterval;
 
     function openPaymentModal() { 
-        document.body.style.overflow = 'hidden'; 
+        // FIX: DISABLE SCROLL & HIDE STICKY BAR
+        document.body.style.overflow = 'hidden';
+        if (dom.mobileStickyBar) dom.mobileStickyBar.classList.remove('show');
+        stickyBarVisible = false;
+
         const paymentModal = document.getElementById('paymentModal');
         if (paymentModal) {
             paymentModal.style.display = 'flex'; 
@@ -3126,7 +2887,8 @@
     }
     
     function closePaymentModal() { 
-        document.body.style.overflow = ''; 
+        // FIX: RESTORE SCROLL
+        document.body.style.overflow = '';
         const paymentModal = document.getElementById('paymentModal');
         if (paymentModal) paymentModal.style.display = 'none'; 
         
@@ -3223,7 +2985,6 @@
         if (feedbackModal) feedbackModal.style.display = 'none'; 
     }
     
-    // Details/summary toggle functionality
     document.querySelectorAll('summary').forEach(s => s.addEventListener('click', function(e) {
         e.preventDefault(); 
         const c = this.parentElement.querySelector('.details-content');
