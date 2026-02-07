@@ -41,8 +41,7 @@
             book: '0 28px 60px -18px rgba(0, 0, 0, 0.65)',
             saleGlow: '0 0 15px rgba(34, 197, 94, 0.4)',
             profileGlow: '0 0 30px rgba(168, 85, 247, 0.3)',
-            notification: '0 8px 25px rgba(0,0,0,0.4)',
-            premiumGlow: '0 0 25px rgba(251, 191, 36, 0.4)'
+            notification: '0 8px 25px rgba(0,0,0,0.4)'
           },
           animation: {
             shine: 'shine 1.6s ease-in-out infinite',
@@ -326,7 +325,7 @@
     .action-container.stacked .snake-container { width: 100%; max-width: 320px; }
     .action-container.stacked .unlock-btn { width: 100%; justify-content: center; }
 
-    /* BUNDLE SHOWCASE */
+    /* BUNDLE SHOWCASE - MODIFIED: Removed box styling */
     .bundle-grid { display: flex; gap: 24px; margin: 12px 0; flex-wrap: wrap; }
     .bundle-card { text-align: left; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
     .bundle-card:hover { transform: translateY(-2px); }
@@ -359,7 +358,7 @@
         opacity: 1;
     }
 
-    /* UPGRADED LASER GLOW BORDER */
+    /* UPGRADED LASER GLOW BORDER - FIX 3: MODERN LASER GLOW BORDER */
     .snake-container { 
         position: relative; 
         display: none; 
@@ -506,6 +505,15 @@
     .star-glow .half { fill: transparent; color: #fbbf24; }
     .star-glow .empty { color: #475569; opacity: 0.45; }
 
+    /* COUPON */
+    .coupon-wrapper { display: flex; align-items: center; gap: 8px; margin-top: 14px; margin-bottom: 8px; }
+    .coupon-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; width: 140px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+    .coupon-input:focus { border-color: #a855f7; outline: none; box-shadow: 0 0 0 2px rgba(168,85,247,0.2); }
+    .coupon-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+    .coupon-btn:hover { background: rgba(168,85,247,0.2); color: white; border-color: rgba(168,85,247,0.4); }
+    .coupon-applied { border-color: #22c55e !important; color: #22c55e !important; background: rgba(34,197,94,0.1) !important; pointer-events: none; }
+    .price-original { position: relative; display: inline-block; color: #9ca3af; text-decoration: line-through; }
+    
     /* MODALS */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 1000; overflow: auto; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
     .modal-content { position: relative; background-color: #ffffff; color: #1f2937; padding: 30px; border-radius: 12px; width: 85%; max-width: 400px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 5px 20px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.25); opacity: 0; transform: translateY(20px) scale(0.95); }
@@ -549,8 +557,7 @@
     .viewer-sidebar { width: 240px; background: rgba(17, 24, 39, 0.6); border-right: 1px solid rgba(255,255,255,0.08); padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
     .viewer-tab { padding: 12px 16px; border-radius: 10px; cursor: pointer; color: #94a3b8; transition: all 0.3s ease; font-size: 0.95rem; display: flex; align-items: center; gap: 12px; font-weight: 500; }
     .viewer-tab.active { background: linear-gradient(90deg, rgba(99,102,241,0.15) 0%, rgba(99,102,241,0) 100%); color: #818cf8; border-left: 3px solid #6366f1; }
-    /* FIXED: Changed to display flex to keep visible */
-    .viewer-tab.tab-disabled { opacity: 0.4; filter: grayscale(1); pointer-events: none; cursor: not-allowed; display: flex; background: rgba(255,255,255,0.02); }
+    .viewer-tab.tab-disabled { opacity: 0.3; filter: grayscale(1); pointer-events: none; cursor: default; }
     .viewer-main { flex: 1; padding: 0; overflow: hidden; background: #020617; position: relative; }
     .viewer-section { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; position: relative; }
     .viewer-section.active { display: flex; }
@@ -613,7 +620,7 @@
     .premium-list-item { 
     display: flex; 
     align-items: center; 
-    gap: 15px; 
+    gap: 15px; /* <--- यह सबसे ज़रूरी है, इसे बढ़ा कर आप दूरी कंट्रोल कर सकते हैं */
     margin-bottom: 20px; 
     font-size: 1.0rem; 
     color: #cbd5e1; 
@@ -656,6 +663,7 @@
 
     #tapPrompt { transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
 
+    /* FIX 2: SETTINGS MENU ICON & LABELS (ENHANCED) - FROM INDEXFILE.HTML */
     .floating-quick-actions { 
         position: absolute; 
         bottom: 8px; 
@@ -717,6 +725,7 @@
         position: relative; 
     }
     
+    /* LABELS ON LEFT WITH SEMI-TRANSPARENT BLACK BG (FIX 2) */
     .cute-label {
         background: rgba(0, 0, 0, 0.7); 
         backdrop-filter: blur(10px); 
@@ -882,6 +891,8 @@
         height: calc(90vh - 60px);
     }
 
+    /* REMOVED: LIMITED STOCK PROGRESS BAR - COMPLETELY DELETED */
+
     /* STICKY MOBILE BAR */
     .mobile-sticky-bar {
         position: fixed;
@@ -894,7 +905,7 @@
         padding: 12px 16px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         z-index: 9998;
         transform: translateY(100%);
         transition: transform 0.4s ease-out;
@@ -903,6 +914,25 @@
     
     .mobile-sticky-bar.show {
         transform: translateY(0);
+    }
+    
+    .sticky-bar-price {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .sticky-bar-current {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #10b981;
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        line-height: 1;
+    }
+    
+    .sticky-bar-original {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        text-decoration: line-through;
     }
     
     .sticky-bar-button {
@@ -919,8 +949,6 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        width: 100%;
-        justify-content: center;
     }
     
     .sticky-bar-button:hover {
@@ -928,21 +956,63 @@
         box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
     }
     
+    /* TRUST BADGES - MODIFIED: Left-aligned */
+    .trust-badges {
+        display: flex;
+        justify-content: flex-start; /* Changed from center to flex-start */
+        gap: 24px;
+        margin-top: 10px; /* Reduced margin for tighter spacing */
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+    
+    .trust-badge {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Left-aligned content */
+        gap: 4px;
+        text-align: left; /* Left-aligned text */
+        max-width: 80px;
+    }
+    
+    .trust-badge-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .trust-badge-label {
+        font-size: 0.7rem;
+        color: #94a3b8;
+        font-weight: 500;
+        line-height: 1.1;
+    }
+    
     /* WHY THIS BOOK MODAL */
     #whyBookModal .modal-content {
     background: #0f172a;
     max-width: 450px;
-    width: 90%; 
+    width: 90%; /* छोटी स्क्रीन पर 90% चौड़ाई लेगा */
     padding: 20px;
-    max-height: 85vh; 
-    overflow-y: auto; 
+    
+    /* मोबाइल स्क्रीन के हिसाब से एडजस्टमेंट */
+    max-height: 85vh; /* स्क्रीन की कुल ऊंचाई का 85% से ज़्यादा बड़ा नहीं होगा */
+    overflow-y: auto; /* अगर कंटेंट बड़ा हुआ, तो अंदर ही स्क्रॉल आ जाएगा */
+    
     position: relative;
-    margin: 20px auto; 
-    scrollbar-width: thin; 
+    margin: 20px auto; /* ऊपर-नीचे से गैप रखेगा ताकि बटन न कटे */
+    scrollbar-width: thin; /* स्क्रॉल बार को पतला रखने के लिए */
 }
 
+/* Close बटन की पोजीशन को सुरक्षित करने के लिए */
 #whyBookModal .modal-content .absolute.top-4.right-4 {
-    position: sticky; 
+    position: sticky; /* स्क्रॉल करने पर भी Close बटन ऊपर ही रहे */
     top: -10px;
     right: -10px;
     float: right;
@@ -950,6 +1020,7 @@
     background: rgba(15, 23, 42, 0.8);
     border-radius: 50%;
     padding: 5px;
+ 
    }
     
     .why-book-list {
@@ -1001,132 +1072,6 @@
         line-height: 1.4;
     }
 
-    /* PLAN SELECTION MODAL */
-    #planSelectionModal .modal-content {
-        background-color: #0b0e13;
-        width: 95%;
-        max-width: 1000px;
-        padding: 24px;
-        border: 1px solid rgba(255,255,255,0.1);
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    
-    .plan-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-        margin-top: 24px;
-    }
-    
-    @media (min-width: 768px) {
-        .plan-grid {
-            grid-template-columns: repeat(3, 1fr);
-            align-items: stretch;
-        }
-    }
-    
-    .plan-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        transition: all 0.3s ease;
-        overflow: hidden; /* Added to contain the shine effect inside the card */
-    }
-    
-    .plan-card:hover {
-        transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.05);
-    }
-    
-    .plan-card.premium {
-        border-color: rgba(251, 191, 36, 0.4);
-        background: linear-gradient(145deg, rgba(251, 191, 36, 0.05), rgba(0,0,0,0));
-        box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
-    }
-    
-    .plan-card.standard {
-        border-color: rgba(168, 85, 247, 0.4);
-        box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
-    }
-    
-    .plan-badge {
-        position: absolute;
-        top: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: white;
-        z-index: 10;
-    }
-    
-    .badge-standard { background: #a855f7; box-shadow: 0 4px 10px rgba(168, 85, 247, 0.4); }
-    .badge-premium { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4); animation: pulseGlow 2s infinite; }
-    
-    .plan-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .plan-name { font-size: 1.1rem; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; }
-    .plan-price { font-size: 2rem; font-weight: 800; color: white; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .plan-currency { font-size: 1rem; font-weight: 600; color: #94a3b8; }
-    
-    .plan-features { list-style: none; padding: 0; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-    .plan-feature-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #cbd5e1; }
-    .plan-feature-item.excluded { color: #64748b; text-decoration: line-through; opacity: 0.6; }
-    .feature-icon { width: 18px; height: 18px; flex-shrink: 0; }
-    .icon-check { color: #10b981; }
-    .icon-cross { color: #64748b; }
-
-    .plan-btn {
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.2s;
-        border: none;
-        color: white;
-        margin-top: auto;
-    }
-    
-    .btn-basic { background: rgba(255,255,255,0.1); color: #cbd5e1; }
-    .btn-basic:hover { background: rgba(255,255,255,0.15); color: white; }
-    
-    .btn-standard { background: #a855f7; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
-    .btn-standard:hover { background: #9333ea; transform: translateY(-2px); }
-    
-    .btn-premium { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); position: relative; overflow: hidden; }
-    .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
-
-    /* Custom Shine Animation Definition */
-    @keyframes shineEffect {
-        0% { transform: skewX(-20deg) translateX(-150%); }
-        100% { transform: skewX(-20deg) translateX(150%); }
-    }
-
-    /* FIXED: Shine effect loop continuously */
-    .premium-shine-effect {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
-        transform: skewX(-20deg) translateX(-150%);
-        /* Changed animation to infinite and increased duration for smoothness */
-        animation: shineEffect 1.5s linear infinite;
-        pointer-events: none;
-        z-index: 1;
-    }
-
     @media (max-width: 640px) { 
         .viewer-body { flex-direction: column; } 
         .viewer-sidebar { width: 100%; flex-direction: row; height: auto; padding: 12px; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); background: #111827; } 
@@ -1151,6 +1096,16 @@
         #demoFlipbookModal .flipbook-container {
             height: calc(85vh - 60px);
         }
+        .trust-badges {
+            gap: 16px;
+        }
+        .trust-badge {
+            max-width: 70px;
+        }
+        /* REMOVED: Live sales notification responsive styles */
+    }
+    
+    @media (max-width: 640px) {
         .mobile-sticky-bar {
             display: flex;
         }
@@ -1168,6 +1123,7 @@
 </head>
 <body class="bg-[#0b0e13] text-white selection:bg-indigo-500/30">
 
+  <!-- BACKGROUND GLOW EFFECT -->
   <div class="background-glow">
       <div class="glow-circle glow-top-left"></div>
       <div class="glow-circle glow-bottom-right"></div>
@@ -1178,13 +1134,21 @@
       <span id="toastMessage">Product Unlocked! Access Granted.</span>
   </div>
 
+  <!-- REMOVED: Live Sales Notification -->
+
+  <!-- Mobile Sticky Bar -->
   <div id="mobileStickyBar" class="mobile-sticky-bar">
-      <button onclick="openPlanSelectionModal()" class="sticky-bar-button">
+      <div class="sticky-bar-price">
+          <span class="sticky-bar-current">₹249</span>
+          <span class="sticky-bar-original">₹999</span>
+      </div>
+      <button onclick="openPaymentModal()" class="sticky-bar-button">
           <i data-lucide="shopping-cart" class="h-4 w-4"></i>
-          Get Access
+          Buy Now
       </button>
   </div>
 
+  <!-- Premium Loading Overlay -->
   <div id="premiumLoadingOverlay" class="premium-loading-overlay">
       <div class="jumping-loader">
           <span class="ball"></span>
@@ -1201,6 +1165,7 @@
       </div>
   </div>
 
+  <div id="saleBanner">🔥FLASH SALE IS LIVE! Originally ₹999, today available at just ₹249 for only 23 people.</div>
   <div id="paymentTimer"><span id="timerCount"></span></div>
 
   <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
@@ -1275,6 +1240,7 @@
       </div>
   </div>
 
+  <!-- Why This Book Modal -->
   <div id="whyBookModal" class="modal">
       <div class="modal-content animate-modalFadeIn">
           <button onclick="closeWhyBookModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white"><i data-lucide="x" class="h-5 w-5"></i></button>
@@ -1328,7 +1294,7 @@
               </div>
           </div>
           
-          <button onclick="closeWhyBookModal(); openPlanSelectionModal();" class="mt-6 w-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all">
+          <button onclick="closeWhyBookModal(); openPaymentModal();" class="mt-6 w-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all">
               Start Your Journey Now
           </button>
       </div>
@@ -1367,6 +1333,7 @@
                 <p id="imageCounter" class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-medium px-2 py-0.5 bg-black/50 rounded-full text-white/80 z-10"></p>
             </div>
             
+            <!-- ENHANCED PREMIUM SETTINGS MENU -->
             <div class="floating-quick-actions">
                 <div id="cuteQuickMenu" class="cute-quick-menu">
                     <div class="cute-menu-item" onclick="handleCuteMenuItemClick('love', event)">
@@ -1453,13 +1420,33 @@
           <div class="stat-item"><div class="stat-value"><i data-lucide="message-square" class="h-5 w-5"></i><span data-target="70+" id="reviews-value">0</span><span class="text-lg">+</span></div><div class="stat-label">feedback</div></div>
         </div>
 
+        <!-- REMOVED: Old "Everything Included" horizontal grid section -->
+
+        <!-- REMOVED: Limited stock progress bar -->
+
+        <div id="pricingContainer" class="flex flex-col gap-2 mt-4">
+            <div class="flex items-center gap-3">
+                <span id="displayPrice" class="text-4xl font-bold text-brandGreen" style="text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);">₹209</span>
+                <span id="originalPrice" class="text-lg text-zinc-500 line-through decoration-zinc-500/50">₹999</span>
+                <span class="px-2 py-1 bg-[#064e3b] text-brandGreen rounded-md text-xs font-bold border border-brandGreen/20 shadow-saleGlow">LIMITED</span>
+            </div>
+            
+            <div class="coupon-wrapper" id="couponSection">
+                <i data-lucide="tag" class="h-4 w-4 text-fuchsia-400"></i>
+                <input type="text" id="couponInput" class="coupon-input" placeholder="Coupon Code">
+                <button onclick="handleCoupon()" id="applyCouponBtn" class="coupon-btn">Apply</button>
+            </div>
+        </div>
+
+        <!-- REMOVED: Trust badges from here (moved to below feature list) -->
+
         <div id="actionContainer" class="action-container">
-            <button onclick="openPlanSelectionModal()" id="buyBtn" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95 text-white border-0 cursor-pointer">
+            <a id="buyBtn" href="#buy" class="cta-btn inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold shadow-ctaglow transition hover:scale-105 active:scale-95">
               <span>Get Access</span>
               <i data-lucide="shopping-cart" class="h-4 w-4"></i>
               <span class="cta-shine animate-btnshine"></span>
               <span class="corner-bling"></span>
-            </button>
+            </a>
 
             <div id="mysteryBoxWrap" class="relative cursor-pointer flex items-center justify-center transition hover:scale-110 active:scale-90" onclick="toggleMysteryTooltip(event)">
               <iframe src="https://lottie.host/embed/742bf040-1fc4-44a6-afed-9db4c62c341b/dAmZdAYt2U.lottie" style="border: 0; width: 45px; height: 45px; pointer-events: none; background: transparent;"></iframe>
@@ -1471,6 +1458,7 @@
               </div>
             </div>
 
+            <!-- UPGRADED LASER SNAKE BORDER -->
             <div id="unlockContainer" class="snake-container items-center" style="display: none;">
                 <div class="snake-border"></div>
                 <div class="snake-mask"></div>
@@ -1545,69 +1533,32 @@
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">S</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Saurabh Tiwari</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Very calm and emotional arohi you have a beautiful way of expressing devotion🙌❤️</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Ankit Mishra</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Simple words deep feelings you'll go very far with writing like this</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
         <div class="feedback-item animate-slideUp"><div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669);">V</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Vivek S.</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">It takes courage to write from within aarohi pandey please keep writing💖</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i></div></div></div></div>
+
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">K</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Kunal Pandey</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">The audio version felt very personal. It stayed with me even after finishing it</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">P</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Prashant Tripa.</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">This book feels like a quiet walk with Kanha. Excited to read your next work</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #ec4899, #db2777);">N</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Nikhil Chaturvedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">No heavy language no drama... Just honest emotions. That's what I liked most🥰</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">R</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Rakesh Srivastava</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">Aarohi your writing has softness and strength together Don't stop</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 empty"></i></div></div></div></div>
+        <div class="feedback-item extra-feedback"><div class="user-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">A</div><div class="feedback-content"><div class="feedback-header"><div class="user-info"><div class="user-details"><div class="user-name">Aditya Dwivedi</div><div class="user-location">India</div></div></div><div class="feedback-date">Jan 2026</div></div><div class="feedback-text">I read it slowly, not because it was long, but because I didn't want it to end</div><div class="feedback-rating"><div class="star-glow flex items-center gap-1"><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star" class="h-4 w-4 filled"></i><i data-lucide="star-half" class="h-4 w-4 half"></i></div></div></div></div>
       </div>
       <button id="showMore" class="mt-4 inline-block rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20 transition" onclick="toggleFeedbacks()">Show More</button>
     </div>
   </section>
 
-  <div id="planSelectionModal" class="modal">
-    <div class="modal-content animate-modalFadeIn">
-        <button onclick="closePlanSelectionModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white z-50 p-2 bg-black/40 rounded-full"><i data-lucide="x" class="h-5 w-5"></i></button>
-        
-        <div class="plan-header">
-            <h2 class="text-2xl font-bold text-white">Choose Your Journey</h2>
-            <p class="text-zinc-400 text-sm mt-1">Select the best plan for your spiritual needs.</p>
-        </div>
-        
-        <div class="plan-grid">
-            <div class="plan-card">
-                <span class="plan-name">Basic</span>
-                <div class="plan-price"><span class="plan-currency">₹</span>119</div>
-                
-                <ul class="plan-features">
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> eBook PDF</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Audio Podcast</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Explainer Video</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> 3D Flipbook</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Zip File</li>
-                </ul>
-                
-                <button onclick="initiatePlanPayment('BASIC')" class="plan-btn btn-basic">Select Basic</button>
-            </div>
-            
-            <div class="plan-card standard">
-                <span class="plan-badge badge-standard"></span>
-                <span class="plan-name text-fuchsia-400">Standard</span>
-                <div class="plan-price"><span class="plan-currency">₹</span>209</div>
-                
-                <ul class="plan-features">
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> eBook PDF</li>
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Audio Podcast</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Explainer Video</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> 3D Flipbook</li>
-                    <li class="plan-feature-item excluded"><i data-lucide="x" class="feature-icon icon-cross"></i> Zip File</li>
-                </ul>
-                
-                <button onclick="initiatePlanPayment('STANDARD')" class="plan-btn btn-standard">Select Standard</button>
-            </div>
-            
-            <div class="plan-card premium">
-                <div class="premium-shine-effect"></div>
-                <span class="plan-badge badge-premium"></span>
-                <span class="plan-name text-amber-400">Premium</span>
-                <div class="plan-price"><span class="plan-currency">₹</span>499</div>
-                
-                <ul class="plan-features">
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> eBook PDF</li>
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Audio Podcast</li>
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Explainer Video</li>
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> 3D Flipbook</li>
-                    <li class="plan-feature-item"><i data-lucide="check" class="feature-icon icon-check"></i> Zip File</li>
-                </ul>
-                
-                <button onclick="initiatePlanPayment('PREMIUM')" class="plan-btn btn-premium">Get Full Access</button>
-            </div>
-        </div>
+  <div id="downloadModal" class="modal">
+    <div id="languageSelectionModal" class="modal-content" style="max-width: 450px; display: none; background-color: #1e293b; color: white;">
+      <h2 class="text-2xl font-bold mb-6 text-indigo-400 text-center">Select Content Language</h2>
+      <p class="text-sm text-zinc-300 text-center mb-6">Which version would you like to view?</p>
+      
+      <button onclick="closeDownloadModal()" class="language-modal-close"><i data-lucide="x" class="h-6 w-6"></i></button>
+
+      <div id="languageSelectionContainer" class="space-y-4 transition-opacity duration-300">
+          <button onclick="saveAndOpenDashboard('HINDI')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+              <i data-lucide="book" class="h-4 w-4"></i> HINDI
+          </button>
+          <button onclick="saveAndOpenDashboard('ENGLISH')" class="payment-lang-btn text-sm py-3 px-4" style="background-image: linear-gradient(135deg, #3b82f6, #60a5fa); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+              <i data-lucide="globe" class="h-4 w-4"></i> ENGLISH
+          </button>
+      </div>
     </div>
   </div>
 
@@ -1662,6 +1613,7 @@
       </div>
   </div>
 
+  <!-- Demo Flipbook Modal -->
   <div id="demoFlipbookModal" class="modal">
       <div class="modal-content animate-modalFadeIn" style="max-width: 95%; max-height: 90vh; padding: 0; background: #0f172a; width: 95%;">
           <div class="viewer-header">
@@ -1703,7 +1655,12 @@
             <div id="bottomShield" class="invisible-shield inactive" style="bottom: 0; height: 120px;"></div>
             <div id="paymentLoader" style="position: absolute; inset: 0; background-color: #111817; display: none; align-items: center; justify-content: center; flex-direction: column; z-index: 20;">
                 <div class="jumping-loader"><span class="ball"></span><span class="ball"></span><span class="ball"></span></div>
-                <p class="mt-8 text-lg font-semibold text-indigo-400">Processing Secure Payment...</p>
+                <p class="mt-8 text-lg font-semibold text-indigo-400">Processing...</p>
+            </div>
+            <div id="paymentLangSelection" style="display: none; position: absolute; inset: 0; background-color: #111817; z-index: 15; flex-direction: column; align-items: center; justify-content: center; padding: 30px;">
+                <h3 class="text-xl font-bold text-white mb-6 text-center">Choose your language</h3>
+                <button onclick="handlePaymentLanguageSelection('HINDI')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="book" class="h-5 w-5 text-fuchsia-400"></i>Hindi<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
+                <button onclick="handlePaymentLanguageSelection('ENGLISH')" class="payment-lang-btn"><span class="btn-shine"></span><i data-lucide="globe" class="h-5 w-5 text-indigo-400"></i>English<i data-lucide="arrow-right" class="h-4 w-4 ml-auto text-zinc-400"></i></button>
             </div>
             <iframe id="cashfreeIframe" src="" frameborder="0" width="100%" height="100%" style="border-radius: 12px; display: none;" sandbox="allow-forms allow-scripts allow-modals allow-popups allow-same-origin allow-top-navigation"></iframe>
         </div>
@@ -1725,13 +1682,9 @@
   <div id="productViewerModal" class="modal">
       <div id="productViewerContent" class="modal-content animate-modalFadeIn">
           <div class="viewer-header">
-              <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                <i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> 
-                <span id="dashboardTitle">Library</span>
-                <span id="planBadge" class="hidden text-xs px-2 py-1 rounded bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30 uppercase tracking-wider ml-2"></span>
-              </h3>
+              <h3 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="package-open" class="h-5 w-5 text-emerald-400"></i> <span id="dashboardTitle">Premium Content</span></h3>
               <div class="flex items-center gap-2">
-                  <button id="zipDownloadBtn" onclick="handleDownloadBundleClick()" class="hidden flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
+                  <button onclick="handleDownloadBundleClick()" class="flex items-center gap-2 text-zinc-400 hover:text-white transition p-2 rounded-lg border border-white/10 hover:border-white/30 bg-white/5">
                       <i data-lucide="download" class="h-4 w-4"></i>
                       <span class="text-xs font-medium uppercase tracking-wider hidden sm:inline">Download ZIP</span>
                   </button>
@@ -1742,14 +1695,14 @@
           </div>
           <div class="viewer-body">
               <div class="viewer-sidebar">
-                  <div id="tab-video" class="viewer-tab" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
+                  <div id="tab-video" class="viewer-tab active" onclick="switchViewerTab('video')"><i data-lucide="play-circle" class="h-4 w-4"></i> Video </div>
                   <div id="tab-audio" class="viewer-tab" onclick="switchViewerTab('audio')"><i data-lucide="headphones" class="h-4 w-4"></i> Audio Podcast</div>
-                  <div id="tab-pdf" class="viewer-tab active" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
+                  <div id="tab-pdf" class="viewer-tab" onclick="switchViewerTab('pdf')"><i data-lucide="file-text" class="h-4 w-4"></i> eBook PDF</div>
                   <div id="tab-flipbook" class="viewer-tab" onclick="switchViewerTab('flipbook')"><i data-lucide="book-open" class="h-4 w-4"></i> Flipbook</div>
                   <div id="tab-image" class="viewer-tab" onclick="switchViewerTab('image')"><i data-lucide="image" class="h-4 w-4"></i> Mind Map</div>
               </div>
               <div class="viewer-main">
-                  <div id="view-video" class="viewer-section">
+                  <div id="view-video" class="viewer-section active">
                       <button id="btn-dl-video" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="w-full h-full flex flex-col items-center justify-content: center; p-4">
                           <video id="videoSource" controls class="w-full h-auto max-h-[60vh] rounded-lg shadow-2xl border border-zinc-800"><source src="" type="video/mp4"></video>
@@ -1762,7 +1715,7 @@
                           <audio id="audioSource" controls class="w-full mb-4"><source src="" type="audio/mpeg"></audio>
                       </div>
                   </div>
-                  <div id="view-pdf" class="viewer-section active">
+                  <div id="view-pdf" class="viewer-section">
                       <button id="btn-dl-pdf" class="viewer-download-btn"><i data-lucide="download" class="h-4 w-4"></i></button>
                       <div class="pdf-container">
                           <iframe id="pdfFrame" src="" width="100%" height="100%" style="border:none;"></iframe>
@@ -1811,6 +1764,7 @@
 
     const BASE_HEART_COUNT = 400; 
 
+    // Fix: Improved Firebase transaction logic with error handling
     onValue(heartRef, (snapshot) => {
         const dbValue = snapshot.val() || 0;
         const totalCount = BASE_HEART_COUNT + dbValue;
@@ -1826,6 +1780,7 @@
     window.sendReaction = async function(emoji) {
         const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
         
+        // Check if user already reacted
         if (localStorage.getItem(storageKey)) {
             showToast("You've already shared your love ❤️", true);
             window.toggleReactionMenu();
@@ -1833,12 +1788,14 @@
         }
 
         try {
+            // Fix: Use robust transaction with retry logic
             const result = await runTransaction(heartRef, (currentValue) => {
                 return (currentValue || 0) + 1;
             });
             
             if (result.committed) {
                 localStorage.setItem(storageKey, 'true');
+                // Update heart icon to filled state
                 const loveIcon = document.getElementById('loveIcon');
                 if (loveIcon) {
                     loveIcon.classList.add('fill-current');
@@ -1862,19 +1819,19 @@
   </script>
 
   <script>
-    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: false, showFlipbook: true };
+    const productConfig = { showVideo: true, showAudio: true, showPdf: true, showMindmap: true, showFlipbook: true };
+    const IS_DUAL_LANGUAGE = false; 
+    const IS_SALE_ACTIVE = false;
+    const ENABLE_COUPON_SECTION = true; 
     const SOURCE_IMAGE = 'https://bookmintor.shop/aarohibook/arrohi_book_cover.png';
-    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-5407056893jdsacdf';
-    
-    /* 3 TIER PRICING LINKS */
-    const link119 = "https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d";
-    const link209 = "https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds";
-    const link499 = "https://payments.cashfree.com/forms/aarohi_fromid93dsa";
-    
-    let currentPaymentUrl = link209; 
-    let selectedPlanForPayment = 'STANDARD';
-
+    const PRODUCT_UNIQUE_ID = 'In_search_of_my_kanha_ji-540705gfds68cjdf';
+    const PAYMENT_LINKS = {
+        default: "https://payments.cashfree.com/forms/In_search_of_my_kanha_jifromid43ds",  
+        discounted: "https://payments.cashfree.com/forms/_search_of_my_kanha_jidesc4s2d" 
+    };
+    let currentPaymentUrl = PAYMENT_LINKS.default; 
     const SECRET_KEY = 'EBOOK_SECRET_K3Y_AAROHSD368NDSVF';
+    const VALID_COUPON = "KANHA119"; 
     const ZIP_URLS = { HINDI: "#", ENGLISH: "https://github.com/cortex-cradle/ebook1/releases/download/aarohi's_book1/In.Search.of.My.Kanha.Ji.zip" };
     const CONTENT_URLS = {
         HINDI: { 
@@ -1897,6 +1854,8 @@
     const SCREENSHOT_URLS = ['https://bookmintor.shop/aarohibook/ss1.png', 'https://bookmintor.shop/aarohibook/ss2.png', 'https://bookmintor.shop/aarohibook/ss3.png'];
     const DEMO_FLIPBOOK_URL = "https://bookmintor.shop/read_demo";
     
+    // REMOVED: Live sales notification data
+
     const dom = {
         cover: document.getElementById('coverFace'),
         coverImg: document.getElementById('coverImg'),
@@ -1906,6 +1865,8 @@
         previewScreenshot: document.getElementById('previewScreenshot'),
         previewShine: document.getElementById('previewShine'),
         imageCounter: document.getElementById('imageCounter'),
+        downloadModal: document.getElementById('downloadModal'),
+        languageSelectionModal: document.getElementById('languageSelectionModal'),
         zipConfirmationModal: document.getElementById('zipConfirmationModal'),
         toastNotification: document.getElementById('toastNotification'),
         toastMessage: document.getElementById('toastMessage'),
@@ -1921,6 +1882,10 @@
         imageSource: document.getElementById('imageSource'),
         pdfFrame: document.getElementById('pdfFrame'),
         flipbookFrame: document.getElementById('flipbookFrame'),
+        displayPrice: document.getElementById('displayPrice'),
+        originalPrice: document.getElementById('originalPrice'),
+        couponInput: document.getElementById('couponInput'),
+        applyCouponBtn: document.getElementById('applyCouponBtn'),
         bottomShield: document.getElementById('bottomShield'),
         tapPrompt: document.getElementById('tapPrompt'),
         mysteryBoxWrap: document.getElementById('mysteryBoxWrap'),
@@ -1937,12 +1902,10 @@
         demoFlipbookFrame: document.getElementById('demoFlipbookFrame'),
         coverBlurOverlay: document.getElementById('coverBlurOverlay'),
         mobileStickyBar: document.getElementById('mobileStickyBar'),
-        planSelectionModal: document.getElementById('planSelectionModal'),
-        planBadge: document.getElementById('planBadge'),
-        zipDownloadBtn: document.getElementById('zipDownloadBtn')
+        // REMOVED: liveSalesNotification, salesCity, salesTime
     };
 
-    let currentContentLanguage = 'ENGLISH'; // Default
+    let currentContentLanguage = 'HINDI';
     let scale = 1, panning = false, pointX = 0, pointY = 0, startX = 0, startY = 0;
     const mmContainer = document.getElementById('mindmapContainer');
     const mmImg = document.getElementById('imageSource');
@@ -1985,11 +1948,12 @@
         if (mmImg) mmImg.style.transform = `translate(0px, 0px) scale(1)`; 
     }
 
+    /* FIX: SETTINGS MENU - Event propagation fixed */
     let isMenuOpen = false;
 
     function handleQuickActionsClick(e) {
         if (e) {
-            e.stopPropagation(); 
+            e.stopPropagation(); // CRITICAL: stops click from opening cover preview
             e.preventDefault();
         }
         isMenuOpen = !isMenuOpen;
@@ -2019,17 +1983,19 @@
 
     function handleCuteMenuItemClick(type, e) {
         if (e) {
-            e.stopPropagation(); 
+            e.stopPropagation(); // Fix: Prevent event bubbling to cover
             e.preventDefault();
         }
         closeCuteMenu();
         
         switch(type) {
             case 'love':
+                // Check if already reacted
                 const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
                 if (localStorage.getItem(storageKey)) {
                     showToast("You've already shared your love! ❤️", true);
                 } else {
+                    // Trigger reaction emoji menu
                     toggleReactionMenu();
                 }
                 break;
@@ -2045,6 +2011,7 @@
         }
     }
 
+    // Why This Book Modal functions
     function openWhyBookModal() {
         const modal = document.getElementById('whyBookModal');
         if (modal) {
@@ -2064,6 +2031,7 @@
         }
     }
 
+    /* PREMIUM LOADING SEQUENCE - Enhanced */
     function triggerPremiumLoadingSequence(type) {
         if (dom.premiumLoadingOverlay) {
             dom.premiumLoadingOverlay.classList.add('active');
@@ -2136,30 +2104,36 @@
         }
     }
 
+    /* REMOVED: LIVE SALES NOTIFICATION SYSTEM */
+
     /* MOBILE STICKY BAR */
     let stickyBarVisible = false;
     let lastScrollPosition = 0;
 
     function handleScrollForStickyBar() {
-        if (window.innerWidth > 640) return; 
+        if (window.innerWidth > 640) return; // Only for mobile
         
         const currentScroll = window.pageYOffset;
         const scrollThreshold = 300;
         
         if (currentScroll > scrollThreshold && currentScroll > lastScrollPosition) {
+            // Scrolling down past threshold
             if (!stickyBarVisible) {
                 dom.mobileStickyBar.classList.add('show');
                 stickyBarVisible = true;
             }
         } else if (currentScroll < scrollThreshold || currentScroll < lastScrollPosition) {
+            // Scrolling up or above threshold
             if (stickyBarVisible) {
                 dom.mobileStickyBar.classList.remove('show');
                 stickyBarVisible = false;
             }
         }
+        
         lastScrollPosition = currentScroll;
     }
 
+    /* MODIFIED setUnlockedState FUNCTION */
     function setUnlockedState(status) {
         if (dom.unlockContainer) {
             dom.unlockContainer.style.display = 'inline-flex'; 
@@ -2186,6 +2160,7 @@
         if(dom.mysteryBoxWrap) dom.mysteryBoxWrap.style.display = 'none';
     }
 
+    /* EXISTING FUNCTIONS */
     function toggleFeedbacks() {
         const hiddenItems = document.querySelectorAll('.extra-feedback');
         const btn = document.getElementById('showMore');
@@ -2258,6 +2233,48 @@
         }, 1200);
     }
 
+    function handleCoupon() {
+        if (!ENABLE_COUPON_SECTION) return; 
+        const input = dom.couponInput; 
+        const btn = dom.applyCouponBtn; 
+        const code = input.value.trim().toUpperCase();
+        
+        if(code === VALID_COUPON) {
+            confetti({ 
+                particleCount: 60, 
+                spread: 50, 
+                origin: { y: 0.5, x: 0.5 }, 
+                colors: ['#22c55e', '#ffffff'], 
+                zIndex: 10 
+            });
+            
+            input.disabled = true; 
+            btn.disabled = true; 
+            input.classList.add('coupon-applied');
+            btn.innerHTML = '<i data-lucide="check" class="h-4 w-4"></i>'; 
+            lucide.createIcons();
+            
+            dom.originalPrice.classList.add('animate-priceSlash'); 
+            dom.displayPrice.classList.add('animate-popFloat'); 
+            
+            setTimeout(() => { 
+                dom.originalPrice.innerHTML = '₹249'; 
+                dom.displayPrice.innerHTML = '₹119'; 
+                dom.originalPrice.classList.remove('animate-priceSlash'); 
+                // Update mobile sticky bar price
+                const stickyPrice = document.querySelector('.sticky-bar-current');
+                if (stickyPrice) stickyPrice.textContent = '₹119';
+            }, 600);
+            
+            currentPaymentUrl = PAYMENT_LINKS.discounted; 
+            showToast("Coupon Applied", true);
+        } else {
+            input.classList.add('animate-shakeInput', 'border-red-500');
+            setTimeout(() => input.classList.remove('animate-shakeInput', 'border-red-500'), 500);
+            showToast("Invalid code. Please check and try again.", false);
+        }
+    }
+
     function showToast(msg, isSuccess = true) {
         if (!dom.toastMessage || !dom.toastNotification) return;
         
@@ -2281,25 +2298,25 @@
     }
 
     function switchViewerTab(tabId) {
+        const cfgKey = 'show' + tabId.charAt(0).toUpperCase() + tabId.slice(1);
+        if (productConfig.hasOwnProperty(cfgKey) && !productConfig[cfgKey]) return;
+        
         document.querySelectorAll('video, audio').forEach(v => v.pause());
         document.querySelectorAll('.viewer-sidebar .viewer-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.viewer-main .viewer-section').forEach(s => s.classList.remove('active'));
         
         const clickedTab = document.getElementById(`tab-${tabId}`);
-        // FIXED: Only switch if tab exists and is not disabled
-        if(clickedTab && !clickedTab.classList.contains('tab-disabled')) {
-             clickedTab.classList.add('active');
-             
-             let targetSectionId = `view-${tabId}`;
-             const section = document.getElementById(targetSectionId);
-             if(section) section.classList.add('active');
-             
-             if (tabId === 'flipbook') {
-                 const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH;
-                 if (content.FLIPBOOK && dom.flipbookFrame) {
-                     dom.flipbookFrame.src = content.FLIPBOOK;
-                 }
-             }
+        if(clickedTab) clickedTab.classList.add('active');
+        
+        let targetSectionId = `view-${tabId}`;
+        const section = document.getElementById(targetSectionId);
+        if(section) section.classList.add('active');
+        
+        if (tabId === 'flipbook') {
+            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH;
+            if (content.FLIPBOOK && dom.flipbookFrame) {
+                dom.flipbookFrame.src = content.FLIPBOOK;
+            }
         }
     }
 
@@ -2329,128 +2346,95 @@
         }
     }
 
-    // FIXED: Updated openViewerModal logic
-    function openViewerModal() {
-        const purchasedPlan = localStorage.getItem('purchased_plan_' + PRODUCT_UNIQUE_ID) || 'BASIC';
-        const sidebar = document.querySelector('.viewer-sidebar');
+    function openViewerModal(lang) {
+        if (lang) { 
+            currentContentLanguage = lang; 
+            localStorage.setItem('lang_' + PRODUCT_UNIQUE_ID, lang); 
+        } else { 
+            currentContentLanguage = localStorage.getItem('lang_' + PRODUCT_UNIQUE_ID) || 'HINDI'; 
+        }
         
-        // Define allowed features per plan
-        const features = {
-            'BASIC': ['pdf'],
-            'STANDARD': ['pdf', 'audio'],
-            'PREMIUM': ['pdf', 'audio', 'video', 'flipbook', 'image']
-        };
-        const allowed = features[purchasedPlan] || features['BASIC'];
-        
-        // Helper to check permission
-        const isAllowed = (type) => allowed.includes(type);
-
-        // Map tabs for sorting and logic
-        const tabMap = {
-            'tab-pdf': 'pdf',
-            'tab-audio': 'audio',
-            'tab-video': 'video',
-            'tab-flipbook': 'flipbook',
-            'tab-image': 'image'
-        };
-        const tabOrderPriority = ['pdf', 'audio', 'video', 'flipbook', 'image'];
-
-        // 1. Process visual state (Enabled vs Disabled)
-        const tabs = Array.from(sidebar.children);
-        tabs.forEach(tab => {
-            const type = tabMap[tab.id];
-            if(type) {
-                tab.classList.remove('active');
-                tab.style.display = 'flex'; // Ensure visible
+        try {
+            const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
+            const titleEl = document.getElementById('dashboardTitle');
+            if (titleEl) {
+                titleEl.innerHTML = `Library <span class="text-xs bg-white/10 px-2 py-1 rounded ml-2 text-indigo-300 font-mono tracking-wide">${currentContentLanguage} </span>`;
+            }
+            
+            const tabs = { video: 'tab-video', audio: 'tab-audio', pdf: 'tab-pdf', flipbook: 'tab-flipbook', image: 'tab-image' };
+            let firstEnabled = null;
+            
+            Object.keys(tabs).forEach(key => {
+                const el = document.getElementById(tabs[key]); 
+                const configKey = 'show' + key.charAt(0).toUpperCase() + key.slice(1);
+                if (productConfig[configKey]) { 
+                    el.classList.remove('tab-disabled'); 
+                    if (!firstEnabled) firstEnabled = key; 
+                } else { 
+                    el.classList.add('tab-disabled'); 
+                }
+            });
+            
+            const videoEl = document.getElementById('videoSource'); 
+            const audioEl = document.getElementById('audioSource');
+            const imgEl = document.getElementById('imageSource'); 
+            const pdfFr = document.getElementById('pdfFrame');
+            
+            if(content.VIDEO && videoEl) { 
+                const source = videoEl.querySelector('source'); 
+                if(source) { 
+                    source.src = content.VIDEO; 
+                    videoEl.load(); 
+                } 
+                const videoBtn = document.getElementById('btn-dl-video');
+                if (videoBtn) videoBtn.onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); 
+            }
+            
+            if(content.AUDIO && audioEl) { 
+                const source = audioEl.querySelector('source'); 
+                if(source) { 
+                    source.src = content.AUDIO; 
+                    audioEl.load(); 
+                } 
+                const audioBtn = document.getElementById('btn-dl-audio');
+                if (audioBtn) audioBtn.onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3'); 
+            }
+            
+            if(content.MINDMAP && imgEl) { 
+                imgEl.src = content.MINDMAP; 
+                const imageBtn = document.getElementById('btn-dl-image');
+                if (imageBtn) imageBtn.onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); 
+            }
+            
+            if(content.PDF && pdfFr) { 
+                let pdfLink = content.PDF; 
+                const pdfBtn = document.getElementById('btn-dl-pdf');
+                if (pdfBtn) pdfBtn.onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
                 
-                if(isAllowed(type)) {
-                    tab.classList.remove('tab-disabled');
-                } else {
-                    tab.classList.add('tab-disabled');
+                if(pdfLink.includes('drive.google.com')) { 
+                    pdfLink = pdfLink.replace('/view', '/preview'); 
+                    pdfFr.src = pdfLink; 
+                } else { 
+                    const encodedUrl = encodeURIComponent(pdfLink); 
+                    pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; 
                 }
             }
-        });
-
-        // 2. Sort tabs: Enabled first, then by priority
-        tabs.sort((a, b) => {
-            const aDis = a.classList.contains('tab-disabled');
-            const bDis = b.classList.contains('tab-disabled');
             
-            // If one is disabled and other enabled, enabled comes first
-            if(aDis !== bDis) return aDis ? 1 : -1;
+            if(content.FLIPBOOK) {
+                const flipbookBtn = document.getElementById('btn-dl-flipbook');
+                if (flipbookBtn) flipbookBtn.onclick = () => handleDirectDownload(content.FLIPBOOK, 'flipbook.html');
+            }
             
-            // If both same state, sort by priority
-            const typeA = tabMap[a.id];
-            const typeB = tabMap[b.id];
-            return tabOrderPriority.indexOf(typeA) - tabOrderPriority.indexOf(typeB);
-        });
-
-        // Re-append to sidebar
-        tabs.forEach(tab => sidebar.appendChild(tab));
-
-        // 3. Switch to first enabled tab
-        const firstEnabled = tabs.find(t => !t.classList.contains('tab-disabled'));
-        if(firstEnabled) {
-            const type = tabMap[firstEnabled.id];
-            switchViewerTab(type);
+            if (dom.productViewerModal) {
+                dom.productViewerModal.style.display = 'flex'; 
+                dom.productViewerContent.classList.add('animate-modalFadeIn'); 
+            }
+            
+            if (firstEnabled) switchViewerTab(firstEnabled); 
+            lucide.createIcons(); 
+        } catch(e) { 
+            console.error('Viewer modal error:', e); 
         }
-
-        // 4. Update Badge
-        if (dom.planBadge) {
-            dom.planBadge.textContent = 'PLAN: ' + purchasedPlan;
-            dom.planBadge.classList.remove('hidden');
-        }
-
-        // 5. ZIP Button Visibility (Premium Only)
-        if(dom.zipDownloadBtn) {
-             dom.zipDownloadBtn.classList.toggle('hidden', purchasedPlan !== 'PREMIUM');
-        }
-
-        // 6. Load Sources (Load all, but access restricted by UI)
-        const content = CONTENT_URLS[currentContentLanguage] || CONTENT_URLS.ENGLISH; 
-        
-        // Video
-        const videoEl = document.getElementById('videoSource'); 
-        if(content.VIDEO && videoEl) { 
-            const source = videoEl.querySelector('source'); 
-            if(source) { source.src = content.VIDEO; videoEl.load(); } 
-            const videoBtn = document.getElementById('btn-dl-video');
-            if (videoBtn) videoBtn.onclick = () => handleDirectDownload(content.VIDEO, 'video_class.mp4'); 
-        }
-        
-        // Audio
-        const audioEl = document.getElementById('audioSource');
-        if(content.AUDIO && audioEl) { 
-            const source = audioEl.querySelector('source'); 
-            if(source) { source.src = content.AUDIO; audioEl.load(); } 
-            const audioBtn = document.getElementById('btn-dl-audio');
-            if (audioBtn) audioBtn.onclick = () => handleDirectDownload(content.AUDIO, 'audio_podcast.mp3'); 
-        }
-        
-        // Mindmap
-        const imgEl = document.getElementById('imageSource'); 
-        if(content.MINDMAP && imgEl) { 
-            imgEl.src = content.MINDMAP; 
-            const imageBtn = document.getElementById('btn-dl-image');
-            if (imageBtn) imageBtn.onclick = () => handleDirectDownload(content.MINDMAP, 'mindmap.png'); 
-        }
-        
-        // PDF
-        const pdfFr = document.getElementById('pdfFrame');
-        if(content.PDF && pdfFr) { 
-            let pdfLink = content.PDF; 
-            const pdfBtn = document.getElementById('btn-dl-pdf');
-            if (pdfBtn) pdfBtn.onclick = () => handleDirectDownload(pdfLink, 'ebook.pdf');
-            if(pdfLink.includes('drive.google.com')) { pdfLink = pdfLink.replace('/view', '/preview'); pdfFr.src = pdfLink; } 
-            else { const encodedUrl = encodeURIComponent(pdfLink); pdfFr.src = `https://docs.google.com/gview?embedded=true&url=${encodedUrl}`; }
-        }
-        
-        // Show Modal
-        if(dom.productViewerModal) {
-            dom.productViewerModal.style.display = 'flex'; 
-            dom.productViewerContent.classList.add('animate-modalFadeIn'); 
-        }
-        lucide.createIcons(); 
     }
 
     function closeViewerModal() { 
@@ -2463,12 +2447,32 @@
 
     function handleUnlockClick() {
         if (!dom.unlockBtn) return;
-        const status = dom.unlockBtn.getAttribute('data-unlocked');
-        if (status === 'true') { 
-            openViewerModal(); 
+        
+        let status = dom.unlockBtn.getAttribute('data-unlocked');
+        if (status === 'BOTH') { 
+            if (dom.downloadModal && dom.languageSelectionModal) {
+                dom.downloadModal.style.display = 'flex'; 
+                dom.languageSelectionModal.style.display = 'block'; 
+                dom.languageSelectionModal.classList.add('animate-modalFadeIn'); 
+                lucide.createIcons(); 
+            }
+        } else if (status === 'HINDI') { 
+            openViewerModal('HINDI'); 
+        } else if (status === 'ENGLISH') { 
+            openViewerModal('ENGLISH'); 
         } else { 
             showToast("Please purchase the product first.", false); 
         }
+    }
+
+    function saveAndOpenDashboard(lang) { 
+        if (dom.languageSelectionModal) dom.languageSelectionModal.style.display = 'none'; 
+        if (dom.downloadModal) dom.downloadModal.style.display = 'none'; 
+        openViewerModal(lang); 
+    }
+    
+    function closeDownloadModal() { 
+        if (dom.downloadModal) dom.downloadModal.style.display = 'none'; 
     }
     
     function handleDownloadBundleClick() { 
@@ -2477,26 +2481,17 @@
         if(url) window.location.href = url; 
     }
 
-    function startUnlockProcess(planName) { 
-        // Save plan
-        localStorage.setItem('purchased_plan_' + PRODUCT_UNIQUE_ID, planName);
-        localStorage.setItem('unlocked_' + PRODUCT_UNIQUE_ID, 'true');
-        
+    let postPaymentLanguage = '';
+    function startUnlockProcess(lang) { 
+        postPaymentLanguage = lang; 
         triggerCelebration(); 
-        
-        if (planName === 'PREMIUM') {
-             // Only show ZIP modal for premium
-            if (dom.zipConfirmationModal) {
-                dom.zipConfirmationModal.style.display = 'flex'; 
-                const checkStep = document.getElementById('zipCheckStep');
-                const choiceStep = document.getElementById('zipChoiceStep');
-                if (checkStep) checkStep.style.display = 'flex';
-                if (choiceStep) choiceStep.style.display = 'none';
-                lucide.createIcons(); 
-            }
-        } else {
-            // Direct unlock for Basic/Standard
-            handleZipCompletion();
+        if (dom.zipConfirmationModal) {
+            dom.zipConfirmationModal.style.display = 'flex'; 
+            const checkStep = document.getElementById('zipCheckStep');
+            const choiceStep = document.getElementById('zipChoiceStep');
+            if (checkStep) checkStep.style.display = 'flex';
+            if (choiceStep) choiceStep.style.display = 'none';
+            lucide.createIcons(); 
         }
     }
 
@@ -2509,18 +2504,19 @@
     
     function handleZipDownloadNow() { 
         handleZipCompletion(); 
-        const url = CONTENT_URLS[currentContentLanguage] ? CONTENT_URLS[currentContentLanguage].ZIP : null; 
+        const url = CONTENT_URLS[postPaymentLanguage] ? CONTENT_URLS[postPaymentLanguage].ZIP : null; 
         if(url) window.location.href = url; 
     }
     
     function handleZipDownloadLater() { 
         handleZipCompletion(); 
-        openViewerModal(); 
+        openViewerModal(postPaymentLanguage); 
     }
 
     function handleZipCompletion() {
         if (dom.zipConfirmationModal) dom.zipConfirmationModal.style.display = 'none'; 
-        setUnlockedState('true'); 
+        const status = getUpdatedUnlockStatus(postPaymentLanguage);
+        setUnlockedState(status); 
         showToast("Product Unlocked!", true);
         
         setTimeout(() => { 
@@ -2530,6 +2526,16 @@
         setTimeout(() => { 
             openCommunityModal(); 
         }, 1500);
+    }
+
+    function getUpdatedUnlockStatus(newLang) {
+        const current = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID) || '';
+        let result = newLang;
+        if ((current.includes('HINDI') && newLang === 'ENGLISH') || (current.includes('ENGLISH') && newLang === 'HINDI') || current.includes('BOTH')) { 
+            result = 'BOTH'; 
+        }
+        localStorage.setItem('unlocked_lang_' + PRODUCT_UNIQUE_ID, result); 
+        return result;
     }
 
     function preloadAllImages() {
@@ -2614,6 +2620,7 @@
         };
     }
 
+    // Fix: Cover click handler with proper event handling
     if (dom.cover) {
         dom.cover.addEventListener('click', e => { 
             if (!dom.cover.classList.contains('loaded')) return;
@@ -2654,7 +2661,9 @@
         }, 300); 
     }
 
+    // Initialize on DOM loaded
     document.addEventListener('DOMContentLoaded', function() {
+      // Fix: Check if user already reacted and update heart icon
       const storageKey = 'reacted_In_search_of_my_kanha_ji-893dsd3cjdf';
       if (localStorage.getItem(storageKey)) {
           const loveIcon = document.getElementById('loveIcon');
@@ -2663,18 +2672,29 @@
           }
       }
 
-      const unlocked = localStorage.getItem('unlocked_' + PRODUCT_UNIQUE_ID);
-      if (unlocked === 'true') { 
-          setUnlockedState('true'); 
+      if (!ENABLE_COUPON_SECTION) { 
+          const couponSection = document.getElementById('couponSection');
+          if (couponSection) couponSection.style.display = 'none'; 
+      }
+      
+      const unlockedLangs = localStorage.getItem('unlocked_lang_' + PRODUCT_UNIQUE_ID);
+      if (unlockedLangs && unlockedLangs !== 'false') { 
+          setUnlockedState(unlockedLangs); 
       }
       
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('payment_status') === 'success' && urlParams.get('secret_key') === SECRET_KEY && sessionStorage.getItem('payment_initiated') === 'true') {
         history.replaceState(null, '', window.location.pathname); 
         sessionStorage.removeItem('payment_initiated');
-        const plan = sessionStorage.getItem('selected_plan_type') || 'BASIC';
-        if (dom.unlockBtn) dom.unlockBtn.setAttribute('data-unlocked', 'true'); 
-        startUnlockProcess(plan);
+        const preSelectedLang = sessionStorage.getItem('selected_language'); 
+        const finalStatus = getUpdatedUnlockStatus(preSelectedLang || 'HINDI');
+        if (dom.unlockBtn) dom.unlockBtn.setAttribute('data-unlocked', finalStatus); 
+        startUnlockProcess(preSelectedLang || 'HINDI');
+      }
+      
+      if(IS_SALE_ACTIVE) {
+          const saleBanner = document.getElementById('saleBanner');
+          if (saleBanner) saleBanner.style.display = 'block';
       }
       
       AOS.init({ duration: 800, once: true, offset: 120 }); 
@@ -2684,6 +2704,7 @@
       const yearElement = document.getElementById('year');
       if (yearElement) yearElement.textContent = new Date().getFullYear();
       
+      // Fix: Close cute menu when clicking outside
       document.addEventListener('click', function(e) {
           const quickActions = document.querySelector('.floating-quick-actions');
           if (isMenuOpen && quickActions && !quickActions.contains(e.target)) {
@@ -2691,8 +2712,10 @@
           }
       });
       
+      // Fix: Mobile touch handling for 3D book
       const book3d = document.getElementById('book3d');
       if (book3d) {
+          // Remove hover effects on mobile, replace with tap
           if ('ontouchstart' in window) {
               book3d.style.transform = 'rotateY(-12deg) rotateX(4deg)';
               book3d.addEventListener('touchstart', function() {
@@ -2704,7 +2727,16 @@
           }
       }
       
+      // REMOVED: Start live sales notifications
+      
+      // Initialize sticky bar scroll handler
       window.addEventListener('scroll', handleScrollForStickyBar);
+      
+      // Mobile sticky bar buy button
+      const stickyBarButton = document.querySelector('.sticky-bar-button');
+      if (stickyBarButton) {
+          stickyBarButton.addEventListener('click', openPaymentModal);
+      }
     });
 
     let scrollTriggered = false;
@@ -2755,38 +2787,6 @@
         }); 
     }
     
-    /* NEW PLAN SELECTION MODAL LOGIC */
-    window.openPlanSelectionModal = function() {
-        if(dom.planSelectionModal) {
-            dom.planSelectionModal.style.display = 'flex';
-            dom.mobileStickyBar.classList.remove('show'); 
-            // Hide sticky bar to prevent overlap
-            dom.mobileStickyBar.style.display = 'none';
-        }
-        lucide.createIcons();
-    }
-    
-    window.closePlanSelectionModal = function() {
-        if(dom.planSelectionModal) {
-            dom.planSelectionModal.style.display = 'none';
-            // Restore sticky bar
-            dom.mobileStickyBar.style.display = 'flex';
-            handleScrollForStickyBar();
-        }
-    }
-    
-    window.initiatePlanPayment = function(planType) {
-        closePlanSelectionModal();
-        selectedPlanForPayment = planType;
-        
-        if (planType === 'BASIC') currentPaymentUrl = link119;
-        else if (planType === 'STANDARD') currentPaymentUrl = link209;
-        else if (planType === 'PREMIUM') currentPaymentUrl = link499;
-        
-        openPaymentModal();
-    }
-    
-    /* UPDATED PAYMENT MODAL LOGIC */
     let countdownInterval;
 
     function openPaymentModal() { 
@@ -2797,17 +2797,42 @@
             paymentModal.querySelector('.modal-content').classList.add('animate-modalFadeIn'); 
         }
         
-        // Hide Sticky bar
-        dom.mobileStickyBar.style.display = 'none';
+        if (!IS_DUAL_LANGUAGE) { 
+            handlePaymentLanguageSelection('ENGLISH'); 
+        } else { 
+            const paymentLangSelection = document.getElementById('paymentLangSelection');
+            const cashfreeIframe = document.getElementById('cashfreeIframe');
+            if (paymentLangSelection) paymentLangSelection.style.display = 'flex'; 
+            if (cashfreeIframe) cashfreeIframe.style.display = 'none'; 
+        }
         
-        // Start payment directly with selected link
+        if (dom.bottomShield) {
+            dom.bottomShield.classList.add('inactive'); 
+        }
+        lucide.createIcons(); 
+    }
+    
+    function closePaymentModal() { 
+        document.body.style.overflow = ''; 
+        const paymentModal = document.getElementById('paymentModal');
+        if (paymentModal) paymentModal.style.display = 'none'; 
+        
+        const paymentTimer = document.getElementById('paymentTimer');
+        if (paymentTimer) paymentTimer.style.display = 'none'; 
+        
+        if(countdownInterval) clearInterval(countdownInterval); 
+    }
+    
+    function handlePaymentLanguageSelection(lang) {
+        const paymentLangSelection = document.getElementById('paymentLangSelection');
         const paymentLoader = document.getElementById('paymentLoader');
         const cashfreeIframe = document.getElementById('cashfreeIframe');
         
+        if (paymentLangSelection) paymentLangSelection.style.display = 'none'; 
         if (paymentLoader) paymentLoader.style.display = 'flex';
         
         sessionStorage.setItem('payment_initiated', 'true'); 
-        sessionStorage.setItem('selected_plan_type', selectedPlanForPayment); // Store PLAN
+        sessionStorage.setItem('selected_language', lang);
         
         if (cashfreeIframe) cashfreeIframe.src = currentPaymentUrl;
         
@@ -2834,26 +2859,13 @@
             if (timerCount) timerCount.textContent = `${Math.floor(tl/60)}:${(tl%60)<10?'0':''}${tl%60}`; 
             if(tl<0) closePaymentModal(); 
         }, 1000);
-        
-        if (dom.bottomShield) {
-            dom.bottomShield.classList.add('inactive'); 
-        }
-        lucide.createIcons(); 
     }
     
-    function closePaymentModal() { 
-        document.body.style.overflow = ''; 
-        const paymentModal = document.getElementById('paymentModal');
-        if (paymentModal) paymentModal.style.display = 'none'; 
-        
-        // Restore Sticky Bar
-        dom.mobileStickyBar.style.display = 'flex';
-        handleScrollForStickyBar();
-        
-        const paymentTimer = document.getElementById('paymentTimer');
-        if (paymentTimer) paymentTimer.style.display = 'none'; 
-        
-        if(countdownInterval) clearInterval(countdownInterval); 
+    if (dom.buyBtn) {
+        dom.buyBtn.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            openPaymentModal(); 
+        });
     }
     
     function openConfirmationModal() { 
