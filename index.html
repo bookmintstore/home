@@ -1,62 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
-  <title>BookMintor: Premium Self Help & Spiritual eBooks | Read Book Mintor Online</title>
-  <meta name="description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online for growth and success. Ad-free and smooth UX." />
-  <meta name="keywords" content="BookMintor, Book Mintor, read ebooks online, premium ebooks, self help ebooks, spiritual ebooks, book reading platform, ebook shop, technology ebooks, business ebooks, fiction books, personal growth, digital library" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://bookmintor.shop/" />
-
-  <meta name="theme-color" content="#0b0e13" />
-  <link rel="manifest" href="https://bookmintor.shop/manifest.json">
-  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
-  <link rel="apple-touch-icon" href="https://bookmintor.shop/images/logo.png">
-
-  <meta property="og:title" content="BookMintor: Premium Self Help & Spiritual eBooks" />
-  <meta property="og:description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bookmintor.shop/" />
-  <meta property="og:image" content="https://bookmintor.shop/images/logo.png" />
-  <meta property="og:site_name" content="BookMintor" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@BookMintor" />
-  <meta name="twitter:title" content="BookMintor: Premium Self Help & Spiritual eBooks" />
-  <meta name="twitter:description" content="BookMintor offers a premium library of hand-picked self help, spiritual, and technology eBooks. Discover knowledge and read Book Mintor titles instantly online." />
-  <meta name="twitter:image" content="https://bookmintor.shop/images/logo.png" />
+  <title>BookMintor | Premium Self Help & Spiritual eBooks</title>
+  <meta name="description" content="Read premium self-help, spiritual, and technology eBooks on BookMintor. Ad-free and smooth reading experience." />
   
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "BookMintor",
-      "alternateName": "Book Mintor",
-      "url": "https://bookmintor.shop/",
-      "logo": "https://bookmintor.shop/images/logo.png",
-      "sameAs": [
-        "https://instagram.com/bookmintor_official",
-        "https://youtube.com/@BookMintorChannel"
-      ],
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://bookmintor.shop/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-  </script>
+  <meta name="theme-color" content="#0b0e13" />
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
 
-  <!-- LORDICON SCRIPT ADDED -->
-  <script src="https://cdn.lordicon.com/lordicon.js"></script>
-
-  <!-- SECURITY SCRIPT: Disables Right Click, F12, Ctrl+U -->
+  <!-- SECURITY SCRIPT (Right click, F12, Shortcuts Disable karne ke liye) -->
   <script>
-    // Disable Right Click
     document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
     document.onkeydown = function(e) {
         if(e.keyCode == 123) { return false; } // F12
         if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
@@ -66,848 +22,704 @@
     }
   </script>
 
+  <!-- LORDICON SCRIPT -->
+  <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+  <!-- TAILWIND CSS & LUCIDE ICONS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- AOS ANIMATION LIBRARY -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  
+  <!-- GOOGLE FONTS (Plus Jakarta Sans & Poppins) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            poppins: ['"Poppins"', 'sans-serif'],
+          },
           colors: {
-            indigoGlow: '#6366F1',
-            fuchsiaGlow: '#D946EF',
-          },
-          boxShadow: {
-            glow: '0 10px 30px -10px rgba(99,102,241,0.45)',
-            glass: '0 10px 30px -10px rgba(0,0,0,.45)',
-          },
-          keyframes: {
-            shine: { '0%': { transform: 'translateX(-120%)' }, '100%': { transform: 'translateX(120%)' } },
-            floaty: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-4px)' } },
-            
-            'dot-bounce': { 
-              '0%, 100%': { transform: 'translateY(0)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' }, 
-              '50%': { transform: 'translateY(-12px)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' } 
-            },
-            blink: {
-                '0%, 100%': { opacity: 1 },
-                '50%': { opacity: 0 }
-            },
-            'count-up': {
-              '0%': { transform: 'translateY(20px)', opacity: 0 },
-              '100%': { transform: 'translateY(0)', opacity: 1 }
-            },
-            'pulse-glow': {
-              '0%, 100%': { boxShadow: '0 0 5px rgba(99,102,241,0.5)' },
-              '50%': { boxShadow: '0 0 20px rgba(99,102,241,0.8)' }
-            },
-            // Logo Shine Animation
-            logoShine: {
-                '0%': { transform: 'translateX(-100%)' },
-                '100%': { transform: 'translateX(100%)' }
+            brand: {
+              dark: '#0b0e13', 
+              card: '#11151c', 
+              border: '#222834', 
+              accent1: '#6366F1', // Indigo
+              accent2: '#D946EF', // Fuchsia
+              accent3: '#38bdf8', // Sky
             }
           },
           animation: {
-            shine: 'shine 1.5s ease-in-out infinite', /* FASTER SHINE */
-            floaty: 'floaty 6s ease-in-out infinite',
-            bounce: 'dot-bounce 0.8s infinite', 
-            blink: 'blink 1s step-end infinite',
-            'roll-up': 'word-roll 20s ease-in-out infinite', /* FASTER ROLL */
-            'count-up': 'count-up 0.8s ease-out forwards',
-            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-            'logo-shine': 'logoShine 3s infinite' /* Logo Shine */
+            'word-slide': 'wordSlide 12s cubic-bezier(0.16, 1, 0.3, 1) infinite',
+            'glow-pulse': 'glowPulse 6s ease-in-out infinite',
+            'border-spin': 'spin 2.5s linear infinite', 
+          },
+          keyframes: {
+            wordSlide: {
+              '0%, 15%': { transform: 'translateY(0)' },
+              '20%, 35%': { transform: 'translateY(-16.66%)' },
+              '40%, 55%': { transform: 'translateY(-33.33%)' },
+              '60%, 75%': { transform: 'translateY(-50%)' },
+              '80%, 95%': { transform: 'translateY(-66.66%)' },
+              '100%': { transform: 'translateY(-83.33%)' },
+            },
+            glowPulse: {
+              '0%, 100%': { opacity: 0.15, transform: 'scale(1)' },
+              '50%': { opacity: 0.3, transform: 'scale(1.05)' },
+            }
           }
         }
       }
     }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
   <style>
-    /* Smooth Scroll */
-    html { scroll-behavior:smooth } 
-    /* Disable Text Selection for Security */
-    body { 
-        font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
-        -webkit-user-select: none; /* Chrome/Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+ */
-        user-select: none; /* Standard */
-        overflow-x: hidden; /* Prevent horizontal scroll */
-    }
-    .no-scrollbar::-webkit-scrollbar{ display:none }
-    .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none }
-    
-    /* Dynamic Word Roll Animation */
-    @keyframes word-roll {
-        /* Word 1: Mind. */
-        0%, 14.8% { transform: translateY(0em); }
-        16.6% { transform: translateY(-1.2em); }
-
-        /* Word 2: Growth. */
-        18.4%, 31.4% { transform: translateY(-1.2em); }
-        33.3% { transform: translateY(-2.4em); }
-
-        /* Word 3: Career. */
-        35.1%, 48.1% { transform: translateY(-2.4em); }
-        50.0% { transform: translateY(-3.6em); }
-
-        /* Word 4: Future. */
-        51.8%, 64.8% { transform: translateY(-3.6em); }
-        66.6% { transform: translateY(-4.8em); }
-
-        /* Word 5: Success. */
-        68.4%, 81.4% { transform: translateY(-4.8em); }
-        83.3% { transform: translateY(-6.0em); }
-
-        /* Word 6: Skill. */
-        85.1%, 98.1% { transform: translateY(-6.0em); }
-        
-        100% { transform: translateY(0em); }
+    body {
+        background-color: #0b0e13;
+        color: #f8fafc;
+        -webkit-user-select: none;
+        user-select: none;
+        overflow-x: hidden;
     }
     
-    .motion-mask {
-        mask-image: linear-gradient(to bottom, 
-            transparent 0%, 
-            white 10%, 
-            white 90%, 
-            transparent 100%
-        );
-        -webkit-mask-image: linear-gradient(to bottom, 
-            transparent 0%, 
-            white 10%, 
-            white 90%, 
-            transparent 100%
-        );
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .glass-panel {
+        background: rgba(17, 21, 28, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(to right, #6366F1, #D946EF, #38bdf8);
     }
 
-    /* Accordion Styles */
+    .ripple-btn {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .ripple-btn:active {
+        transform: scale(0.97);
+    }
+    .ripple-circle {
+        position: absolute;
+        border-radius: 50%;
+        transform: scale(0);
+        animation: ripple-anim 0.6s linear;
+        background-color: rgba(255, 255, 255, 0.2);
+        pointer-events: none;
+    }
+    @keyframes ripple-anim {
+        to { transform: scale(4); opacity: 0; }
+    }
+
+    /* Stacked Cards Feature */
+    .stacked-card {
+        box-shadow: 0 -15px 30px -10px rgba(0, 0, 0, 0.9), 0 20px 40px rgba(0,0,0,0.6);
+        border-left: 12px solid #1a202c;
+    }
+    .book-spine-highlight {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+        z-index: 30;
+    }
+
     .accordion-content {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
     }
-    .accordion-open .accordion-content {
-        max-height: 500px; 
-    }
-    .accordion-open .accordion-icon {
-        transform: rotate(180deg);
-    }
-
-    .trust-badge {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(217, 70, 239, 0.1));
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      backdrop-filter: blur(10px);
-    }
-
-    /* Logo Loading Shine */
-    .logo-shine-effect {
-        position: absolute;
+    .accordion-item.active .accordion-content { max-height: 400px; }
+    .accordion-item.active .acc-icon { transform: rotate(45deg); }
+    
+    #preloader {
+        position: fixed;
         inset: 0;
-        background: rgba(255,255,255,0.4);
-        transform: skewX(-20deg);
-        /* Animation is applied via Tailwind utility class */
+        background-color: #0b0e13;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.8s ease, visibility 0.8s;
     }
-
-    /* GLASSMORPHISM */
-    .glass {
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        position: relative;
-        overflow: hidden;
-    }
-    .glass::after {
-        content: "";
-        position: absolute;
-        top: 0; left: -150%; width: 60%; height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-        transform: skewX(-20deg);
-        transition: 0.8s;
-    }
-    .glass:hover::after {
-        left: 150%;
-        transition: 1.2s;
+    .loader-glow {
+        box-shadow: 0 0 40px 10px rgba(99,102,241,0.4);
+        animation: pulse 2s infinite;
     }
   </style>
 </head>
-<body class="min-h-screen bg-[#0b0e13] text-zinc-100 antialiased selection:bg-indigo-500/30 overflow-x-hidden">
-  
-  <div id="loading-overlay" class="fixed inset-0 z-[999] hidden place-items-center bg-[#0b0e13]/95 opacity-0 transition-opacity duration-300">
-    <div class="flex flex-col items-center">
-      <div class="text-center mb-8">
-        <h3 class="text-xl font-bold text-white mb-2">Loading...</h3>
-      </div>
-      
-      <div class="flex space-x-2">
-        <div class="h-2 w-2 rounded-full bg-indigo-400 animate-bounce delay-[0ms]"></div>
-        <div class="h-2 w-2 rounded-full bg-sky-400 animate-bounce delay-[100ms]"></div>
-        <div class="h-2 w-2 rounded-full bg-fuchsia-400 animate-bounce delay-[200ms]"></div>
-      </div>
+
+<body class="antialiased selection:bg-brand-accent1/30 min-h-screen flex flex-col">
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="relative">
+        <img src="https://bookmintor.shop/images/logo.png" alt="Loading..." class="h-20 w-20 rounded-full loader-glow">
+        <div class="absolute inset-0 rounded-full border-2 border-brand-accent1 border-t-transparent animate-spin"></div>
     </div>
   </div>
 
+  <!-- EXACT ORIGINAL BACKGROUND -->
   <div class="pointer-events-none fixed inset-0 -z-10">
-    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px]"></div>
-    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/15 blur-[130px]"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%)]"></div>
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px] animate-glow-pulse"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/15 blur-[130px] animate-glow-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%)] opacity-80"></div>
   </div>
 
-  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-zinc-900/40">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
-        <!-- HEADER LOGO -->
+  <!-- Navigation Bar (Top Menu) -->
+  <header class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent" id="navbar">
+    <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-xl z-[-1]"></div>
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      
+      <!-- Logo (Scrolls to top) -->
+      <a href="#hero-section" class="flex items-center gap-3 group ripple-btn rounded-full p-1" aria-label="Go to Home">
         <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-10 w-10 object-contain rounded-full drop-shadow-[0_0_15px_rgba(232,121,249,0.5)] transition-transform group-hover:scale-110 duration-300">
-        
-        <span class="text-lg font-bold tracking-wide text-zinc-100">
+        <span class="text-xl font-bold tracking-wide text-zinc-100 font-poppins hidden sm:block">
           <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
         </span>
       </a>
 
-      <div class="hidden items-center gap-6 rounded-2xl border border-white/10 bg-white/5 px-5 py-2 backdrop-blur md:flex">
-        <a href="./#" class="nav-link text-sm text-zinc-300 transition hover:text-white">Categories</a>
-        <a href="./#" class="nav-link text-sm text-zinc-300 transition hover:text-white">Featured</a>
-        <a href="./#" class="nav-link text-sm text-zinc-300 transition hover:text-white">About</a>
-        <a href="./#" class="nav-link inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-sm text-white transition hover:bg-white/15">Library</a>
+      <!-- Desktop Links (Ab smooth scroll karenge ussi page par) -->
+      <div class="hidden md:flex items-center gap-8 glass-panel px-6 py-2.5 rounded-full border-white/5 shadow-lg">
+        <a href="#hero-section" class="text-sm font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">Home</a>
+        <a href="#featured" class="text-sm font-medium text-slate-400 hover:text-white hover:scale-105 transition-all">Library</a>
+        <a href="#categories" class="text-sm font-medium text-slate-400 hover:text-white hover:scale-105 transition-all">Categories</a>
       </div>
-      <a href="./library.html" class="nav-link group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white shadow-[0_0_0_0_rgba(99,102,241,0)] transition hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-[0_0_35px_0_rgba(99,102,241,0.35)]">Open Library
-        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
+
+      <!-- FIXED Glowing Button (Animates only on scroll for few seconds) -->
+      <button onclick="document.getElementById('featured').scrollIntoView({behavior: 'smooth'})" class="group relative inline-flex h-11 items-center justify-center overflow-hidden rounded-full bg-transparent p-[1.5px] shadow-lg">
+        <!-- Glow Line (Hidden initally, trigger by JS) -->
+        <span id="btnGlow" class="absolute left-1/2 top-1/2 h-[300%] w-[300%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,transparent_75%,rgba(255,255,255,1)_100%)] opacity-0 transition-opacity duration-500"></span>
+        
+        <!-- Inner Button -->
+        <span class="relative inline-flex h-full w-full items-center justify-center gap-2 rounded-full bg-[#0b0e13] px-6 text-sm font-semibold text-white transition-all group-hover:bg-[#161b22]">
+          <i data-lucide="book-open" class="h-4 w-4 text-white/70 transition-transform group-hover:rotate-12"></i>
+          Open Library
+        </span>
+      </button>
+
     </nav>
   </header>
 
-  <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <section id="hero-section" class="grid items-center gap-10 py-10 md:grid-cols-2 md:py-16 lg:py-20">
-      <div data-aos="fade-up">
-        
-        <h1 class="text-3xl sm:text-4xl font-black leading-tight tracking-tight lg:text-6xl">
-            Premium eBooks to Ignite Your 
-            <span class="text-white">
-                <span id="dynamic-word-container" class="inline-block min-w-[150px] sm:min-w-[200px] lg:min-w-[280px] h-[1.2em] overflow-hidden align-top motion-mask">
-                    <span id="dynamic-word" class="bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent animate-roll-up inline-block leading-[1.2em]">
-                        <div>Mind.</div>
-                        <div>Growth.</div>
-                        <div>Career.</div>
-                        <div>Future.</div>
-                        <div>Success.</div>
-                        <div>Skill.</div>
-                        <div>Mind.</div>
-                    </span>
-                </span>
+  <!-- Main Content Area -->
+  <main class="pt-32 pb-20 flex-grow" id="hero-section">
+    
+    <section class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10 text-center">
+        <!-- Text Content -->
+        <div data-aos="fade-down" class="max-w-3xl mx-auto">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border-white/10 text-slate-300 text-xs font-bold uppercase tracking-widest mb-6 shadow-lg">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent1 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent1"></span>
             </span>
-        </h1>
-        
-        <p class="mt-4 max-w-xl text-sm sm:text-lg leading-relaxed text-zinc-300/90">Hand picked titles, simple design, and a smooth reading experience. just search, choose, and start reading instantly.</p>
-
-        <div class="mt-6 flex flex-wrap gap-4">
-          <div class="flex items-center gap-2 trust-badge rounded-2xl px-4 py-2">
-            <div class="flex items-center gap-1">
-              <span class="text-yellow-400">★</span>
-              <span class="text-sm font-medium">4.9/5</span>
-            </div>
-            <span class="text-xs text-zinc-400">Rating</span>
+            Platform 2.0 is Live
           </div>
           
-          <div class="flex items-center gap-2 trust-badge rounded-2xl px-4 py-2">
-            <div class="flex items-center gap-1">
-              <span class="text-indigo-400 font-bold" id="happy-readers">0</span>
-              <span class="text-sm font-medium">K+</span>
-            </div>
-            <span class="text-xs text-zinc-400">Happy Readers</span>
-          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-white mb-6">
+            Elevate your mind with premium <br class="hidden lg:block" />
+            <span class="inline-flex flex-col h-[1.1em] overflow-hidden align-top relative min-w-[280px] lg:min-w-[350px]">
+              <span class="animate-word-slide text-gradient absolute top-0 w-full text-center">
+                <span class="block h-[1.1em] pb-1">eBooks.</span>
+                <span class="block h-[1.1em] pb-1">Wisdom.</span>
+                <span class="block h-[1.1em] pb-1">Knowledge.</span>
+                <span class="block h-[1.1em] pb-1">Growth.</span>
+                <span class="block h-[1.1em] pb-1">Spirituality.</span>
+                <span class="block h-[1.1em] pb-1">eBooks.</span>
+              </span>
+            </span>
+          </h1>
           
-          <div class="flex items-center gap-2 trust-badge rounded-2xl px-4 py-2">
-            <div class="flex items-center gap-1">
-              <span class="text-emerald-400 font-bold" id="premium-titles">0</span>
-              <span class="text-sm font-medium">+</span>
-            </div>
-            <span class="text-xs text-zinc-400">Premium Titles</span>
-          </div>
+          <p class="text-lg text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto">
+            Immerse yourself in a hand-picked library of titles designed to transform your life. Ad-free, distraction-free, and beautifully crafted.
+          </p>
         </div>
 
-        <!-- SEARCH BOX FIX: Adjusted padding and font size for Mobile -->
-        <div class="mt-6 w-full max-w-3xl" data-aos="zoom-in" data-aos-delay="400">
-              <div class="glass group relative flex items-center rounded-[2.5rem] p-1.5 sm:p-2.5 opacity-60">
-                <div class="flex h-10 w-10 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-3xl bg-white/5 text-zinc-400">
-                    <i data-lucide="search" class="h-5 w-5 sm:h-7 sm:w-7"></i>
-                </div>
-                <!-- min-w-0 ensures it shrinks properly on mobile -->
-                <input type="text" disabled placeholder="Global search is encrypted..." class="h-10 sm:h-14 flex-1 min-w-0 bg-transparent px-3 sm:px-6 text-sm sm:text-xl text-white outline-none placeholder:text-zinc-600 cursor-not-allowed truncate">
-                <button disabled class="flex items-center gap-2 sm:gap-3 rounded-3xl bg-white/5 px-5 py-3 sm:px-10 sm:py-5 text-[10px] sm:text-xs font-black text-zinc-500 cursor-not-allowed uppercase tracking-widest shrink-0">
-                    <i data-lucide="lock" class="h-3 w-3 sm:h-4 sm:w-4"></i> Locked
-                </button>
-              </div>
-        </div>
-
-        <div class="mt-8 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> Ad‑free UX</span>
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17l-5 3 1-5-4-4 5-1 3-5 3 5 5 1-4 4 1 5-5-3z"/></svg> Hand‑picked</span>
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1"><svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13a7 7 0 0 1 14 0v3H5v-3Z"/><path d="M10 18v2a2 2 0 1 0 4 0v-2"/></svg> Smooth Animations</span>
-        </div>
-      </div>
-
-      <!-- IMAGE COLLAGE FIX: Grid changed from 3 cols to 2 cols on mobile -->
-      <div id="image-collage" class="relative" data-aos="fade-up" data-aos-delay="100">
-        <!-- Reduced padding from p-4 to p-3 for mobile -->
-        <div class="relative rounded-[28px] border border-white/10 bg-white/5 p-3 sm:p-4 shadow-2xl backdrop-blur-xl">
-          <!-- Reduced inner padding from p-6 to p-4 for mobile -->
-          <div class="rounded-[22px] border border-white/10 bg-gradient-to-br from-zinc-900/60 to-zinc-800/40 p-4 sm:p-6 shadow-inner">
-            <div class="mb-4 flex items-center justify-between text-xs text-zinc-400">
-              <span class="inline-flex items-center gap-2"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Multi‑category</span>
-              <span>Top Picks</span>
-            </div>
-            <!-- GRID FIX: grid-cols-2 on mobile, grid-cols-3 on larger screens -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <!-- Adjusted height for mobile: h-32 -->
-              <a href="/#" class="nav-link group relative h-32 sm:h-40 overflow-hidden rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Bhagavad Gita" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./In_search_of_my_kanha_ji" class="nav-link group relative h-32 sm:h-40 overflow-hidden rounded-2xl">
-                <img src="https://bookmintor.shop/aarohibook/arrohi_book_cover.png" alt="Writing & Creativity" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./#" class="nav-link group relative h-32 sm:h-40 overflow-hidden rounded-2xl">
-                <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Mindfulness" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./class-10-repeated-question-zones" class="nav-link group relative h-32 sm:h-40 overflow-hidden rounded-2xl">
-                <img src="https://github.com/cortex-cradle/ebbok1/pdf6_eng_class-10-repeated-question-zones/Gemini_Generated_Image_ysdiodysdiodysdi.png" alt="Business" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./#" class="nav-link group relative h-32 sm:h-40 overflow-hidden rounded-2xl">
-                <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=60" alt="Programming" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-              <a href="./#" class="nav-link group relative h-32 sm:h-40 overflow-hidden rounded-2xl">
-                <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Health" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"/>
-                <div class="pointer-events-none absolute inset-0"><div class="absolute -inset-1 -skew-x-12 animate-shine bg-gradient-to-r from-transparent via-white/20 to-transparent"></div></div>
-              </a>
-            </div>
-          </div>
-          <div class="pointer-events-none absolute -inset-2 -z-10 rounded-[34px] bg-gradient-to-tr from-indigo-500/10 via-transparent to-fuchsia-500/10 blur-2xl"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="categories" class="py-10">
-      <h2 class="text-2xl font-bold sm:text-3xl">Browse by Category</h2>
-      <p class="mt-1 text-zinc-400">From Spirituality to Technology, explore every subject in one place.</p>
-      <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <a href="./spirituality.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Popular</span>
-            <h3 class="mt-3 text-lg font-semibold">Spirituality</h3>
-            <p class="mt-1 text-sm text-zinc-400">Bhakti, Vedanta, Gita, Upanishads</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1400&q=60" alt="Spirituality" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./#" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="50">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-indigo-500/15 to-sky-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Trending</span>
-            <h3 class="mt-3 text-lg font-semibold">Self‑Help</h3>
-            <p class="mt-1 text-sm text-zinc-400">Habits, focus, growth mindset</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1400&q=60" alt="Self Help" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href=".#" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="100">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-purple-500/15 to-indigo-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">New</span>
-            <h3 class="mt-3 text-lg font-semibold">Technology</h3>
-            <p class="mt-1 text-sm text-zinc-400">Programming, data, AI</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=60" alt="Technology" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./#" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="150">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-amber-500/15 to-red-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Hot</span>
-            <h3 class="mt-3 text-lg font-semibold">Business</h3>
-            <p class="mt-1 text-sm text-zinc-400">Startup, finance, marketing</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60" alt="Business" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./#" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="200">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-emerald-500/15 to-teal-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Editors' pick</span>
-            <h3 class="mt-3 text-lg font-semibold">Health & Wellness</h3>
-            <p class="mt-1 text-sm text-zinc-400">Fitness, ayurveda, mental health</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?auto=format&fit=crop&w=1400&q=60" alt="Health & Wellness" class="h-full w-full object-cover" />
-          </div>
-        </a>
-
-        <a href="./Top-Academics.html" class="nav-link group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:border-indigo-400/30" data-aos="fade-up" data-aos-delay="250">
-          <div class="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-gradient-to-br from-pink-500/15 to-fuchsia-500/15 blur-2xl transition group-hover:scale-110"></div>
-          <div class="relative z-10">
-            <span class="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">Classic</span>
-            <h3 class="mt-3 text-lg font-semibold">Academics</h3>
-            <p class="mt-1 text-sm text-zinc-400">JEE, NEET, Boards, study notes</p>
-          </div>
-          <div class="absolute inset-0 opacity-50 [mask-image:linear-gradient(to_top,black,transparent_70%)]">
-            <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1400&q=60" alt="Fiction" class="h-full w-full object-cover" />
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section id="featured" class="py-10">
-      <h2 class="text-2xl font-bold sm:text-3xl">Featured Selections</h2>
-      <p class="mt-1 text-zinc-400">Top rated eBooks chosen from our most popular categories.</p>
-
-      <div class="mt-5 overflow-x-auto no-scrollbar">
-        <div class="flex gap-4">
-          <a href="./#" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=1200&q=60" alt="Ayurveda for Beginners" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Ayurveda for Beginners</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹349</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Health • 18h read</p>
-            </div>
-          </a>
-
-          <a href="./#" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="50">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=1200&q=60" alt="Vedic Meditation" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Vedic Meditation</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹299</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 22h</p>
-            </div>
-          </a>
-
-          <a href="./#" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="100">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1200&q=60" alt="Gita Demystified" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Gita Demystified</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹199</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 15h</p>
-            </div>
-          </a>
-
-          <a href="./#" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="150">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Python: Zero → Pro" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Python: Zero → Pro</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹449</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Technology • 30h</p>
-            </div>
-          </a>
-
-          <a href="./#" class="nav-link relative h-full w-[300px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_-10px_rgba(99,102,241,0.35)]" data-aos="fade-up" data-aos-delay="200">
-            <div class="h-44 w-full overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads Essentials" class="h-full w-full object-cover transition duration-500 hover:scale-[1.06]" />
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-2">
-                <strong class="truncate">Upanishads Essentials</strong>
-                <span class="rounded-full bg-white/10 px-2 py-0.5 text-xs text-emerald-300">₹499</span>
-              </div>
-              <p class="mt-1 line-clamp-2 text-sm text-zinc-400">Spiritual • 30h</p>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <div class="mt-6 flex gap-3">
-        <a href="./#" class="nav-link inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm hover:bg-white/10">Explore more <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        <a href="./#" class="nav-link inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold">Open Library <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h16"/><path d="m12 5 7 7-7 7"/></svg></a>
-      </div>
-
-      <div class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 class="text-xl font-semibold">Premium feel. Simple experience.</h3>
-            <p class="mt-1 text-sm text-zinc-400">BookMintor makes reading delightful fast.</p>
-          </div>
-          <a href="./#" class="nav-link inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 font-semibold text-black">Start Reading <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq-section" class="py-12 lg:py-20">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center" data-aos="fade-up">
-                <h2 class="text-4xl font-extrabold sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-fuchsia-400">Frequently Asked Questions</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-xl text-zinc-300">Quick answers to the most common questions from our readers.</p>
-            </div>
+        <!-- ENCRYPTED SEARCH & TAGS SECTION -->
+        <div class="relative w-full max-w-3xl mx-auto mt-10 mb-16" data-aos="zoom-in" data-aos-delay="200">
             
-            <div class="mt-12 max-w-3xl mx-auto space-y-5">
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>What payment methods are accepted?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">We accept all major credit/debit cards (Visa, MasterCard, Amex), UPI (Google Pay, PhonePe), and NetBanking. All transactions are secure and encrypted.</p>
-                    </div>
+            <!-- The Dark Unclickable Overlay -->
+            <div class="absolute inset-0 z-20 bg-[#0b0e13]/60 backdrop-blur-[3px] rounded-[2rem] flex flex-col items-center justify-center border border-white/5 cursor-not-allowed group">
+                <div class="bg-brand-dark/90 px-6 py-3 rounded-full border border-white/10 flex items-center gap-3 shadow-[0_0_30px_rgba(217,70,239,0.3)] transition-transform group-hover:scale-105">
+                    <i data-lucide="lock" class="h-4 w-4 text-brand-accent2"></i>
+                    <span class="text-xs font-bold tracking-widest text-white uppercase">Encrypted • Unlocks in Library</span>
+                </div>
+            </div>
+
+            <!-- Fake Library UI Underneath -->
+            <div class="bg-brand-card/40 rounded-[2rem] p-6 border border-white/5">
+                <!-- Search Bar Mock -->
+                <div class="relative flex items-center bg-white/5 border border-white/10 rounded-2xl p-2 mb-6">
+                    <div class="pl-4 pr-3 text-slate-500"><i data-lucide="search" class="h-6 w-6"></i></div>
+                    <div class="w-full text-left text-slate-500 text-sm md:text-base py-2.5">Search by book title, author, or keyword...</div>
+                    <div class="hidden sm:flex items-center gap-2 bg-white/10 text-slate-400 text-sm font-bold py-2.5 px-6 rounded-xl">Search</div>
                 </div>
 
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="50">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>Can I read the eBook offline?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">Yes! Once downloaded, you can read your eBook anytime, anywhere without an internet connection.</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="100">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>What is the refund policy?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">We offer a full refund if you are not satisfied within 7 days, provided the eBook hasn't been extensively read.</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="150">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>Is the platform compatible with all devices?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">Our web reader is fully responsive and works perfectly on desktop, mobile, and tablet browsers. No special app is needed!</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item rounded-3xl border border-white/10 bg-white/5 backdrop-blur shadow-glass" data-aos="fade-up" data-aos-delay="200">
-                    <button class="accordion-header flex w-full items-center justify-between p-6 text-left font-semibold text-xl transition text-white hover:text-sky-400" onclick="toggleAccordion(this)">
-                        <span>How often are new titles added?</span>
-                        <i data-lucide="chevron-down" class="accordion-icon w-6 h-6 ml-4 transition-transform text-sky-400"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <p class="p-6 pt-0 text-zinc-300 text-base">We are constantly curating and adding new premium titles every week to keep our library fresh and relevant.</p>
-                    </div>
+                <!-- Tags Mock -->
+                <div class="flex overflow-hidden gap-3 justify-center opacity-60">
+                    <div class="px-5 py-2 rounded-full text-xs font-bold bg-white text-brand-dark hidden sm:block">All Books</div>
+                    <div class="px-5 py-2 rounded-full text-xs font-bold bg-white/5 text-slate-300 border border-white/5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3"></i> Spirituality</div>
+                    <div class="px-5 py-2 rounded-full text-xs font-bold bg-white/5 text-slate-300 border border-white/5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3"></i> Academics</div>
+                    <div class="px-5 py-2 rounded-full text-xs font-bold bg-white/5 text-slate-300 border border-white/5 flex items-center gap-1.5"><i data-lucide="book-heart" class="w-3 h-3"></i> Kanha Ji</div>
                 </div>
             </div>
         </div>
+
+        <!-- Trust Badges -->
+        <div class="flex flex-wrap justify-center gap-4 mt-8" data-aos="fade-up" data-aos-delay="300">
+          <div class="flex items-center gap-3 glass-panel rounded-2xl px-5 py-3 border border-white/5">
+            <div class="flex items-center gap-1 text-yellow-400"><i data-lucide="star" class="w-4 h-4 fill-current"></i></div>
+            <div class="text-left">
+                <div class="text-sm font-bold text-white">4.9/5</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">Average Rating</div>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-3 glass-panel rounded-2xl px-5 py-3 border border-white/5">
+            <div class="flex items-center gap-1 text-brand-accent1"><i data-lucide="users" class="w-4 h-4"></i></div>
+            <div class="text-left">
+                <div class="text-sm font-bold text-white"><span class="counter" data-target="25">0</span>K+</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">Happy Readers</div>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-3 glass-panel rounded-2xl px-5 py-3 border border-white/5">
+            <div class="flex items-center gap-1 text-emerald-400"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+            <div class="text-left">
+                <div class="text-sm font-bold text-white"><span class="counter" data-target="500">0</span>+</div>
+                <div class="text-[10px] text-slate-400 uppercase tracking-wider">Premium Titles</div>
+            </div>
+          </div>
+        </div>
+
     </section>
 
-    <footer class="mt-12 border-t border-white/10 py-10">
-      <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
+    <!-- STACKED CARDS CATEGORIES -->
+    <section id="categories" class="mx-auto max-w-7xl px-6 lg:px-8 mt-40 pt-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8" data-aos="fade-right">
         <div>
-          <a href="./index.html" class="flex items-center gap-3" aria-label="Go to Home">
-            <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-10 w-10 object-contain rounded-full drop-shadow-[0_0_15px_rgba(232,121,249,0.5)] transition-transform group-hover:scale-110 duration-300">
-        
-        <span class="text-lg font-bold tracking-wide text-zinc-100">
-          <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
-        </span>
-          </a>
-          <p class="mt-4 text-sm text-zinc-400">Premium collection of hand-picked eBooks for growth and a smooth reading experience.</p>
-        </div>
-        
-        <div>
-          <h3 class="text-sm font-semibold text-zinc-200">Support</h3>
-          <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="./contact.html" class="nav-link text-zinc-400 transition hover:text-white">Contact Us</a></li> 
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-sm font-semibold text-zinc-200">Legal</h3>
-          <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="./terms.html" class="nav-link text-zinc-400 transition hover:text-white">Terms of Service</a></li> 
-            <li><a href="./privacy.html" class="nav-link text-zinc-400 transition hover:text-white">Privacy Policy</a></li> 
-          </ul>
+          <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Explore Categories</h2>
+          <p class="text-slate-400 max-w-xl text-lg">Curated specific selections for your daily needs. <br/><span class="text-brand-accent1 text-sm mt-2 flex items-center gap-2"><i data-lucide="mouse-pointer-2" class="w-4 h-4 animate-bounce"></i> Scroll down to reveal volumes</span></p>
         </div>
       </div>
-      <div class="mx-auto mt-10 max-w-7xl border-t border-white/5 px-4 pt-6 text-center sm:px-6 lg:px-8">
-        <p class="text-xs text-zinc-500">© <span id="year"></span> BookMintor. All rights reserved.</p>
+
+      <!-- Container for Stacked Cards -->
+      <div class="relative w-full space-y-[8vh] pb-[10vh]">
+        
+        <!-- CARD 1: Spirituality -->
+        <a href="./spirituality.html" class="stacked-card sticky top-[12vh] z-10 w-full h-[65vh] md:h-[70vh] rounded-[2rem] overflow-hidden bg-brand-card border border-white/10 transition-all duration-500 flex flex-col md:flex-row items-center group block">
+          <div class="book-spine-highlight"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#0b0e13] via-[#0b0e13]/90 to-transparent z-10"></div>
+          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=1200&q=80" alt="Spirituality" class="absolute right-0 top-0 h-full w-full md:w-2/3 object-cover opacity-50 group-hover:scale-105 transition duration-1000 ease-in-out">
+          
+          <div class="relative z-20 w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center h-full">
+            <span class="uppercase tracking-[0.2em] text-[10px] text-brand-accent1 font-bold mb-4 inline-flex items-center gap-2"><i data-lucide="bookmark" class="w-3 h-3"></i> Volume I</span>
+            <div class="inline-flex items-center px-3 py-1 rounded border border-brand-accent1/30 text-xs text-brand-accent1 w-max mb-6 gap-2 bg-brand-accent1/10"><i data-lucide="flame" class="w-3 h-3"></i> Most Popular</div>
+            <h3 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Spirituality & Religion</h3>
+            <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-8 drop-shadow-md">Dive deep into Bhakti, Vedanta, Bhagavad Gita, and profound life philosophies. Discover your inner peace here.</p>
+            <div class="flex items-center gap-3 text-white font-bold group-hover:text-brand-accent1 transition-colors">
+              Open Section <i data-lucide="arrow-right" class="h-5 w-5 transform group-hover:translate-x-2 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- CARD 2: Academics -->
+        <a href="./Top-Academics.html" class="stacked-card sticky top-[16vh] z-20 w-full h-[65vh] md:h-[70vh] rounded-[2rem] overflow-hidden bg-[#131821] border border-white/10 transition-all duration-500 flex flex-col md:flex-row items-center group block">
+          <div class="book-spine-highlight"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#0b0e13] via-[#0b0e13]/90 to-transparent z-10"></div>
+          <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80" alt="Academics" class="absolute right-0 top-0 h-full w-full md:w-2/3 object-cover opacity-50 filter grayscale mix-blend-luminosity group-hover:scale-105 transition duration-1000 ease-in-out">
+          
+          <div class="relative z-20 w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center h-full">
+            <span class="uppercase tracking-[0.2em] text-[10px] text-brand-accent3 font-bold mb-4 inline-flex items-center gap-2"><i data-lucide="bookmark" class="w-3 h-3"></i> Volume II</span>
+            <div class="inline-flex items-center px-3 py-1 rounded border border-brand-accent3/30 text-xs text-brand-accent3 w-max mb-6 gap-2 bg-brand-accent3/10"><i data-lucide="graduation-cap" class="w-3 h-3"></i> Top Materials</div>
+            <h3 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Academics</h3>
+            <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-8 drop-shadow-md">Get the highest quality educational resources, notes, and prep materials for your next big examination.</p>
+            <div class="flex items-center gap-3 text-white font-bold group-hover:text-brand-accent3 transition-colors">
+              Open Section <i data-lucide="arrow-right" class="h-5 w-5 transform group-hover:translate-x-2 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- CARD 3: Search of Kanha Ji -->
+        <a href="./In_search_of_my_kanha_ji" class="stacked-card sticky top-[20vh] z-30 w-full h-[65vh] md:h-[70vh] rounded-[2rem] overflow-hidden bg-[#0d1117] border border-white/10 transition-all duration-500 flex flex-col md:flex-row items-center group block">
+          <div class="book-spine-highlight"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#0b0e13] via-[#0b0e13]/90 to-transparent z-10"></div>
+          <img src="https://bookmintor.shop/aarohibook/arrohi_book_cover.png" alt="Kanha Ji" class="absolute right-0 top-0 h-full w-full md:w-2/3 object-cover opacity-50 group-hover:scale-105 transition duration-1000 ease-in-out">
+          
+          <div class="relative z-20 w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center h-full">
+            <span class="uppercase tracking-[0.2em] text-[10px] text-brand-accent2 font-bold mb-4 inline-flex items-center gap-2"><i data-lucide="bookmark" class="w-3 h-3"></i> Volume III</span>
+            <div class="inline-flex items-center px-3 py-1 rounded border border-brand-accent2/30 text-xs text-brand-accent2 w-max mb-6 gap-2 bg-brand-accent2/10"><i data-lucide="book-heart" class="w-3 h-3"></i> Exclusive Read</div>
+            <h3 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">In Search of My Kanha Ji</h3>
+            <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-8 drop-shadow-md">Embark on a beautiful spiritual journey filled with pure devotion, love, and ultimate discovery.</p>
+            <div class="flex items-center gap-3 text-white font-bold group-hover:text-brand-accent2 transition-colors">
+              Start Reading <i data-lucide="arrow-right" class="h-5 w-5 transform group-hover:translate-x-2 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- CARD 4: All Books (Library) -->
+        <a href="library.html" class="stacked-card sticky top-[24vh] z-40 w-full h-[65vh] md:h-[70vh] rounded-[2rem] overflow-hidden bg-[#0a0f1c] border border-white/10 transition-all duration-500 flex flex-col md:flex-row items-center group block">
+          <div class="book-spine-highlight"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#0b0e13] via-[#0b0e13]/90 to-transparent z-10"></div>
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="More" class="absolute right-0 top-0 h-full w-full md:w-2/3 object-cover opacity-30 filter hue-rotate-[180deg] group-hover:scale-105 transition duration-1000 ease-in-out">
+          
+          <div class="relative z-20 w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center h-full">
+            <span class="uppercase tracking-[0.2em] text-[10px] text-white font-bold mb-4 inline-flex items-center gap-2"><i data-lucide="bookmark" class="w-3 h-3"></i> Library</span>
+            <div class="inline-flex items-center px-3 py-1 rounded border border-white/30 text-xs text-white w-max mb-6 gap-2 bg-white/10"><i data-lucide="library" class="w-3 h-3"></i> Full Access</div>
+            <h3 class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg">Explore All Books</h3>
+            <p class="text-slate-300 text-base md:text-lg leading-relaxed mb-8 drop-shadow-md">Technology, Business, Self-Help, and much more. Browse our complete premium collection.</p>
+            <div class="flex items-center gap-3 text-white font-bold group-hover:text-white transition-colors">
+              Open Library <i data-lucide="arrow-right" class="h-5 w-5 transform group-hover:translate-x-2 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
       </div>
-    </footer>
+    </section>
+
+    <!-- Featured Horizontal Scroll (Books) -->
+    <section id="featured" class="mt-20 relative pt-10">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8 mb-10 flex items-end justify-between" data-aos="fade-right">
+        <div>
+          <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Featured Selections</h2>
+          <p class="text-slate-400 text-lg">Top-rated titles loved by our community.</p>
+        </div>
+        <div class="hidden md:flex gap-3">
+            <button onclick="scrollFeatured('left')" class="ripple-btn h-12 w-12 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition text-white border-white/20"><i data-lucide="chevron-left"></i></button>
+            <button onclick="scrollFeatured('right')" class="ripple-btn h-12 w-12 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition text-white border-white/20"><i data-lucide="chevron-right"></i></button>
+        </div>
+      </div>
+
+      <div id="featured-scroll" class="flex overflow-x-auto gap-8 px-6 lg:px-8 pb-16 pt-8 snap-x snap-mandatory no-scrollbar relative w-full scroll-smooth">
+        <div class="shrink-0 w-1 hidden lg:block"></div>
+
+        <!-- Book Card 1 -->
+        <a href="library.html" class="shrink-0 w-[280px] snap-center group perspective-1000 block" data-aos="fade-up" data-aos-delay="0">
+          <div class="relative h-[420px] rounded-2xl overflow-hidden bg-brand-card border border-white/10 transition-all duration-500 transform group-hover:rotate-y-6 group-hover:-translate-y-4 group-hover:shadow-[20px_20px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(99,102,241,0.2)]">
+            <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/60 to-transparent z-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=600&q=80" alt="Book" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700">
+            
+            <div class="absolute bottom-0 inset-x-0 p-6 z-20">
+              <span class="bg-brand-accent1/20 text-brand-accent1 text-[10px] font-bold px-2.5 py-1 rounded mb-3 inline-block border border-brand-accent1/30 uppercase tracking-widest">Premium</span>
+              <h3 class="font-extrabold text-xl text-white leading-tight mb-2">Ayurveda for Beginners</h3>
+              <p class="text-xs text-slate-400 mb-5 line-clamp-2">Discover ancient secrets of health and perfect balance.</p>
+              <div class="w-full bg-white/10 backdrop-blur border border-white/20 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/20 transition">View in Library</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Book Card 2 -->
+        <a href="library.html" class="shrink-0 w-[280px] snap-center group perspective-1000 block" data-aos="fade-up" data-aos-delay="100">
+          <div class="relative h-[420px] rounded-2xl overflow-hidden bg-brand-card border border-white/10 transition-all duration-500 transform group-hover:rotate-y-6 group-hover:-translate-y-4 group-hover:shadow-[20px_20px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(217,70,239,0.2)]">
+            <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/60 to-transparent z-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=600&q=80" alt="Book" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700">
+            
+            <div class="absolute bottom-0 inset-x-0 p-6 z-20">
+              <span class="bg-brand-accent2/20 text-brand-accent2 text-[10px] font-bold px-2.5 py-1 rounded mb-3 inline-block border border-brand-accent2/30 uppercase tracking-widest">Premium</span>
+              <h3 class="font-extrabold text-xl text-white leading-tight mb-2">Vedic Meditation</h3>
+              <p class="text-xs text-slate-400 mb-5 line-clamp-2">Enhance inner peace and focus with Vedic techniques.</p>
+              <div class="w-full bg-white/10 backdrop-blur border border-white/20 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/20 transition">View in Library</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Book Card 3 -->
+        <a href="library.html" class="shrink-0 w-[280px] snap-center group perspective-1000 block" data-aos="fade-up" data-aos-delay="200">
+          <div class="relative h-[420px] rounded-2xl overflow-hidden bg-brand-card border border-white/10 transition-all duration-500 transform group-hover:rotate-y-6 group-hover:-translate-y-4 group-hover:shadow-[20px_20px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(56,189,248,0.2)]">
+            <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/60 to-transparent z-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent z-10"></div>
+            <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Book" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700">
+            
+            <div class="absolute bottom-0 inset-x-0 p-6 z-20">
+              <span class="bg-brand-accent3/20 text-brand-accent3 text-[10px] font-bold px-2.5 py-1 rounded mb-3 inline-block border border-brand-accent3/30 uppercase tracking-widest">Bestseller</span>
+              <h3 class="font-extrabold text-xl text-white leading-tight mb-2">Python: Zero to Pro</h3>
+              <p class="text-xs text-slate-400 mb-5 line-clamp-2">Learn Python programming with real-world projects.</p>
+              <div class="w-full bg-white/10 backdrop-blur border border-white/20 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/20 transition">View in Library</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Book Card 4 (Naya Add Kiya Hua Kanha Ji Book) -->
+        <a href="./In_search_of_my_kanha_ji" class="shrink-0 w-[280px] snap-center group perspective-1000 block" data-aos="fade-up" data-aos-delay="300">
+          <div class="relative h-[420px] rounded-2xl overflow-hidden bg-brand-card border border-white/10 transition-all duration-500 transform group-hover:rotate-y-6 group-hover:-translate-y-4 group-hover:shadow-[20px_20px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(217,70,239,0.2)]">
+            <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/60 to-transparent z-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent z-10"></div>
+            <img src="https://bookmintor.shop/aarohibook/arrohi_book_cover.png" alt="Kanha Ji" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700">
+            
+            <div class="absolute bottom-0 inset-x-0 p-6 z-20">
+              <span class="bg-brand-accent2/20 text-brand-accent2 text-[10px] font-bold px-2.5 py-1 rounded mb-3 inline-block border border-brand-accent2/30 uppercase tracking-widest">Exclusive</span>
+              <h3 class="font-extrabold text-xl text-white leading-tight mb-2">Search of Kanha Ji</h3>
+              <p class="text-xs text-slate-400 mb-5 line-clamp-2">A spiritual journey of devotion and inner discovery.</p>
+              <div class="w-full bg-white/10 backdrop-blur border border-white/20 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/20 transition">Start Reading</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Book Card 5 -->
+        <a href="library.html" class="shrink-0 w-[280px] snap-center group perspective-1000 block" data-aos="fade-up" data-aos-delay="400">
+          <div class="relative h-[420px] rounded-2xl overflow-hidden bg-brand-card border border-white/10 transition-all duration-500 transform group-hover:rotate-y-6 group-hover:-translate-y-4 group-hover:shadow-[20px_20px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(99,102,241,0.2)]">
+            <div class="absolute left-0 top-0 bottom-0 w-3 bg-gradient-to-r from-black/60 to-transparent z-30"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/50 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=80" alt="Book" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-700">
+            
+            <div class="absolute bottom-0 inset-x-0 p-6 z-20">
+              <span class="bg-brand-accent1/20 text-brand-accent1 text-[10px] font-bold px-2.5 py-1 rounded mb-3 inline-block border border-brand-accent1/30 uppercase tracking-widest">Classic</span>
+              <h3 class="font-extrabold text-xl text-white leading-tight mb-2">Gita Demystified</h3>
+              <p class="text-xs text-slate-400 mb-5 line-clamp-2">The essence of Bhagavad Gita simplified for modern life.</p>
+              <div class="w-full bg-white/10 backdrop-blur border border-white/20 text-white text-center text-sm font-bold py-3 rounded-xl hover:bg-white/20 transition">View in Library</div>
+            </div>
+          </div>
+        </a>
+
+        <div class="shrink-0 w-6 lg:w-12"></div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq-section" class="mx-auto max-w-3xl px-6 lg:px-8 mt-32 mb-20">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Frequently Asked Questions</h2>
+        <p class="text-slate-400 text-lg">Everything you need to know about the platform.</p>
+      </div>
+      
+      <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <div class="accordion-item glass-panel rounded-2xl border border-white/5 transition-colors hover:border-brand-accent1/30" data-aos="fade-up">
+          <button class="ripple-btn w-full flex items-center justify-between p-6 text-left focus:outline-none rounded-2xl" onclick="toggleFaq(this)">
+            <span class="font-bold text-white text-lg">What format are the eBooks in?</span>
+            <div class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 shadow-inner">
+              <i data-lucide="plus" class="acc-icon h-5 w-5 text-brand-accent1 transition-transform duration-300"></i>
+            </div>
+          </button>
+          <div class="accordion-content bg-black/20 rounded-b-2xl">
+            <p class="p-6 pt-2 text-slate-300 text-sm leading-relaxed border-t border-white/5">Our premium titles are provided in standard digital formats and highly optimized for our custom web-reader to ensure the best typography and eye comfort across all devices.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="accordion-item glass-panel rounded-2xl border border-white/5 transition-colors hover:border-brand-accent2/30" data-aos="fade-up" data-aos-delay="100">
+          <button class="ripple-btn w-full flex items-center justify-between p-6 text-left focus:outline-none rounded-2xl" onclick="toggleFaq(this)">
+            <span class="font-bold text-white text-lg">Can I read offline?</span>
+            <div class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 shadow-inner">
+              <i data-lucide="plus" class="acc-icon h-5 w-5 text-brand-accent2 transition-transform duration-300"></i>
+            </div>
+          </button>
+          <div class="accordion-content bg-black/20 rounded-b-2xl">
+            <p class="p-6 pt-2 text-slate-300 text-sm leading-relaxed border-t border-white/5">Yes! Certain premium titles offer a secure download option, allowing you to read them anywhere without an internet connection using your preferred PDF or ePUB reader.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="accordion-item glass-panel rounded-2xl border border-white/5 transition-colors hover:border-brand-accent3/30" data-aos="fade-up" data-aos-delay="200">
+          <button class="ripple-btn w-full flex items-center justify-between p-6 text-left focus:outline-none rounded-2xl" onclick="toggleFaq(this)">
+            <span class="font-bold text-white text-lg">Are payment transactions secure?</span>
+            <div class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10 shadow-inner">
+              <i data-lucide="plus" class="acc-icon h-5 w-5 text-brand-accent3 transition-transform duration-300"></i>
+            </div>
+          </button>
+          <div class="accordion-content bg-black/20 rounded-b-2xl">
+            <p class="p-6 pt-2 text-slate-300 text-sm leading-relaxed border-t border-white/5">Absolutely. We use industry-standard encryption and partner with top-tier payment gateways (like Stripe/Razorpay) to ensure your data and payment details remain 100% secure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- POPUP MODAL -->
-  <div id="construction-modal" class="fixed inset-0 z-[1000] hidden place-items-center bg-black/80 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true">
-    <div class="relative w-full max-w-lg scale-95 transform rounded-3xl border border-white/10 bg-[#161b22]/90 p-6 shadow-2xl backdrop-blur-2xl transition-all duration-300 sm:p-10" id="modal-panel">
+  <!-- ORIGINAL FOOTER -->
+  <footer class="border-t border-white/10 bg-[#0b0e13] pt-16 pb-8 relative z-20 mt-auto">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div class="md:col-span-2">
+          <a href="#hero-section" class="flex items-center gap-3 mb-4 inline-flex">
+            <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-8 w-8 rounded-full object-contain">
+            <span class="text-xl font-bold tracking-wide text-zinc-100 font-poppins">
+              <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+            </span>
+          </a>
+          <p class="text-slate-400 text-sm max-w-sm mb-6 leading-relaxed">
+            Elevating minds through a premium, ad-free reading experience. Curated titles for personal and professional growth.
+          </p>
+          <div class="flex gap-4">
+            <a href="#" class="ripple-btn h-10 w-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-indigo-500/40 transition border border-white/5 shadow-inner"><i data-lucide="twitter" class="h-4 w-4"></i></a>
+            <a href="#" class="ripple-btn h-10 w-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-fuchsia-500/40 transition border border-white/5 shadow-inner"><i data-lucide="instagram" class="h-4 w-4"></i></a>
+            <a href="#" class="ripple-btn h-10 w-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-sky-500/40 transition border border-white/5 shadow-inner"><i data-lucide="youtube" class="h-4 w-4"></i></a>
+          </div>
+        </div>
         
-        <!-- Close Button -->
-        <button onclick="closeModal()" class="absolute right-4 top-4 rounded-full p-2 text-zinc-400 hover:bg-white/10 hover:text-white transition-colors">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-
-        <!-- Step 1: Message -->
-        <div id="modal-step-1" class="text-center">
-            <!-- REPLACED: Glass icon with Animated Lordicon (Pencil & Document) -->
-            <div class="mx-auto mb-6 flex items-center justify-center">
-                <lord-icon
-                    src="https://cdn.lordicon.com/puvaffet.json"
-                    trigger="loop"
-                    delay="1000"
-                    colors="primary:#6366f1,secondary:#d946ef"
-                    style="width:120px;height:120px">
-                </lord-icon>
-            </div>
-
-            <h3 class="text-2xl font-bold text-white mb-3">We're Crafting Something <span class="bg-gradient-to-r from-indigo-400 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">Extraordinary</span></h3>
-            <p class="text-zinc-400 leading-relaxed mb-8">Our team is actively enhancing this platform to deliver the ultimate reading experience. Currently, a select few premium sections are live.</p>
-            
-            <p class="text-white font-medium mb-4">Would you like to see our available sections?</p>
-            
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
-                <!-- UPDATED BUTTON: Pure White Background -->
-                <button onclick="showAvailableSections()" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-3 text-sm font-bold text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all hover:scale-105 hover:bg-zinc-200 hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] active:scale-95">
-                    Yes, Show Me 
-                    <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                </button>
-                
-                <button onclick="closeModal()" class="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-zinc-300 transition hover:bg-white/10 hover:text-white">
-                    Maybe Later
-                </button>
-            </div>
+        <div>
+          <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Library</h3>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li><a href="./spirituality.html" class="hover:text-indigo-400 transition">Spirituality</a></li>
+            <li><a href="library.html" class="hover:text-indigo-400 transition">Self-Help</a></li>
+            <li><a href="library.html" class="hover:text-indigo-400 transition">Technology</a></li>
+            <li><a href="./Top-Academics.html" class="hover:text-indigo-400 transition">Academics</a></li>
+          </ul>
         </div>
 
-        <!-- Step 2: Cards -->
-        <div id="modal-step-2" class="hidden">
-            <h3 class="text-center text-xl font-bold text-white mb-6">Available Premium Sections</h3>
-            <div class="grid gap-3">
-                <!-- Spirituality -->
-                <a href="./spirituality.html" class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 hover:border-indigo-500/30 group">
-                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-white group-hover:text-indigo-300 transition-colors">Spirituality</h4>
-                        <p class="text-xs text-zinc-400">Explore ancient wisdom and modern mindfulness</p>
-                    </div>
-                    <svg class="ml-auto h-5 w-5 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </a>
-                
-                <!-- Academics -->
-                <a href="./Top-Academics.html" class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 hover:border-sky-500/30 group">
-                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-500/20 text-sky-400 group-hover:scale-110 transition-transform">
-                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-white group-hover:text-sky-300 transition-colors">Academics</h4>
-                        <p class="text-xs text-zinc-400">Quality educational resources for growth</p>
-                    </div>
-                    <svg class="ml-auto h-5 w-5 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </a>
-
-                <!-- Kanha Ji -->
-                <a href="./In_search_of_my_kanha_ji" class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10 hover:border-fuchsia-500/30 group">
-                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-fuchsia-500/20 text-fuchsia-400 group-hover:scale-110 transition-transform">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-white group-hover:text-fuchsia-300 transition-colors">In Search of My Kanha Ji</h4>
-                        <p class="text-xs text-zinc-400">A spiritual journey of devotion and discovery</p>
-                    </div>
-                    <svg class="ml-auto h-5 w-5 text-zinc-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </a>
-            </div>
+        <div>
+          <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Company</h3>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li><a href="#" class="hover:text-white transition">About Us</a></li>
+            <li><a href="./contact.html" class="hover:text-white transition">Contact Us</a></li>
+            <li><a href="./privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="./terms.html" class="hover:text-white transition">Terms of Service</a></li>
+          </ul>
         </div>
+      </div>
+      
+      <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500">
+        <p>© <span id="year"></span> BookMintor. All rights reserved.</p>
+        <div class="flex items-center gap-1 mt-4 md:mt-0 font-medium">
+          Crafted with <i data-lucide="heart" class="h-3 w-3 text-red-500 fill-current animate-pulse"></i> for readers.
+        </div>
+      </div>
     </div>
-  </div>
-  
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  </footer>
+
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>
+    // 1. Icons aur Animations Initialize karein
     lucide.createIcons();
-    // SPEED UP: Reduced AOS duration for snappier feel
-    AOS.init({ duration: 500, once: true });
-    
-    const loadingOverlay = document.getElementById('loading-overlay');
-    
-    // Popup Variables
-    const modal = document.getElementById('construction-modal');
-    const modalPanel = document.getElementById('modal-panel');
-    const step1 = document.getElementById('modal-step-1');
-    const step2 = document.getElementById('modal-step-2');
+    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Popup Functions
-    function openModal() {
-        modal.classList.remove('hidden');
-        // Force reflow for transition
-        void modal.offsetWidth; 
-        modal.classList.remove('opacity-0');
-        modalPanel.classList.remove('scale-95');
-        modalPanel.classList.add('scale-100');
-        
-        // Reset to step 1
-        step1.classList.remove('hidden');
-        step2.classList.add('hidden');
-    }
-
-    function closeModal() {
-        modal.classList.add('opacity-0');
-        modalPanel.classList.remove('scale-100');
-        modalPanel.classList.add('scale-95');
+    // 2. Preloader Logic
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
         setTimeout(() => {
-            modal.classList.add('hidden');
-            step1.classList.remove('hidden');
-            step2.classList.add('hidden');
-            // Reset transforms/opacity for step 1/2
-            step1.style.opacity = '';
-            step1.style.transform = '';
-            step2.style.opacity = '';
-            step2.style.transform = '';
-        }, 300);
-    }
-
-    function showAvailableSections() {
-        // Fade out step 1
-        step1.style.opacity = '0';
-        step1.style.transform = 'translateY(-10px)';
-        step1.style.transition = 'all 0.5s ease-in-out';
-        
-        setTimeout(() => {
-            step1.classList.add('hidden');
-            step1.style.opacity = '1';
-            step1.style.transform = 'translateY(0)';
-            
-            step2.classList.remove('hidden');
-            step2.style.opacity = '0';
-            step2.style.transform = 'translateY(10px)';
-            step2.style.transition = 'all 0.5s ease-in-out';
-            
-            // Force reflow
-            void step2.offsetWidth;
-            
-            step2.style.opacity = '1';
-            step2.style.transform = 'translateY(0)';
-        }, 500); // Increased duration slightly for smoothness
-    }
-
-    // Close on backdrop click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+        }, 800); 
     });
 
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-            closeModal();
+    // 3. Navbar Sticky Effect & Button Scroll Animation
+    let isBtnAnimating = false;
+    let btnAnimationTimer;
+    
+    window.addEventListener('scroll', () => {
+        const winScroll = window.scrollY;
+        const nav = document.getElementById('navbar');
+        
+        // Sticky Navbar Glass
+        if (winScroll > 20) {
+            nav.classList.add('border-white/10', 'shadow-lg');
+        } else {
+            nav.classList.remove('border-white/10', 'shadow-lg');
+        }
+
+        // Button Animation Logic (Jaisa aapne bola - scroll karne par thodi der chalega fir band)
+        const btnGlow = document.getElementById('btnGlow');
+        if (winScroll > 150 && !isBtnAnimating) {
+            isBtnAnimating = true;
+            btnGlow.classList.remove('opacity-0');
+            btnGlow.classList.add('animate-border-spin');
+            
+            // 3 Second baad animation rokna
+            clearTimeout(btnAnimationTimer);
+            btnAnimationTimer = setTimeout(() => {
+                btnGlow.classList.add('opacity-0');
+                setTimeout(() => {
+                    btnGlow.classList.remove('animate-border-spin');
+                    isBtnAnimating = false; // Taki agle scroll session pe wapas chal sake
+                }, 500); 
+            }, 3000); 
         }
     });
 
-    function resetLoadingOverlay() {
-        loadingOverlay.classList.add('hidden', 'opacity-0');
-        loadingOverlay.classList.remove('grid');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('year').textContent = new Date().getFullYear();
-        window.scrollTo(0, 0);
-        
-        // 4. HEADER LOGO SHINE LOGIC
-        const navLogoImg = document.getElementById('navLogoImg');
-        const navLogoShine = document.getElementById('navLogoShine');
-
-        if(navLogoImg) {
-            navLogoImg.onload = () => {
-                navLogoShine.style.display = 'none'; 
-                navLogoImg.classList.remove('opacity-0'); 
-            };
-            if (navLogoImg.complete) {
-                navLogoImg.onload();
-            }
-        }
-        
-        const links = document.querySelectorAll('a.nav-link, a[href^="./"], a[href^="/#"]'); 
-
-        links.forEach(link => {
-            if (link.closest('form') && link.getAttribute('type') === 'submit') {
-                return;
-            }
-
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); 
-                const rawHref = this.getAttribute('href');
-
-                // CHECK IF LINK IS DISABLED (Popup Logic)
-                if (!rawHref || rawHref === '#' || rawHref === './#' || rawHref === '/#' || rawHref.endsWith('#')) {
-                    openModal();
-                    return;
-                }
-
-                // Normal loading behavior for valid links
-                loadingOverlay.classList.remove('hidden');
-                setTimeout(() => {
-                    loadingOverlay.classList.add('grid'); 
-                    loadingOverlay.classList.remove('opacity-0'); 
-                }, 10); 
-                
-                // SPEED UP: Reduced delay from 800ms to 300ms
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 300); 
-            });
+    // 4. Ripple Click Effect Logic
+    document.querySelectorAll('.ripple-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            const circle = document.createElement('span');
+            circle.classList.add('ripple-circle');
+            
+            const rect = this.getBoundingClientRect();
+            const diameter = Math.max(rect.width, rect.height);
+            const radius = diameter / 2;
+            
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - rect.left - radius}px`;
+            circle.style.top = `${e.clientY - rect.top - radius}px`;
+            
+            this.appendChild(circle);
+            setTimeout(() => circle.remove(), 600);
         });
-        
-        setTimeout(() => {
-          animateCounter(document.getElementById('happy-readers'), 0, 25, 2000);
-          animateCounter(document.getElementById('premium-titles'), 0, 500, 2000);
-        }, 500);
-    });
-    
-    window.addEventListener('pageshow', (event) => {
-        resetLoadingOverlay();
-        window.scrollTo(0, 0);
     });
 
-    function animateCounter(element, start, end, duration) {
-      let startTime = null;
-      const range = end - start;
-      const finalEnd = end;
-
-      const updateCounter = (timestamp) => {
-        if (!startTime) startTime = timestamp;
-        const progress = Math.min((timestamp - startTime) / duration, 1);
-        const value = Math.floor(progress * range + start);
-        
-        element.textContent = progress === 1 ? finalEnd : value;
-
-        if (progress < 1) {
-          requestAnimationFrame(updateCounter);
+    // 5. Horizontal Scroll Buttons
+    function scrollFeatured(direction) {
+        const container = document.getElementById('featured-scroll');
+        const scrollAmount = 320; 
+        if(direction === 'left') {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
-      }
-      
-      requestAnimationFrame(updateCounter);
     }
-    
-    function toggleAccordion(buttonElement) {
-        const item = buttonElement.closest('.accordion-item');
-        item.classList.toggle('accordion-open');
+
+    // 6. Number Counter Animation
+    const counters = document.querySelectorAll('.counter');
+    const animateCounters = () => {
+      counters.forEach(counter => {
+        const updateCount = () => {
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
+          const inc = target / 100;
+          
+          if (count < target) {
+            counter.innerText = Math.ceil(count + inc);
+            setTimeout(updateCount, 20);
+          } else {
+            counter.innerText = target;
+          }
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+           if(entries[0].isIntersecting) {
+               updateCount();
+               observer.disconnect();
+           }
+        });
+        observer.observe(counter);
+      });
+    };
+    setTimeout(animateCounters, 1000);
+
+    // 7. FAQ Accordion Logic
+    function toggleFaq(btn) {
+      const item = btn.closest('.accordion-item');
+      const icon = btn.querySelector('.acc-icon');
+      
+      document.querySelectorAll('.accordion-item').forEach(otherItem => {
+          if(otherItem !== item && otherItem.classList.contains('active')) {
+              otherItem.classList.remove('active');
+              otherItem.querySelector('.acc-icon').classList.replace('lucide-minus', 'lucide-plus');
+          }
+      });
+      
+      item.classList.toggle('active');
+      if(item.classList.contains('active')) {
+          icon.classList.replace('lucide-plus', 'lucide-minus');
+      } else {
+          icon.classList.replace('lucide-minus', 'lucide-plus');
+      }
+      lucide.createIcons();
     }
   </script>
 </body>
