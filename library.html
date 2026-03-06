@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+
+  <title>Library | BookMintor Premium Collection</title>
+  <meta name="description" content="Explore the full premium library of BookMintor. Read self-help, spiritual, and tech books without ads." />
+  
+  <meta name="theme-color" content="#0b0e13" />
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
+  <!-- ========================================== -->
+  <!-- HIGH SECURITY SCRIPT (Right Click & Shortcuts Blocked) -->
+  <!-- ========================================== -->
+  <script>
+    let warningShown = false; 
+    document.addEventListener('contextmenu', event => {
+      event.preventDefault();
+      if (!warningShown) {
+        alert("You can't use right click due to security policy.");
+        warningShown = true;
+      }
+    });
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { return false; } // F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+    }
+  </script>
+
+  <!-- TAILWIND CSS & ICONS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- AOS ANIMATION LIBRARY -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            poppins: ['"Poppins"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0b0e13', 
+              card: '#11151c', 
+              border: '#222834', 
+              accent1: '#6366F1', // Indigo
+              accent2: '#D946EF', // Fuchsia
+              accent3: '#38bdf8', // Sky
+            }
+          },
+          animation: {
+            'glow-pulse': 'glowPulse 6s ease-in-out infinite',
+          },
+          keyframes: {
+            glowPulse: {
+              '0%, 100%': { opacity: 0.15, transform: 'scale(1)' },
+              '50%': { opacity: 0.3, transform: 'scale(1.05)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+        background-color: #0b0e13;
+        color: #f8fafc;
+        -webkit-user-select: none;
+        user-select: none;
+        overflow-x: hidden;
+    }
+    
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(to right, #6366F1, #D946EF, #38bdf8);
+    }
+
+    /* Card Layouts and Hover Effects */
+    .book-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .book-card.active-book:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6), 0 0 20px rgba(99,102,241,0.1);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-brand-accent1/30 min-h-screen flex flex-col">
+
+  <!-- BACKGROUND GLOWS -->
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/20 blur-[140px] animate-glow-pulse"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-fuchsia-600/15 blur-[130px] animate-glow-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(255,255,255,0.06),rgba(255,255,255,0)_70%)] opacity-80"></div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0b0e13]/80 border-b border-white/5">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      
+      <!-- LOGO -->
+      <a href="index.html" class="flex items-center gap-3 group" aria-label="Go to Home">
+        <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-full drop-shadow-[0_0_15px_rgba(232,121,249,0.5)] transition-transform group-hover:scale-110 duration-300">
+        <span class="text-lg sm:text-xl font-bold tracking-wide text-zinc-100 font-poppins">
+          <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+        </span>
+      </a>
+
+      <!-- CENTER LINKS -->
+      <div class="hidden items-center gap-2 rounded-full border border-white/10 bg-[#11151c]/60 p-1 backdrop-blur md:flex shadow-lg">
+        <a href="index.html" class="px-5 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-full transition-all">Home</a>
+        <a href="#" class="px-5 py-2 text-sm font-bold text-white bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.1)] rounded-full transition-all">Library</a>
+        <a href="index.html#categories" class="px-5 py-2 text-sm font-medium text-slate-400 hover:text-white rounded-full transition-all">Categories</a>
+      </div>
+
+      <!-- SIMPLE HOME BUTTON (No animations, simple border) -->
+      <a href="index.html" class="inline-flex items-center gap-2 rounded-xl bg-transparent border border-white/10 px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white">
+        <i data-lucide="home" class="h-4 w-4"></i>
+        <span>Home</span>
+      </a>
+
+    </nav>
+  </header>
+
+  <!-- MAIN LIBRARY CONTENT -->
+  <main class="pt-8 sm:pt-16 pb-20 flex-grow">
+    
+    <!-- Header & Search Box (Match Screenshot) -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10">
+        <div class="text-center max-w-2xl mx-auto mb-6 sm:mb-8" data-aos="fade-down">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-3 tracking-tight">The <span class="bg-gradient-to-r from-indigo-300 via-fuchsia-300 to-sky-300 bg-clip-text text-transparent">Premium</span> Library</h1>
+            <p class="text-[13px] sm:text-base text-slate-400">Browse our entire collection of hand-picked, ad-free titles for your personal growth.</p>
+        </div>
+
+        <!-- Working Search Bar -->
+        <div class="max-w-2xl mx-auto relative group" data-aos="zoom-in" data-aos-delay="50">
+            <div class="absolute -inset-1 bg-gradient-to-r from-brand-accent1 via-brand-accent2 to-brand-accent3 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-500"></div>
+            <div class="relative flex items-center bg-[#11151c] border border-white/10 rounded-full p-1.5 sm:p-2 shadow-xl focus-within:border-brand-accent1/50 transition-colors">
+                <div class="pl-4 pr-2 text-slate-500">
+                    <i data-lucide="search" class="h-4 w-4 sm:h-5 sm:w-5"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="Search by book title, author, or keyword..." class="w-full bg-transparent border-none text-white placeholder-slate-500 focus:outline-none focus:ring-0 py-2 sm:py-3 text-xs sm:text-sm" autocomplete="off">
+                <button class="flex items-center gap-2 bg-white text-brand-dark text-xs sm:text-sm font-bold py-2 sm:py-2.5 px-5 sm:px-6 rounded-full hover:bg-slate-200 transition-colors">
+                    Search
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section (Tags) -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-10" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex overflow-x-auto gap-2.5 pb-2 no-scrollbar justify-start md:justify-center items-center">
+            <button class="filter-btn px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-sm font-bold transition-all bg-white text-brand-dark shadow-[0_0_15px_rgba(255,255,255,0.2)] whitespace-nowrap" data-filter="all">
+                All Books
+            </button>
+            <button class="filter-btn px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-medium transition-all bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 whitespace-nowrap" data-filter="spirituality">
+                <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 sm:w-3.5 h-3 sm:h-3.5 text-indigo-400"></i> Spirituality</span>
+            </button>
+            <button class="filter-btn px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-medium transition-all bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 whitespace-nowrap" data-filter="self-help">
+                <span class="flex items-center gap-1.5"><i data-lucide="trending-up" class="w-3 sm:w-3.5 h-3 sm:h-3.5 text-sky-400"></i> Self-Help</span>
+            </button>
+            <button class="filter-btn px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-medium transition-all bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 whitespace-nowrap" data-filter="tech">
+                <span class="flex items-center gap-1.5"><i data-lucide="code" class="w-3 sm:w-3.5 h-3 sm:h-3.5 text-fuchsia-400"></i> Technology</span>
+            </button>
+            <button class="filter-btn px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-medium transition-all bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 whitespace-nowrap" data-filter="business">
+                <span class="flex items-center gap-1.5"><i data-lucide="briefcase" class="w-3 sm:w-3.5 h-3 sm:h-3.5 text-emerald-400"></i> Business</span>
+            </button>
+            <button class="filter-btn px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-medium transition-all bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 whitespace-nowrap" data-filter="academics">
+                <span class="flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 sm:w-3.5 h-3 sm:h-3.5 text-yellow-400"></i> Academics</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- BOOKS GRID -->
+    <!-- Mobile: 2 Cards (grid-cols-2), iPad: 3 Cards, Desktop: 4/5 Cards -->
+    <!-- ========================================== -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 min-h-[50vh]">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-6" id="bookGrid">
+            
+            <!-- ============================================================== -->
+            <!-- CLICKABLE BOOKS (From Academics, Spirituality, etc.) -->
+            <!-- ============================================================== -->
+
+            <!-- 1. PremAnand Ji (Spirituality) -->
+            <a href="./PremAnand Ji’s Zero-Disturbance Mindset Code.html" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="spirituality" data-aos="fade-up" data-aos-delay="0">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://bookmintor.shop/images/Neutral%20Minimalist%20Aesthetic%20Time%20Management%20Ebook%20Cover.png" alt="PremAnand Ji" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-indigo-500/30 border border-indigo-500/50 text-indigo-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">HOT</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i> Spirituality</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-indigo-300 transition-colors line-clamp-2">Zero-Disturbance Mindset Code</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A powerful guide inspired by PremAnand Ji to master calmness.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 2. Mantra Science (Spirituality) -->
+            <a href="./mantra-science.html" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="spirituality" data-aos="fade-up" data-aos-delay="50">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/ebook2/files/ChatGPT%20Image%20Dec%204,%202025,%2005_34_36%20PM.png" alt="Mantra Science" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-indigo-500/30 border border-indigo-500/50 text-indigo-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">NEW</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i> Spirituality</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-indigo-300 transition-colors line-clamp-2">Ultimate Mantra Science Vault</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Revealing the science, history, and real power of ancient mantras.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 3. Kanha Ji (Spirituality) -->
+            <a href="./In_search_of_my_kanha_ji" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="spirituality" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://bookmintor.shop/aarohibook/arrohi_book_cover.png" alt="Kanha Ji" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-emerald-500/30 border border-emerald-500/50 text-emerald-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">FREE</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-emerald-400"></i> Spirituality</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-emerald-300 transition-colors line-clamp-2">Search of Kanha Ji</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A spiritual journey filled with pure devotion and pure love.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Free</div>
+                </div>
+            </a>
+
+            <!-- 4. The Kinetic (Self-Help) -->
+            <a href="./power-walk.html" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="self-help" data-aos="fade-up" data-aos-delay="150">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/ebook3/The%20Kinetic%20Architecture%20of%20Power.png" alt="Kinetic Power" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-sky-500/30 border border-sky-500/50 text-sky-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">BEST</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="trending-up" class="w-3 h-3 text-sky-400"></i> Self-Help</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-sky-300 transition-colors line-clamp-2">Kinetic Architecture of Power</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A practical guide to how your walk shapes confidence & authority.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 5. JEE 30 Days (Academics) -->
+            <a href="./jee-30-days-revision" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="academics" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/pdf3_jee_revision_system/Gemini_Generated_Image_s8qhgns8qhgns8qh.png" alt="JEE" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-yellow-500/30 border border-yellow-500/50 text-yellow-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">HOT</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3 text-yellow-400"></i> Academics</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-yellow-300 transition-colors line-clamp-2">JEE Mains 2026 - 30 Days Revision</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A day-wise smart revision system to avoid PYQ traps.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 6. Class 12 Boards (Academics) -->
+            <a href="./smart-revision" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="academics" data-aos="fade-up" data-aos-delay="0">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/pdf2_eng/141b8c1e-7cc1-453b-8680-8eda97e8ed01.png" alt="Class 12" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-yellow-500/30 border border-yellow-500/50 text-yellow-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">NEW</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3 text-yellow-400"></i> Academics</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-yellow-300 transition-colors line-clamp-2">Class 12 Boards Smart Revision</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A smart, subject-wise revision guide to maximize board scores.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 7. Bio Practical (Academics) -->
+            <a href="./bio-practical-viva" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="academics" data-aos="fade-up" data-aos-delay="50">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/pdf_1_12th_bio/banner_img.png" alt="Bio" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-yellow-500/30 border border-yellow-500/50 text-yellow-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">BEST</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3 text-yellow-400"></i> Academics</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-yellow-300 transition-colors line-clamp-2">Bio Practical & Viva Master File</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A complete, exam-focused Biology practical and viva guide.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 8. Topper Error Book (Academics) -->
+            <a href="./topper-error-book" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="academics" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/pdf4_eng_errorbook/ad434b40-2125-417d-8549-f63b25e82c89.png" alt="Error" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-yellow-500/30 border border-yellow-500/50 text-yellow-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">PREMIUM</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3 text-yellow-400"></i> Academics</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-yellow-300 transition-colors line-clamp-2">Topper Error Book Guide</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A last 45 days error fixing guide to stop repeat mistakes.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 9. JEE Loopholes (Academics) -->
+            <a href="./jee-pyq-loopholes" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="academics" data-aos="fade-up" data-aos-delay="150">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/pdf5_eng_jeeloopholes/f10fa950-d7d9-4c72-a79d-0bf39cde6196.png" alt="Loopholes" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-yellow-500/30 border border-yellow-500/50 text-yellow-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">TRENDING</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3 text-yellow-400"></i> Academics</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-yellow-300 transition-colors line-clamp-2">JEE Mains PYQ Loopholes</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">A focused guide to spot repeating PYQ traps and avoid mistakes.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+            <!-- 10. Govt Exams (Academics) -->
+            <a href="./govt-exams-repeating-concepts" class="book-card active-book group relative flex flex-col rounded-2xl bg-[#11151c] border border-white/10 overflow-hidden" data-category="academics" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://cortex-cradle.github.io/ebook1/pdf7_eng_govt-exams/d1b65e13-c55f-4d4f-8057-07c0c5c3e952.png" alt="Govt Exams" class="w-full h-full object-cover opacity-85 group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                    <span class="absolute top-2 right-2 bg-yellow-500/30 border border-yellow-500/50 text-yellow-200 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-widest backdrop-blur">CLASSIC</span>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="graduation-cap" class="w-3 h-3 text-yellow-400"></i> Academics</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 group-hover:text-yellow-300 transition-colors line-clamp-2">Govt Exams Common Concepts</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Guide covering most repeated concepts across major govt exams.</p>
+                    <div class="w-full bg-white/10 border border-white/10 text-white text-center text-xs sm:text-sm font-bold py-2 rounded-xl hover:bg-white/20 transition mt-auto">Read Now</div>
+                </div>
+            </a>
+
+
+            <!-- ============================================================== -->
+            <!-- UNCLICKABLE BOOKS (With "SOON" Overlay & cursor-not-allowed) -->
+            <!-- ============================================================== -->
+
+            <!-- SOON 1: Python -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="tech" data-aos="fade-up" data-aos-delay="0">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://bookmintstore.github.io/home/images/ChatGPT%20Image%20Sep%2023,%202025,%2010_15_30%20PM.png" alt="Python" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="code" class="w-3 h-3 text-fuchsia-400"></i> Technology</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">Python: Zero to Pro</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Master Python programming by building real-world functional projects.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 2: Micro Habits -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="self-help" data-aos="fade-up" data-aos-delay="50">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://bookmintstore.github.io/home/images/Micro%20Habits%2C%20Massive%20Growth.png" alt="Habits" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="trending-up" class="w-3 h-3 text-sky-400"></i> Self-Help</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">Micro Habits</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Learn how tiny, daily changes can result in massive personal growth.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 3: Startup Playbook -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="business" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80" alt="Business" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="briefcase" class="w-3 h-3 text-emerald-400"></i> Business</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">The Startup Playbook</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Master strategies for scaling your business from zero to a million.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 4: Vedic Meditation -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="spirituality" data-aos="fade-up" data-aos-delay="150">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=600&q=80" alt="Vedic" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i> Spirituality</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">Vedic Meditation</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Enhance inner peace and focus with ancient Vedic techniques.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 5: Art of Focus -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="self-help" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=600&q=80" alt="Focus" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="trending-up" class="w-3 h-3 text-sky-400"></i> Self-Help</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">The Art of Focus</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Reclaim your attention span in a world full of digital distractions.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 6: AI Revolution -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="tech" data-aos="fade-up" data-aos-delay="0">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="AI" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="code" class="w-3 h-3 text-fuchsia-400"></i> Technology</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">The AI Revolution</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Understand how artificial intelligence is shaping the future of work.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 7: Ayurveda for Beginners -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="spirituality" data-aos="fade-up" data-aos-delay="50">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1535905557558-afc4877a26fc?auto=format&fit=crop&w=600&q=80" alt="Ayurveda" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i> Spirituality</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">Ayurveda Basics</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Discover ancient secrets of health, perfect balance, and inner harmony.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+            <!-- SOON 8: Upanishads Essentials -->
+            <div class="book-card relative flex flex-col rounded-2xl bg-[#11151c] border border-white/5 overflow-hidden cursor-not-allowed" data-category="spirituality" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px] z-20 flex items-center justify-center pointer-events-none">
+                    <span class="bg-[#11151c] text-white text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full tracking-widest border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.8)]">SOON</span>
+                </div>
+                <div class="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden shrink-0">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=60" alt="Upanishads" class="w-full h-full object-cover opacity-40 grayscale">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#11151c] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-3 sm:p-4 flex flex-col flex-grow opacity-50">
+                    <div class="text-[9px] sm:text-[11px] text-slate-400 font-semibold mb-1 sm:mb-1.5 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i> Spirituality</div>
+                    <h3 class="font-bold text-[13px] sm:text-base text-white leading-snug mb-1.5 line-clamp-2">Upanishads Essentials</h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mb-3 sm:mb-4 line-clamp-2 flex-grow hidden sm:block">Key teachings from 10 principal Upanishads translated simply.</p>
+                    <div class="w-full bg-white/5 border border-white/5 text-slate-500 text-center text-xs sm:text-sm font-bold py-2 rounded-xl mt-auto">Locked</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- NO RESULTS STATE -->
+        <div id="noResults" class="hidden text-center py-16 sm:py-20">
+            <div class="inline-flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full bg-white/5 mb-4 sm:mb-6">
+                <i data-lucide="book-x" class="h-8 w-8 sm:h-10 sm:w-10 text-slate-500"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">No books found</h3>
+            <p class="text-sm sm:text-base text-slate-400">Try adjusting your search or filter criteria.</p>
+        </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-[#0b0e13] pt-12 pb-8 relative z-20 mt-auto">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
+        <div class="sm:col-span-2">
+          <a href="index.html" class="flex items-center gap-3 mb-4 inline-flex">
+            <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-8 w-8 rounded-full object-contain">
+            <span class="text-lg font-bold tracking-wide text-zinc-100 font-poppins">
+              <span class="bg-gradient-to-r from-indigo-300 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Book</span>mintor
+            </span>
+          </a>
+          <p class="text-slate-400 text-xs sm:text-sm max-w-sm mb-6 leading-relaxed">
+            Elevating minds through a premium, ad-free reading experience. Curated titles for personal and professional growth.
+          </p>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-xs sm:text-sm">Library</h3>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-400">
+            <li><a href="./spirituality.html" class="hover:text-indigo-400 transition">Spirituality</a></li>
+            <li><a href="#" class="hover:text-indigo-400 transition">Self-Help</a></li>
+            <li><a href="#" class="hover:text-indigo-400 transition">Technology</a></li>
+            <li><a href="./Top-Academics.html" class="hover:text-indigo-400 transition">Academics</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-white font-bold mb-4 uppercase tracking-wider text-xs sm:text-sm">Company</h3>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-400">
+            <li><a href="#" class="hover:text-white transition">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between text-[10px] sm:text-xs text-slate-500">
+        <p>© <span id="year"></span> BookMintor. All rights reserved.</p>
+        <div class="flex items-center gap-1 mt-3 md:mt-0 font-medium">
+          Crafted with <i data-lucide="heart" class="h-3 w-3 text-red-500 fill-current animate-pulse"></i> for readers.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    lucide.createIcons();
+    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // No loading animation logic (just hide it instantly)
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 100); 
+    });
+
+    // Navbar Sticky Effect
+    window.addEventListener('scroll', () => {
+        const winScroll = window.scrollY;
+        const nav = document.getElementById('navbar');
+        if (winScroll > 20) {
+            nav.classList.add('border-white/10', 'shadow-lg');
+        } else {
+            nav.classList.remove('border-white/10', 'shadow-lg');
+        }
+    });
+
+    // Category Filter Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const bookCards = document.querySelectorAll('.book-card');
+    const noResults = document.getElementById('noResults');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update Active Tab Styles
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-white', 'text-brand-dark', 'shadow-[0_0_15px_rgba(255,255,255,0.2)]');
+                b.classList.add('bg-white/5', 'text-slate-300');
+            });
+            btn.classList.remove('bg-white/5', 'text-slate-300');
+            btn.classList.add('bg-white', 'text-brand-dark', 'shadow-[0_0_15px_rgba(255,255,255,0.2)]');
+
+            const filterValue = btn.getAttribute('data-filter');
+            let visibleCount = 0;
+
+            bookCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if(filterValue === 'all' || category === filterValue) {
+                    card.style.display = 'flex';
+                    setTimeout(() => { 
+                        card.style.opacity = '1'; 
+                        card.style.transform = 'scale(1)'; 
+                    }, 10);
+                    visibleCount++;
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => { card.style.display = 'none'; }, 300);
+                }
+            });
+
+            setTimeout(() => {
+                if(visibleCount === 0) {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
+            }, 300);
+        });
+    });
+
+    // Search Logic
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', (e) => {
+        const term = e.target.value.toLowerCase();
+        let visibleCount = 0;
+        
+        // Reset category buttons when searching
+        if(term.length > 0) {
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-white', 'text-brand-dark', 'shadow-[0_0_15px_rgba(255,255,255,0.2)]');
+                b.classList.add('bg-white/5', 'text-slate-300');
+            });
+            document.querySelector('[data-filter="all"]').classList.remove('bg-white/5', 'text-slate-300');
+            document.querySelector('[data-filter="all"]').classList.add('bg-white', 'text-brand-dark', 'shadow-[0_0_15px_rgba(255,255,255,0.2)]');
+        }
+
+        bookCards.forEach(card => {
+            const title = card.querySelector('h3').innerText.toLowerCase();
+            // Checking desc or inner text
+            const desc = card.querySelector('p') ? card.querySelector('p').innerText.toLowerCase() : "";
+            
+            if(title.includes(term) || desc.includes(term)) {
+                card.style.display = 'flex';
+                setTimeout(() => { 
+                    card.style.opacity = '1'; 
+                    card.style.transform = 'scale(1)'; 
+                }, 10);
+                visibleCount++;
+            } else {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => { card.style.display = 'none'; }, 300);
+            }
+        });
+
+        setTimeout(() => {
+            if(visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }, 300);
+    });
+
+  </script>
+</body>
+</html>
