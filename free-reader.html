@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="hi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+
+  <title>Free Premium Reader | BookMintor</title>
+  <meta name="description" content="Muft mein premium kitabein padhein BookMintor ke smooth flipbook reader par." />
+  
+  <meta name="theme-color" content="#0b0e13" />
+  <link rel="icon" type="image/png" href="https://bookmintor.shop/images/logo.png">
+
+  <!-- ========================================== -->
+  <!-- HIGH SECURITY SCRIPT (Right Click & Shortcuts Blocked) -->
+  <!-- ========================================== -->
+  <script>
+    let warningShown = false; 
+    document.addEventListener('contextmenu', event => {
+      event.preventDefault();
+      if (!warningShown) {
+        alert("Suraksha kaarno se right-click disable kiya gaya hai.");
+        warningShown = true;
+      }
+    });
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { return false; } // F12 Disable
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I Disable
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C Disable
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J Disable
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U Disable
+    }
+  </script>
+
+  <!-- TAILWIND CSS & ICONS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- PDF.JS & PAGE-FLIP LIBRARIES FOR SMOOTH 3D FLIPBOOK -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+  
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            poppins: ['"Poppins"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0b0e13', 
+              card: '#11151c', 
+              border: '#222834', 
+            }
+          },
+          animation: {
+            'glow-pulse': 'glowPulse 6s ease-in-out infinite',
+          },
+          keyframes: {
+            glowPulse: {
+              '0%, 100%': { opacity: 0.15, transform: 'scale(1)' },
+              '50%': { opacity: 0.3, transform: 'scale(1.05)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+        background-color: #0b0e13;
+        color: #f8fafc;
+        -webkit-user-select: none;
+        user-select: none;
+        overflow-x: hidden;
+    }
+    
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Netflix Style Cinematic Transition Classes */
+    .cinematic-enter {
+        animation: cinematicZoomIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    .cinematic-exit {
+        animation: cinematicZoomOut 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    @keyframes cinematicZoomIn {
+        0% { transform: scale(0.9) translateY(20px); opacity: 0; filter: blur(10px); }
+        100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+    }
+
+    @keyframes cinematicZoomOut {
+        0% { transform: scale(1); opacity: 1; filter: blur(0); }
+        100% { transform: scale(1.05); opacity: 0; filter: blur(10px); visibility: hidden; }
+    }
+
+    /* Flipbook Wrapper Styles */
+    .flipbook-container {
+        width: 100%;
+        height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .flipbook-viewport {
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+        border-radius: 4px;
+        background-color: #f8f9fa;
+    }
+
+    /* Page Styles */
+    .page {
+        background-color: #fff;
+        overflow: hidden;
+        border: solid 1px #e5e7eb;
+        box-shadow: inset -2px 0 10px rgba(0,0,0,0.05); /* Panno ki deep shadow */
+    }
+    
+    .page.--left {
+        border-right: 0;
+        box-shadow: inset 2px 0 10px rgba(0,0,0,0.05);
+    }
+    .page.--right {
+        border-left: 0;
+    }
+
+    /* Canvas (PDF Render) */
+    .page canvas {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain; /* Yeh ensure karega ki PDF crop na ho */
+    }
+
+    /* Ad Card Fixed Setup */
+    .ad-wrapper {
+        width: 300px;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-color: #000;
+        border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body class="antialiased selection:bg-indigo-500/30 min-h-screen flex flex-col">
+
+  <!-- BACKGROUND GLOWS -->
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-56 -left-40 h-[680px] w-[680px] rounded-full bg-indigo-600/10 blur-[140px] animate-glow-pulse"></div>
+    <div class="absolute -bottom-56 -right-40 h-[600px] w-[600px] rounded-full bg-sky-600/10 blur-[130px] animate-glow-pulse" style="animation-delay: 2s;"></div>
+  </div>
+
+  <!-- NAVIGATION BAR (Simple Home Button Top Right) -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl supports-[backdrop-filter]:bg-[#0b0e13]/80 border-b border-white/5">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      
+      <!-- LOGO -->
+      <div class="flex items-center gap-3">
+        <img src="https://bookmintor.shop/images/logo.png" alt="Logo" class="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+        <span class="text-lg sm:text-xl font-bold tracking-wide text-zinc-100 font-poppins">
+          Book<span class="text-slate-400">mintor</span>
+        </span>
+      </div>
+
+      <!-- FREE READER BADGE -->
+      <div class="hidden items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 md:flex shadow-lg">
+        <i data-lucide="book-open" class="h-4 w-4 text-indigo-400"></i>
+        <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest">Free Reader</span>
+      </div>
+
+      <!-- SIMPLE HOME BUTTON (No border animations, clean & premium) -->
+      <a href="index.html" class="inline-flex items-center gap-2 rounded-xl bg-white/5 border border-white/10 px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white transition hover:bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.05)]">
+        <i data-lucide="home" class="h-4 w-4"></i>
+        <span>Home</span>
+      </a>
+
+    </nav>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow flex items-center justify-center relative overflow-hidden" id="main-container">
+
+    <!-- ========================================================= -->
+    <!-- INTRO SECTION (Book Details & Adsterra Ad) -->
+    <!-- ========================================================= -->
+    <div id="intro-section" class="w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row items-center gap-12 transition-all">
+        
+        <!-- Left Side: Book Information -->
+        <div class="flex-1 text-center lg:text-left">
+            <span class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-400 uppercase tracking-widest mb-6">
+                <i data-lucide="unlock" class="h-3 w-3"></i> Muft Pustak
+            </span>
+            
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+                The Digital <br class="hidden lg:block" /> Reading <span class="text-indigo-400">Experience</span>
+            </h1>
+            
+            <p class="text-base sm:text-lg text-slate-400 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                Yeh pustak aapke digital padhne ke anubhav ko behtar banane ke liye design ki gayi hai. Adsterra banners ke madhyam se hum is platform ko free rakhte hain, bina kisi pareshani ke.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                <button onclick="startReading()" class="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-base font-bold text-black shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all hover:scale-105 hover:bg-zinc-200">
+                    <i data-lucide="book-open" class="h-5 w-5"></i> Read Flipbook
+                    <i data-lucide="arrow-right" class="h-5 w-5 transition-transform group-hover:translate-x-1"></i>
+                </button>
+                <p class="text-xs text-slate-500 flex items-center gap-1 font-medium"><i data-lucide="shield-check" class="h-3 w-3"></i> Premium Smooth Reader</p>
+            </div>
+        </div>
+
+        <!-- Right Side: Premium Adsterra Ad Card -->
+        <!-- Is card ka size fixed hai (300x250 ad ke liye) aur text white hai -->
+        <div class="w-full lg:w-auto flex justify-center lg:justify-end">
+            <div class="bg-white/5 border border-white/10 rounded-[2rem] p-5 shadow-2xl backdrop-blur-md flex flex-col items-center relative overflow-hidden">
+                <!-- Professional White Sponsored Tag -->
+                <div class="w-full flex items-center justify-between mb-4 px-1">
+                    <div class="flex items-center gap-1.5 text-[10px] font-bold text-white uppercase tracking-widest opacity-80">
+                        <i data-lucide="info" class="h-3.5 w-3.5"></i> Sponsored
+                    </div>
+                </div>
+
+                <!-- ============================================== -->
+                <!-- FIXED 300x250 ADSTERRA BANNER WRAPPER -->
+                <!-- ============================================== -->
+                <div class="ad-wrapper">
+                    <!-- USER'S ADSTERRA CODE INJECTED HERE -->
+                    <script>
+                      atOptions = {
+                        'key' : '072c459477797458ea0fce5e798e9eea',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                      };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/072c459477797458ea0fce5e798e9eea/invoke.js"></script>
+                </div>
+                <!-- ============================================== -->
+                
+                <p class="text-[10px] text-slate-500 mt-4 font-medium text-center max-w-[280px]">
+                    In ads ki madad se hum aapko premium kitabein bilkul muft me pradan karte hain.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- FLIPBOOK READER SECTION (Hidden Initially) -->
+    <!-- ========================================================= -->
+    <div id="reader-section" class="hidden absolute inset-0 z-50 bg-[#0b0e13] flex-col w-full h-full">
+        
+        <!-- Reader Top Toolbar -->
+        <div class="w-full flex items-center justify-between p-4 bg-brand-card/90 backdrop-blur-md border-b border-white/5">
+            <button onclick="closeReading()" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition">
+                <i data-lucide="arrow-left" class="h-4 w-4"></i> Back
+            </button>
+
+            <!-- Page Counter -->
+            <div class="bg-black/50 border border-white/10 px-4 py-1.5 rounded-full text-sm font-bold text-white flex items-center gap-2">
+                <span id="current-page-display" class="text-indigo-400">1</span> 
+                <span class="text-slate-600">/</span> 
+                <span id="total-pages-display">--</span>
+            </div>
+
+            <!-- Fake Options -->
+            <button class="text-slate-400 hover:text-white cursor-not-allowed opacity-50" title="Options locked in demo">
+                <i data-lucide="more-vertical" class="h-5 w-5"></i>
+            </button>
+        </div>
+
+        <!-- Full Loading Screen inside Reader -->
+        <div id="flipbook-loader" class="absolute inset-0 z-50 bg-[#0b0e13] flex flex-col items-center justify-center transition-opacity duration-500">
+            <div class="h-16 w-16 border-4 border-white/10 border-t-indigo-500 rounded-full animate-spin mb-6"></div>
+            <p class="text-white font-bold tracking-widest uppercase text-sm">Pustak Load Ho Rahi Hai...</p>
+            <p id="loading-progress" class="text-indigo-400 text-xs mt-2 font-bold">0%</p>
+        </div>
+
+        <!-- The 3D Flipbook Container -->
+        <div class="flipbook-container">
+            <div id="flipbook" class="flipbook-viewport">
+                <!-- Pages will be dynamically injected here by JS -->
+            </div>
+        </div>
+
+        <!-- Reader Bottom Controls -->
+        <div class="w-full flex items-center justify-center gap-6 p-4 bg-brand-card/90 backdrop-blur-md border-t border-white/5">
+            <button id="btn-prev" class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition shadow-lg">
+                <i data-lucide="chevron-left" class="h-6 w-6"></i>
+            </button>
+            <span class="text-xs font-bold text-slate-500 tracking-widest uppercase">Swipe ya Click Karein</span>
+            <button id="btn-next" class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition shadow-lg">
+                <i data-lucide="chevron-right" class="h-6 w-6"></i>
+            </button>
+        </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    // ==========================================
+    // PDF IN-BUILT LINK 
+    // Yahan aap kisi bhi dusri PDF ka link daal sakte hain.
+    // ==========================================
+    const PDF_URL = 'https://r8cnodelibrary.github.io/resource-library/aarohibook/The_Digital_Reading_Experience%20.pdf';
+
+    const introSection = document.getElementById('intro-section');
+    const readerSection = document.getElementById('reader-section');
+    const flipbookLoader = document.getElementById('flipbook-loader');
+    const loadingProgress = document.getElementById('loading-progress');
+    const flipbookEl = document.getElementById('flipbook');
+
+    let pageFlip = null;
+    let isBookLoaded = false;
+
+    // Setup PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    // Cinematic Transition: Start Reading
+    function startReading() {
+        // Intro section zoom out
+        introSection.classList.add('cinematic-exit');
+        
+        setTimeout(() => {
+            introSection.classList.add('hidden');
+            readerSection.classList.remove('hidden');
+            readerSection.classList.add('flex', 'cinematic-enter');
+            
+            // Agar book pehle se load nahi hui, to ab load karein
+            if (!isBookLoaded) {
+                loadFlipbook();
+            }
+        }, 500); // Intro fade out ke baad Reader open
+    }
+
+    // Cinematic Transition: Close Reading
+    function closeReading() {
+        readerSection.classList.remove('cinematic-enter');
+        readerSection.classList.add('cinematic-exit');
+        
+        setTimeout(() => {
+            readerSection.classList.add('hidden');
+            readerSection.classList.remove('flex', 'cinematic-exit');
+            
+            introSection.classList.remove('hidden', 'cinematic-exit');
+            introSection.classList.add('cinematic-enter');
+            
+            setTimeout(() => introSection.classList.remove('cinematic-enter'), 800);
+        }, 500);
+    }
+
+    // Load PDF and Initialize PageFlip
+    async function loadFlipbook() {
+        try {
+            // Load PDF File
+            const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+            const totalPages = pdf.numPages;
+            document.getElementById('total-pages-display').innerText = totalPages;
+
+            // Generate Canvas for Each Page
+            for (let i = 1; i <= totalPages; i++) {
+                const percent = Math.round((i / totalPages) * 100);
+                loadingProgress.innerText = `${percent}% COMPLETED`;
+                
+                const page = await pdf.getPage(i);
+                
+                // Get standard viewport scale to ensure high quality render
+                const viewport = page.getViewport({ scale: 1.5 });
+                
+                const div = document.createElement('div');
+                div.className = 'page';
+                
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                
+                div.appendChild(canvas);
+                flipbookEl.appendChild(div);
+            }
+
+            // Initialize PageFlip with AUTO-FIT (Stretch Size)
+            pageFlip = new St.PageFlip(flipbookEl, {
+                width: 400, // Base width (aspect ratio ref)
+                height: 600, // Base height (aspect ratio ref)
+                size: 'stretch', // Yeh frame ke hisab se automatic resize karega
+                minWidth: 300,
+                maxWidth: 1000,
+                minHeight: 400,
+                maxHeight: 1400,
+                showCover: true,
+                mobileScrollSupport: true,
+                usePortrait: window.innerWidth < 768, // Mobile par single page, Desktop par double page
+                maxShadowOpacity: 0.5,
+                flippingTime: 800 // Smooth flipping speed
+            });
+
+            // Load HTML elements into flipbook
+            pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+            
+            // Update Page Number on Flip
+            pageFlip.on('flip', (e) => {
+                document.getElementById('current-page-display').innerText = e.data + 1;
+            });
+
+            // Bind Buttons
+            document.getElementById('btn-prev').addEventListener('click', () => {
+                pageFlip.flipPrev();
+            });
+            document.getElementById('btn-next').addEventListener('click', () => {
+                pageFlip.flipNext();
+            });
+
+            // Handle Resize (Mobile Landscape to Portrait adjustment)
+            window.addEventListener('resize', () => {
+                if(pageFlip) {
+                    pageFlip.update({
+                        usePortrait: window.innerWidth < 768
+                    });
+                }
+            });
+
+            isBookLoaded = true;
+
+            // Hide Loader Smoothly
+            flipbookLoader.style.opacity = '0';
+            setTimeout(() => {
+                flipbookLoader.style.display = 'none';
+            }, 500);
+
+        } catch (error) {
+            console.error("Error loading PDF:", error);
+            loadingProgress.innerText = "ERROR LOADING PDF";
+            loadingProgress.classList.replace('text-indigo-400', 'text-red-500');
+        }
+    }
+  </script>
+</body>
+</html>
