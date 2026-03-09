@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <!-- Tool ka naam yahan aayega -->
-    <title>Spectra-Scan | TOOLNOX</title>
+    <title>Vanguard-AI | TOOLNOX</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,8 +20,9 @@
     <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-    <!-- Chart.js for Pulse Wave -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- TensorFlow.js & COCO-SSD (Dependencies) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -36,7 +37,6 @@
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
                     }
                 }
             }
@@ -50,6 +50,7 @@
             color: #e5e5e5;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent !important;
+            user-select: none; /* Prevent selection while holding to peek */
         }
         * { outline: none !important; }
 
@@ -78,9 +79,9 @@
             position: fixed;
             inset: 0;
             width: 100%; height: 100%;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(5, 5, 5, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 99999;
             display: flex;
             align-items: center;
@@ -185,54 +186,41 @@
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Spectra-Scan Specific Styles */
-        .hud-scanner {
-            stroke-dasharray: 600;
-            stroke-dashoffset: 600;
-            animation: drawHex 2s ease-out forwards, pulseHex 4s infinite alternate ease-in-out;
-        }
-
-        @keyframes drawHex {
-            to { stroke-dashoffset: 0; }
-        }
-
-        @keyframes pulseHex {
-            0% { filter: drop-shadow(0 0 2px currentColor); }
-            100% { filter: drop-shadow(0 0 15px currentColor); }
-        }
-
-        .grid-bg {
+        /* Vanguard-AI Custom CSS */
+        .neural-grid {
+            background-image:
+                linear-gradient(rgba(229, 9, 20, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(229, 9, 20, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-position: center center;
         }
-
-        .scan-line {
-            width: 100%;
-            height: 2px;
-            background: currentColor;
-            box-shadow: 0 0 10px currentColor;
+        
+        /* Softened Scanner Sweep instead of harsh line */
+        .scanner-sweep {
             position: absolute;
             top: 0;
             left: 0;
-            opacity: 0.5;
-            animation: scanAnim 3s linear infinite;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to bottom, transparent, rgba(229, 9, 20, 0.05), transparent);
+            animation: scan 5s linear infinite;
+            z-index: 10;
+            pointer-events: none;
         }
 
-        @keyframes scanAnim {
-            0% { top: 0%; opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
+        @keyframes scan {
+            0% { top: -30%; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
             100% { top: 100%; opacity: 0; }
         }
 
-        .terminal-text {
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        /* Custom cursor for canvas when peeking is available */
+        #hud-canvas {
+            cursor: crosshair;
         }
-
-        .text-glow {
-            text-shadow: 0 0 20px currentColor;
+        #hud-canvas:active {
+            cursor: grabbing;
         }
     </style>
 </head>
@@ -243,13 +231,6 @@
     <!-- GLOBAL LOADING OVERLAY -->
     <div id="tool-loading-overlay">
         <div class="rolling-wrapper">
-            <!-- Added futuristic scanner graphic to loading -->
-            <div class="w-16 h-16 mb-8 relative flex items-center justify-center">
-                <div class="absolute inset-0 rounded-full border-t-2 border-brand-accent animate-spin" style="animation-duration: 1s;"></div>
-                <div class="absolute inset-2 rounded-full border-r-2 border-white/50 animate-spin" style="animation-duration: 1.5s; animation-direction: reverse;"></div>
-                <i data-lucide="activity" class="text-brand-accent w-6 h-6 animate-pulse"></i>
-            </div>
-            
             <div class="rolling-viewport" id="tool-viewport">
                 <ul class="rolling-list" id="tool-rolling-list">
                     <!-- Dynamic Text will be injected here -->
@@ -379,7 +360,7 @@
         <!-- Main Content Area -->
         <main class="flex-1 md:ml-[5.5rem] w-full relative min-h-screen flex flex-col pt-20 md:pt-0" id="main-container">
             
-            <div class="flex-1 px-4 md:px-10 lg:px-16 py-8 md:py-12 flex flex-col w-full">
+            <div class="flex-1 px-6 md:px-10 lg:px-16 py-8 md:py-12 flex flex-col w-full">
                 
                 <!-- Back Button -->
                 <a href="index.html" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6 md:mb-8 text-sm font-bold w-max">
@@ -388,149 +369,141 @@
 
                 <!-- Tool Header -->
                 <div class="mb-10 text-left">
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-none flex items-center gap-4">
-                        Spectra-Scan <span class="bg-brand-accent text-white text-xs py-1 px-3 rounded-full font-bold uppercase tracking-widest align-middle">Neural</span>
-                    </h1>
-                    <p class="text-gray-500 text-sm md:text-lg mt-4 font-medium max-w-2xl">Ultra-advanced non-contact pulse analyzer. Uses your device's visual sensors and rPPG logic to extract realtime biological data from micro-color variations in the dermal layer.</p>
+                    <h1 class="text-3xl md:text-6xl font-black text-white tracking-tighter leading-none">Vanguard-AI Engine</h1>
+                    <p class="text-gray-500 text-sm md:text-lg mt-4 font-medium max-w-2xl">High-end Computer Vision tool utilizing TensorFlow.js and the COCO-SSD neural model to track objects in a live stream with hardware-accelerated smooth privacy redaction.</p>
                 </div>
 
                 <!-- ========================================== -->
                 <!-- ⬇️ AI WILL GENERATE THE TOOL UI INSIDE THIS BOX ⬇️ -->
                 <!-- ========================================== -->
                 
-                <div id="ai-tool-workspace" class="flex-1 w-full text-white flex flex-col relative z-10">
+                <div id="ai-tool-workspace" class="flex-1 w-full text-white">
                     
-                    <!-- INITIALIZATION VIEW -->
-                    <div id="init-view" class="flex flex-col items-center justify-center h-[60vh] border border-white/5 rounded-3xl bg-[#0a0a0a]/50 backdrop-blur-sm shadow-2xl relative overflow-hidden">
-                        <div class="absolute inset-0 grid-bg opacity-30"></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
                         
-                        <div class="relative z-10 flex flex-col items-center text-center px-6">
-                            <div class="w-24 h-24 rounded-full bg-brand-accent/10 flex items-center justify-center mb-8 relative">
-                                <div class="absolute inset-0 rounded-full border border-brand-accent/30 animate-ping"></div>
-                                <i data-lucide="scan-face" class="w-12 h-12 text-brand-accent"></i>
-                            </div>
-                            <h2 class="text-2xl md:text-3xl font-bold mb-4">Neural Scanner Offline</h2>
-                            <p class="text-gray-400 max-w-md mb-8">Requires camera access to process micro-fluctuations in skin tone. Processing happens entirely on your device.</p>
+                        <!-- Left Panel: The Viewfinder (2 Columns wide) -->
+                        <div class="col-span-1 lg:col-span-2 flex flex-col gap-4">
                             
-                            <button id="btn-initialize" class="group relative px-8 py-4 bg-brand-accent text-white font-bold rounded-xl overflow-hidden shadow-[0_0_20px_rgba(229,9,20,0.3)] hover:shadow-[0_0_40px_rgba(229,9,20,0.5)] transition-all duration-300 transform hover:-translate-y-1">
-                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                                <span class="relative flex items-center gap-3">
-                                    <i data-lucide="power" class="w-5 h-5"></i>
-                                    Initialize Scanner
-                                </span>
-                            </button>
-                        </div>
-                    </div>
+                            <!-- Video/Canvas Container -->
+                            <div class="relative w-full bg-[#050505] rounded-3xl border border-white/10 overflow-hidden shadow-2xl group" style="aspect-ratio: 16/9;">
+                                
+                                <video id="webcam" autoplay playsinline muted class="hidden"></video>
+                                
+                                <!-- Offline Placeholder -->
+                                <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-600 bg-[#0a0a0a] z-20 transition-opacity duration-500">
+                                    <i data-lucide="video-off" class="w-16 h-16 mb-4 opacity-50 text-brand-accent"></i>
+                                    <p class="font-bold text-sm md:text-base tracking-widest uppercase text-white">Align camera for neural ingestion</p>
+                                    <p class="text-xs mt-2 opacity-50 font-mono text-center max-w-sm px-4">Local Tensor Execution. No image data leaves your device.</p>
+                                </div>
+                                
+                                <!-- The HUD Canvas -->
+                                <canvas id="hud-canvas" class="absolute inset-0 w-full h-full object-cover z-0"></canvas>
+                                
+                                <!-- Tactical Overlay -->
+                                <div class="absolute inset-0 pointer-events-none neural-grid z-10 opacity-60"></div>
+                                <div id="scanner-sweep" class="scanner-sweep hidden"></div>
+                                
+                                <!-- Live Stats (Top Left) -->
+                                <div class="absolute top-4 left-4 z-20 bg-black/70 backdrop-blur-md border border-white/10 rounded-lg px-3 py-2 flex-col gap-1 hidden sm:flex pointer-events-none" id="live-stats">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+                                        <span class="text-xs font-bold text-white tracking-widest uppercase">Live Ingestion</span>
+                                    </div>
+                                    <span class="text-[10px] text-gray-400 font-mono" id="fps-counter">FPS: 00 | Render: 0ms</span>
+                                </div>
 
-                    <!-- ACTIVE SCANNER VIEW (Hidden initially) -->
-                    <div id="scanner-view" class="hidden flex-col gap-6 w-full h-full">
-                        
-                        <!-- Dynamic Status Banner -->
-                        <div id="status-banner" class="w-full bg-[#121212] border border-red-500/30 rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500">
-                            <div id="status-icon-container" class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
-                                <i id="status-icon" data-lucide="alert-circle" class="w-5 h-5 text-red-500"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h3 id="status-title" class="text-sm font-bold text-gray-300 uppercase tracking-widest mb-1">System Status</h3>
-                                <p id="status-text" class="text-red-500 font-medium md:text-lg">I can't see your face properly. Please look into the camera.</p>
-                            </div>
-                        </div>
+                                <!-- Peek Instruction Overlay -->
+                                <div id="peek-instruction" class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 bg-brand-accent text-white px-4 py-2 rounded-full font-bold text-xs tracking-widest uppercase shadow-[0_0_15px_rgba(229,9,20,0.4)] hidden opacity-0 transition-opacity duration-300 pointer-events-none flex items-center gap-2">
+                                    <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Hold Screen to Peek
+                                </div>
+                                <div id="peeking-alert" class="absolute top-6 right-6 z-20 bg-white text-black px-4 py-2 rounded-md font-black text-xs tracking-widest uppercase shadow-[0_0_20px_rgba(255,255,255,0.8)] hidden pointer-events-none border border-red-500">
+                                    Peeking Override Active
+                                </div>
 
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+                            </div>
                             
-                            <!-- Left: Intelligent Viewfinder -->
-                            <div class="lg:col-span-7 relative bg-[#0a0a0a] rounded-3xl border border-white/5 overflow-hidden flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
-                                <!-- Video Element -->
-                                <video id="webcam-video" class="absolute inset-0 w-full h-full object-cover opacity-80 scale-x-[-1]" playsinline autoplay muted></video>
-                                <canvas id="processing-canvas" class="hidden"></canvas>
-                                
-                                <!-- Futuristic HUD Overlay -->
-                                <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
-                                    <!-- Scanning Box -->
-                                    <div id="hud-target-box" class="relative w-48 h-64 md:w-64 md:h-80 border-2 border-red-500/50 rounded-3xl transition-colors duration-500 flex items-center justify-center text-red-500">
-                                        <!-- Corner Accents -->
-                                        <div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-current rounded-tl-3xl"></div>
-                                        <div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-current rounded-tr-3xl"></div>
-                                        <div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-current rounded-bl-3xl"></div>
-                                        <div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-current rounded-br-3xl"></div>
-                                        
-                                        <!-- Animated Scan Line -->
-                                        <div id="hud-scan-line" class="scan-line hidden"></div>
-                                        
-                                        <!-- Center Reticle -->
-                                        <i data-lucide="crosshair" class="w-8 h-8 opacity-50"></i>
-                                    </div>
-
-                                    <!-- HUD Data overlays -->
-                                    <div class="absolute top-4 left-4 text-xs font-mono text-white/50">
-                                        FPS: <span id="hud-fps">00</span><br>
-                                        RES: 640x480
-                                    </div>
-                                    <div class="absolute bottom-4 right-4 text-xs font-mono text-white/50 text-right">
-                                        SIG: <span id="hud-signal" class="text-red-500">WEAK</span><br>
-                                        MODE: rPPG
-                                    </div>
+                            <!-- Activity Log Terminal -->
+                            <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-4 flex items-center gap-4">
+                                <i data-lucide="activity" class="w-5 h-5 text-brand-accent"></i>
+                                <div class="flex-1 font-mono text-xs text-gray-400 overflow-hidden relative h-5">
+                                     <div id="activity-log" class="absolute top-0 left-0 w-full transition-all duration-300 truncate">
+                                         Awaiting system initialization sequence...
+                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Right: Diagnostic Dashboard -->
-                            <div class="lg:col-span-5 flex flex-col gap-6">
-                                
-                                <!-- Top Row: BPM & Stress -->
-                                <div class="grid grid-cols-2 gap-4">
-                                    <!-- BPM Card -->
-                                    <div class="bg-[#121212] border border-white/5 rounded-3xl p-6 flex flex-col items-center justify-center relative overflow-hidden group">
-                                        <div class="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Heart Rate</span>
-                                        <div class="flex items-end gap-2">
-                                            <span id="bpm-display" class="text-5xl md:text-6xl font-black text-white/20 text-glow transition-all duration-200">--</span>
-                                            <span class="text-sm font-bold text-brand-accent mb-2">BPM</span>
-                                        </div>
-                                        <i id="bpm-heart-icon" data-lucide="heart" class="absolute bottom-4 right-4 w-6 h-6 text-white/10 transition-transform"></i>
-                                    </div>
-                                    
-                                    <!-- Stress Card -->
-                                    <div class="bg-[#121212] border border-white/5 rounded-3xl p-6 flex flex-col items-center justify-center relative">
-                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Analysis</span>
-                                        <div id="stress-indicator" class="w-16 h-16 rounded-full border-4 border-white/10 flex items-center justify-center mb-2 transition-colors duration-500">
-                                            <i data-lucide="activity" class="w-6 h-6 text-white/20" id="stress-icon"></i>
-                                        </div>
-                                        <span id="stress-text" class="text-sm font-bold text-white/30">AWAITING</span>
-                                    </div>
-                                </div>
-
-                                <!-- Chart Card -->
-                                <div class="bg-[#121212] border border-white/5 rounded-3xl p-4 flex-1 min-h-[200px] flex flex-col relative">
-                                    <div class="flex justify-between items-center mb-4 px-2">
-                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Plethysmograph Wave</span>
-                                        <span class="text-[10px] text-brand-accent px-2 py-1 bg-brand-accent/10 rounded-full font-mono">LIVE</span>
-                                    </div>
-                                    <div class="flex-1 w-full relative">
-                                        <canvas id="pulse-chart"></canvas>
-                                    </div>
-                                </div>
-
-                            </div>
                         </div>
 
-                        <!-- Bottom: Biometric Console -->
-                        <div class="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl p-4 h-32 flex flex-col">
-                            <div class="flex justify-between items-center border-b border-white/10 pb-2 mb-2">
-                                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
-                                    <i data-lucide="terminal-square" class="w-4 h-4"></i> System Log
-                                </span>
-                                <div class="flex gap-1">
-                                    <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
-                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <!-- Right Panel: Control Sidebar -->
+                        <div class="col-span-1 flex flex-col gap-6">
+                            
+                            <div class="bg-[#0a0a0a] border border-white/5 rounded-3xl p-6 lg:p-8 flex flex-col gap-8 shadow-xl relative overflow-hidden h-full">
+                                
+                                <!-- Decorative Red Glow -->
+                                <div class="absolute -top-16 -right-16 w-48 h-48 bg-brand-accent/5 rounded-full blur-[50px] pointer-events-none"></div>
+
+                                <div class="flex flex-col gap-2 relative z-10">
+                                    <h3 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                                        <i data-lucide="cpu" class="w-5 h-5 text-brand-accent"></i> Neural Settings
+                                    </h3>
+                                    <p class="text-sm text-gray-500 leading-relaxed">Configure smooth tensor tracking and hardware blur privacy filters.</p>
                                 </div>
-                            </div>
-                            <div id="terminal-output" class="flex-1 overflow-y-auto font-mono text-[10px] md:text-xs text-green-400/80 terminal-text flex flex-col gap-1 hide-scroll">
-                                <div>[SYS] Waiting for initialization...</div>
+
+                                <!-- Status LED -->
+                                <div class="flex items-center justify-between p-4 bg-[#121212] rounded-2xl border border-white/5 relative z-10">
+                                    <span class="text-sm font-medium text-gray-400">Model Status</span>
+                                    <div class="flex items-center gap-2">
+                                        <span id="status-led" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)] transition-colors duration-500"></span>
+                                        <span id="status-text" class="text-xs font-bold text-red-500 uppercase tracking-widest transition-colors duration-500">Offline</span>
+                                    </div>
+                                </div>
+
+                                <!-- Action Button -->
+                                <button id="start-btn" onclick="startNeuralShield()" class="relative z-10 w-full bg-brand-accent hover:bg-red-700 text-white font-bold py-4 rounded-2xl transition-all duration-300 shadow-[0_0_20px_rgba(229,9,20,0.3)] hover:shadow-[0_0_30px_rgba(229,9,20,0.5)] flex items-center justify-center gap-3 active:scale-[0.98] outline-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:ring-brand-accent">
+                                    <i data-lucide="power" class="w-5 h-5"></i> 
+                                    <span>Start Neural Shield</span>
+                                </button>
+
+                                <div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent my-2 relative z-10"></div>
+
+                                <!-- Privacy Redaction Toggle -->
+                                <div class="flex items-center justify-between group cursor-pointer relative z-10" onclick="togglePrivacyMode()">
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-sm font-bold text-white flex items-center gap-2">
+                                            Smart Blur Censor <i data-lucide="eye-off" class="w-4 h-4 text-gray-500 group-hover:text-white transition-colors"></i>
+                                        </span>
+                                        <span class="text-xs text-gray-500">Hold video to peek anytime</span>
+                                    </div>
+                                    <div class="relative">
+                                        <div id="privacy-track" class="w-12 h-6 bg-[#1f1f1f] rounded-full transition-colors duration-300 border border-white/10 group-hover:border-white/20"></div>
+                                        <div id="privacy-thumb" class="absolute top-1 left-1 w-4 h-4 bg-gray-400 rounded-full transition-transform duration-300 shadow-md"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Sensitivity Slider -->
+                                <div class="flex flex-col gap-3 relative z-10">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-bold text-white">Detection Threshold</span>
+                                        <span id="sensitivity-val" class="text-xs font-mono text-brand-accent bg-brand-accent/10 border border-brand-accent/20 px-2 py-1 rounded-md">60%</span>
+                                    </div>
+                                    <input type="range" id="sensitivity-slider" min="50" max="90" value="60" class="w-full h-1.5 bg-[#1f1f1f] rounded-lg appearance-none cursor-pointer outline-none focus:outline-none focus:ring-2 focus:ring-brand-accent/50 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:bg-brand-accent [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-[0_0_12px_rgba(229,9,20,0.8)] [&::-webkit-slider-thumb]:transition-transform hover:[&::-webkit-slider-thumb]:scale-110">
+                                </div>
+                                
+                                <!-- Targeted Classes Infobox -->
+                                <div class="mt-auto pt-6 flex flex-col gap-3 relative z-10 border-t border-white/5">
+                                    <span class="text-xs text-gray-500 font-medium">REDACTION TARGETS:</span>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="text-[10px] uppercase font-bold text-gray-400 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/5 flex items-center gap-1.5"><i data-lucide="user" class="w-3 h-3"></i> Person</span>
+                                        <span class="text-[10px] uppercase font-bold text-gray-400 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/5 flex items-center gap-1.5"><i data-lucide="smartphone" class="w-3 h-3"></i> Cell Phone</span>
+                                        <span class="text-[10px] uppercase font-bold text-gray-400 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/5 flex items-center gap-1.5"><i data-lucide="laptop" class="w-3 h-3"></i> Laptop</span>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
                     </div>
+                    
                 </div>
 
                 <!-- ========================================== -->
@@ -540,7 +513,7 @@
             </div>
 
             <!-- Footer Section -->
-            <footer class="bg-[#0a0a0a] border-t border-white/5 py-12 px-6 md:px-10 lg:px-16 mt-auto w-full relative z-10">
+            <footer class="bg-[#0a0a0a] border-t border-white/5 py-12 px-6 md:px-10 lg:px-16 mt-auto w-full">
                 <div class="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center gap-2">
@@ -612,9 +585,12 @@
             const toast = document.createElement('div');
             toast.className = 'bg-[#151515] border border-white/10 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 text-white text-sm transform translate-y-20 opacity-0 transition-all duration-300';
             let icon = type === 'success' ? 'check-circle' : 'info';
-            toast.innerHTML = `<i data-lucide="${icon}" class="text-brand-accent w-5 h-5"></i> <span class="font-semibold">${message}</span>`;
+            if(type === 'error') icon = 'alert-triangle';
+            
+            toast.innerHTML = `<i data-lucide="${icon}" class="${type === 'error' ? 'text-red-500' : 'text-brand-accent'} w-5 h-5"></i> <span class="font-semibold">${message}</span>`;
             container.appendChild(toast);
             lucide.createIcons();
+            
             requestAnimationFrame(() => toast.classList.remove('translate-y-20', 'opacity-0'));
             setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
@@ -680,419 +656,384 @@
         }
         
         // ==========================================
-        // SPECTRA-SCAN NEURAL PULSE LOGIC
+        // VANGUARD-AI: ADVANCED TRACKING & RENDER ENGINE
         // ==========================================
         
-        document.addEventListener('DOMContentLoaded', () => {
+        // Application State
+        let tfModel = null;
+        let isSystemActive = false;
+        let privacyMode = false;
+        let isPeeking = false; // Override toggle
+        let sensitivity = 0.60;
+        
+        let framesCount = 0;
+        let lastFrameTime = performance.now();
+        
+        // Advanced Tracking Array
+        let trackedObjects = [];
+        
+        // DOM Elements
+        const videoElement = document.getElementById('webcam');
+        const canvasElement = document.getElementById('hud-canvas');
+        const ctx = canvasElement.getContext('2d', { willReadFrequently: true });
+        const activityLog = document.getElementById('activity-log');
+        const peekInstruction = document.getElementById('peek-instruction');
+        const peekingAlert = document.getElementById('peeking-alert');
+        
+        // Constants
+        const REDACTION_TARGETS = ['person', 'cell phone', 'laptop'];
+        const LERP_SPEED = 0.35; // Controls smoothness (lower = slower/smoother)
+
+        // Math Helper for Smooth Animation
+        const lerp = (start, end, amt) => (1 - amt) * start + amt * end;
+
+        // Peek Mechanics (Hold to bypass blur)
+        function setPeeking(state) {
+            if(!privacyMode || !isSystemActive) return;
+            isPeeking = state;
+            if(state) {
+                peekingAlert.classList.remove('hidden');
+            } else {
+                peekingAlert.classList.add('hidden');
+            }
+        }
+        canvasElement.addEventListener('mousedown', () => setPeeking(true));
+        canvasElement.addEventListener('mouseup', () => setPeeking(false));
+        canvasElement.addEventListener('mouseleave', () => setPeeking(false));
+        canvasElement.addEventListener('touchstart', (e) => { e.preventDefault(); setPeeking(true); });
+        canvasElement.addEventListener('touchend', (e) => { e.preventDefault(); setPeeking(false); });
+
+        // Toggle UI Logic
+        function togglePrivacyMode() {
+            privacyMode = !privacyMode;
+            const track = document.getElementById('privacy-track');
+            const thumb = document.getElementById('privacy-thumb');
             
-            // UI Elements
-            const btnInit = document.getElementById('btn-initialize');
-            const initView = document.getElementById('init-view');
-            const scannerView = document.getElementById('scanner-view');
-            const video = document.getElementById('webcam-video');
-            const canvas = document.getElementById('processing-canvas');
-            const ctx = canvas.getContext('2d', { willReadFrequently: true });
-            const terminal = document.getElementById('terminal-output');
-            
-            // HUD Elements
-            const statusBanner = document.getElementById('status-banner');
-            const statusIconContainer = document.getElementById('status-icon-container');
-            const statusIcon = document.getElementById('status-icon');
-            const statusText = document.getElementById('status-text');
-            const hudTargetBox = document.getElementById('hud-target-box');
-            const hudScanLine = document.getElementById('hud-scan-line');
-            const hudFps = document.getElementById('hud-fps');
-            const hudSignal = document.getElementById('hud-signal');
-            
-            // Dashboard Elements
-            const bpmDisplay = document.getElementById('bpm-display');
-            const bpmHeartIcon = document.getElementById('bpm-heart-icon');
-            const stressIndicator = document.getElementById('stress-indicator');
-            const stressIcon = document.getElementById('stress-icon');
-            const stressText = document.getElementById('stress-text');
-            
-            // State Variables
-            let isRunning = false;
-            let stream = null;
-            let animationId;
-            let lastFrameTime = 0;
-            let frameCount = 0;
-            
-            // rPPG Variables
-            const SIGNAL_HISTORY = 150; // Keep last 150 frames (~5 secs at 30fps)
-            let greenSignalRaw = [];
-            let timeStamps = [];
-            let peaks = [];
-            let calculatedBPMs = [];
-            let currentStatus = 'NO_FACE'; // NO_FACE, TOO_FAR, TOO_CLOSE, PERFECT
-
-            // Chart Setup
-            const chartCtx = document.getElementById('pulse-chart').getContext('2d');
-            Chart.defaults.color = 'rgba(255, 255, 255, 0.3)';
-            Chart.defaults.font.family = '"JetBrains Mono", monospace';
-            
-            const pulseChart = new Chart(chartCtx, {
-                type: 'line',
-                data: {
-                    labels: Array(SIGNAL_HISTORY).fill(''),
-                    datasets: [{
-                        label: 'Pulse Wave',
-                        data: Array(SIGNAL_HISTORY).fill(0),
-                        borderColor: '#E50914',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        pointRadius: 0,
-                        fill: true,
-                        backgroundColor: 'rgba(229, 9, 20, 0.05)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: false,
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    scales: {
-                        x: { display: false },
-                        y: { display: false, min: -5, max: 5 } // Arbitrary bounds, dynamically adjusted later if needed
-                    }
-                }
-            });
-
-            // --- Terminal Logger ---
-            function logTerminal(msg, type='info') {
-                const colors = { info: 'text-green-400', warn: 'text-yellow-400', err: 'text-red-500' };
-                const time = new Date().toISOString().split('T')[1].slice(0,-1);
-                const el = document.createElement('div');
-                el.className = colors[type];
-                el.innerText = `[${time}] ${msg}`;
-                terminal.appendChild(el);
-                if(terminal.childElementCount > 30) terminal.removeChild(terminal.firstChild);
-                terminal.scrollTop = terminal.scrollHeight;
+            if (privacyMode) {
+                track.classList.replace('bg-[#1f1f1f]', 'bg-brand-accent');
+                thumb.classList.replace('left-1', 'left-7');
+                thumb.classList.replace('bg-gray-400', 'bg-white');
+                logTerminal('Privacy Glass Filter ENGAGED. Auto-censoring targets.');
+                if(isSystemActive) peekInstruction.classList.remove('hidden', 'opacity-0');
+            } else {
+                track.classList.replace('bg-brand-accent', 'bg-[#1f1f1f]');
+                thumb.classList.replace('left-7', 'left-1');
+                thumb.classList.replace('bg-white', 'bg-gray-400');
+                logTerminal('Privacy Filter DISABLED. Standard neural tracking restored.');
+                peekInstruction.classList.add('opacity-0');
+                setTimeout(() => peekInstruction.classList.add('hidden'), 300);
             }
+        }
 
-            // --- Initialization ---
-            btnInit.addEventListener('click', async () => {
-                showToolLoading([
-                    'Allocating visual memory...',
-                    'Initializing webcam stream...',
-                    'Calibrating neural algorithms...',
-                    'Establishing heartbeat link...'
-                ], 1500);
-
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia({ 
-                        video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } 
-                    });
-                    
-                    setTimeout(() => {
-                        video.srcObject = stream;
-                        video.onloadedmetadata = () => {
-                            canvas.width = video.videoWidth;
-                            canvas.height = video.videoHeight;
-                            initView.classList.add('hidden');
-                            scannerView.classList.replace('hidden', 'flex');
-                            hideToolLoading();
-                            
-                            logTerminal('Camera access granted.', 'info');
-                            logTerminal(`Resolution: ${video.videoWidth}x${video.videoHeight}`, 'info');
-                            logTerminal('Starting rPPG engine...', 'info');
-                            
-                            isRunning = true;
-                            requestAnimationFrame(processFrame);
-                        };
-                    }, 5000); // 5 sec loading simulation
-                    
-                } catch (err) {
-                    hideToolLoading();
-                    showToast('Failed to access camera. Please allow permissions.', 'error');
-                    console.error(err);
-                }
-            });
-
-            // --- HUD Updater ---
-            function updateHUDStatus(status) {
-                if(currentStatus === status) return;
-                currentStatus = status;
-                
-                // Reset classes
-                statusBanner.className = 'w-full border rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500 bg-[#121212]';
-                statusIconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center shrink-0';
-                hudTargetBox.className = 'relative w-48 h-64 md:w-64 md:h-80 border-2 rounded-3xl transition-colors duration-500 flex items-center justify-center';
-                
-                if(status === 'NO_FACE') {
-                    statusBanner.classList.add('border-red-500/30');
-                    statusIconContainer.classList.add('bg-red-500/20');
-                    statusIcon.innerHTML = `<polyline points="10 14 12 12 14 14"/><line x1="12" x2="12" y1="12" y2="20"/><path d="M20 10a8 8 0 1 0-16 0c0 4.418 3.582 8 8 8s8-3.582 8-8Z"/>`; // icon-alert
-                    statusIcon.className = 'w-5 h-5 text-red-500';
-                    statusText.className = 'text-red-500 font-medium md:text-lg';
-                    statusText.innerText = "I can't see your face properly. Please look into the camera.";
-                    hudTargetBox.classList.add('border-red-500/50', 'text-red-500');
-                    hudScanLine.classList.add('hidden');
-                    hudSignal.innerText = 'WEAK';
-                    hudSignal.className = 'text-red-500';
-                    resetBPM();
-                    logTerminal('WARNING: Target lost.', 'warn');
-                    
-                } else if(status === 'TOO_FAR') {
-                    statusBanner.classList.add('border-yellow-500/30');
-                    statusIconContainer.classList.add('bg-yellow-500/20');
-                    statusIcon.innerHTML = `<line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/><circle cx="12" cy="12" r="10"/>`; // info
-                    statusIcon.className = 'w-5 h-5 text-yellow-500';
-                    statusText.className = 'text-yellow-500 font-medium md:text-lg';
-                    statusText.innerText = "You are too far. Please move closer to the sensor.";
-                    hudTargetBox.classList.add('border-yellow-500/70', 'text-yellow-500');
-                    hudScanLine.classList.add('hidden');
-                    hudSignal.innerText = 'POOR';
-                    hudSignal.className = 'text-yellow-500';
-                    resetBPM();
-                    logTerminal('Target out of optimal range (Far).', 'warn');
-
-                } else if(status === 'TOO_CLOSE') {
-                    statusBanner.classList.add('border-yellow-500/30');
-                    statusIconContainer.classList.add('bg-yellow-500/20');
-                    statusIcon.className = 'w-5 h-5 text-yellow-500';
-                    statusText.className = 'text-yellow-500 font-medium md:text-lg';
-                    statusText.innerText = "You are too close. Please move back slightly.";
-                    hudTargetBox.classList.add('border-yellow-500/70', 'text-yellow-500');
-                    hudScanLine.classList.add('hidden');
-                    hudSignal.innerText = 'POOR';
-                    hudSignal.className = 'text-yellow-500';
-                    resetBPM();
-                    logTerminal('Target out of optimal range (Close).', 'warn');
-
-                } else if(status === 'PERFECT') {
-                    statusBanner.classList.add('border-[#22C55E]/40', 'bg-[#22C55E]/5');
-                    statusIconContainer.classList.add('bg-[#22C55E]/20');
-                    statusIcon.innerHTML = `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>`; // check-circle
-                    statusIcon.className = 'w-5 h-5 text-[#22C55E]';
-                    statusText.className = 'text-[#22C55E] font-medium md:text-lg';
-                    statusText.innerText = "Perfect. Stay still, I am reading your neural pulse...";
-                    hudTargetBox.classList.add('border-[#22C55E]', 'text-[#22C55E]', 'shadow-[0_0_30px_rgba(34,197,94,0.3)]');
-                    hudScanLine.classList.remove('hidden');
-                    hudScanLine.classList.add('bg-[#22C55E]');
-                    hudSignal.innerText = 'LOCKED';
-                    hudSignal.className = 'text-[#22C55E] font-bold';
-                    logTerminal('Target LOCKED. Analyzing dermal micro-fluctuations...', 'info');
-                }
-            }
-
-            function resetBPM() {
-                bpmDisplay.innerText = '--';
-                bpmDisplay.className = 'text-5xl md:text-6xl font-black text-white/20 text-glow transition-all duration-200';
-                bpmHeartIcon.className = 'absolute bottom-4 right-4 w-6 h-6 text-white/10 transition-transform';
-                stressText.innerText = 'AWAITING';
-                stressText.className = 'text-sm font-bold text-white/30';
-                stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-white/10 flex items-center justify-center mb-2 transition-colors duration-500';
-                stressIcon.className = 'w-6 h-6 text-white/20';
-                
-                // Clear chart gently
-                pulseChart.data.datasets[0].data = Array(SIGNAL_HISTORY).fill(0);
-                pulseChart.update();
-                greenSignalRaw = [];
-                timeStamps = [];
-            }
-
-            // --- Main Processing Loop ---
-            function processFrame(now) {
-                if(!isRunning) return;
-
-                // FPS Calculation
-                if(now - lastFrameTime >= 1000) {
-                    hudFps.innerText = frameCount;
-                    frameCount = 0;
-                    lastFrameTime = now;
-                }
-                frameCount++;
-
-                // 1. Draw video to hidden canvas
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                // 2. Define ROI (Region of Interest) - center of frame
-                // In a mirrored video, logic remains same as we are just extracting center pixels
-                const boxW = Math.min(250, canvas.width * 0.4);
-                const boxH = Math.min(300, canvas.height * 0.6);
-                const startX = (canvas.width - boxW) / 2;
-                const startY = (canvas.height - boxH) / 2;
-
-                const frameData = ctx.getImageData(startX, startY, boxW, boxH);
-                const data = frameData.data;
-
-                // 3. Face / Distance Heuristic (Skin Color Counting)
-                let skinPixelCount = 0;
-                let sumGreen = 0;
-
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i];
-                    const g = data[i+1];
-                    const b = data[i+2];
-
-                    // Very basic, highly tolerant skin heuristic to detect presence in box
-                    // Adjusting slightly to be forgiving in different lightings
-                    if (r > 50 && g > 30 && r > g && r > b) {
-                        skinPixelCount++;
-                        sumGreen += g;
-                    }
-                }
-
-                const totalPixels = boxW * boxH;
-                const skinRatio = skinPixelCount / totalPixels;
-
-                // State Machine based on Skin Ratio
-                if (skinRatio < 0.15) {
-                    updateHUDStatus('NO_FACE');
-                } else if (skinRatio < 0.35) {
-                    updateHUDStatus('TOO_FAR');
-                } else if (skinRatio > 0.85) {
-                    updateHUDStatus('TOO_CLOSE');
-                } else {
-                    updateHUDStatus('PERFECT');
-                    
-                    // 4. rPPG Calculation (Only when perfect)
-                    // Calculate average Green channel of skin pixels
-                    if(skinPixelCount > 0) {
-                        const avgGreen = sumGreen / skinPixelCount;
-                        
-                        greenSignalRaw.push(avgGreen);
-                        timeStamps.push(performance.now());
-
-                        if(greenSignalRaw.length > SIGNAL_HISTORY) {
-                            greenSignalRaw.shift();
-                            timeStamps.shift();
-                        }
-
-                        // Process Signal if we have enough data (e.g., 30 frames)
-                        if(greenSignalRaw.length > 30) {
-                            
-                            // A. Detrending (Subtract moving average)
-                            const windowSize = 30;
-                            let processedSignal = [];
-                            
-                            for(let i = 0; i < greenSignalRaw.length; i++) {
-                                let start = Math.max(0, i - windowSize/2);
-                                let end = Math.min(greenSignalRaw.length, i + windowSize/2);
-                                let sum = 0;
-                                for(let j=start; j<end; j++) sum += greenSignalRaw[j];
-                                let localAvg = sum / (end - start);
-                                
-                                // Invert green signal (absorption is inverted to reflection) 
-                                // Multiply by a factor to make it visible on chart
-                                processedSignal.push((localAvg - greenSignalRaw[i]) * 5); 
-                            }
-
-                            // B. Update Chart
-                            pulseChart.data.datasets[0].data = processedSignal;
-                            
-                            // Auto scale chart Y axis slightly based on current variance
-                            const maxVal = Math.max(...processedSignal.slice(-30));
-                            const minVal = Math.min(...processedSignal.slice(-30));
-                            pulseChart.options.scales.y.max = Math.max(2, maxVal * 1.5);
-                            pulseChart.options.scales.y.min = Math.min(-2, minVal * 1.5);
-                            
-                            pulseChart.update();
-
-                            // C. Peak Detection & BPM Calculation
-                            // Look at the latest completed cycle (roughly last 1-2 seconds)
-                            detectBPM(processedSignal, timeStamps);
-                        }
-                    }
-                }
-
-                // Loop
-                animationId = requestAnimationFrame(processFrame);
-            }
-
-            // --- Simple Peak Detection ---
-            let lastBeatTime = 0;
-            function detectBPM(signal, times) {
-                // Find peaks in the last portion of the signal
-                const lookback = 60; // ~2 seconds at 30fps
-                if(signal.length < lookback) return;
-
-                const recentSignal = signal.slice(-lookback);
-                const recentTimes = times.slice(-lookback);
-                
-                // Dynamic threshold based on recent amplitude
-                const maxAmp = Math.max(...recentSignal);
-                const threshold = maxAmp * 0.6; // Peak must be 60% of max
-
-                // Look for peak in the middle of a small sliding window to avoid noise
-                for(let i = 2; i < recentSignal.length - 2; i++) {
-                    if(recentSignal[i] > threshold && 
-                       recentSignal[i] > recentSignal[i-1] && 
-                       recentSignal[i] > recentSignal[i+1] &&
-                       recentSignal[i] > recentSignal[i-2] && 
-                       recentSignal[i] > recentSignal[i+2]) {
-                        
-                        const peakTime = recentTimes[i];
-                        
-                        // Prevent double counting (minimum 300ms between beats = max 200 BPM)
-                        if(peakTime - lastBeatTime > 300) {
-                            
-                            // Heartbeat UI trigger
-                            triggerHeartbeatUI();
-                            
-                            if(lastBeatTime > 0) {
-                                const intervalSec = (peakTime - lastBeatTime) / 1000;
-                                const instantBPM = 60 / intervalSec;
-                                
-                                // Filter realistic bounds
-                                if(instantBPM > 40 && instantBPM < 180) {
-                                    calculatedBPMs.push(instantBPM);
-                                    if(calculatedBPMs.length > 5) calculatedBPMs.shift(); // Average last 5 beats
-                                    
-                                    const avgBPM = Math.round(calculatedBPMs.reduce((a,b)=>a+b)/calculatedBPMs.length);
-                                    updateDashboardData(avgBPM);
-                                }
-                            }
-                            lastBeatTime = peakTime;
-                        }
-                    }
-                }
-            }
-
-            // --- UI Updates based on Data ---
-            function triggerHeartbeatUI() {
-                // Pulse the icon
-                bpmHeartIcon.classList.remove('scale-100');
-                bpmHeartIcon.classList.add('scale-150', 'text-brand-accent');
-                setTimeout(() => {
-                    bpmHeartIcon.classList.remove('scale-150', 'text-brand-accent');
-                    bpmHeartIcon.classList.add('scale-100');
-                }, 150);
-            }
-
-            let lastLogTime = 0;
-            function updateDashboardData(bpm) {
-                // Update massive text
-                bpmDisplay.innerText = bpm;
-                bpmDisplay.className = 'text-5xl md:text-6xl font-black text-white text-glow transition-all duration-200';
-                
-                // Update Stress indicator
-                if(bpm < 65) {
-                    stressText.innerText = 'RESTING';
-                    stressText.className = 'text-sm font-bold text-blue-400';
-                    stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-blue-500/50 flex items-center justify-center mb-2 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.3)]';
-                    stressIcon.className = 'w-6 h-6 text-blue-400';
-                } else if (bpm <= 85) {
-                    stressText.innerText = 'NORMAL';
-                    stressText.className = 'text-sm font-bold text-[#22C55E]';
-                    stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-[#22C55E]/50 flex items-center justify-center mb-2 bg-[#22C55E]/10 shadow-[0_0_15px_rgba(34,197,94,0.3)]';
-                    stressIcon.className = 'w-6 h-6 text-[#22C55E]';
-                } else {
-                    stressText.innerText = 'ELEVATED';
-                    stressText.className = 'text-sm font-bold text-yellow-500';
-                    stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-yellow-500/50 flex items-center justify-center mb-2 bg-yellow-500/10 shadow-[0_0_15px_rgba(234,179,8,0.3)]';
-                    stressIcon.className = 'w-6 h-6 text-yellow-500';
-                }
-
-                // Throttle terminal logs
-                if(performance.now() - lastLogTime > 2000) {
-                    logTerminal(`[BIO_DATA] Pulse Detected. Rate: ${bpm} BPM. Variance: Normal.`, 'info');
-                    lastLogTime = performance.now();
-                }
-            }
-
+        // Slider UI Logic
+        document.getElementById('sensitivity-slider').addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            sensitivity = val / 100;
+            document.getElementById('sensitivity-val').innerText = `${val}%`;
         });
+        
+        document.getElementById('sensitivity-slider').addEventListener('change', (e) => {
+            logTerminal(`Confidence Threshold adjusted to ${e.target.value}%`);
+        });
+
+        function logTerminal(msg) {
+            activityLog.style.transform = 'translateY(100%)';
+            setTimeout(() => {
+                activityLog.innerText = `> ${msg}`;
+                activityLog.style.transform = 'translateY(0)';
+            }, 150);
+        }
+
+        // Core Initialization
+        async function startNeuralShield() {
+            if (isSystemActive) return; 
+            
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast('Camera API not supported or blocked. HTTPS required.', 'error');
+                return;
+            }
+
+            showToolLoading([
+                'Loading Vanguard AI Model...',
+                'Initializing WebGL Hardware Engine...',
+                'Warming up Tracking Tensors...',
+                'Establishing Secure Video Link...'
+            ], 1200);
+
+            try {
+                const startTime = Date.now();
+                const modelPromise = typeof cocoSsd !== 'undefined' ? cocoSsd.load() : Promise.reject(new Error("TensorFlow not loaded"));
+                const streamPromise = navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
+                    audio: false 
+                });
+
+                const [loadedModel, stream] = await Promise.all([modelPromise, streamPromise]);
+                
+                const elapsedTime = Date.now() - startTime;
+                if (elapsedTime < 4000) {
+                    await new Promise(resolve => setTimeout(resolve, 4000 - elapsedTime));
+                }
+
+                tfModel = loadedModel;
+                videoElement.srcObject = stream;
+                
+                videoElement.onloadedmetadata = () => {
+                    videoElement.play();
+                    
+                    canvasElement.width = videoElement.videoWidth;
+                    canvasElement.height = videoElement.videoHeight;
+                    
+                    // Switch UI States
+                    hideToolLoading();
+                    document.getElementById('camera-placeholder').classList.add('opacity-0');
+                    setTimeout(() => document.getElementById('camera-placeholder').classList.add('hidden'), 500);
+                    
+                    document.getElementById('scanner-sweep').classList.remove('hidden');
+                    document.getElementById('live-stats').classList.remove('hidden');
+                    
+                    if(privacyMode) peekInstruction.classList.remove('hidden', 'opacity-0');
+                    
+                    // Update Status Indicator
+                    const led = document.getElementById('status-led');
+                    led.classList.replace('bg-red-500', 'bg-green-500');
+                    led.classList.replace('shadow-[0_0_10px_rgba(239,68,68,0.5)]', 'shadow-[0_0_10px_rgba(34,197,94,0.5)]');
+                    
+                    const text = document.getElementById('status-text');
+                    text.innerText = 'Online';
+                    text.classList.replace('text-red-500', 'text-green-500');
+                    
+                    const btn = document.getElementById('start-btn');
+                    btn.innerHTML = '<i data-lucide="shield-check" class="w-5 h-5"></i> <span>System Active</span>';
+                    btn.classList.replace('bg-brand-accent', 'bg-[#1a1a1a]');
+                    btn.classList.replace('hover:bg-red-700', 'hover:bg-[#252525]');
+                    btn.classList.remove('shadow-[0_0_20px_rgba(229,9,20,0.3)]', 'hover:shadow-[0_0_30px_rgba(229,9,20,0.5)]');
+                    btn.style.color = '#22c55e'; 
+                    lucide.createIcons();
+                    
+                    logTerminal('System online. Engine running at 60FPS.');
+                    
+                    isSystemActive = true;
+                    
+                    // START THE SEPARATE DUAL-LOOP SYSTEM
+                    inferenceLoop(); // Loop 1: Slow AI Processing
+                    renderLoop();    // Loop 2: Fast 60FPS Smooth Rendering
+                    trackPerformance();
+                    
+                    showToast('Vanguard AI successfully initialized.', 'success');
+                };
+
+            } catch (err) {
+                hideToolLoading();
+                logTerminal(`ERROR: ${err.message}`);
+                showToast('System Failure: ' + err.message, 'error');
+                console.error("Vanguard-AI Initialization Error:", err);
+            }
+        }
+
+        // Performance Profiler Loop
+        function trackPerformance() {
+            if(!isSystemActive) return;
+            const now = performance.now();
+            framesCount++;
+            if (now - lastFrameTime >= 1000) {
+                document.getElementById('fps-counter').innerText = `FPS: ${framesCount} | Render: Ultra-Smooth`;
+                framesCount = 0;
+                lastFrameTime = now;
+            }
+            requestAnimationFrame(trackPerformance);
+        }
+
+        // =========================================
+        // LOOP 1: AI INFERENCE (Runs as fast as possible, but slower than render)
+        // =========================================
+        async function inferenceLoop() {
+            if (!isSystemActive) return;
+            
+            // Get raw predictions from TFJS
+            const predictions = await tfModel.detect(videoElement);
+            
+            // Sync with our Advanced Tracking Array to match objects
+            const currentActiveIds = new Set();
+
+            predictions.forEach(pred => {
+                if (pred.score < sensitivity) return;
+                const className = pred.class.toLowerCase();
+                const [x, y, w, h] = pred.bbox;
+
+                // Find closest existing tracked object of same class
+                let bestMatch = null;
+                let bestDist = Infinity;
+                
+                trackedObjects.forEach(obj => {
+                    if (obj.class === className && !currentActiveIds.has(obj.id)) {
+                        const cx1 = x + w/2, cy1 = y + h/2;
+                        const cx2 = obj.targetX + obj.targetW/2, cy2 = obj.targetY + obj.targetH/2;
+                        const dist = Math.hypot(cx1 - cx2, cy1 - cy2);
+                        
+                        // If it's close enough, assume it's the same moving object
+                        if (dist < 200) { 
+                            if (dist < bestDist) {
+                                bestDist = dist;
+                                bestMatch = obj;
+                            }
+                        }
+                    }
+                });
+
+                if (bestMatch) {
+                    // Update target coordinates for smooth Lerp
+                    bestMatch.targetX = x;
+                    bestMatch.targetY = y;
+                    bestMatch.targetW = w;
+                    bestMatch.targetH = h;
+                    bestMatch.score = pred.score;
+                    bestMatch.opacity = 1.0; 
+                    currentActiveIds.add(bestMatch.id);
+                } else {
+                    // Create entirely new tracked object
+                    const newId = Math.random().toString(36).substr(2, 5).toUpperCase();
+                    const newObj = {
+                        id: newId,
+                        class: className,
+                        // Start immediately at position
+                        x: x, y: y, w: w, h: h,
+                        // Targets for animation
+                        targetX: x, targetY: y, targetW: w, targetH: h,
+                        score: pred.score,
+                        opacity: 1.0
+                    };
+                    trackedObjects.push(newObj);
+                    currentActiveIds.add(newObj.id);
+                    
+                    if(Math.random() > 0.6) {
+                        logTerminal(`Target Locked: [ID-${newId}] ${className.toUpperCase()}`);
+                    }
+                }
+            });
+
+            // Fade out objects that disappeared from AI vision
+            trackedObjects.forEach(obj => {
+                if (!currentActiveIds.has(obj.id)) {
+                    obj.opacity -= 0.1; // Takes 10 inference frames to fully vanish
+                }
+            });
+
+            // Cleanup array
+            trackedObjects = trackedObjects.filter(obj => obj.opacity > 0);
+
+            // Trigger next inference tick immediately
+            inferenceLoop();
+        }
+
+        // =========================================
+        // LOOP 2: RENDERING (Always runs at buttery smooth 60FPS)
+        // =========================================
+        function renderLoop() {
+            if (!isSystemActive) return;
+            
+            // 1. Draw pure video base
+            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+            // 2. Draw all tracked objects smoothly
+            trackedObjects.forEach(obj => {
+                
+                // MATH: Linear Interpolation for Smooth Gliding
+                obj.x = lerp(obj.x, obj.targetX, LERP_SPEED);
+                obj.y = lerp(obj.y, obj.targetY, LERP_SPEED);
+                obj.w = lerp(obj.w, obj.targetW, LERP_SPEED);
+                obj.h = lerp(obj.h, obj.targetH, LERP_SPEED);
+
+                const isTargeted = privacyMode && REDACTION_TARGETS.includes(obj.class);
+
+                if (isTargeted && !isPeeking) {
+                    // -------------------------------------
+                    // ADVANCED GLASS BLUR EFFECT
+                    // -------------------------------------
+                    ctx.save();
+                    ctx.beginPath();
+                    // Optional: slight padding around the blur
+                    ctx.rect(obj.x - 10, obj.y - 10, obj.w + 20, obj.h + 20);
+                    ctx.clip(); // Restrict operations to this box
+                    
+                    ctx.filter = 'blur(25px) saturate(0.5) brightness(0.8)';
+                    // Draw video region again but heavily blurred
+                    ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                    ctx.restore();
+
+                    // Draw subtle bounding outline for the censor
+                    ctx.strokeStyle = `rgba(229, 9, 20, ${obj.opacity * 0.8})`;
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(obj.x - 10, obj.y - 10, obj.w + 20, obj.h + 20);
+                    
+                    // Center Warning Icon/Text
+                    ctx.fillStyle = `rgba(229, 9, 20, ${obj.opacity})`;
+                    ctx.font = '900 16px "Plus Jakarta Sans"';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('CENSORED', obj.x + (obj.w/2), obj.y + (obj.h/2));
+                    
+                } else {
+                    // -------------------------------------
+                    // PRO TRACKING HUD (Ultra Smooth)
+                    // -------------------------------------
+                    
+                    const drawColor = isPeeking && isTargeted ? '#ffffff' : '#E50914';
+                    
+                    // Main Bounding Box (Slightly transparent)
+                    ctx.strokeStyle = `rgba(${isPeeking && isTargeted ? '255,255,255' : '229,9,20'}, ${obj.opacity * 0.3})`;
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(obj.x, obj.y, obj.w, obj.h);
+                    
+                    ctx.strokeStyle = `rgba(${isPeeking && isTargeted ? '255,255,255' : '229,9,20'}, ${obj.opacity})`;
+                    
+                    // Futuristic Corner Brackets
+                    const cornerLen = Math.min(30, obj.w/4);
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    // Top-Left
+                    ctx.moveTo(obj.x, obj.y + cornerLen); ctx.lineTo(obj.x, obj.y); ctx.lineTo(obj.x + cornerLen, obj.y);
+                    // Top-Right
+                    ctx.moveTo(obj.x + obj.w - cornerLen, obj.y); ctx.lineTo(obj.x + obj.w, obj.y); ctx.lineTo(obj.x + obj.w, obj.y + cornerLen);
+                    // Bottom-Right
+                    ctx.moveTo(obj.x + obj.w, obj.y + obj.h - cornerLen); ctx.lineTo(obj.x + obj.w, obj.y + obj.h); ctx.lineTo(obj.x + obj.w - cornerLen, obj.y + obj.h);
+                    // Bottom-Left
+                    ctx.moveTo(obj.x, obj.y + obj.h - cornerLen); ctx.lineTo(obj.x, obj.y + obj.h); ctx.lineTo(obj.x + cornerLen, obj.y + obj.h);
+                    ctx.stroke();
+
+                    // Center Crosshair Marker
+                    const cx = obj.x + obj.w/2;
+                    const cy = obj.y + obj.h/2;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(cx - 10, cy); ctx.lineTo(cx + 10, cy);
+                    ctx.moveTo(cx, cy - 10); ctx.lineTo(cx, cy + 10);
+                    ctx.stroke();
+
+                    // Pro Label with Target ID
+                    const confidenceStr = Math.round(obj.score * 100) + '%';
+                    const labelText = `[ID-${obj.id}] ${obj.class.toUpperCase()} ${confidenceStr}`;
+                    ctx.font = 'bold 12px "Plus Jakarta Sans"';
+                    const textWidth = ctx.measureText(labelText).width;
+                    
+                    // Background for label
+                    ctx.fillStyle = `rgba(${isPeeking && isTargeted ? '255,255,255' : '229,9,20'}, ${obj.opacity * 0.9})`;
+                    const labelY = obj.y > 25 ? obj.y - 25 : obj.y + 5; 
+                    ctx.fillRect(obj.x, labelY, textWidth + 16, 22);
+                    
+                    // Label Text
+                    ctx.fillStyle = isPeeking && isTargeted ? '#000000' : '#ffffff';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(labelText, obj.x + 8, labelY + 11);
+                }
+            });
+
+            // Call next frame
+            requestAnimationFrame(renderLoop);
+        }
+
     </script>
 </body>
 </html>
