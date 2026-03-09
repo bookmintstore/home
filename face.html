@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <!-- Tool ka naam yahan aayega -->
+    <title>Spectra-Scan | TOOLNOX</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- Chart.js for Pulse Wave -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-bg': '#050505',
+                        'brand-surface': '#121212',
+                        'brand-accent': '#E50914', 
+                        'brand-glow': 'rgba(229, 9, 20, 0.5)',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Setup */
+        body {
+            background-color: #050505;
+            color: #e5e5e5;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        * { outline: none !important; }
+
+        /* Breathing Background Glow */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 600px; 
+            height: 600px;
+            background: radial-gradient(circle, rgba(229, 9, 20, 0.12) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            pointer-events: none;
+            animation: breatheGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes breatheGlow {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Tool Loading Overlay System */
+        #tool-loading-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100%; height: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #tool-loading-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .rolling-wrapper {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .rolling-viewport {
+            height: 3rem;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .rolling-list {
+            list-style: none;
+            will-change: transform;
+            margin: 0;
+            padding: 0;
+        }
+
+        .rolling-list li {
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            white-space: nowrap;
+            letter-spacing: -0.02em;
+        }
+
+        .shimmer-text {
+            background: linear-gradient(
+                120deg,
+                rgba(255, 255, 255, 0.2) 10%,
+                rgba(255, 255, 255, 1) 40%,
+                rgba(255, 255, 255, 1) 60%,
+                rgba(255, 255, 255, 0.2) 90%
+            );
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmerSweep 2.5s linear infinite;
+        }
+
+        @keyframes shimmerSweep {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+
+        @media (max-width: 640px) {
+            .rolling-viewport { height: 2.2rem; }
+            .rolling-list li { height: 2.2rem; font-size: 1.3rem; }
+        }
+
+        /* Desktop Sidebar Expand Logic */
+        #sidebar {
+            width: 5.5rem;
+            transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        #sidebar:hover { width: 16rem; }
+        .nav-label {
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: none;
+        }
+        #sidebar:hover .nav-label {
+            opacity: 1;
+            transform: translateX(0);
+            display: block;
+        }
+        #sidebar:hover .logo-text { display: block; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #E50914; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Spectra-Scan Specific Styles */
+        .hud-scanner {
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: drawHex 2s ease-out forwards, pulseHex 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes drawHex {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes pulseHex {
+            0% { filter: drop-shadow(0 0 2px currentColor); }
+            100% { filter: drop-shadow(0 0 15px currentColor); }
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            animation: scanAnim 3s linear infinite;
+        }
+
+        @keyframes scanAnim {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .terminal-text {
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px currentColor;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="toast-container" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- GLOBAL LOADING OVERLAY -->
+    <div id="tool-loading-overlay">
+        <div class="rolling-wrapper">
+            <!-- Added futuristic scanner graphic to loading -->
+            <div class="w-16 h-16 mb-8 relative flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-t-2 border-brand-accent animate-spin" style="animation-duration: 1s;"></div>
+                <div class="absolute inset-2 rounded-full border-r-2 border-white/50 animate-spin" style="animation-duration: 1.5s; animation-direction: reverse;"></div>
+                <i data-lucide="activity" class="text-brand-accent w-6 h-6 animate-pulse"></i>
+            </div>
+            
+            <div class="rolling-viewport" id="tool-viewport">
+                <ul class="rolling-list" id="tool-rolling-list">
+                    <!-- Dynamic Text will be injected here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Header -->
+    <header class="md:hidden fixed top-0 w-full z-50 bg-[#050505]/95 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex justify-between items-center shadow-lg">
+        <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+            <i data-lucide="zap" class="text-brand-accent w-6 h-6 fill-brand-accent"></i>
+            <span class="text-xl font-black tracking-tighter text-white">TOOLNOX</span>
+        </a>
+        <button type="button" onclick="toggleMobileMenu()" class="p-2 text-white/80 hover:text-white transition-colors relative z-[60]">
+            <i data-lucide="menu" class="w-7 h-7"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" onclick="toggleMobileMenu()"></div>
+    
+    <!-- Mobile Side Menu -->
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-[85%] max-w-[320px] bg-[#0a0a0a] z-[70] transform translate-x-full transition-transform duration-300 flex flex-col p-8 overflow-y-auto shadow-[-10px_0_30px_rgba(0,0,0,0.5)]">
+        <div class="flex justify-between items-center mb-10">
+            <a href="index.html" class="flex items-center gap-2">
+                <i data-lucide="zap" class="text-brand-accent w-6 h-6 fill-brand-accent"></i>
+                <span class="text-xl font-black tracking-tighter text-white">TOOLNOX</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="p-2 text-white/50 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <nav class="flex flex-col gap-1">
+            <a href="index.html?view=home" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="home" class="w-5 h-5 text-gray-400"></i> Home
+            </a>
+            <a href="index.html?view=projects" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="folder-heart" class="w-5 h-5 text-gray-400"></i> My Projects
+            </a>
+            <a href="index.html?view=saved" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="heart" class="w-5 h-5 text-gray-400"></i> My List
+            </a>
+            
+            <div class="text-[10px] font-bold text-gray-600 uppercase tracking-[0.2em] mt-8 mb-3 px-4">Categories</div>
+            
+            <a href="index.html?view=trending" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="trending-up" class="w-5 h-5 text-gray-400"></i> Trending Now
+            </a>
+            <a href="index.html?view=finance" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="dollar-sign" class="w-5 h-5 text-gray-400"></i> Finance
+            </a>
+            <a href="index.html?view=dev" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="code-2" class="w-5 h-5 text-gray-400"></i> Dev Tools
+            </a>
+            <a href="index.html?view=student" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="graduation-cap" class="w-5 h-5 text-gray-400"></i> Study Zone
+            </a>
+            <a href="index.html?view=brain" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="brain-circuit" class="w-5 h-5 text-gray-400"></i> Brain Training
+            </a>
+            <a href="index.html?view=health" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                <i data-lucide="heart-pulse" class="w-5 h-5 text-gray-400"></i> Health
+            </a>
+            
+            <div class="border-t border-white/5 mt-8 pt-6 flex flex-col gap-1">
+                <a href="index.html?view=about" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                    <i data-lucide="info" class="w-5 h-5 text-gray-400"></i> About Us
+                </a>
+                <a href="index.html?view=contact" class="flex items-center gap-4 py-3.5 px-4 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white font-medium transition-all">
+                    <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i> Contact
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="flex min-h-screen">
+        
+        <!-- Classic Sidebar Navigation (Desktop) -->
+        <aside class="hidden md:flex flex-col fixed left-0 top-0 h-full z-50 bg-[#050505]/80 backdrop-blur-xl border-r border-white/5" id="sidebar">
+            <a href="index.html" class="h-24 flex items-center px-7 cursor-pointer border-b border-white/5 shrink-0">
+                <i data-lucide="zap" class="w-10 h-10 text-brand-accent fill-brand-accent shrink-0"></i>
+                <span class="logo-text ml-4 text-xl font-black tracking-tighter text-white hidden">TOOLNOX</span>
+            </a>
+
+            <nav class="flex-1 flex flex-col gap-2 py-10 px-4 overflow-y-auto hide-scroll">
+                <a href="index.html?view=home" title="Home" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="home" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Home</span>
+                </a>
+                <a href="index.html?view=projects" title="My Projects" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="folder-heart" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">My Projects</span>
+                </a>
+                <a href="index.html?view=trending" title="Trending Now" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="trending-up" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Trending Now</span>
+                </a>
+                <a href="index.html?view=finance" title="Finance" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="dollar-sign" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Finance</span>
+                </a>
+                <a href="index.html?view=dev" title="Dev Tools" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="code-2" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Dev Tools</span>
+                </a>
+                <a href="index.html?view=student" title="Study Zone" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="graduation-cap" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Study Zone</span>
+                </a>
+                <a href="index.html?view=brain" title="Brain Training" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="brain-circuit" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Brain Training</span>
+                </a>
+                <a href="index.html?view=health" title="Health" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="heart-pulse" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">Health</span>
+                </a>
+                <a href="index.html?view=saved" title="My List" class="flex items-center px-4 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all group relative">
+                    <i data-lucide="heart" class="w-6 h-6 shrink-0 transition-all duration-300 group-hover:scale-110 group-hover:text-white"></i>
+                    <span class="nav-label ml-4 font-bold text-sm truncate group-hover:text-white">My List</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 md:ml-[5.5rem] w-full relative min-h-screen flex flex-col pt-20 md:pt-0" id="main-container">
+            
+            <div class="flex-1 px-4 md:px-10 lg:px-16 py-8 md:py-12 flex flex-col w-full">
+                
+                <!-- Back Button -->
+                <a href="index.html" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6 md:mb-8 text-sm font-bold w-max">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Directory
+                </a>
+
+                <!-- Tool Header -->
+                <div class="mb-10 text-left">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-none flex items-center gap-4">
+                        Spectra-Scan <span class="bg-brand-accent text-white text-xs py-1 px-3 rounded-full font-bold uppercase tracking-widest align-middle">Neural</span>
+                    </h1>
+                    <p class="text-gray-500 text-sm md:text-lg mt-4 font-medium max-w-2xl">Ultra-advanced non-contact pulse analyzer. Uses your device's visual sensors and rPPG logic to extract realtime biological data from micro-color variations in the dermal layer.</p>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- ⬇️ AI WILL GENERATE THE TOOL UI INSIDE THIS BOX ⬇️ -->
+                <!-- ========================================== -->
+                
+                <div id="ai-tool-workspace" class="flex-1 w-full text-white flex flex-col relative z-10">
+                    
+                    <!-- INITIALIZATION VIEW -->
+                    <div id="init-view" class="flex flex-col items-center justify-center h-[60vh] border border-white/5 rounded-3xl bg-[#0a0a0a]/50 backdrop-blur-sm shadow-2xl relative overflow-hidden">
+                        <div class="absolute inset-0 grid-bg opacity-30"></div>
+                        
+                        <div class="relative z-10 flex flex-col items-center text-center px-6">
+                            <div class="w-24 h-24 rounded-full bg-brand-accent/10 flex items-center justify-center mb-8 relative">
+                                <div class="absolute inset-0 rounded-full border border-brand-accent/30 animate-ping"></div>
+                                <i data-lucide="scan-face" class="w-12 h-12 text-brand-accent"></i>
+                            </div>
+                            <h2 class="text-2xl md:text-3xl font-bold mb-4">Neural Scanner Offline</h2>
+                            <p class="text-gray-400 max-w-md mb-8">Requires camera access to process micro-fluctuations in skin tone. Processing happens entirely on your device.</p>
+                            
+                            <button id="btn-initialize" class="group relative px-8 py-4 bg-brand-accent text-white font-bold rounded-xl overflow-hidden shadow-[0_0_20px_rgba(229,9,20,0.3)] hover:shadow-[0_0_40px_rgba(229,9,20,0.5)] transition-all duration-300 transform hover:-translate-y-1">
+                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                                <span class="relative flex items-center gap-3">
+                                    <i data-lucide="power" class="w-5 h-5"></i>
+                                    Initialize Scanner
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVE SCANNER VIEW (Hidden initially) -->
+                    <div id="scanner-view" class="hidden flex-col gap-6 w-full h-full">
+                        
+                        <!-- Dynamic Status Banner -->
+                        <div id="status-banner" class="w-full bg-[#121212] border border-red-500/30 rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500">
+                            <div id="status-icon-container" class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+                                <i id="status-icon" data-lucide="alert-circle" class="w-5 h-5 text-red-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 id="status-title" class="text-sm font-bold text-gray-300 uppercase tracking-widest mb-1">System Status</h3>
+                                <p id="status-text" class="text-red-500 font-medium md:text-lg">I can't see your face properly. Please look into the camera.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+                            
+                            <!-- Left: Intelligent Viewfinder -->
+                            <div class="lg:col-span-7 relative bg-[#0a0a0a] rounded-3xl border border-white/5 overflow-hidden flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
+                                <!-- Video Element -->
+                                <video id="webcam-video" class="absolute inset-0 w-full h-full object-cover opacity-80 scale-x-[-1]" playsinline autoplay muted></video>
+                                <canvas id="processing-canvas" class="hidden"></canvas>
+                                
+                                <!-- Futuristic HUD Overlay -->
+                                <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-10">
+                                    <!-- Scanning Box -->
+                                    <div id="hud-target-box" class="relative w-48 h-64 md:w-64 md:h-80 border-2 border-red-500/50 rounded-3xl transition-colors duration-500 flex items-center justify-center text-red-500">
+                                        <!-- Corner Accents -->
+                                        <div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-current rounded-tl-3xl"></div>
+                                        <div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-current rounded-tr-3xl"></div>
+                                        <div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-current rounded-bl-3xl"></div>
+                                        <div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-current rounded-br-3xl"></div>
+                                        
+                                        <!-- Animated Scan Line -->
+                                        <div id="hud-scan-line" class="scan-line hidden"></div>
+                                        
+                                        <!-- Center Reticle -->
+                                        <i data-lucide="crosshair" class="w-8 h-8 opacity-50"></i>
+                                    </div>
+
+                                    <!-- HUD Data overlays -->
+                                    <div class="absolute top-4 left-4 text-xs font-mono text-white/50">
+                                        FPS: <span id="hud-fps">00</span><br>
+                                        RES: 640x480
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 text-xs font-mono text-white/50 text-right">
+                                        SIG: <span id="hud-signal" class="text-red-500">WEAK</span><br>
+                                        MODE: rPPG
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Diagnostic Dashboard -->
+                            <div class="lg:col-span-5 flex flex-col gap-6">
+                                
+                                <!-- Top Row: BPM & Stress -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <!-- BPM Card -->
+                                    <div class="bg-[#121212] border border-white/5 rounded-3xl p-6 flex flex-col items-center justify-center relative overflow-hidden group">
+                                        <div class="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Heart Rate</span>
+                                        <div class="flex items-end gap-2">
+                                            <span id="bpm-display" class="text-5xl md:text-6xl font-black text-white/20 text-glow transition-all duration-200">--</span>
+                                            <span class="text-sm font-bold text-brand-accent mb-2">BPM</span>
+                                        </div>
+                                        <i id="bpm-heart-icon" data-lucide="heart" class="absolute bottom-4 right-4 w-6 h-6 text-white/10 transition-transform"></i>
+                                    </div>
+                                    
+                                    <!-- Stress Card -->
+                                    <div class="bg-[#121212] border border-white/5 rounded-3xl p-6 flex flex-col items-center justify-center relative">
+                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Analysis</span>
+                                        <div id="stress-indicator" class="w-16 h-16 rounded-full border-4 border-white/10 flex items-center justify-center mb-2 transition-colors duration-500">
+                                            <i data-lucide="activity" class="w-6 h-6 text-white/20" id="stress-icon"></i>
+                                        </div>
+                                        <span id="stress-text" class="text-sm font-bold text-white/30">AWAITING</span>
+                                    </div>
+                                </div>
+
+                                <!-- Chart Card -->
+                                <div class="bg-[#121212] border border-white/5 rounded-3xl p-4 flex-1 min-h-[200px] flex flex-col relative">
+                                    <div class="flex justify-between items-center mb-4 px-2">
+                                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Plethysmograph Wave</span>
+                                        <span class="text-[10px] text-brand-accent px-2 py-1 bg-brand-accent/10 rounded-full font-mono">LIVE</span>
+                                    </div>
+                                    <div class="flex-1 w-full relative">
+                                        <canvas id="pulse-chart"></canvas>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Bottom: Biometric Console -->
+                        <div class="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl p-4 h-32 flex flex-col">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-2 mb-2">
+                                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest flex items-center gap-2">
+                                    <i data-lucide="terminal-square" class="w-4 h-4"></i> System Log
+                                </span>
+                                <div class="flex gap-1">
+                                    <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                                    <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                </div>
+                            </div>
+                            <div id="terminal-output" class="flex-1 overflow-y-auto font-mono text-[10px] md:text-xs text-green-400/80 terminal-text flex flex-col gap-1 hide-scroll">
+                                <div>[SYS] Waiting for initialization...</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ========================================== -->
+                <!-- ⬆️ AI TOOL ENDS HERE ⬆️ -->
+                <!-- ========================================== -->
+
+            </div>
+
+            <!-- Footer Section -->
+            <footer class="bg-[#0a0a0a] border-t border-white/5 py-12 px-6 md:px-10 lg:px-16 mt-auto w-full relative z-10">
+                <div class="w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="zap" class="text-brand-accent w-6 h-6 fill-brand-accent"></i>
+                            <span class="text-2xl font-black tracking-tighter text-white">TOOLNOX</span>
+                        </div>
+                        <p class="text-gray-500 text-sm max-w-xs">The premium directory for the world's most powerful digital tools. Curated for builders, investors, and creators.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 md:gap-12 w-full md:w-auto">
+                        <div class="flex flex-col gap-4">
+                            <h4 class="text-white font-bold text-sm uppercase tracking-widest">Platform</h4>
+                            <a href="index.html?view=home" class="text-gray-500 hover:text-white text-sm transition-colors">Home</a>
+                            <a href="index.html?view=trending" class="text-gray-500 hover:text-white text-sm transition-colors">Trending</a>
+                            <a href="index.html?view=projects" class="text-gray-500 hover:text-white text-sm transition-colors">My Projects</a>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <h4 class="text-white font-bold text-sm uppercase tracking-widest">Company</h4>
+                            <a href="index.html?view=about" class="text-gray-500 hover:text-white text-sm transition-colors">About Us</a>
+                            <a href="index.html?view=contact" class="text-gray-500 hover:text-white text-sm transition-colors">Contact</a>
+                            <a href="index.html?view=disclaimer" class="text-gray-500 hover:text-white text-sm transition-colors">Disclaimer</a>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <h4 class="text-white font-bold text-sm uppercase tracking-widest">Legal</h4>
+                            <a href="index.html?view=privacy" class="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                            <a href="index.html?view=terms" class="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-gray-600 text-xs font-medium uppercase tracking-widest">&copy; 2026 TOOLNOX. All rights reserved.</p>
+                    <div class="flex gap-6">
+                        <i data-lucide="twitter" class="w-4 h-4 text-gray-600 cursor-pointer hover:text-brand-accent"></i>
+                        <i data-lucide="github" class="w-4 h-4 text-gray-600 cursor-pointer hover:text-brand-accent"></i>
+                        <i data-lucide="linkedin" class="w-4 h-4 text-gray-600 cursor-pointer hover:text-brand-accent"></i>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Icons initialize
+        lucide.createIcons();
+
+        // Mobile Menu Toggle Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const isHidden = menu.classList.contains('translate-x-full');
+
+            if (isHidden) {
+                document.body.style.overflow = 'hidden';
+                overlay.classList.remove('hidden');
+                void overlay.offsetWidth;
+                overlay.classList.add('opacity-100');
+                menu.classList.remove('translate-x-full');
+            } else {
+                document.body.style.overflow = '';
+                overlay.classList.remove('opacity-100');
+                menu.classList.add('translate-x-full');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+
+        // System Toasts
+        function showToast(message, type = 'normal') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-[#151515] border border-white/10 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 text-white text-sm transform translate-y-20 opacity-0 transition-all duration-300';
+            let icon = type === 'success' ? 'check-circle' : 'info';
+            toast.innerHTML = `<i data-lucide="${icon}" class="text-brand-accent w-5 h-5"></i> <span class="font-semibold">${message}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+            requestAnimationFrame(() => toast.classList.remove('translate-y-20', 'opacity-0'));
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // ========================================================
+        // GLOBAL TOOL LOADING ANIMATION LOGIC
+        // ========================================================
+        let globalRollInterval;
+        
+        function showToolLoading(stepsArray, durationPerStep = 1200) {
+            const overlay = document.getElementById('tool-loading-overlay');
+            const rollingList = document.getElementById('tool-rolling-list');
+            
+            if(!stepsArray || stepsArray.length === 0) {
+                stepsArray = ['Processing request...'];
+            }
+
+            let listHTML = '';
+            stepsArray.forEach(step => {
+                listHTML += `<li class="shimmer-text">${step}</li>`;
+            });
+            listHTML += `<li class="shimmer-text" aria-hidden="true">${stepsArray[0]}</li>`;
+            
+            rollingList.innerHTML = listHTML;
+            overlay.classList.add('visible');
+            
+            let currentIndex = 0;
+            const totalItems = stepsArray.length + 1;
+            rollingList.style.transition = 'none';
+            rollingList.style.transform = `translateY(0px)`;
+            
+            clearInterval(globalRollInterval);
+            
+            setTimeout(() => {
+                globalRollInterval = setInterval(() => {
+                    currentIndex++;
+                    const liElements = rollingList.querySelectorAll('li');
+                    if(liElements.length === 0) return;
+                    
+                    const itemHeight = liElements[0].getBoundingClientRect().height;
+                    
+                    rollingList.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                    rollingList.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
+
+                    if (currentIndex === totalItems - 1) {
+                        setTimeout(() => {
+                            rollingList.style.transition = 'none';
+                            currentIndex = 0;
+                            rollingList.style.transform = `translateY(0px)`;
+                        }, 500); 
+                    }
+                }, durationPerStep);
+            }, 100);
+        }
+
+        function hideToolLoading() {
+            const overlay = document.getElementById('tool-loading-overlay');
+            overlay.classList.remove('visible');
+            clearInterval(globalRollInterval);
+        }
+        
+        // ==========================================
+        // SPECTRA-SCAN NEURAL PULSE LOGIC
+        // ==========================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // UI Elements
+            const btnInit = document.getElementById('btn-initialize');
+            const initView = document.getElementById('init-view');
+            const scannerView = document.getElementById('scanner-view');
+            const video = document.getElementById('webcam-video');
+            const canvas = document.getElementById('processing-canvas');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            const terminal = document.getElementById('terminal-output');
+            
+            // HUD Elements
+            const statusBanner = document.getElementById('status-banner');
+            const statusIconContainer = document.getElementById('status-icon-container');
+            const statusIcon = document.getElementById('status-icon');
+            const statusText = document.getElementById('status-text');
+            const hudTargetBox = document.getElementById('hud-target-box');
+            const hudScanLine = document.getElementById('hud-scan-line');
+            const hudFps = document.getElementById('hud-fps');
+            const hudSignal = document.getElementById('hud-signal');
+            
+            // Dashboard Elements
+            const bpmDisplay = document.getElementById('bpm-display');
+            const bpmHeartIcon = document.getElementById('bpm-heart-icon');
+            const stressIndicator = document.getElementById('stress-indicator');
+            const stressIcon = document.getElementById('stress-icon');
+            const stressText = document.getElementById('stress-text');
+            
+            // State Variables
+            let isRunning = false;
+            let stream = null;
+            let animationId;
+            let lastFrameTime = 0;
+            let frameCount = 0;
+            
+            // rPPG Variables
+            const SIGNAL_HISTORY = 150; // Keep last 150 frames (~5 secs at 30fps)
+            let greenSignalRaw = [];
+            let timeStamps = [];
+            let peaks = [];
+            let calculatedBPMs = [];
+            let currentStatus = 'NO_FACE'; // NO_FACE, TOO_FAR, TOO_CLOSE, PERFECT
+
+            // Chart Setup
+            const chartCtx = document.getElementById('pulse-chart').getContext('2d');
+            Chart.defaults.color = 'rgba(255, 255, 255, 0.3)';
+            Chart.defaults.font.family = '"JetBrains Mono", monospace';
+            
+            const pulseChart = new Chart(chartCtx, {
+                type: 'line',
+                data: {
+                    labels: Array(SIGNAL_HISTORY).fill(''),
+                    datasets: [{
+                        label: 'Pulse Wave',
+                        data: Array(SIGNAL_HISTORY).fill(0),
+                        borderColor: '#E50914',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        fill: true,
+                        backgroundColor: 'rgba(229, 9, 20, 0.05)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, min: -5, max: 5 } // Arbitrary bounds, dynamically adjusted later if needed
+                    }
+                }
+            });
+
+            // --- Terminal Logger ---
+            function logTerminal(msg, type='info') {
+                const colors = { info: 'text-green-400', warn: 'text-yellow-400', err: 'text-red-500' };
+                const time = new Date().toISOString().split('T')[1].slice(0,-1);
+                const el = document.createElement('div');
+                el.className = colors[type];
+                el.innerText = `[${time}] ${msg}`;
+                terminal.appendChild(el);
+                if(terminal.childElementCount > 30) terminal.removeChild(terminal.firstChild);
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+            // --- Initialization ---
+            btnInit.addEventListener('click', async () => {
+                showToolLoading([
+                    'Allocating visual memory...',
+                    'Initializing webcam stream...',
+                    'Calibrating neural algorithms...',
+                    'Establishing heartbeat link...'
+                ], 1500);
+
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } } 
+                    });
+                    
+                    setTimeout(() => {
+                        video.srcObject = stream;
+                        video.onloadedmetadata = () => {
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            initView.classList.add('hidden');
+                            scannerView.classList.replace('hidden', 'flex');
+                            hideToolLoading();
+                            
+                            logTerminal('Camera access granted.', 'info');
+                            logTerminal(`Resolution: ${video.videoWidth}x${video.videoHeight}`, 'info');
+                            logTerminal('Starting rPPG engine...', 'info');
+                            
+                            isRunning = true;
+                            requestAnimationFrame(processFrame);
+                        };
+                    }, 5000); // 5 sec loading simulation
+                    
+                } catch (err) {
+                    hideToolLoading();
+                    showToast('Failed to access camera. Please allow permissions.', 'error');
+                    console.error(err);
+                }
+            });
+
+            // --- HUD Updater ---
+            function updateHUDStatus(status) {
+                if(currentStatus === status) return;
+                currentStatus = status;
+                
+                // Reset classes
+                statusBanner.className = 'w-full border rounded-2xl p-4 flex items-center gap-4 transition-colors duration-500 bg-[#121212]';
+                statusIconContainer.className = 'w-10 h-10 rounded-full flex items-center justify-center shrink-0';
+                hudTargetBox.className = 'relative w-48 h-64 md:w-64 md:h-80 border-2 rounded-3xl transition-colors duration-500 flex items-center justify-center';
+                
+                if(status === 'NO_FACE') {
+                    statusBanner.classList.add('border-red-500/30');
+                    statusIconContainer.classList.add('bg-red-500/20');
+                    statusIcon.innerHTML = `<polyline points="10 14 12 12 14 14"/><line x1="12" x2="12" y1="12" y2="20"/><path d="M20 10a8 8 0 1 0-16 0c0 4.418 3.582 8 8 8s8-3.582 8-8Z"/>`; // icon-alert
+                    statusIcon.className = 'w-5 h-5 text-red-500';
+                    statusText.className = 'text-red-500 font-medium md:text-lg';
+                    statusText.innerText = "I can't see your face properly. Please look into the camera.";
+                    hudTargetBox.classList.add('border-red-500/50', 'text-red-500');
+                    hudScanLine.classList.add('hidden');
+                    hudSignal.innerText = 'WEAK';
+                    hudSignal.className = 'text-red-500';
+                    resetBPM();
+                    logTerminal('WARNING: Target lost.', 'warn');
+                    
+                } else if(status === 'TOO_FAR') {
+                    statusBanner.classList.add('border-yellow-500/30');
+                    statusIconContainer.classList.add('bg-yellow-500/20');
+                    statusIcon.innerHTML = `<line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/><circle cx="12" cy="12" r="10"/>`; // info
+                    statusIcon.className = 'w-5 h-5 text-yellow-500';
+                    statusText.className = 'text-yellow-500 font-medium md:text-lg';
+                    statusText.innerText = "You are too far. Please move closer to the sensor.";
+                    hudTargetBox.classList.add('border-yellow-500/70', 'text-yellow-500');
+                    hudScanLine.classList.add('hidden');
+                    hudSignal.innerText = 'POOR';
+                    hudSignal.className = 'text-yellow-500';
+                    resetBPM();
+                    logTerminal('Target out of optimal range (Far).', 'warn');
+
+                } else if(status === 'TOO_CLOSE') {
+                    statusBanner.classList.add('border-yellow-500/30');
+                    statusIconContainer.classList.add('bg-yellow-500/20');
+                    statusIcon.className = 'w-5 h-5 text-yellow-500';
+                    statusText.className = 'text-yellow-500 font-medium md:text-lg';
+                    statusText.innerText = "You are too close. Please move back slightly.";
+                    hudTargetBox.classList.add('border-yellow-500/70', 'text-yellow-500');
+                    hudScanLine.classList.add('hidden');
+                    hudSignal.innerText = 'POOR';
+                    hudSignal.className = 'text-yellow-500';
+                    resetBPM();
+                    logTerminal('Target out of optimal range (Close).', 'warn');
+
+                } else if(status === 'PERFECT') {
+                    statusBanner.classList.add('border-[#22C55E]/40', 'bg-[#22C55E]/5');
+                    statusIconContainer.classList.add('bg-[#22C55E]/20');
+                    statusIcon.innerHTML = `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>`; // check-circle
+                    statusIcon.className = 'w-5 h-5 text-[#22C55E]';
+                    statusText.className = 'text-[#22C55E] font-medium md:text-lg';
+                    statusText.innerText = "Perfect. Stay still, I am reading your neural pulse...";
+                    hudTargetBox.classList.add('border-[#22C55E]', 'text-[#22C55E]', 'shadow-[0_0_30px_rgba(34,197,94,0.3)]');
+                    hudScanLine.classList.remove('hidden');
+                    hudScanLine.classList.add('bg-[#22C55E]');
+                    hudSignal.innerText = 'LOCKED';
+                    hudSignal.className = 'text-[#22C55E] font-bold';
+                    logTerminal('Target LOCKED. Analyzing dermal micro-fluctuations...', 'info');
+                }
+            }
+
+            function resetBPM() {
+                bpmDisplay.innerText = '--';
+                bpmDisplay.className = 'text-5xl md:text-6xl font-black text-white/20 text-glow transition-all duration-200';
+                bpmHeartIcon.className = 'absolute bottom-4 right-4 w-6 h-6 text-white/10 transition-transform';
+                stressText.innerText = 'AWAITING';
+                stressText.className = 'text-sm font-bold text-white/30';
+                stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-white/10 flex items-center justify-center mb-2 transition-colors duration-500';
+                stressIcon.className = 'w-6 h-6 text-white/20';
+                
+                // Clear chart gently
+                pulseChart.data.datasets[0].data = Array(SIGNAL_HISTORY).fill(0);
+                pulseChart.update();
+                greenSignalRaw = [];
+                timeStamps = [];
+            }
+
+            // --- Main Processing Loop ---
+            function processFrame(now) {
+                if(!isRunning) return;
+
+                // FPS Calculation
+                if(now - lastFrameTime >= 1000) {
+                    hudFps.innerText = frameCount;
+                    frameCount = 0;
+                    lastFrameTime = now;
+                }
+                frameCount++;
+
+                // 1. Draw video to hidden canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // 2. Define ROI (Region of Interest) - center of frame
+                // In a mirrored video, logic remains same as we are just extracting center pixels
+                const boxW = Math.min(250, canvas.width * 0.4);
+                const boxH = Math.min(300, canvas.height * 0.6);
+                const startX = (canvas.width - boxW) / 2;
+                const startY = (canvas.height - boxH) / 2;
+
+                const frameData = ctx.getImageData(startX, startY, boxW, boxH);
+                const data = frameData.data;
+
+                // 3. Face / Distance Heuristic (Skin Color Counting)
+                let skinPixelCount = 0;
+                let sumGreen = 0;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i+1];
+                    const b = data[i+2];
+
+                    // Very basic, highly tolerant skin heuristic to detect presence in box
+                    // Adjusting slightly to be forgiving in different lightings
+                    if (r > 50 && g > 30 && r > g && r > b) {
+                        skinPixelCount++;
+                        sumGreen += g;
+                    }
+                }
+
+                const totalPixels = boxW * boxH;
+                const skinRatio = skinPixelCount / totalPixels;
+
+                // State Machine based on Skin Ratio
+                if (skinRatio < 0.15) {
+                    updateHUDStatus('NO_FACE');
+                } else if (skinRatio < 0.35) {
+                    updateHUDStatus('TOO_FAR');
+                } else if (skinRatio > 0.85) {
+                    updateHUDStatus('TOO_CLOSE');
+                } else {
+                    updateHUDStatus('PERFECT');
+                    
+                    // 4. rPPG Calculation (Only when perfect)
+                    // Calculate average Green channel of skin pixels
+                    if(skinPixelCount > 0) {
+                        const avgGreen = sumGreen / skinPixelCount;
+                        
+                        greenSignalRaw.push(avgGreen);
+                        timeStamps.push(performance.now());
+
+                        if(greenSignalRaw.length > SIGNAL_HISTORY) {
+                            greenSignalRaw.shift();
+                            timeStamps.shift();
+                        }
+
+                        // Process Signal if we have enough data (e.g., 30 frames)
+                        if(greenSignalRaw.length > 30) {
+                            
+                            // A. Detrending (Subtract moving average)
+                            const windowSize = 30;
+                            let processedSignal = [];
+                            
+                            for(let i = 0; i < greenSignalRaw.length; i++) {
+                                let start = Math.max(0, i - windowSize/2);
+                                let end = Math.min(greenSignalRaw.length, i + windowSize/2);
+                                let sum = 0;
+                                for(let j=start; j<end; j++) sum += greenSignalRaw[j];
+                                let localAvg = sum / (end - start);
+                                
+                                // Invert green signal (absorption is inverted to reflection) 
+                                // Multiply by a factor to make it visible on chart
+                                processedSignal.push((localAvg - greenSignalRaw[i]) * 5); 
+                            }
+
+                            // B. Update Chart
+                            pulseChart.data.datasets[0].data = processedSignal;
+                            
+                            // Auto scale chart Y axis slightly based on current variance
+                            const maxVal = Math.max(...processedSignal.slice(-30));
+                            const minVal = Math.min(...processedSignal.slice(-30));
+                            pulseChart.options.scales.y.max = Math.max(2, maxVal * 1.5);
+                            pulseChart.options.scales.y.min = Math.min(-2, minVal * 1.5);
+                            
+                            pulseChart.update();
+
+                            // C. Peak Detection & BPM Calculation
+                            // Look at the latest completed cycle (roughly last 1-2 seconds)
+                            detectBPM(processedSignal, timeStamps);
+                        }
+                    }
+                }
+
+                // Loop
+                animationId = requestAnimationFrame(processFrame);
+            }
+
+            // --- Simple Peak Detection ---
+            let lastBeatTime = 0;
+            function detectBPM(signal, times) {
+                // Find peaks in the last portion of the signal
+                const lookback = 60; // ~2 seconds at 30fps
+                if(signal.length < lookback) return;
+
+                const recentSignal = signal.slice(-lookback);
+                const recentTimes = times.slice(-lookback);
+                
+                // Dynamic threshold based on recent amplitude
+                const maxAmp = Math.max(...recentSignal);
+                const threshold = maxAmp * 0.6; // Peak must be 60% of max
+
+                // Look for peak in the middle of a small sliding window to avoid noise
+                for(let i = 2; i < recentSignal.length - 2; i++) {
+                    if(recentSignal[i] > threshold && 
+                       recentSignal[i] > recentSignal[i-1] && 
+                       recentSignal[i] > recentSignal[i+1] &&
+                       recentSignal[i] > recentSignal[i-2] && 
+                       recentSignal[i] > recentSignal[i+2]) {
+                        
+                        const peakTime = recentTimes[i];
+                        
+                        // Prevent double counting (minimum 300ms between beats = max 200 BPM)
+                        if(peakTime - lastBeatTime > 300) {
+                            
+                            // Heartbeat UI trigger
+                            triggerHeartbeatUI();
+                            
+                            if(lastBeatTime > 0) {
+                                const intervalSec = (peakTime - lastBeatTime) / 1000;
+                                const instantBPM = 60 / intervalSec;
+                                
+                                // Filter realistic bounds
+                                if(instantBPM > 40 && instantBPM < 180) {
+                                    calculatedBPMs.push(instantBPM);
+                                    if(calculatedBPMs.length > 5) calculatedBPMs.shift(); // Average last 5 beats
+                                    
+                                    const avgBPM = Math.round(calculatedBPMs.reduce((a,b)=>a+b)/calculatedBPMs.length);
+                                    updateDashboardData(avgBPM);
+                                }
+                            }
+                            lastBeatTime = peakTime;
+                        }
+                    }
+                }
+            }
+
+            // --- UI Updates based on Data ---
+            function triggerHeartbeatUI() {
+                // Pulse the icon
+                bpmHeartIcon.classList.remove('scale-100');
+                bpmHeartIcon.classList.add('scale-150', 'text-brand-accent');
+                setTimeout(() => {
+                    bpmHeartIcon.classList.remove('scale-150', 'text-brand-accent');
+                    bpmHeartIcon.classList.add('scale-100');
+                }, 150);
+            }
+
+            let lastLogTime = 0;
+            function updateDashboardData(bpm) {
+                // Update massive text
+                bpmDisplay.innerText = bpm;
+                bpmDisplay.className = 'text-5xl md:text-6xl font-black text-white text-glow transition-all duration-200';
+                
+                // Update Stress indicator
+                if(bpm < 65) {
+                    stressText.innerText = 'RESTING';
+                    stressText.className = 'text-sm font-bold text-blue-400';
+                    stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-blue-500/50 flex items-center justify-center mb-2 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.3)]';
+                    stressIcon.className = 'w-6 h-6 text-blue-400';
+                } else if (bpm <= 85) {
+                    stressText.innerText = 'NORMAL';
+                    stressText.className = 'text-sm font-bold text-[#22C55E]';
+                    stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-[#22C55E]/50 flex items-center justify-center mb-2 bg-[#22C55E]/10 shadow-[0_0_15px_rgba(34,197,94,0.3)]';
+                    stressIcon.className = 'w-6 h-6 text-[#22C55E]';
+                } else {
+                    stressText.innerText = 'ELEVATED';
+                    stressText.className = 'text-sm font-bold text-yellow-500';
+                    stressIndicator.className = 'w-16 h-16 rounded-full border-4 border-yellow-500/50 flex items-center justify-center mb-2 bg-yellow-500/10 shadow-[0_0_15px_rgba(234,179,8,0.3)]';
+                    stressIcon.className = 'w-6 h-6 text-yellow-500';
+                }
+
+                // Throttle terminal logs
+                if(performance.now() - lastLogTime > 2000) {
+                    logTerminal(`[BIO_DATA] Pulse Detected. Rate: ${bpm} BPM. Variance: Normal.`, 'info');
+                    lastLogTime = performance.now();
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>
