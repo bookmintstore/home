@@ -406,8 +406,8 @@
                                 <!-- Live Stats (Top Left) -->
                                 <div class="absolute top-4 left-4 z-20 bg-black/70 backdrop-blur-md border border-white/10 rounded-lg px-3 py-2 flex-col gap-1 hidden sm:flex pointer-events-none" id="live-stats">
                                     <div class="flex items-center gap-2">
-                                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
-                                        <span class="text-xs font-bold text-white tracking-widest uppercase">Live Ingestion</span>
+                                        <span id="live-indicator-dot" class="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+                                        <span id="live-indicator-text" class="text-xs font-bold text-white tracking-widest uppercase">Live Ingestion</span>
                                     </div>
                                     <span class="text-[10px] text-gray-400 font-mono" id="fps-counter">FPS: 00 | Render: 0ms</span>
                                 </div>
@@ -653,6 +653,12 @@
             const overlay = document.getElementById('tool-loading-overlay');
             overlay.classList.remove('visible');
             clearInterval(globalRollInterval);
+            // Hard-kill failsafe to prevent infinite hanging
+            setTimeout(() => {
+                if (!overlay.classList.contains('visible')) {
+                    overlay.style.display = 'none';
+                }
+            }, 600);
         }
         
         // ==========================================
@@ -662,6 +668,7 @@
         // Application State
         let tfModel = null;
         let isSystemActive = false;
+        let isLoading = false;
         let privacyMode = false;
         let isPeeking = false; // Override toggle
         let sensitivity = 0.60;
@@ -744,14 +751,13 @@
             }, 150);
         }
 
-        // Core Initialization
+        // Core Initialization (With Simulated Fallback)
         async function startNeuralShield() {
-            if (isSystemActive) return; 
-            
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                showToast('Camera API not supported or blocked. HTTPS required.', 'error');
-                return;
-            }
+            if (isSystemActive || isLoading) return; 
+            isLoading = true;
+
+            // Reset loading screen display if it was hard-hidden previously
+            document.getElementById('tool-loading-overlay').style.display = 'flex';
 
             showToolLoading([
                 'Loading Vanguard AI Model...',
@@ -762,68 +768,141 @@
 
             try {
                 const startTime = Date.now();
-                const modelPromise = typeof cocoSsd !== 'undefined' ? cocoSsd.load() : Promise.reject(new Error("TensorFlow not loaded"));
-                const streamPromise = navigator.mediaDevices.getUserMedia({ 
+                let useSimulated = false;
+
+                // 1. Force TF backend safely to prevent WebGL freezes
+                try {
+                    await tf.setBackend('webgl');
+                    await tf.ready();
+                } catch (e) {
+                    await tf.setBackend('cpu'); 
+                    await tf.ready();
+                    logTerminal("WebGL failed, falling back to CPU mode.");
+                }
+
+                // 2. Load AI Model WITH STRICT TIMEOUT
+                const modelPromise = new Promise((resolve, reject) => {
+                    const timer = setTimeout(() => reject(new Error("AI Model load timeout")), 15000);
+                    if (typeof cocoSsd === 'undefined') {
+                        clearTimeout(timer);
+                        reject(new Error("TensorFlow not loaded"));
+                    } else {
+                        cocoSsd.load().then(model => {
+                            clearTimeout(timer);
+                            resolve(model);
+                        }).catch(err => {
+                            clearTimeout(timer);
+                            reject(err);
+                        });
+                    }
+                });
+                
+                // 3. Load Camera Safely
+                let streamPromise = navigator.mediaDevices.getUserMedia({ 
                     video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
                     audio: false 
+                }).catch(err => {
+                    logTerminal(`Camera access denied/failed: ${err.message}`);
+                    useSimulated = true;
+                    return null;
                 });
 
                 const [loadedModel, stream] = await Promise.all([modelPromise, streamPromise]);
                 
                 const elapsedTime = Date.now() - startTime;
-                if (elapsedTime < 4000) {
-                    await new Promise(resolve => setTimeout(resolve, 4000 - elapsedTime));
+                if (elapsedTime < 3000) {
+                    await new Promise(resolve => setTimeout(resolve, 3000 - elapsedTime));
                 }
 
                 tfModel = loadedModel;
-                videoElement.srcObject = stream;
                 
-                videoElement.onloadedmetadata = () => {
-                    videoElement.play();
-                    
-                    canvasElement.width = videoElement.videoWidth;
-                    canvasElement.height = videoElement.videoHeight;
-                    
-                    // Switch UI States
+                // 4. Assign Feed (Camera OR Bulletproof Demo Video)
+                if (useSimulated) {
+                    videoElement.crossOrigin = "anonymous"; 
+                    // Using highly reliable Google Cloud bucket video
+                    videoElement.src = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"; 
+                    videoElement.currentTime = 85; // Skip to human subjects
+                    videoElement.loop = true;
+                    videoElement.muted = true;
+                    showToast('Camera Blocked. Launching Simulated AI Feed.', 'info');
+                } else {
+                    videoElement.srcObject = stream;
+                }
+                
+                // 5. Robust Video Load Handling
+                videoElement.onloadeddata = async () => {
+                    try {
+                        await videoElement.play();
+                        
+                        // Wait a tiny bit for texture mapping to prevent TFJS 0x0 errors
+                        await new Promise(r => setTimeout(r, 200));
+                        
+                        canvasElement.width = videoElement.videoWidth || 1280;
+                        canvasElement.height = videoElement.videoHeight || 720;
+                        
+                        hideToolLoading();
+                        
+                        document.getElementById('camera-placeholder').classList.add('opacity-0');
+                        setTimeout(() => document.getElementById('camera-placeholder').classList.add('hidden'), 500);
+                        
+                        document.getElementById('scanner-sweep').classList.remove('hidden');
+                        document.getElementById('live-stats').classList.remove('hidden');
+                        
+                        if(privacyMode) peekInstruction.classList.remove('hidden', 'opacity-0');
+                        
+                        const led = document.getElementById('status-led');
+                        const text = document.getElementById('status-text');
+                        
+                        if (useSimulated) {
+                            text.innerText = 'Simulated';
+                            text.classList.replace('text-red-500', 'text-yellow-500');
+                            led.classList.replace('bg-red-500', 'bg-yellow-500');
+                            led.classList.replace('shadow-[0_0_10px_rgba(239,68,68,0.5)]', 'shadow-[0_0_10px_rgba(234,179,8,0.5)]');
+                            
+                            document.getElementById('live-indicator-dot').classList.replace('bg-green-500', 'bg-yellow-500');
+                            document.getElementById('live-indicator-dot').classList.replace('shadow-[0_0_8px_rgba(34,197,94,0.8)]', 'shadow-[0_0_8px_rgba(234,179,8,0.8)]');
+                            document.getElementById('live-indicator-text').innerText = 'DEMO FEED';
+                        } else {
+                            text.innerText = 'Online';
+                            text.classList.replace('text-red-500', 'text-green-500');
+                            led.classList.replace('bg-red-500', 'bg-green-500');
+                            led.classList.replace('shadow-[0_0_10px_rgba(239,68,68,0.5)]', 'shadow-[0_0_10px_rgba(34,197,94,0.5)]');
+                        }
+                        
+                        const btn = document.getElementById('start-btn');
+                        btn.innerHTML = `<i data-lucide="shield-check" class="w-5 h-5"></i> <span>System Active</span>`;
+                        btn.classList.replace('bg-brand-accent', 'bg-[#1a1a1a]');
+                        btn.classList.replace('hover:bg-red-700', 'hover:bg-[#252525]');
+                        btn.classList.remove('shadow-[0_0_20px_rgba(229,9,20,0.3)]', 'hover:shadow-[0_0_30px_rgba(229,9,20,0.5)]');
+                        btn.style.color = useSimulated ? '#eab308' : '#22c55e'; 
+                        lucide.createIcons();
+                        
+                        logTerminal(useSimulated ? 'Simulated feed online. Engine running.' : 'System online. Engine running.');
+                        
+                        isSystemActive = true;
+                        isLoading = false;
+                        
+                        inferenceLoop(); 
+                        renderLoop();    
+                        trackPerformance();
+                        
+                    } catch (playErr) {
+                        isLoading = false;
+                        hideToolLoading();
+                        logTerminal(`Playback Error: ${playErr.message}`);
+                        showToast('Video playback failed.', 'error');
+                    }
+                };
+
+                videoElement.onerror = () => {
+                    isLoading = false;
                     hideToolLoading();
-                    document.getElementById('camera-placeholder').classList.add('opacity-0');
-                    setTimeout(() => document.getElementById('camera-placeholder').classList.add('hidden'), 500);
-                    
-                    document.getElementById('scanner-sweep').classList.remove('hidden');
-                    document.getElementById('live-stats').classList.remove('hidden');
-                    
-                    if(privacyMode) peekInstruction.classList.remove('hidden', 'opacity-0');
-                    
-                    // Update Status Indicator
-                    const led = document.getElementById('status-led');
-                    led.classList.replace('bg-red-500', 'bg-green-500');
-                    led.classList.replace('shadow-[0_0_10px_rgba(239,68,68,0.5)]', 'shadow-[0_0_10px_rgba(34,197,94,0.5)]');
-                    
-                    const text = document.getElementById('status-text');
-                    text.innerText = 'Online';
-                    text.classList.replace('text-red-500', 'text-green-500');
-                    
-                    const btn = document.getElementById('start-btn');
-                    btn.innerHTML = '<i data-lucide="shield-check" class="w-5 h-5"></i> <span>System Active</span>';
-                    btn.classList.replace('bg-brand-accent', 'bg-[#1a1a1a]');
-                    btn.classList.replace('hover:bg-red-700', 'hover:bg-[#252525]');
-                    btn.classList.remove('shadow-[0_0_20px_rgba(229,9,20,0.3)]', 'hover:shadow-[0_0_30px_rgba(229,9,20,0.5)]');
-                    btn.style.color = '#22c55e'; 
-                    lucide.createIcons();
-                    
-                    logTerminal('System online. Engine running at 60FPS.');
-                    
-                    isSystemActive = true;
-                    
-                    // START THE SEPARATE DUAL-LOOP SYSTEM
-                    inferenceLoop(); // Loop 1: Slow AI Processing
-                    renderLoop();    // Loop 2: Fast 60FPS Smooth Rendering
-                    trackPerformance();
-                    
-                    showToast('Vanguard AI successfully initialized.', 'success');
+                    logTerminal('Video stream encountered a CORS/Network error.');
+                    showToast('Failed to load video stream.', 'error');
                 };
 
             } catch (err) {
+                isLoading = false;
                 hideToolLoading();
                 logTerminal(`ERROR: ${err.message}`);
                 showToast('System Failure: ' + err.message, 'error');
@@ -922,8 +1001,10 @@
             // Cleanup array
             trackedObjects = trackedObjects.filter(obj => obj.opacity > 0);
 
-            // Trigger next inference tick immediately
-            inferenceLoop();
+            // Trigger next inference tick with a breather to prevent browser hang
+            setTimeout(() => {
+                requestAnimationFrame(inferenceLoop);
+            }, 60); // Limits AI to ~15 FPS, saving massive CPU/GPU power
         }
 
         // =========================================
@@ -957,7 +1038,8 @@
                     ctx.rect(obj.x - 10, obj.y - 10, obj.w + 20, obj.h + 20);
                     ctx.clip(); // Restrict operations to this box
                     
-                    ctx.filter = 'blur(25px) saturate(0.5) brightness(0.8)';
+                    // Reduced blur intensity from 25px to 15px for better GPU performance
+                    ctx.filter = 'blur(15px) saturate(0.5) brightness(0.8)';
                     // Draw video region again but heavily blurred
                     ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
                     ctx.restore();
